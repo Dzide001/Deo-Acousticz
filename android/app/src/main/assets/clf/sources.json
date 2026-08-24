@@ -1,0 +1,591 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-03-21",
+  "note": "Manufacturer-source directivity file inventory. status=downloaded means file is bundled under assets/clf/raw. status=available-online means public source identified but not yet bundled. status=portal-required means vendor login/partner portal is required.",
+  "speakers": [
+    {
+      "speakerId": "db_y10p",
+      "status": "downloaded",
+      "format": "CF2",
+      "manufacturer": "d&b audiotechnik",
+      "sources": [
+        {
+          "url": "http://clfgroup.org/files/dls/618/d%26b%20audiotechnik-Y10P-110x40.CF2",
+          "localAsset": "clf/raw/db/db_y10p_110x40.cf2",
+          "description": "Official d&b Y10P (110x40 orientation)"
+        },
+        {
+          "url": "http://clfgroup.org/files/dls/623/d%26b%20audiotechnik-Y10P-40x110.CF2",
+          "localAsset": "clf/raw/db/db_y10p_40x110.cf2",
+          "description": "Official d&b Y10P (40x110 orientation)"
+        }
+      ]
+    },
+    {
+      "speakerId": "db_y8",
+      "status": "not-found-public",
+      "format": "CF2/GLL",
+      "manufacturer": "d&b audiotechnik",
+      "sources": []
+    },
+    {
+      "speakerId": "qsc_k12_2",
+      "status": "downloaded",
+      "format": "GLL",
+      "manufacturer": "QSC",
+      "sources": [
+        {
+          "url": "https://www.qscaudio.com/resource-files/productresources/spk/k.2/q_spk_k.2_series_ease.zip",
+          "localAsset": "clf/raw/qsc/q_spk_k2_series_ease.zip",
+          "description": "QSC K.2 EASE/GLL library"
+        }
+      ]
+    },
+    {
+      "speakerId": "martin_w8lc",
+      "status": "downloaded",
+      "format": "GLL/DLL",
+      "manufacturer": "Martin Audio",
+      "sources": [
+        {
+          "url": "https://martin-audio.com/downloads/ease/W8LM-W8LMD%20Data.zip",
+          "localAsset": "clf/raw/martin/martin_w8lm_w8lmd_data.zip",
+          "description": "Martin legacy W8LM/W8LMD data (closest public archive in CLF/GLL page)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_cbt_50la_1",
+      "status": "downloaded",
+      "format": "CF2",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-clf-files",
+          "localAsset": "clf/raw/jbl/jbl_pro_all_clf_files_03_19_20.zip",
+          "description": "Official JBL Pro all-CLF archive (includes CBT 50LA CF2 variants)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_cbt_70j_1",
+      "status": "downloaded",
+      "format": "CF2",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/cbt-70j-clf-files",
+          "localAsset": "clf/raw/jbl/jbl_cbt70_clf.zip",
+          "description": "Official JBL CBT 70J CLF package"
+        },
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-clf-files",
+          "localAsset": "clf/raw/jbl/jbl_pro_all_clf_files_03_19_20.zip",
+          "description": "Official JBL Pro all-CLF archive (also includes CBT 70J/70JE variants)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_cbt_100la_1",
+      "status": "downloaded",
+      "format": "CF2",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-clf-files",
+          "localAsset": "clf/raw/jbl/jbl_pro_all_clf_files_03_19_20.zip",
+          "description": "Official JBL Pro all-CLF archive (includes CBT 100LA CF2 variants)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_cbt_200la_1",
+      "status": "downloaded",
+      "format": "CF2",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-clf-files",
+          "localAsset": "clf/raw/jbl/jbl_pro_all_clf_files_03_19_20.zip",
+          "description": "Official JBL Pro all-CLF archive (includes CBT 200LA CF2 variants)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_cbt_1000",
+      "status": "downloaded",
+      "format": "CF2",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-clf-files",
+          "localAsset": "clf/raw/jbl/jbl_pro_all_clf_files_03_19_20.zip",
+          "description": "Official JBL Pro all-CLF archive (includes CBT 1000 and 1000E CF2 variants)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_cbt_70je_1",
+      "status": "downloaded",
+      "format": "CF2",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-clf-files",
+          "localAsset": "clf/raw/jbl/jbl_pro_all_clf_files_03_19_20.zip",
+          "description": "Official JBL Pro all-CLF archive (includes CBT 70JE CF2 variants)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_cbt_1000e",
+      "status": "downloaded",
+      "format": "CF2",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-clf-files",
+          "localAsset": "clf/raw/jbl/jbl_pro_all_clf_files_03_19_20.zip",
+          "description": "Official JBL Pro all-CLF archive (includes CBT 1000E CF2 variants)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_srx812p",
+      "status": "not-found-public",
+      "format": "not-found-public",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/support_downloads/product/srx812p",
+          "description": "Official SRX812P support page checked; no public CLF package listed"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_vtx_a8",
+      "status": "downloaded",
+      "format": "GLL",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-vtx-a8-b18-ease-gll",
+          "localAsset": "clf/raw/jbl/jbl_vtx_a8_b18_ease_gll_v1_1.zip",
+          "description": "Official JBL VTX A8/B18 EASE GLL package"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_vtx_b18",
+      "status": "downloaded",
+      "format": "GLL",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-vtx-a8-b18-ease-gll",
+          "localAsset": "clf/raw/jbl/jbl_vtx_a8_b18_ease_gll_v1_1.zip",
+          "description": "Official JBL VTX A8/B18 EASE GLL package"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_eon_one_compact",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/all-portables",
+          "description": "JBL portable products page (EON ONE Compact support/download entry point)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_eon_one_mk2",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/all-portables",
+          "description": "JBL portable products page (EON ONE MK2 support/download entry point)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_eon_one",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/all-portables",
+          "description": "JBL portable products page (EON ONE support/download entry point)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_vtx_a6",
+      "status": "downloaded",
+      "format": "GLL",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-vtx-a6-b15-ease-gll",
+          "localAsset": "clf/raw/jbl/jbl_vtx_a6_b15_ease_gll_v1_1.zip",
+          "description": "Official JBL VTX A6/B15 EASE GLL package"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_vtx_a12",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/vtx-a12-ease-gll",
+          "description": "Referenced by official VTX A12 support page; endpoint currently returns 404"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_vtx_a12w",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/vtx-a12-ease-gll",
+          "description": "Referenced by official VTX A12W support page; endpoint currently returns 404"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_vtx_b28",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/vtx-b28-ease-gll",
+          "description": "Referenced by official VTX B28 support page; endpoint currently returns 404"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_vtx_g28",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/vtx-series",
+          "description": "JBL VTX series page"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_vtx_f12",
+      "status": "downloaded",
+      "format": "EASE SPK",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/ease-spk-dll-files-full-jbl-pro-line",
+          "localAsset": "clf/raw/jbl/jbl_ease_spk_dll_files_full_10_3_15.zip",
+          "description": "Official JBL Pro EASE SPK/DLL bundle (contains VTX F12 files)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_vtx_f35",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/vtx-series",
+          "description": "JBL VTX series page"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_srx906la",
+      "status": "downloaded",
+      "format": "GLL",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-srx900-series-ease-gll",
+          "localAsset": "clf/raw/jbl/jbl_srx900_series_ease_gll_v2_0.zip",
+          "description": "Official JBL SRX900 EASE GLL package (includes SRX906LA)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_srx910la",
+      "status": "downloaded",
+      "format": "GLL",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/jbl-professional-srx900-series-ease-gll",
+          "localAsset": "clf/raw/jbl/jbl_srx900_series_ease_gll_v2_0.zip",
+          "description": "Official JBL SRX900 EASE GLL package (includes SRX910LA)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_srx918s",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/srx900ps-ease-gll",
+          "description": "Referenced by official SRX918S support page; endpoint currently returns 404"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_srx928s",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/srx900ps-ease-gll",
+          "description": "Referenced by official SRX928S support page; endpoint currently returns 404"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_prx908",
+      "status": "downloaded",
+      "format": "GLL",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/prx908-ease-dll",
+          "localAsset": "clf/raw/jbl/jbl_prx908.gll",
+          "description": "Official JBL PRX908 EASE file (GLL binary)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_prx912",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/prx912-ease-dll",
+          "description": "Referenced by official PRX912 support page; endpoint currently returns 404"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_prx915",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/prx915-ease-dll",
+          "description": "Referenced by official PRX915 support page; endpoint currently returns 404"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_prx925",
+      "status": "downloaded",
+      "format": "GLL",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/site_elements/prx925-ease-file",
+          "localAsset": "clf/raw/jbl/jbl_prx925_v1.gll",
+          "description": "Official JBL PRX925 EASE file (GLL binary)"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_prx915xlf",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/prx900-series",
+          "description": "JBL PRX900 series page"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_prx918xlf",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/prx900-series",
+          "description": "JBL PRX900 series page"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_eon710",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/eon700-series",
+          "description": "JBL EON700 series page"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_eon712",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/eon700-series",
+          "description": "JBL EON700 series page"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_eon715",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/eon700-series",
+          "description": "JBL EON700 series page"
+        }
+      ]
+    },
+    {
+      "speakerId": "jbl_eon718s",
+      "status": "available-online",
+      "format": "vendor-tool-data",
+      "manufacturer": "JBL Professional",
+      "sources": [
+        {
+          "url": "https://jblpro.com/en-US/categories/eon700-series",
+          "description": "JBL EON700 series page"
+        }
+      ]
+    },
+    {
+      "speakerId": "lacoustics_x12",
+      "status": "portal-required",
+      "format": "Soundvision data",
+      "manufacturer": "L-Acoustics",
+      "sources": [
+        {
+          "url": "https://www.l-acoustics.com/documentation-center/",
+          "description": "Official docs/download area (typically account controlled)"
+        }
+      ]
+    },
+    {
+      "speakerId": "lacoustics_kara",
+      "status": "portal-required",
+      "format": "Soundvision data",
+      "manufacturer": "L-Acoustics",
+      "sources": [
+        {
+          "url": "https://www.l-acoustics.com/documentation-center/",
+          "description": "Official docs/download area (typically account controlled)"
+        }
+      ]
+    },
+    {
+      "speakerId": "meyer_ultra_x40",
+      "status": "portal-required",
+      "format": "MAPP 3D data",
+      "manufacturer": "Meyer Sound",
+      "sources": [
+        {
+          "url": "https://software.meyersound.com/mapp-3d",
+          "description": "MAPP 3D ecosystem and manufacturer docs"
+        }
+      ]
+    },
+    {
+      "speakerId": "meyer_leopard",
+      "status": "portal-required",
+      "format": "MAPP 3D data",
+      "manufacturer": "Meyer Sound",
+      "sources": [
+        {
+          "url": "https://software.meyersound.com/mapp-3d",
+          "description": "MAPP 3D ecosystem and manufacturer docs"
+        }
+      ]
+    },
+    {
+      "speakerId": "ev_ekx12p",
+      "status": "downloaded",
+      "format": "EASE/CLF family zips",
+      "manufacturer": "Electro-Voice",
+      "sources": [
+        {
+          "url": "http://clfgroup.org/files/dls/653/EVC%20CLF%20v1.1.zip",
+          "localAsset": "clf/raw/ev/evc_clf_v1_1.zip",
+          "description": "Electro-Voice EVC CLF package"
+        },
+        {
+          "url": "http://clfgroup.org/files/dls/651/EVF%20CLF%20v1.0.zip",
+          "localAsset": "clf/raw/ev/evf_clf_v1_0.zip",
+          "description": "Electro-Voice EVF CLF package"
+        },
+        {
+          "url": "http://clfgroup.org/files/dls/652/EVH%20CLF%20v1.0.zip",
+          "localAsset": "clf/raw/ev/evh_clf_v1_0.zip",
+          "description": "Electro-Voice EVH CLF package"
+        },
+        {
+          "url": "http://clfgroup.org/files/dls/654/EVID-S%20CLF%20v1.1.zip",
+          "localAsset": "clf/raw/ev/evid_s_clf_v1_1.zip",
+          "description": "Electro-Voice EVID-S CLF package"
+        },
+        {
+          "url": "http://clfgroup.org/files/dls/655/EVU%20CLF%20v1.0.zip",
+          "localAsset": "clf/raw/ev/evu_clf_v1_0.zip",
+          "description": "Electro-Voice EVU CLF package"
+        }
+      ]
+    },
+    {
+      "speakerId": "rcf_hdl6a",
+      "status": "portal-required",
+      "format": "vendor downloads",
+      "manufacturer": "RCF",
+      "sources": [
+        {
+          "url": "https://www.rcf.it/en/downloads",
+          "description": "RCF downloads/support"
+        }
+      ]
+    },
+    {
+      "speakerId": "adamson_s10",
+      "status": "portal-required",
+      "format": "vendor downloads",
+      "manufacturer": "Adamson",
+      "sources": [
+        {
+          "url": "https://adamson.com/en/support",
+          "description": "Adamson support/downloads"
+        }
+      ]
+    }
+  ]
+}

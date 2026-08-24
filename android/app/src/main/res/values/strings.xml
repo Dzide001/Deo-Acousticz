@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DroidAcoustic Pro</string>
+    <string name="phase_label">Phase 0 — Foundation</string>
+    <string name="btn_gpu_test">Run GPU Distance Test</string>
+    <string name="btn_calculate">Calculate</string>
+    <string name="nav_venue">Venue</string>
+    <string name="nav_speakers">Speakers</string>
+    <string name="nav_results">Results</string>
+    <string name="nav_report">Report</string>
+    <string name="nav_settings">Settings</string>
+</resources>

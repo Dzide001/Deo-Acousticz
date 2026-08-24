@@ -1,0 +1,60 @@
+[versions]
+# ─── Android toolchain ─────────────────────────────────────────────────────────
+agp                 = "8.13.2"
+kotlin              = "2.0.20"
+
+# ─── AndroidX ──────────────────────────────────────────────────────────────────
+core-ktx            = "1.13.1"
+lifecycle           = "2.8.7"
+activity-compose    = "1.9.3"
+compose-bom         = "2024.12.01"
+
+# ─── 3D Rendering ──────────────────────────────────────────────────────────────
+# Check https://github.com/google/filament/releases for latest stable build.
+filament            = "1.70.0"
+
+# ─── Coroutines ────────────────────────────────────────────────────────────────
+coroutines          = "1.9.0"
+
+# ─── Serialisation ─────────────────────────────────────────────────────────────
+protobuf            = "4.28.3"
+protobuf-plugin     = "0.9.4"
+
+# ─── Testing ───────────────────────────────────────────────────────────────────
+junit               = "4.13.2"
+junit-ext           = "1.2.1"
+espresso            = "3.6.1"
+
+[libraries]
+# ─── Core ──────────────────────────────────────────────────────────────────────
+androidx-core-ktx               = { group = "androidx.core",          name = "core-ktx",                 version.ref = "core-ktx"       }
+androidx-lifecycle-runtime-ktx  = { group = "androidx.lifecycle",     name = "lifecycle-runtime-ktx",    version.ref = "lifecycle"      }
+androidx-activity-compose       = { group = "androidx.activity",      name = "activity-compose",         version.ref = "activity-compose" }
+
+# ─── Compose BOM ───────────────────────────────────────────────────────────────
+compose-bom                     = { group = "androidx.compose",       name = "compose-bom",              version.ref = "compose-bom"    }
+compose-ui                      = { group = "androidx.compose.ui",    name = "ui"                                                       }
+compose-ui-graphics             = { group = "androidx.compose.ui",    name = "ui-graphics"                                              }
+compose-ui-tooling-preview      = { group = "androidx.compose.ui",    name = "ui-tooling-preview"                                       }
+compose-ui-tooling              = { group = "androidx.compose.ui",    name = "ui-tooling"                                               }
+compose-material3               = { group = "androidx.compose.material3", name = "material3"                                            }
+compose-material-icons-extended = { group = "androidx.compose.material",  name = "material-icons-extended"                               }
+lifecycle-viewmodel-compose     = { group = "androidx.lifecycle",          name = "lifecycle-viewmodel-compose",    version.ref = "lifecycle" }
+
+# ─── Filament ──────────────────────────────────────────────────────────────────
+filament-android                = { group = "com.google.android.filament", name = "filament-android",       version.ref = "filament" }
+filament-utils                  = { group = "com.google.android.filament", name = "filament-utils-android",  version.ref = "filament" }
+
+# ─── Coroutines ────────────────────────────────────────────────────────────────
+kotlinx-coroutines-android      = { group = "org.jetbrains.kotlinx",  name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+
+# ─── Testing ───────────────────────────────────────────────────────────────────
+junit                           = { group = "junit",                  name = "junit",                    version.ref = "junit"          }
+androidx-junit                  = { group = "androidx.test.ext",      name = "junit",                    version.ref = "junit-ext"      }
+androidx-espresso               = { group = "androidx.test.espresso", name = "espresso-core",            version.ref = "espresso"       }
+compose-ui-test-junit4          = { group = "androidx.compose.ui",    name = "ui-test-junit4"                                           }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp"     }
+kotlin-android      = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose      = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

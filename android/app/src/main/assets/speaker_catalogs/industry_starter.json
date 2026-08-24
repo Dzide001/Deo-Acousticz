@@ -1,0 +1,30 @@
+{
+  "schema": "droidacoustic.speaker-catalog",
+  "version": 1,
+  "presets": [
+    { "id": "jbl_srx812p", "name": "JBL SRX812P (starter)", "sensitivityDb": 98, "heightM": 1.7, "arrayElements": 1, "elementSpacingM": 0.2 },
+    { "id": "jbl_vtx_a8", "name": "JBL VTX A8 (starter)", "sensitivityDb": 105, "heightM": 6.8, "arrayElements": 8, "elementSpacingM": 0.14 },
+    { "id": "lacoustics_x12", "name": "L-Acoustics X12 (starter)", "sensitivityDb": 99, "heightM": 1.8, "arrayElements": 1, "elementSpacingM": 0.2 },
+    { "id": "lacoustics_kara", "name": "L-Acoustics Kara II (starter)", "sensitivityDb": 105, "heightM": 6.5, "arrayElements": 8, "elementSpacingM": 0.19 },
+    { "id": "db_y10p", "name": "d&b Y10P (starter)", "sensitivityDb": 100, "heightM": 1.8, "arrayElements": 1, "elementSpacingM": 0.2 },
+    { "id": "db_y8", "name": "d&b Y8 (starter)", "sensitivityDb": 104, "heightM": 6.5, "arrayElements": 8, "elementSpacingM": 0.19 },
+    { "id": "meyer_ultra_x40", "name": "Meyer ULTRA-X40 (starter)", "sensitivityDb": 100, "heightM": 1.8, "arrayElements": 1, "elementSpacingM": 0.2 },
+    { "id": "meyer_leopard", "name": "Meyer LEOPARD (starter)", "sensitivityDb": 106, "heightM": 6.8, "arrayElements": 8, "elementSpacingM": 0.19 },
+    { "id": "ev_ekx12p", "name": "Electro-Voice EKX-12P (starter)", "sensitivityDb": 98, "heightM": 1.7, "arrayElements": 1, "elementSpacingM": 0.2 },
+    { "id": "qsc_k12_2", "name": "QSC K12.2 (starter)", "sensitivityDb": 99, "heightM": 1.7, "arrayElements": 1, "elementSpacingM": 0.2 },
+    { "id": "rcf_hdl6a", "name": "RCF HDL 6-A (starter)", "sensitivityDb": 104, "heightM": 6.2, "arrayElements": 8, "elementSpacingM": 0.19 }
+  ],
+  "modelPackages": [
+    { "id": "jbl_vtx_a8", "name": "JBL VTX A8", "markerHeightM": 3.8, "crossHalfM": 0.45, "cabinetWidthM": 0.70, "cabinetDepthM": 0.44, "cabinetHeightM": 0.25, "colorR": 0.95, "colorG": 0.55, "colorB": 0.05, "modelAssetPath": "speaker_models/jbl_vtx_a8.glb" },
+    { "id": "lacoustics_kara", "name": "L-Acoustics Kara II", "markerHeightM": 3.8, "crossHalfM": 0.45, "cabinetWidthM": 0.64, "cabinetDepthM": 0.36, "cabinetHeightM": 0.25, "colorR": 0.15, "colorG": 0.85, "colorB": 0.25, "modelAssetPath": "speaker_models/lacoustics_kara.glb" },
+    { "id": "db_y8", "name": "d&b Y8", "markerHeightM": 3.8, "crossHalfM": 0.45, "cabinetWidthM": 0.58, "cabinetDepthM": 0.37, "cabinetHeightM": 0.24, "colorR": 0.85, "colorG": 0.85, "colorB": 0.2, "modelAssetPath": "speaker_models/db_y8.glb" },
+    { "id": "meyer_leopard", "name": "Meyer LEOPARD", "markerHeightM": 3.8, "crossHalfM": 0.45, "cabinetWidthM": 0.53, "cabinetDepthM": 0.55, "cabinetHeightM": 0.27, "colorR": 0.9, "colorG": 0.3, "colorB": 0.3, "modelAssetPath": "speaker_models/meyer_leopard.glb" },
+    { "id": "rcf_hdl6a", "name": "RCF HDL 6-A", "markerHeightM": 3.8, "crossHalfM": 0.45, "cabinetWidthM": 0.47, "cabinetDepthM": 0.37, "cabinetHeightM": 0.24, "colorR": 0.9, "colorG": 0.2, "colorB": 0.2, "modelAssetPath": "speaker_models/rcf_hdl6a.glb" },
+    { "id": "jbl_srx812p", "name": "JBL SRX812P", "markerHeightM": 2.0, "crossHalfM": 0.35, "cabinetWidthM": 0.42, "cabinetDepthM": 0.44, "cabinetHeightM": 0.64, "colorR": 0.95, "colorG": 0.55, "colorB": 0.05, "modelAssetPath": "speaker_models/jbl_srx812p.glb" },
+    { "id": "lacoustics_x12", "name": "L-Acoustics X12", "markerHeightM": 2.0, "crossHalfM": 0.35, "cabinetWidthM": 0.35, "cabinetDepthM": 0.37, "cabinetHeightM": 0.60, "colorR": 0.15, "colorG": 0.85, "colorB": 0.25, "modelAssetPath": "speaker_models/lacoustics_x12.glb" },
+    { "id": "db_y10p", "name": "d&b Y10P", "markerHeightM": 2.0, "crossHalfM": 0.35, "cabinetWidthM": 0.31, "cabinetDepthM": 0.34, "cabinetHeightM": 0.60, "colorR": 0.85, "colorG": 0.85, "colorB": 0.2, "modelAssetPath": "speaker_models/db_y10p.glb" },
+    { "id": "meyer_ultra_x40", "name": "Meyer ULTRA-X40", "markerHeightM": 2.0, "crossHalfM": 0.35, "cabinetWidthM": 0.40, "cabinetDepthM": 0.37, "cabinetHeightM": 0.58, "colorR": 0.9, "colorG": 0.3, "colorB": 0.3, "modelAssetPath": "speaker_models/meyer_ultra_x40.glb" },
+    { "id": "ev_ekx12p", "name": "Electro-Voice EKX-12P", "markerHeightM": 2.0, "crossHalfM": 0.35, "cabinetWidthM": 0.38, "cabinetDepthM": 0.38, "cabinetHeightM": 0.61, "colorR": 0.1, "colorG": 0.7, "colorB": 0.95, "modelAssetPath": "speaker_models/ev_ekx12p.glb" },
+    { "id": "qsc_k12_2", "name": "QSC K12.2", "markerHeightM": 2.0, "crossHalfM": 0.35, "cabinetWidthM": 0.36, "cabinetDepthM": 0.38, "cabinetHeightM": 0.60, "colorR": 0.7, "colorG": 0.7, "colorB": 0.9, "modelAssetPath": "speaker_models/qsc_k12_2.glb" }
+  ]
+}

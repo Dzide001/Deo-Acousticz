@@ -1,0 +1,46 @@
+{
+  "schema": "dac-speaker-v1",
+  "name": "Generic 18\" Subwoofer",
+  "manufacturer": "Generic",
+  "model": "DAC-GEN-SUB18",
+  "type": "subwoofer",
+  "sensitivity_dB": 100,
+  "max_spl_dB": 133,
+  "nominal_impedance_ohm": 8,
+  "dimensions_mm": { "height": 600, "width": 560, "depth": 700 },
+  "weight_kg": 52,
+  "rigging": {
+    "max_elements_in_array": 8,
+    "safe_working_load_kg": 800,
+    "safety_factor": 7
+  },
+  "coverage": {
+    "horizontal_deg": 360,
+    "vertical_deg": 180,
+    "note": "Omnidirectional at low frequencies"
+  },
+  "frequency_response_dB": [
+    { "freq_hz": 63,   "gain_dB":  0.0 },
+    { "freq_hz": 125,  "gain_dB": -1.0 },
+    { "freq_hz": 250,  "gain_dB": -20.0 },
+    { "freq_hz": 500,  "gain_dB": -40.0 },
+    { "freq_hz": 1000, "gain_dB": -60.0 },
+    { "freq_hz": 2000, "gain_dB": -80.0 },
+    { "freq_hz": 4000, "gain_dB": -80.0 },
+    { "freq_hz": 8000, "gain_dB": -80.0 }
+  ],
+  "cardioid_configs": [
+    {
+      "name": "End-fire (2-sub inline)",
+      "delay_ms": 2.9,
+      "description": "Front sub 0ms, rear sub delayed by d/v (1m spacing)"
+    },
+    {
+      "name": "Cardioid (3-sub stack)",
+      "delay_ms": 2.9,
+      "rear_polarity": "inverted",
+      "description": "Front 2 subs normal polarity, rear sub inverted + delayed"
+    }
+  ],
+  "notes": "Generic 18\" reflex-loaded subwoofer. See cardioid_configs for array presets."
+}

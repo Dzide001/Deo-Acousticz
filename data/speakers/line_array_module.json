@@ -1,0 +1,33 @@
+{
+  "schema": "dac-speaker-v1",
+  "name": "Generic Line Array Module",
+  "manufacturer": "Generic",
+  "model": "DAC-GEN-LA12",
+  "type": "line_array_element",
+  "sensitivity_dB": 103,
+  "max_spl_dB": 138,
+  "nominal_impedance_ohm": 8,
+  "dimensions_mm": { "height": 178, "width": 560, "depth": 420 },
+  "weight_kg": 18.5,
+  "rigging": {
+    "max_elements_in_array": 16,
+    "safe_working_load_kg": 600,
+    "safety_factor": 7
+  },
+  "coverage": {
+    "horizontal_deg": 110,
+    "vertical_deg": 10
+  },
+  "splay_range_deg": { "min": 0.0, "max": 14.0 },
+  "frequency_response_dB": [
+    { "freq_hz": 63,   "gain_dB": -8.0 },
+    { "freq_hz": 125,  "gain_dB": -3.0 },
+    { "freq_hz": 250,  "gain_dB":  0.5 },
+    { "freq_hz": 500,  "gain_dB":  1.0 },
+    { "freq_hz": 1000, "gain_dB":  0.0 },
+    { "freq_hz": 2000, "gain_dB":  0.0 },
+    { "freq_hz": 4000, "gain_dB": -0.5 },
+    { "freq_hz": 8000, "gain_dB": -2.0 }
+  ],
+  "notes": "Generic line array module — 3-way with 2x LF, 1x MF, HF waveguide."
+}

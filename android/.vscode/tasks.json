@@ -1,0 +1,15 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Assemble Debug Check",
+			"type": "shell",
+			"command": "./gradlew assembleDebug --stacktrace",
+			"isBackground": false,
+			"problemMatcher": [
+				"$kotlinc"
+			],
+			"group": "build"
+		}
+	]
+}

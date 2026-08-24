@@ -1,0 +1,55 @@
+#version 450
+// =============================================================================
+// distance.comp  —  Kernel 1: Euclidean distance computation
+// =============================================================================
+//
+// Phase 0 GPU kernel. Computes the Euclidean distance between every
+// audience grid point and every speaker in parallel.
+//
+// OUTPUT LAYOUT:
+//   distances[gridIdx * speakerCount + speakerIdx] = distance in metres
+//
+// Workgroup size: 64 threads along X (tuned for mobile GPU efficiency).
+// Each thread processes one grid point and loops over all speakers.
+//
+// Phase 1 extension: add directivity look-up.
+// Phase 2 extension: add atmospheric absorption, produce energy directly.
+// =============================================================================
+
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+
+// Binding 0 — speaker positions (vec4: xyz = position, w = unused padding)
+layout(set = 0, binding = 0) readonly buffer SpeakerPositions {
+    vec4 speakers[];
+};
+
+// Binding 1 — audience grid points (vec4: xyz = position, w = unused padding)
+layout(set = 0, binding = 1) readonly buffer GridPoints {
+    vec4 points[];
+};
+
+// Binding 2 — output distances
+// Layout: distances[gridIdx * speakerCount + speakerIdx]
+layout(set = 0, binding = 2) writeonly buffer Distances {
+    float distances[];
+};
+
+// Push constants — passed from VulkanCompute::dispatchDistanceKernel()
+layout(push_constant) uniform PushConstants {
+    uint speakerCount;
+    uint gridCount;
+} pc;
+
+void main() {
+    uint gridIdx = gl_GlobalInvocationID.x;
+
+    // Guard against over-dispatch from ceiling division in dispatch call
+    if (gridIdx >= pc.gridCount) return;
+
+    vec3 point = points[gridIdx].xyz;
+
+    for (uint s = 0; s < pc.speakerCount; ++s) {
+        vec3 diff = point - speakers[s].xyz;
+        distances[gridIdx * pc.speakerCount + s] = length(diff);
+    }
+}

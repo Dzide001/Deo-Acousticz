@@ -1,0 +1,52 @@
+# ─── Android / Gradle ──────────────────────────────────────────────────────────
+.gradle/
+.idea/
+*.iml
+local.properties
+android/build/
+android/app/build/
+android/.cxx/
+android/captures/
+android/app/release/
+
+# ─── CMake / NDK ───────────────────────────────────────────────────────────────
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+*.cmake
+!CMakeLists.txt
+*.spv                 # compiled SPIR-V (regenerated at build time)
+
+# ─── C++ ───────────────────────────────────────────────────────────────────────
+*.o
+*.a
+*.so
+*.dylib
+build/
+
+# ─── macOS ─────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# ─── Generated / temp ──────────────────────────────────────────────────────────
+*.log
+*.tmp
+
+# ─── Corrected / additional ignores ────────────────────────────────────────────
+# The NDK external-build dir actually lives at android/app/.cxx (the rule above
+# used the wrong path and never matched). It contains fetched GLM + GTest sources.
+android/app/.cxx/
+**/build/
+*.apk
+*.aab
+
+# ─── Bundled manufacturer CLF library (430 MB) ────────────────────────────────
+# Deliberately not tracked. These are third-party manufacturer data files that
+# cannot ship inside the app anyway (Play base-delivery limit) and are slated to
+# move to an on-demand catalogue service. Kept locally at
+#   android/app/src/main/assets/clf/raw/
+# The index (sources.json) and the speaker catalogue ARE tracked.
+android/app/src/main/assets/clf/raw/

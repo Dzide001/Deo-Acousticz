@@ -1,0 +1,25 @@
+{
+  "schema": "dac-speaker-v1",
+  "name": "Generic 12\" Coaxial",
+  "manufacturer": "Generic",
+  "model": "DAC-GEN-12COX",
+  "type": "full_range",
+  "sensitivity_dB": 98,
+  "max_spl_dB": 128,
+  "nominal_impedance_ohm": 8,
+  "coverage": {
+    "horizontal_deg": 90,
+    "vertical_deg": 60
+  },
+  "frequency_response_dB": [
+    { "freq_hz": 63,   "gain_dB": -6.0 },
+    { "freq_hz": 125,  "gain_dB": -3.0 },
+    { "freq_hz": 250,  "gain_dB":  0.0 },
+    { "freq_hz": 500,  "gain_dB":  1.0 },
+    { "freq_hz": 1000, "gain_dB":  0.0 },
+    { "freq_hz": 2000, "gain_dB":  0.5 },
+    { "freq_hz": 4000, "gain_dB": -1.0 },
+    { "freq_hz": 8000, "gain_dB": -3.5 }
+  ],
+  "notes": "Generic coaxial point source — use as a test/placeholder speaker."
+}
