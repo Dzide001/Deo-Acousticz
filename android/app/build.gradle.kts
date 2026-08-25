@@ -85,6 +85,12 @@ android {
     // ─── NDK version — pin to known working version ───────────────────────────
     ndkVersion = "27.0.12077973"
 
+    // android.util.Log is a stub on the JVM and throws by default. The acoustics
+    // are plain maths and have no business needing a device to be exercised.
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -121,6 +127,7 @@ dependencies {
 
     // ─── Testing ─────────────────────────────────────────────────────────────
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)
     androidTestImplementation(platform(libs.compose.bom))

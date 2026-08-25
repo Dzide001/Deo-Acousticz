@@ -234,7 +234,7 @@ data class VenueBlock(
     val label        : String = "Block"
 )
 
-private data class RoomBounds(
+internal data class RoomBounds(
     val minX    : Float,
     val maxX    : Float,
     val minZ    : Float,
@@ -451,7 +451,11 @@ class SceneViewModel : ViewModel() {
         )
     }
 
-    private val engine = AcousticEngine()
+    // Lazy: AcousticEngine's companion loads the native library on class init, which
+    // no JVM unit test can satisfy. Nothing touches the engine during construction -
+    // the compute paths are guarded by engineReady - so deferring it makes the view
+    // model constructible off-device without changing behaviour on one.
+    private val engine by lazy { AcousticEngine() }
     private var appAssetManager: AssetManager? = null
 
     private val _speakers    = MutableStateFlow<List<PlacedSpeaker>>(emptyList())
@@ -4306,7 +4310,7 @@ class SceneViewModel : ViewModel() {
         return computeDistancesCpuFallback(speakerPositions, samplePoints)
     }
 
-    private fun computeDistancesCpuFallback(
+    internal fun computeDistancesCpuFallback(
         speakerPositions: FloatArray,
         samplePoints: FloatArray
     ): FloatArray {
@@ -4889,7 +4893,7 @@ class SceneViewModel : ViewModel() {
      * Phase 8 — Sabine RT60 with per-surface absorption from [RoomMaterials].
      * Formula: RT60 = 0.161 × V / Σ(α × S)
      */
-    private fun estimateRt60(room: RoomBounds, mat: RoomMaterials): Rt60Estimate {
+    internal fun estimateRt60(room: RoomBounds, mat: RoomMaterials): Rt60Estimate {
         val width  = room.maxX - room.minX
         val depth  = room.maxZ - room.minZ
         val height = room.heightM
@@ -4906,7 +4910,7 @@ class SceneViewModel : ViewModel() {
         return Rt60Estimate(width, depth, height, volume, rt60)
     }
 
-    private fun atmosphericLossDb(
+    internal fun atmosphericLossDb(
         distanceM: Float,
         bandHz: Int,
         temperatureC: Float,

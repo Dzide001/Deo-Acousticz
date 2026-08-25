@@ -47,6 +47,7 @@ filament-utils                  = { group = "com.google.android.filament", name 
 
 # ─── Coroutines ────────────────────────────────────────────────────────────────
 kotlinx-coroutines-android      = { group = "org.jetbrains.kotlinx",  name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-test         = { group = "org.jetbrains.kotlinx",  name = "kotlinx-coroutines-test",    version.ref = "coroutines" }
 
 # ─── Testing ───────────────────────────────────────────────────────────────────
 junit                           = { group = "junit",                  name = "junit",                    version.ref = "junit"          }
