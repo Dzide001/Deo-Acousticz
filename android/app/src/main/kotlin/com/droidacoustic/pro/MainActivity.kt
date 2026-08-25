@@ -7,15 +7,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.droidacoustic.pro.ui.MainScreen
+import com.droidacoustic.pro.ui.shell.AppShell
 import com.droidacoustic.pro.ui.theme.DroidAcousticTheme
 
 /**
  * Single-activity entry point.
  *
- * Layout strategy: the [MainScreen] composable owns the full viewport and sets
- * up the two-pane (properties rail + 3D view) layout based on [WindowSizeClass].
- * Individual phases add composable content behind the same scaffold.
+ * Layout strategy: [AppShell] owns the full viewport. The 3D view is the
+ * document; the tool rail, inspector and analysis strip are instrumentation
+ * arranged around it.
  */
 class MainActivity : ComponentActivity() {
 
@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             DroidAcousticTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    MainScreen(activity = this)
+                    AppShell(activity = this)
                 }
             }
         }

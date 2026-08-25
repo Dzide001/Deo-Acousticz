@@ -42,12 +42,22 @@ import kotlin.math.sqrt
 import kotlin.math.tan
 
 // =============================================================================
-// FilamentSurface — Phase 2: 3D viewport + tap-to-place speakers
+// FilamentSurface — 3D viewport + tap-to-place
 // =============================================================================
+
+/** Standard camera framings. A design tool needs orthographic-feeling plan and
+ *  section views, not just a free orbit. */
+enum class ViewPreset(val label: String) {
+    PLAN("Plan"),
+    SECTION("Section"),
+    PERSPECTIVE("3D")
+}
 
 @Composable
 fun FilamentSurface(
     modifier   : Modifier = Modifier,
+    viewPreset : ViewPreset = ViewPreset.PERSPECTIVE,
+    frameAllToken: Int = 0,
     venueGeometry: VenueGeometry = VenueGeometry(),
     audienceAreas: List<AudienceArea> = emptyList(),
     areaDraft    : List<Pair<Float, Float>> = emptyList(),
@@ -69,6 +79,7 @@ fun FilamentSurface(
     ctx.onFloorTap = onFloorTap                      // refresh on each recompose
     ctx.onSpeakerMeshStatsChanged = onSpeakerMeshStatsChanged
     LaunchedEffect(venueGeometry) { ctx.updateVenueGeometry(venueGeometry) }
+    LaunchedEffect(viewPreset, frameAllToken) { ctx.setViewPreset(viewPreset, venueGeometry) }
     LaunchedEffect(audienceAreas, areaDraft, activeZoneType, activeZoneBaseHeightM, activeZoneRakeDeg, activeZoneRakeDirectionDeg) {
         ctx.updateAudienceAreas(
             areas = audienceAreas,
@@ -135,11 +146,51 @@ class FilamentContext(private val context: Context) {
     var onSpeakerMeshStatsChanged: (Int, Int) -> Unit = { _, _ -> }
 
     // ── Camera orbit controller ───────────────────────────────────────────────
-    private val manipulator: Manipulator = Manipulator.Builder()
-        .targetPosition(0f, 0f, 0f)
-        .orbitHomePosition(0f, 10f, 18f)
-        .upVector(0f, 1f, 0f)
-        .build(Manipulator.Mode.ORBIT)
+    //
+    // The camera is rebuilt per preset rather than tweened, because Filament's
+    // Manipulator fixes its orbit home at build time.
+    //
+    // The previous single home position — (0, 10, 18) looking at the origin —
+    // is a ~29° elevation, which is close to eye level across a 28 m room. That
+    // is a poor default for a coverage tool: it foreshortens the audience plane
+    // to almost nothing and makes a 0.4 m cabinet near the origin very easy to
+    // miss entirely. PERSPECTIVE now sits much higher, and the framing scales
+    // with the venue instead of being a constant.
+    private var manipulator: Manipulator = buildManipulator(ViewPreset.PERSPECTIVE, VenueGeometry())
+    private var currentPreset: ViewPreset = ViewPreset.PERSPECTIVE
+
+    private fun buildManipulator(preset: ViewPreset, venue: VenueGeometry): Manipulator {
+        // Frame the whole venue with a margin, never closer than a small room.
+        val extent = maxOf(venue.widthM, venue.depthM).coerceAtLeast(12f)
+        val d = extent * 1.15f
+        val b = Manipulator.Builder()
+            .targetPosition(0f, 1.5f, 0f)
+            .upVector(0f, 1f, 0f)
+        when (preset) {
+            // Near-nadir. Not exactly vertical: a true top-down eye is collinear
+            // with the up vector and the orbit basis degenerates.
+            ViewPreset.PLAN ->
+                b.orbitHomePosition(0f, d * 1.35f, d * 0.06f)
+            // Looking along the room from stage-left, for checking array aim
+            // and audience rake in elevation.
+            ViewPreset.SECTION ->
+                b.orbitHomePosition(d * 1.25f, extent * 0.28f, 0.01f)
+            // Elevated three-quarter view — the working default.
+            ViewPreset.PERSPECTIVE ->
+                b.orbitHomePosition(d * 0.55f, extent * 0.62f, d * 0.80f)
+        }
+        return b.build(Manipulator.Mode.ORBIT)
+    }
+
+    /** Switch camera preset, reframing for the current venue. */
+    fun setViewPreset(preset: ViewPreset, venue: VenueGeometry) {
+        currentPreset = preset
+        manipulator = buildManipulator(preset, venue)
+        if (viewportW > 1 && viewportH > 1) manipulator.setViewport(viewportW, viewportH)
+    }
+
+    /** Re-frame the current preset — "zoom to fit". */
+    fun frameAll(venue: VenueGeometry) = setViewPreset(currentPreset, venue)
 
     // ── Render loop ───────────────────────────────────────────────────────────
     private val choreographer = Choreographer.getInstance()
