@@ -50,15 +50,19 @@ object Instrument {
     val Caution     = Color(0xFFE3B341)
     val Good        = Color(0xFF2DD4A0)
 
-    // ── SPL ramp. The one place full saturation is allowed. ──────────────────
-    // Cold → hot, matching the heatmap the engine renders.
+    // ── SPL ramp. Cold → hot. ────────────────────────────────────────────────
+    // Muted and earthy rather than fully saturated: the vivid ramp read as a
+    // rainbow, inventing boundaries at the yellow and cyan transitions that were
+    // not in the data. Every SPL surface reads from this one list - the 3D field,
+    // the viewport legend and the analysis strip - so the key always matches the
+    // map it explains.
     val Spl = listOf(
-        Color(0xFF2563EB),   // coldest
-        Color(0xFF22B8D4),
-        Color(0xFF2DD4A0),
-        Color(0xFFE3B341),
-        Color(0xFFF98736),
-        Color(0xFFF2555A)    // hottest
+        Color(0xFF2C4B7C),   // coldest - muted navy
+        Color(0xFF356B73),   // teal
+        Color(0xFF447757),   // green
+        Color(0xFF6E7A45),   // olive
+        Color(0xFF8A6B3E),   // bronze
+        Color(0xFF8E4540)    // hottest - brick
     )
 
     // ── Light variants, for daylight use on site ─────────────────────────────
