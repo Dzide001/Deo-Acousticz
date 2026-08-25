@@ -30,24 +30,24 @@ jobs:
                 -B build/engine \
                 -DCMAKE_BUILD_TYPE=Debug \
                 -G "Unix Makefiles"
-        working-directory: ${{ github.workspace }}/droidacoustic
+        working-directory: ${{ github.workspace }}
 
       - name: Build
         run: cmake --build build/engine --parallel 4
-        working-directory: ${{ github.workspace }}/droidacoustic
+        working-directory: ${{ github.workspace }}
 
       - name: Run tests
         run: |
           cd build/engine/tests
           ./dac_tests --gtest_output=xml:test_results.xml
-        working-directory: ${{ github.workspace }}/droidacoustic
+        working-directory: ${{ github.workspace }}
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cpp-test-results
-          path: droidacoustic/build/engine/tests/test_results.xml
+          path: build/engine/tests/test_results.xml
 
   # ═══════════════════════════════════════════════════════════════════════════
   # Job 2: Android APK build (arm64-v8a only for CI speed)
@@ -87,16 +87,16 @@ jobs:
 
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
-        working-directory: ${{ github.workspace }}/droidacoustic/android
+        working-directory: ${{ github.workspace }}/android
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: droidacoustic-debug-apk
-          path: droidacoustic/android/app/build/outputs/apk/debug/app-debug.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 14
 
       - name: Print APK size
         run: |
-          APK=$(find droidacoustic/android/app/build/outputs/apk/debug -name "*.apk")
+          APK=$(find android/app/build/outputs/apk/debug -name "*.apk")
           echo "APK size: $(du -sh $APK | cut -f1)"
