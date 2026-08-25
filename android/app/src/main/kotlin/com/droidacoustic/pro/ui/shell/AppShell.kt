@@ -150,6 +150,12 @@ fun AppShell(activity: MainActivity) {
     // The old shell wrote a recovery snapshot after every change; dropping it
     // in the rewrite would have meant losing the scene whenever the process
     // was killed. Restore once on launch, then write debounced.
+    // The autosave must not run until the restore has finished. Both effects
+    // start at first composition, so on a slow launch - fresh install, dexopt, a
+    // large scene to parse - the debounced write would fire while the view model
+    // still held the empty default scene and persist THAT over the saved one,
+    // destroying it. Gate the writer on the reader.
+    var restored by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         val json = withContext(Dispatchers.IO) {
             activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -158,11 +164,13 @@ fun AppShell(activity: MainActivity) {
         json?.takeIf { it.isNotBlank() }?.let {
             withContext(Dispatchers.Default) { vm.importSceneJson(it) }
         }
+        restored = true
     }
     LaunchedEffect(
-        speakers, zones, venue, dspMap, listener, band,
+        restored, speakers, zones, venue, dspMap, listener, band,
         splScaleMode, splTarget, splSpan, splFixedMin, splFixedMax
     ) {
+        if (!restored) return@LaunchedEffect
         delay(1200)
         // includeClfRegistry MUST stay false here. The registry holds the
         // decoded polar data for every speaker in the library; serialising it
