@@ -4368,7 +4368,7 @@ class SceneViewModel : ViewModel() {
         _stiEstimate.value = StiEstimate(sti = sti, quality = quality, alconsPct = alcons)
     }
 
-    private data class CoherentContribution(
+    internal data class CoherentContribution(
         val splDb: Float,
         val distanceM: Float,
         val delayMs: Float,
@@ -4479,7 +4479,7 @@ class SceneViewModel : ViewModel() {
         return base + _signalLevelDbu.value
     }
 
-    private fun coherentSumDb(contributions: List<CoherentContribution>): Float {
+    internal fun coherentSumDb(contributions: List<CoherentContribution>): Float {
         if (contributions.isEmpty()) return 0f
         val frequencyHz = _selectedBandHz.value.toDouble().coerceAtLeast(1.0)
         val speedOfSound = (331.3 + 0.606 * _temperatureC.value.toDouble()).coerceAtLeast(300.0)
@@ -4559,7 +4559,7 @@ class SceneViewModel : ViewModel() {
         return -splDbRelative
     }
 
-    private fun horizontalDirectivityAttenuationDb(
+    internal fun horizontalDirectivityAttenuationDb(
         spk: PlacedSpeaker,
         fromX: Float,
         fromZ: Float,
@@ -4587,7 +4587,7 @@ class SceneViewModel : ViewModel() {
         return baseLoss * reflectionRelax
     }
 
-    private fun verticalAimAttenuationDb(
+    internal fun verticalAimAttenuationDb(
         spk: PlacedSpeaker,
         fromX: Float,
         fromY: Float,
@@ -4623,7 +4623,7 @@ class SceneViewModel : ViewModel() {
         return baseLoss * reflectionRelax
     }
 
-    private fun angularDeltaDeg(aDeg: Float, bDeg: Float): Float {
+    internal fun angularDeltaDeg(aDeg: Float, bDeg: Float): Float {
         val d = (((aDeg - bDeg) + 540f) % 360f) - 180f
         return kotlin.math.abs(d)
     }
