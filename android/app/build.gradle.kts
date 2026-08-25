@@ -70,13 +70,16 @@ android {
         }
     }
 
+    // Java 17 is the baseline AGP 8.x and the Compose compiler are built against;
+    // 11 was leaving desugaring and API surface on the table for no benefit. CI
+    // already provisions JDK 17.
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 
     // ─── NDK version — pin to known working version ───────────────────────────
