@@ -3850,26 +3850,34 @@ class SceneViewModel : ViewModel() {
 
     // ─── Private: SPL recalculation ───────────────────────────────────────────
 
-    private fun recalculate(force: Boolean = false) {
-        if (!force && !_signalAutoCalculate.value) return
-        if (!_signalSplEnabled.value) {
-            _results.value = emptyList()
-            _combinedSplDb.value = null
-            _earlyReflections.value = emptyList()
-            _rt60Estimate.value = null
-            _stiEstimate.value = null
-            _highestSplDb.value = null
-            return
-        }
+    /**
+     * Drops every derived analysis value. In-flight work is cancelled first so a
+     * job that is already running cannot publish its results after the clear.
+     */
+    private fun clearAnalysisResults() {
+        recalcJob?.cancel()
+        earlyReflectionJob?.cancel()
+        _results.value = emptyList()
+        _combinedSplDb.value = null
+        _earlyReflections.value = emptyList()
+        _rt60Estimate.value = null
+        _stiEstimate.value = null
+        _highestSplDb.value = null
+    }
 
+    private fun recalculate(force: Boolean = false) {
+        // An empty scene is invalidated ahead of the auto-calculate gate. That gate
+        // defers *recomputation* until the user asks for it, but numbers describing
+        // sources that no longer exist are never worth keeping: removing the last
+        // speaker used to leave a full set of results sitting on screen.
         val spks = _speakers.value
         if (spks.isEmpty()) {
-            _results.value = emptyList()
-            _combinedSplDb.value = null
-            _earlyReflections.value = emptyList()
-            _rt60Estimate.value = null
-            _stiEstimate.value = null
-            _highestSplDb.value = null
+            clearAnalysisResults()
+            return
+        }
+        if (!force && !_signalAutoCalculate.value) return
+        if (!_signalSplEnabled.value) {
+            clearAnalysisResults()
             return
         }
 
@@ -3978,19 +3986,22 @@ class SceneViewModel : ViewModel() {
     }
 
     private fun refreshHeatmap(force: Boolean = false) {
+        // Same rule as recalculate(): an empty scene clears the map whether or not
+        // auto-calculate is on. A coverage map with no sources behind it is never
+        // a reading anyone should trust.
+        val spks = _speakers.value
+        if (spks.isEmpty()) {
+            heatmapJob?.cancel()
+            _heatmap.value = emptyList()
+            _stiEstimate.value = null
+            _highestSplDb.value = null
+            return
+        }
         if (!force && !_signalAutoCalculate.value) return
         if (!_signalCoverageEnabled.value || !_signalSplEnabled.value) {
             _heatmap.value = emptyList()
             _highestSplDb.value = _results.value.maxOfOrNull { it.splDb }
             _stiEstimate.value = null
-            return
-        }
-
-        val spks = _speakers.value
-        if (spks.isEmpty()) {
-            _heatmap.value = emptyList()
-            _stiEstimate.value = null
-            _highestSplDb.value = null
             return
         }
 
