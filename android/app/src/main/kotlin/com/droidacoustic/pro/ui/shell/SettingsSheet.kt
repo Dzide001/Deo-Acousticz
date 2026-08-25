@@ -66,6 +66,11 @@ fun SettingsSheet(
     val splEnabled by vm.signalSplEnabled.collectAsState()
     val dispersion by vm.signalDispersionEnabled.collectAsState()
     val coverage by vm.signalCoverageEnabled.collectAsState()
+    val splScaleMode by vm.splScaleMode.collectAsState()
+    val splTarget by vm.splTargetDb.collectAsState()
+    val splSpan by vm.splSpanDb.collectAsState()
+    val splFixedMin by vm.splFixedMinDb.collectAsState()
+    val splFixedMax by vm.splFixedMaxDb.collectAsState()
     val temperatureC by vm.temperatureC.collectAsState()
     val humidityPct by vm.humidityPct.collectAsState()
     val materials by vm.roomMaterials.collectAsState()
@@ -226,6 +231,64 @@ fun SettingsSheet(
                 LayerToggle("Direct SPL", splEnabled) { vm.setSignalSplEnabled(it) }
                 LayerToggle("Coverage heatmap", coverage) { vm.setSignalCoverageEnabled(it) }
                 LayerToggle("Directivity", dispersion) { vm.setSignalDispersionEnabled(it) }
+            }
+
+            // ── Colour scale ─────────────────────────────────────────────────
+            InspectorSection("SPL colour scale") {
+                SectionLabel("Scale")
+                SegmentedControl(
+                    options = SceneViewModel.SPL_SCALE_MODES,
+                    selected = splScaleMode,
+                    onSelect = { vm.setSplScaleMode(it) },
+                    label = {
+                        when (it) {
+                            SceneViewModel.SPL_SCALE_TARGET -> "Target ± span"
+                            SceneViewModel.SPL_SCALE_FIXED -> "Fixed window"
+                            else -> "Auto"
+                        }
+                    }
+                )
+                when (splScaleMode) {
+                    SceneViewModel.SPL_SCALE_TARGET -> {
+                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                            NumericField(
+                                "Target", splTarget, { vm.setSplTargetDb(it) },
+                                Modifier.weight(1f), unit = "dB", range = 40f..140f, dragStep = 0.5f
+                            )
+                            NumericField(
+                                "Span ±", splSpan, { vm.setSplSpanDb(it) },
+                                Modifier.weight(1f), unit = "dB", range = 1f..40f, dragStep = 0.5f
+                            )
+                        }
+                        Text(
+                            "Ramp spans ${"%.1f".format(splTarget - splSpan)} to " +
+                                "${"%.1f".format(splTarget + splSpan)} dB. Mid-ramp is on target.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    SceneViewModel.SPL_SCALE_FIXED -> {
+                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                            NumericField(
+                                "Minimum", splFixedMin, { vm.setSplFixedMinDb(it) },
+                                Modifier.weight(1f), unit = "dB", range = 0f..160f, dragStep = 1f
+                            )
+                            NumericField(
+                                "Maximum", splFixedMax, { vm.setSplFixedMaxDb(it) },
+                                Modifier.weight(1f), unit = "dB", range = 1f..161f, dragStep = 1f
+                            )
+                        }
+                    }
+                    else -> {
+                        Text(
+                            "Colours rescale to each calculation, so they cannot be " +
+                                "compared between runs. Pick an absolute scale to hold " +
+                                "the ramp still.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
             }
 
             // ── Placement ────────────────────────────────────────────────────

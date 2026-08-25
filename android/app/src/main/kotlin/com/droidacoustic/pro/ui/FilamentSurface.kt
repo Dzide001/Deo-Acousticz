@@ -78,6 +78,9 @@ fun FilamentSurface(
     speakers   : List<PlacedSpeaker> = emptyList(),
     speakerModelPackages: List<SpeakerModelPackage> = emptyList(),
     heatmap    : List<HeatCell> = emptyList(),
+    // Null keeps the old behaviour: scale to whatever the cells contain.
+    splScaleMinDb: Float? = null,
+    splScaleMaxDb: Float? = null,
     listener   : ListenerPos? = null,
     onSpeakerMeshStatsChanged: (loaded: Int, total: Int) -> Unit = { _, _ -> },
     pickTargets: List<PickTarget> = emptyList(),
@@ -105,7 +108,7 @@ fun FilamentSurface(
     }
     LaunchedEffect(audience) { ctx.updateAudience(audience) }
     LaunchedEffect(speakers, speakerModelPackages) { ctx.updateSpeakers(speakers, speakerModelPackages) }
-    LaunchedEffect(heatmap) { ctx.updateHeatmap(heatmap) }
+    LaunchedEffect(heatmap, splScaleMinDb, splScaleMaxDb) { ctx.updateHeatmap(heatmap, splScaleMinDb, splScaleMaxDb) }
     LaunchedEffect(listener) { ctx.updateListener(listener) }
     DisposableEffect(Unit) { onDispose { ctx.destroy() } }
 
@@ -462,11 +465,13 @@ class FilamentContext(private val context: Context) {
     }
 
     /** Swap heatmap bars whenever the computed SPL grid changes. */
-    fun updateHeatmap(cells: List<HeatCell>) {
+    fun updateHeatmap(cells: List<HeatCell>, minDb: Float? = null, maxDb: Float? = null) {
         heatmapAsset?.let { destroyAsset(it) }
         heatmapAsset = null
         val renderCells = flattenHeatmapCellsForRender(cells)
-        val data = HeatmapGlb.build(renderCells) ?: return
+        val lo = minDb ?: renderCells.minOfOrNull { it.splDb } ?: return
+        val hi = maxDb ?: renderCells.maxOfOrNull { it.splDb } ?: return
+        val data = HeatmapGlb.build(renderCells, lo, hi) ?: return
         heatmapAsset = assetLoader.createAsset(ByteBuffer.wrap(data))?.also { asset ->
             resourceLoader.loadResources(asset)
             asset.releaseSourceData()

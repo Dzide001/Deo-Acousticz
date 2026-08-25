@@ -266,6 +266,33 @@ class SceneViewModel : ViewModel() {
         private const val AREA_MIN_POLYGON_AREA_M2 = 0.25f
         val SUPPORTED_BANDS_HZ = listOf(63, 125, 250, 500, 1000, 2000, 4000, 8000)
         val ANALYSIS_PROFILES = listOf("Fast", "Balanced", "Precision")
+
+        const val SPL_SCALE_AUTO = "AUTO"
+        const val SPL_SCALE_TARGET = "TARGET"
+        const val SPL_SCALE_FIXED = "FIXED"
+        val SPL_SCALE_MODES = listOf(SPL_SCALE_AUTO, SPL_SCALE_TARGET, SPL_SCALE_FIXED)
+
+        /**
+         * The dB window the colour ramp spans. Pure, and takes every input as a
+         * parameter, so a composable can call it on values it collected as state
+         * and actually recompose when the scale changes.
+         */
+        fun splScaleWindow(
+            mode: String,
+            targetDb: Float,
+            spanDb: Float,
+            fixedMinDb: Float,
+            fixedMaxDb: Float,
+            cells: List<HeatCell>
+        ): Pair<Float, Float> = when (mode) {
+            SPL_SCALE_TARGET -> (targetDb - spanDb) to (targetDb + spanDb)
+            SPL_SCALE_FIXED -> fixedMinDb to fixedMaxDb
+            else -> {
+                val lo = cells.minOfOrNull { it.splDb } ?: 70f
+                val hi = cells.maxOfOrNull { it.splDb } ?: 100f
+                if (hi - lo < 0.1f) lo to (lo + 0.1f) else lo to hi
+            }
+        }
         val ZONE_TYPES = listOf("AUDIENCE_SEATED", "AUDIENCE_STANDING", "STAGE", "OBSTACLE", "WALL")
         val VENUE_BLOCK_TYPES = listOf("STAGE", "SEATING_BANK", "BALCONY", "OBSTACLE", "WALL")
         val SOURCE_ROLES = listOf("MAINS", "SUBS", "SURROUND", "DELAYS", "FRONTFILL", "OUTFILL")
@@ -486,6 +513,26 @@ class SceneViewModel : ViewModel() {
 
     private val _signalSplEnabled = MutableStateFlow(true)
     val signalSplEnabled: StateFlow<Boolean> = _signalSplEnabled.asStateFlow()
+
+    // ─── SPL colour scale ─────────────────────────────────────────────────────
+    // AUTO rescales the ramp to whatever the current calculation happened to
+    // produce, so red means "loudest cell in this run" and nothing more - two
+    // designs cannot be compared, and you cannot read "within 6 dB of target"
+    // off the map. TARGET and FIXED pin the ramp to absolute dB instead.
+    private val _splScaleMode = MutableStateFlow(SPL_SCALE_AUTO)
+    val splScaleMode: StateFlow<String> = _splScaleMode.asStateFlow()
+
+    private val _splTargetDb = MutableStateFlow(95f)
+    val splTargetDb: StateFlow<Float> = _splTargetDb.asStateFlow()
+
+    private val _splSpanDb = MutableStateFlow(6f)
+    val splSpanDb: StateFlow<Float> = _splSpanDb.asStateFlow()
+
+    private val _splFixedMinDb = MutableStateFlow(70f)
+    val splFixedMinDb: StateFlow<Float> = _splFixedMinDb.asStateFlow()
+
+    private val _splFixedMaxDb = MutableStateFlow(105f)
+    val splFixedMaxDb: StateFlow<Float> = _splFixedMaxDb.asStateFlow()
 
     private val _signalDispersionEnabled = MutableStateFlow(true)
     val signalDispersionEnabled: StateFlow<Boolean> = _signalDispersionEnabled.asStateFlow()
@@ -1939,6 +1986,11 @@ class SceneViewModel : ViewModel() {
         root.put("signalResolution", _signalResolution.value)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
         root.put("signalAutoCalculate", _signalAutoCalculate.value)
+        root.put("splScaleMode", _splScaleMode.value)
+        root.put("splTargetDb", _splTargetDb.value.toDouble())
+        root.put("splSpanDb", _splSpanDb.value.toDouble())
+        root.put("splFixedMinDb", _splFixedMinDb.value.toDouble())
+        root.put("splFixedMaxDb", _splFixedMaxDb.value.toDouble())
         root.put("signalSplEnabled", _signalSplEnabled.value)
         root.put("signalDispersionEnabled", _signalDispersionEnabled.value)
         root.put("signalCoverageEnabled", _signalCoverageEnabled.value)
@@ -2308,6 +2360,11 @@ class SceneViewModel : ViewModel() {
         root.put("signalResolution", _signalResolution.value)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
         root.put("signalAutoCalculate", _signalAutoCalculate.value)
+        root.put("splScaleMode", _splScaleMode.value)
+        root.put("splTargetDb", _splTargetDb.value.toDouble())
+        root.put("splSpanDb", _splSpanDb.value.toDouble())
+        root.put("splFixedMinDb", _splFixedMinDb.value.toDouble())
+        root.put("splFixedMaxDb", _splFixedMaxDb.value.toDouble())
         root.put("signalSplEnabled", _signalSplEnabled.value)
         root.put("signalDispersionEnabled", _signalDispersionEnabled.value)
         root.put("signalCoverageEnabled", _signalCoverageEnabled.value)
@@ -2447,6 +2504,11 @@ class SceneViewModel : ViewModel() {
             _signalResolution.value = root.optInt("signalResolution", _signalResolution.value).coerceIn(3, 96)
             _signalInterferenceEnabled.value = root.optBoolean("signalInterferenceEnabled", _signalInterferenceEnabled.value)
             _signalAutoCalculate.value = root.optBoolean("signalAutoCalculate", _signalAutoCalculate.value)
+            setSplScaleMode(root.optString("splScaleMode", _splScaleMode.value))
+            setSplTargetDb(root.optDouble("splTargetDb", _splTargetDb.value.toDouble()).toFloat())
+            setSplSpanDb(root.optDouble("splSpanDb", _splSpanDb.value.toDouble()).toFloat())
+            setSplFixedMinDb(root.optDouble("splFixedMinDb", _splFixedMinDb.value.toDouble()).toFloat())
+            setSplFixedMaxDb(root.optDouble("splFixedMaxDb", _splFixedMaxDb.value.toDouble()).toFloat())
             _signalSplEnabled.value = root.optBoolean("signalSplEnabled", _signalSplEnabled.value)
             _signalDispersionEnabled.value = root.optBoolean("signalDispersionEnabled", _signalDispersionEnabled.value)
             _signalCoverageEnabled.value = root.optBoolean("signalCoverageEnabled", _signalCoverageEnabled.value)
@@ -2697,6 +2759,59 @@ class SceneViewModel : ViewModel() {
         _signalInterferenceEnabled.value = enabled
         recomputeSignalIfNeeded()
     }
+
+    // Checkpointed like the other scene settings, so a scale change is undoable
+    // and lands in the recovery snapshot.
+    fun setSplScaleMode(mode: String) {
+        if (mode !in SPL_SCALE_MODES || _splScaleMode.value == mode) return
+        pushUndoCheckpoint()
+        _splScaleMode.value = mode
+    }
+
+    fun setSplTargetDb(db: Float) {
+        val v = db.coerceIn(40f, 140f)
+        if (_splTargetDb.value == v) return
+        pushUndoCheckpoint()
+        _splTargetDb.value = v
+    }
+
+    fun setSplSpanDb(db: Float) {
+        val v = db.coerceIn(1f, 40f)
+        if (_splSpanDb.value == v) return
+        pushUndoCheckpoint()
+        _splSpanDb.value = v
+    }
+
+    fun setSplFixedMinDb(db: Float) {
+        val lo = db.coerceIn(0f, 160f)
+        if (_splFixedMinDb.value == lo) return
+        pushUndoCheckpoint()
+        _splFixedMinDb.value = lo
+        if (_splFixedMaxDb.value < lo + 1f) _splFixedMaxDb.value = lo + 1f
+    }
+
+    fun setSplFixedMaxDb(db: Float) {
+        val hi = db.coerceIn(1f, 161f)
+        if (_splFixedMaxDb.value == hi) return
+        pushUndoCheckpoint()
+        _splFixedMaxDb.value = hi
+        if (_splFixedMinDb.value > hi - 1f) _splFixedMinDb.value = hi - 1f
+    }
+
+    /**
+     * The dB window the colour ramp spans, for the current scale mode. The mesh
+     * and the legend both read it, so the key on screen always describes the map
+     * it sits next to. AUTO falls back to the data, which is why it is the only
+     * mode that needs the cells at all.
+     */
+    fun resolveSplScale(cells: List<HeatCell>): Pair<Float, Float> = splScaleWindow(
+        _splScaleMode.value,
+        _splTargetDb.value,
+        _splSpanDb.value,
+        _splFixedMinDb.value,
+        _splFixedMaxDb.value,
+        cells
+    )
 
     fun setSignalAutoCalculate(enabled: Boolean) {
         if (_signalAutoCalculate.value == enabled) return

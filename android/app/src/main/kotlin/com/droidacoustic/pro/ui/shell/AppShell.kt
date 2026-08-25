@@ -137,6 +137,14 @@ fun AppShell(activity: MainActivity) {
 
     LaunchedEffect(Unit) { vm.initEngine(activity.assets) }
 
+    // One window, read by both the mesh and the legend beside it. Collected as
+    // state rather than read off the flows, so changing the scale recomposes.
+    val splScaleMode by vm.splScaleMode.collectAsState()
+    val splTarget by vm.splTargetDb.collectAsState()
+    val splSpan by vm.splSpanDb.collectAsState()
+    val splFixedMin by vm.splFixedMinDb.collectAsState()
+    val splFixedMax by vm.splFixedMaxDb.collectAsState()
+
     // ── Autosave and recovery ────────────────────────────────────────────────
     //
     // The old shell wrote a recovery snapshot after every change; dropping it
@@ -151,7 +159,10 @@ fun AppShell(activity: MainActivity) {
             withContext(Dispatchers.Default) { vm.importSceneJson(it) }
         }
     }
-    LaunchedEffect(speakers, zones, venue, dspMap, listener, band) {
+    LaunchedEffect(
+        speakers, zones, venue, dspMap, listener, band,
+        splScaleMode, splTarget, splSpan, splFixedMin, splFixedMax
+    ) {
         delay(1200)
         // includeClfRegistry MUST stay false here. The registry holds the
         // decoded polar data for every speaker in the library; serialising it
@@ -169,8 +180,9 @@ fun AppShell(activity: MainActivity) {
         }
     }
 
-    val splMin = heatmap.minOfOrNull { it.splDb } ?: 70f
-    val splMax = heatmap.maxOfOrNull { it.splDb } ?: 100f
+    val (splMin, splMax) = SceneViewModel.splScaleWindow(
+        splScaleMode, splTarget, splSpan, splFixedMin, splFixedMax, heatmap
+    )
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
@@ -225,6 +237,8 @@ fun AppShell(activity: MainActivity) {
                             speakers = speakers,
                             speakerModelPackages = modelPackages,
                             heatmap = heatmap,
+                            splScaleMinDb = splMin,
+                            splScaleMaxDb = splMax,
                             listener = listener,
                             // Speakers are selectable by a true 3D ray test; a
                             // floor-plane hit test cannot reach a flown cabinet.
