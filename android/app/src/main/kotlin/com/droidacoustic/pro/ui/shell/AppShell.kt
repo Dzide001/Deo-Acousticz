@@ -1,5 +1,6 @@
 package com.droidacoustic.pro.ui.shell
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -50,10 +51,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.droidacoustic.pro.MainActivity
 import com.droidacoustic.pro.scene.SceneViewModel
 import com.droidacoustic.pro.ui.FilamentSurface
+import com.droidacoustic.pro.ui.PickTarget
 import com.droidacoustic.pro.ui.ViewPreset
 import com.droidacoustic.pro.ui.components.StatusChip
 import com.droidacoustic.pro.ui.theme.Instrument
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
 // =============================================================================
@@ -87,6 +92,9 @@ enum class Tool(val label: String, val icon: ImageVector, val hint: String) {
 }
 
 private val BANDS = listOf(63, 125, 250, 500, 1000, 2000, 4000, 8000)
+
+private const val PREFS_NAME = "droidacoustic_project"
+private val RECOVERY_KEY = "scene_recovery_latest_v${SceneViewModel.SCENE_SCHEMA_VERSION}"
 
 @Composable
 fun AppShell(activity: MainActivity) {
@@ -125,8 +133,41 @@ fun AppShell(activity: MainActivity) {
     val signalType by vm.signalType.collectAsState()
     val bandwidthOct by vm.signalBandwidthOct.collectAsState()
     val interference by vm.signalInterferenceEnabled.collectAsState()
+    val autoCalc by vm.signalAutoCalculate.collectAsState()
 
     LaunchedEffect(Unit) { vm.initEngine(activity.assets) }
+
+    // ── Autosave and recovery ────────────────────────────────────────────────
+    //
+    // The old shell wrote a recovery snapshot after every change; dropping it
+    // in the rewrite would have meant losing the scene whenever the process
+    // was killed. Restore once on launch, then write debounced.
+    LaunchedEffect(Unit) {
+        val json = withContext(Dispatchers.IO) {
+            activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .getString(RECOVERY_KEY, null)
+        }
+        json?.takeIf { it.isNotBlank() }?.let {
+            withContext(Dispatchers.Default) { vm.importSceneJson(it) }
+        }
+    }
+    LaunchedEffect(speakers, zones, venue, dspMap, listener, band) {
+        delay(1200)
+        // includeClfRegistry MUST stay false here. The registry holds the
+        // decoded polar data for every speaker in the library; serialising it
+        // on every edit — and parsing it back at launch — blocks the main
+        // thread long enough for the system to kill the app for not
+        // responding. Recovery only needs the scene.
+        val json = withContext(Dispatchers.Default) {
+            vm.exportSceneJson(includeClfRegistry = false)
+        }
+        withContext(Dispatchers.IO) {
+            activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putString(RECOVERY_KEY, json)
+                .apply()
+        }
+    }
 
     val splMin = heatmap.minOfOrNull { it.splDb } ?: 70f
     val splMax = heatmap.maxOfOrNull { it.splDb } ?: 100f
@@ -142,6 +183,12 @@ fun AppShell(activity: MainActivity) {
                 canRedo = canRedo,
                 speakerCount = speakers.size,
                 zoneCount = zones.size,
+                autoCalc = autoCalc,
+                hasResult = heatmap.isNotEmpty(),
+                onCalculate = {
+                    vm.recalculateSignal()
+                    scope.launch { snackbar.showSnackbar("Calculating coverage…") }
+                },
                 onUndo = {
                     if (!vm.undoScene()) scope.launch { snackbar.showSnackbar("Nothing to undo") }
                 },
@@ -179,6 +226,14 @@ fun AppShell(activity: MainActivity) {
                             speakerModelPackages = modelPackages,
                             heatmap = heatmap,
                             listener = listener,
+                            // Speakers are selectable by a true 3D ray test; a
+                            // floor-plane hit test cannot reach a flown cabinet.
+                            pickTargets = if (tool == Tool.SELECT) {
+                                speakers.map {
+                                    PickTarget(it.id, it.x, it.heightM, it.z, radius = 0.7f)
+                                }
+                            } else emptyList(),
+                            onPickTarget = { id -> selection = Selection.Speaker(id) },
                             onFloorTap = { x, z ->
                                 when (tool) {
                                     Tool.SELECT -> selection = nearestSelection(x, z, vm, speakers, zones, venue)
@@ -301,6 +356,9 @@ private fun TopBar(
     canRedo: Boolean,
     speakerCount: Int,
     zoneCount: Int,
+    autoCalc: Boolean,
+    hasResult: Boolean,
+    onCalculate: () -> Unit,
     onUndo: () -> Unit,
     onRedo: () -> Unit,
     onSettings: () -> Unit
@@ -327,6 +385,30 @@ private fun TopBar(
         StatusChip("$zoneCount zones", Instrument.InkDim)
 
         Spacer(Modifier.weight(1f))
+
+        if (!autoCalc) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .heightIn(min = 36.dp)
+                    .background(
+                        if (hasResult) MaterialTheme.colorScheme.surfaceVariant
+                        else MaterialTheme.colorScheme.primary,
+                        RoundedCornerShape(4.dp)
+                    )
+                    .clickable(onClick = onCalculate)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
+                Text(
+                    if (hasResult) "Recalculate" else "Calculate",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = if (hasResult) MaterialTheme.colorScheme.onSurfaceVariant
+                    else MaterialTheme.colorScheme.onPrimary,
+                    softWrap = false
+                )
+            }
+            Spacer(Modifier.width(10.dp))
+        }
 
         IconAction(Icons.AutoMirrored.Filled.Undo, "Undo", canUndo, onUndo)
         IconAction(Icons.AutoMirrored.Filled.Redo, "Redo", canRedo, onRedo)

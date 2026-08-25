@@ -53,6 +53,15 @@ enum class ViewPreset(val label: String) {
     PERSPECTIVE("3D")
 }
 
+/** A tappable object in world space. [radius] is its approximate half-extent. */
+data class PickTarget(
+    val id: Int,
+    val x: Float,
+    val y: Float,
+    val z: Float,
+    val radius: Float = 0.6f
+)
+
 @Composable
 fun FilamentSurface(
     modifier   : Modifier = Modifier,
@@ -71,6 +80,8 @@ fun FilamentSurface(
     heatmap    : List<HeatCell> = emptyList(),
     listener   : ListenerPos? = null,
     onSpeakerMeshStatsChanged: (loaded: Int, total: Int) -> Unit = { _, _ -> },
+    pickTargets: List<PickTarget> = emptyList(),
+    onPickTarget: (id: Int) -> Unit = { },
     onFloorTap : (x: Float, z: Float) -> Unit = { _, _ -> }
 ) {
     val context = LocalContext.current
@@ -78,6 +89,8 @@ fun FilamentSurface(
 
     ctx.onFloorTap = onFloorTap                      // refresh on each recompose
     ctx.onSpeakerMeshStatsChanged = onSpeakerMeshStatsChanged
+    ctx.pickTargets = pickTargets
+    ctx.onPickTarget = onPickTarget
     LaunchedEffect(venueGeometry) { ctx.updateVenueGeometry(venueGeometry) }
     LaunchedEffect(viewPreset, frameAllToken) { ctx.setViewPreset(viewPreset, venueGeometry) }
     LaunchedEffect(audienceAreas, areaDraft, activeZoneType, activeZoneBaseHeightM, activeZoneRakeDeg, activeZoneRakeDirectionDeg) {
@@ -144,6 +157,12 @@ class FilamentContext(private val context: Context) {
     // ── Public callback set by composable each recomposition ──────────────────
     var onFloorTap: (Float, Float) -> Unit = { _, _ -> }
     var onSpeakerMeshStatsChanged: (Int, Int) -> Unit = { _, _ -> }
+
+    /** Objects a tap can select, in world space. */
+    var pickTargets: List<PickTarget> = emptyList()
+
+    /** Called instead of [onFloorTap] when a tap lands on a pick target. */
+    var onPickTarget: (Int) -> Unit = { }
 
     // ── Camera orbit controller ───────────────────────────────────────────────
     //
@@ -523,17 +542,25 @@ class FilamentContext(private val context: Context) {
         // Single tap → ray cast to floor → place speaker
         gestureDetector = GestureDetector(context,
             object : GestureDetector.SimpleOnGestureListener() {
-                private fun handleTap(e: MotionEvent): Boolean {
-                    rayFloorIntersect(e.x, e.y)?.let { (wx, wz) -> onFloorTap(wx, wz) }
-                    return true
-                }
-
+                // Exactly ONE tap callback may be wired here.
+                //
+                // GestureDetector fires onSingleTapUp the moment a finger
+                // lifts, and then fires onSingleTapConfirmed again roughly
+                // 300 ms later once it knows no second tap is coming. Both
+                // were previously routed to the same handler, so every single
+                // tap placed two speakers stacked at the same coordinate —
+                // visible as one marker but counted twice.
+                //
+                // onSingleTapUp is the one kept: placement should feel
+                // immediate, and nothing here handles double taps.
                 override fun onSingleTapUp(e: MotionEvent): Boolean {
-                    return handleTap(e)
-                }
-
-                override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                    return handleTap(e)
+                    val hit = pickTarget(e.x, e.y)
+                    if (hit != null) {
+                        onPickTarget(hit)
+                    } else {
+                        rayFloorIntersect(e.x, e.y)?.let { (wx, wz) -> onFloorTap(wx, wz) }
+                    }
+                    return true
                 }
             })
 
@@ -622,6 +649,71 @@ class FilamentContext(private val context: Context) {
      * Unprojects a screen tap to the Y=0 world plane via perspective ray casting.
      * Returns (worldX, worldZ) or null if the ray misses the floor or grid bounds.
      */
+    /** Camera-space ray through a screen point: origin + normalised direction. */
+    private fun screenRay(sx: Float, sy: Float): DoubleArray? {
+        val W = viewportW.toDouble(); val H = viewportH.toDouble()
+        if (W <= 0 || H <= 0) return null
+        val ndcX = 2.0 * sx / W - 1.0
+        val ndcY = 1.0 - 2.0 * sy / H
+
+        val ex = eyeArr[0].toDouble(); val ey = eyeArr[1].toDouble(); val ez = eyeArr[2].toDouble()
+        val tx = targetArr[0].toDouble(); val ty = targetArr[1].toDouble(); val tz = targetArr[2].toDouble()
+        val ux = upArr[0].toDouble(); val uy = upArr[1].toDouble(); val uz = upArr[2].toDouble()
+
+        var fX = tx - ex; var fY = ty - ey; var fZ = tz - ez
+        val fL = sqrt(fX * fX + fY * fY + fZ * fZ); if (fL < 1e-9) return null
+        fX /= fL; fY /= fL; fZ /= fL
+
+        var rX = fY * uz - fZ * uy; var rY = fZ * ux - fX * uz; var rZ = fX * uy - fY * ux
+        val rL = sqrt(rX * rX + rY * rY + rZ * rZ); if (rL < 1e-9) return null
+        rX /= rL; rY /= rL; rZ /= rL
+
+        val aX = rY * fZ - rZ * fY; val aY = rZ * fX - rX * fZ; val aZ = rX * fY - rY * fX
+
+        val th = tan(fovDegrees * PI / 360.0); val asp = W / H
+        val dX = ndcX * th * asp * rX + ndcY * th * aX + fX
+        val dY = ndcX * th * asp * rY + ndcY * th * aY + fY
+        val dZ = ndcX * th * asp * rZ + ndcY * th * aZ + fZ
+        val dL = sqrt(dX * dX + dY * dY + dZ * dZ); if (dL < 1e-9) return null
+
+        return doubleArrayOf(ex, ey, ez, dX / dL, dY / dL, dZ / dL)
+    }
+
+    /**
+     * Nearest pick target under a screen point, or null.
+     *
+     * A floor-plane hit test cannot select anything mounted above the floor:
+     * in perspective, the ray through a flown cabinet lands on the floor well
+     * beyond the position that cabinet actually occupies. This tests the ray
+     * against each target's 3D position instead.
+     */
+    private fun pickTarget(sx: Float, sy: Float): Int? {
+        if (pickTargets.isEmpty()) return null
+        val ray = screenRay(sx, sy) ?: return null
+        val ox = ray[0]; val oy = ray[1]; val oz = ray[2]
+        val dx = ray[3]; val dy = ray[4]; val dz = ray[5]
+
+        var bestId: Int? = null
+        var bestT = Double.MAX_VALUE
+
+        pickTargets.forEach { t ->
+            val vx = t.x - ox; val vy = t.y - oy; val vz = t.z - oz
+            val along = vx * dx + vy * dy + vz * dz       // projection onto ray
+            if (along <= 0) return@forEach                 // behind the camera
+            val cx = vx - along * dx
+            val cy = vy - along * dy
+            val cz = vz - along * dz
+            val perp = sqrt(cx * cx + cy * cy + cz * cz)   // distance to ray
+            // Scale tolerance with distance so far-away boxes stay tappable.
+            val tolerance = t.radius + along * 0.02
+            if (perp <= tolerance && along < bestT) {
+                bestT = along
+                bestId = t.id
+            }
+        }
+        return bestId
+    }
+
     private fun rayFloorIntersect(sx: Float, sy: Float): Pair<Float, Float>? {
         val W = viewportW.toDouble(); val H = viewportH.toDouble()
         if (W <= 0 || H <= 0) return null

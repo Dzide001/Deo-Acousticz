@@ -47,12 +47,19 @@ fun AnalysisStrip(
     onToggle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val levels = heatmap.map { it.splDb }
+    // "Avg audience" must mean the audience. When zones exist the engine also
+    // samples a default grid across the whole floor, and including those cells
+    // drags the average below the worst zone's own average — which reads as a
+    // contradiction on screen. Score the zones when there are any.
+    val zoneCells = heatmap.filter { it.sourceAreaId != null }
+    val scored = if (zoneCells.isNotEmpty()) zoneCells else heatmap
+
+    val levels = scored.map { it.splDb }
     val avg = levels.average().takeIf { levels.isNotEmpty() }?.toFloat()
     val dev = if (levels.size > 1 && avg != null) {
         sqrt(levels.map { (it - avg) * (it - avg) }.average()).toFloat()
     } else null
-    val worst = heatmap
+    val worst = scored
         .filter { it.sourceAreaName != null }
         .groupBy { it.sourceAreaName!! }
         .minByOrNull { (_, cells) -> cells.map { it.splDb }.average() }
@@ -67,9 +74,9 @@ fun AnalysisStrip(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 46.dp)
+                .heightIn(min = 62.dp)
                 .clickable(onClick = onToggle)
-                .padding(horizontal = 14.dp, vertical = 6.dp),
+                .padding(horizontal = 14.dp, vertical = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(26.dp)
         ) {
             Metric("Avg audience", avg?.let { "%.1f".format(it) } ?: "—", "dB")
