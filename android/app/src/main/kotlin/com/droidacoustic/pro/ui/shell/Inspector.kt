@@ -199,14 +199,25 @@ private fun SpeakerInspector(vm: SceneViewModel, spk: PlacedSpeaker, dsp: Speake
 
     InspectorSection("Aim") {
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            // "Mechanical" is rigging vocabulary; this is the box's vertical tilt,
+            // and people scanning the panel for tilt did not recognise it. Range
+            // matches what setSpeakerArrayAim actually enforces - the field used to
+            // offer +/-90 and silently clamp to +/-30.
             NumericField(
-                "Mechanical", spk.arrayAimDeg, { vm.setSpeakerArrayAim(spk.id, it) },
-                Modifier.weight(1f), unit = "°", range = -90f..90f, dragStep = 0.5f
-            )
-            NumericField(
-                "Steering", spk.arraySteerDeg, { vm.setSpeakerArraySteer(spk.id, it) },
+                "Tilt", spk.arrayAimDeg, { vm.setSpeakerArrayAim(spk.id, it) },
                 Modifier.weight(1f), unit = "°", range = -30f..30f, dragStep = 0.5f
             )
+            // Electronic steering only exists across a multi-element array. On a
+            // single box the summation path never reads it, so the control moved
+            // behind the same guard as spacing and splay.
+            if (spk.arrayElements > 1) {
+                NumericField(
+                    "Steering", spk.arraySteerDeg, { vm.setSpeakerArraySteer(spk.id, it) },
+                    Modifier.weight(1f), unit = "°", range = -30f..30f, dragStep = 0.5f
+                )
+            } else {
+                Box(Modifier.weight(1f))
+            }
         }
     }
 
