@@ -76,6 +76,7 @@ fun Inspector(
     zones: List<AudienceArea>,
     venue: VenueGeometry,
     dspMap: Map<Int, SpeakerDsp>,
+    tool: Tool,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -120,6 +121,10 @@ fun Inspector(
                 zone != null -> ZoneInspector(vm, zone)
                 block != null -> BlockInspector(vm, block)
                 selection is Selection.Listener -> ListenerInspector(vm)
+                // With a placement tool active and nothing selected, the
+                // inspector describes what is about to be placed.
+                tool == Tool.SPEAKER -> SpeakerPickerInspector(vm)
+                tool == Tool.ZONE -> ZonePickerInspector(vm)
                 else -> VenueInspector(vm, venue)
             }
         }
@@ -460,6 +465,142 @@ private fun ListenerInspector(vm: SceneViewModel) {
                 }
             }
         }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Placement pickers
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Chooses which loudspeaker the next floor tap will place.
+ *
+ * Cascading brand → series → model, because the bundled library runs to
+ * hundreds of boxes across seven manufacturers and a flat list is unusable on
+ * a touch screen.
+ */
+@Composable
+private fun SpeakerPickerInspector(vm: SceneViewModel) {
+    val presets = vm.speakerPresets.collectAsStateValue()
+    val selectedId = vm.selectedPresetId.collectAsStateValue()
+    val selected = presets.firstOrNull { it.id == selectedId }
+
+    if (presets.isEmpty()) {
+        Text(
+            "No speaker presets loaded. Open Settings and load the bundled catalogue.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        return
+    }
+
+    val brands = presets.map { it.brand }.distinct().sorted()
+    val brand = selected?.brand ?: brands.first()
+    val seriesList = presets.filter { it.brand == brand }.map { it.series }.distinct().sorted()
+    val series = selected?.series?.takeIf { seriesList.contains(it) } ?: seriesList.first()
+    val models = presets.filter { it.brand == brand && it.series == series }.sortedBy { it.name }
+
+    InspectorSection("Speaker to place") {
+        SectionLabel("Brand")
+        SegmentedControl(
+            options = brands,
+            selected = brand,
+            onSelect = { b ->
+                presets.firstOrNull { it.brand == b }?.let { vm.setSpeakerPreset(it.id) }
+            },
+            label = { it }
+        )
+        SectionLabel("Series")
+        SegmentedControl(
+            options = seriesList,
+            selected = series,
+            onSelect = { s ->
+                presets.firstOrNull { it.brand == brand && it.series == s }
+                    ?.let { vm.setSpeakerPreset(it.id) }
+            },
+            label = { it }
+        )
+        SectionLabel("Model")
+        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            models.forEach { p ->
+                val isSel = p.id == selectedId
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .background(
+                            if (isSel) MaterialTheme.colorScheme.primaryContainer
+                            else MaterialTheme.colorScheme.surfaceVariant,
+                            RoundedCornerShape(4.dp)
+                        )
+                        .clickable { vm.setSpeakerPreset(p.id) }
+                        .padding(horizontal = 10.dp, vertical = 9.dp)
+                ) {
+                    Column {
+                        Text(
+                            p.name,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = if (isSel) MaterialTheme.colorScheme.onPrimaryContainer
+                            else MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            "%.0f dB @1m · %d element%s".format(
+                                p.sensitivityDb,
+                                p.arrayElements,
+                                if (p.arrayElements == 1) "" else "s"
+                            ),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    if (selected != null) {
+        InspectorSection("Selected") {
+            Readout("Model", selected.name)
+            Readout("Sensitivity", "%.1f dB SPL @ 1 W / 1 m".format(selected.sensitivityDb))
+            Readout("Default height", "%.2f m".format(selected.heightM))
+        }
+    }
+}
+
+/** Zone type and rake for the zone about to be drawn. */
+@Composable
+private fun ZonePickerInspector(vm: SceneViewModel) {
+    val zoneType = vm.activeZoneType.collectAsStateValue()
+    val baseHeight = vm.activeZoneBaseHeightM.collectAsStateValue()
+    val rake = vm.activeZoneRakeDeg.collectAsStateValue()
+    val rakeDir = vm.activeZoneRakeDirectionDeg.collectAsStateValue()
+
+    InspectorSection("Zone to draw") {
+        SectionLabel("Type")
+        SegmentedControl(
+            options = ZONE_TYPES.map { it.first },
+            selected = zoneType,
+            onSelect = { vm.setActiveZoneType(it) },
+            label = { key -> ZONE_TYPES.first { it.first == key }.second }
+        )
+        NumericField(
+            "Base height", baseHeight, { vm.setActiveZoneBaseHeight(it) },
+            unit = "m", range = -5f..30f, decimals = 2, dragStep = 0.05f
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            NumericField(
+                "Rake", rake, { vm.setActiveZoneRakeDeg(it) },
+                Modifier.weight(1f), unit = "°", range = 0f..45f, dragStep = 0.5f
+            )
+            NumericField(
+                "Rake dir", rakeDir, { vm.setActiveZoneRakeDirectionDeg(it) },
+                Modifier.weight(1f), unit = "°", range = 0f..360f, dragStep = 1f
+            )
+        }
+        Text(
+            "Tap the floor to add corners. Close the shape from the buttons above the viewport.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 

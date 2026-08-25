@@ -272,6 +272,7 @@ fun AppShell(activity: MainActivity) {
                     zones = zones,
                     venue = venue,
                     dspMap = dspMap,
+                    tool = tool,
                     modifier = Modifier.width(320.dp)
                 )
             }
