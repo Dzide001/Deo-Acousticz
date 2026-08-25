@@ -128,6 +128,9 @@ dependencies {
     // ─── Testing ─────────────────────────────────────────────────────────────
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
+    // android.jar's org.json is a throwing stub; the persistence layer is built
+    // on JSONObject, so unit tests need a real implementation on the classpath.
+    testImplementation(libs.org.json)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)
     androidTestImplementation(platform(libs.compose.bom))

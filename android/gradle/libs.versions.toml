@@ -22,6 +22,7 @@ protobuf-plugin     = "0.9.4"
 
 # ─── Testing ───────────────────────────────────────────────────────────────────
 junit               = "4.13.2"
+org-json            = "20240303"
 junit-ext           = "1.2.1"
 espresso            = "3.6.1"
 
@@ -51,6 +52,7 @@ kotlinx-coroutines-test         = { group = "org.jetbrains.kotlinx",  name = "ko
 
 # ─── Testing ───────────────────────────────────────────────────────────────────
 junit                           = { group = "junit",                  name = "junit",                    version.ref = "junit"          }
+org-json                        = { group = "org.json",               name = "json",                     version.ref = "org-json"       }
 androidx-junit                  = { group = "androidx.test.ext",      name = "junit",                    version.ref = "junit-ext"      }
 androidx-espresso               = { group = "androidx.test.espresso", name = "espresso-core",            version.ref = "espresso"       }
 compose-ui-test-junit4          = { group = "androidx.compose.ui",    name = "ui-test-junit4"                                           }
