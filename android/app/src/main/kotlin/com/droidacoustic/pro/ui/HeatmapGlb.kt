@@ -250,7 +250,16 @@ object HeatmapGlb {
     // mesh used to carry its own fully-saturated blue→red ramp that matched
     // nothing else on screen.
     private val RAMP: List<Triple<Float, Float, Float>> =
-        Instrument.Spl.map { Triple(it.red, it.green, it.blue) }
+        Instrument.Spl.map { Triple(toLinear(it.red), toLinear(it.green), toLinear(it.blue)) }
+
+    /**
+     * glTF COLOR_0 is defined in linear space, but Compose hands back sRGB-encoded
+     * components. Passing those straight through lifts every mid-tone toward white,
+     * which is why the field used to render noticeably paler than the legend drawn
+     * from the very same colours.
+     */
+    private fun toLinear(c: Float): Float =
+        if (c <= 0.04045f) c / 12.92f else ((c + 0.055f) / 1.055f).toDouble().pow(2.4).toFloat()
 
     private fun heatRgb(t: Float): Triple<Float, Float, Float> {
         val scaled = t.coerceIn(0f, 1f) * (RAMP.size - 1)
