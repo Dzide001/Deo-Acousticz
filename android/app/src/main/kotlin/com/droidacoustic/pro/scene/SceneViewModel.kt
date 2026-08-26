@@ -3566,7 +3566,7 @@ class SceneViewModel : ViewModel() {
         return best
     }
 
-    private fun isLineOfSightBlocked(
+    internal fun isLineOfSightBlocked(
         sx: Float,
         sy: Float,
         sz: Float,
@@ -3593,7 +3593,7 @@ class SceneViewModel : ViewModel() {
         val clearanceToTopM: Float
     )
 
-    private fun estimateObstructionAttenuationDb(
+    internal fun estimateObstructionAttenuationDb(
         sx: Float,
         sy: Float,
         sz: Float,
@@ -4350,10 +4350,29 @@ class SceneViewModel : ViewModel() {
         val avg = heat.map { it.splDb }.average().toFloat()
         val dev = kotlin.math.sqrt(heat.map { (it.splDb - avg) * (it.splDb - avg) }.average().toFloat()).coerceAtLeast(0f)
 
-        val levelScore = ((avg - 58f) / 22f).coerceIn(0f, 1f)
-        val uniformityScore = (1f - dev / 10f).coerceIn(0f, 1f)
+        _stiEstimate.value = intelligibilityScore(avg, dev, rt.rt60S)
+    }
+
+    /**
+     * Heuristic legibility score from coverage level, coverage evenness and RT60.
+     *
+     * This is NOT IEC 60268-16 STI, despite the field name it is stored under.
+     * Real STI is measured from the modulation transfer function - how much of a
+     * modulated test signal's envelope survives the room - across seven octave
+     * bands and fourteen modulation frequencies. Nothing here modulates anything.
+     * What this returns is a weighted opinion: 45% "is it loud enough", 25% "is it
+     * even", 30% "is the reverb near 0.9 s". The weights and the 0.9 s target are
+     * chosen, not derived.
+     *
+     * The %ALcons conversion below is the genuine Farrell-Becker relation, but it
+     * is only meaningful when applied to a real STI value. Fed this score, it
+     * inherits the score's arbitrariness and merely restates it on another scale.
+     */
+    internal fun intelligibilityScore(avgDb: Float, devDb: Float, rt60S: Float): StiEstimate {
+        val levelScore = ((avgDb - 58f) / 22f).coerceIn(0f, 1f)
+        val uniformityScore = (1f - devDb / 10f).coerceIn(0f, 1f)
         val rtTarget = 0.9f
-        val rtPenalty = (kotlin.math.abs(rt.rt60S - rtTarget) / 1.6f).coerceIn(0f, 1f)
+        val rtPenalty = (kotlin.math.abs(rt60S - rtTarget) / 1.6f).coerceIn(0f, 1f)
         val rtScore = (1f - rtPenalty).coerceIn(0f, 1f)
 
         val sti = (0.45f * levelScore + 0.25f * uniformityScore + 0.30f * rtScore).coerceIn(0f, 1f)
@@ -4365,7 +4384,7 @@ class SceneViewModel : ViewModel() {
             else -> "Bad"
         }
         val alcons = (170f * kotlin.math.exp((-5.4f * sti).toDouble()).toFloat()).coerceIn(0f, 100f)
-        _stiEstimate.value = StiEstimate(sti = sti, quality = quality, alconsPct = alcons)
+        return StiEstimate(sti = sti, quality = quality, alconsPct = alcons)
     }
 
     internal data class CoherentContribution(
@@ -4379,7 +4398,7 @@ class SceneViewModel : ViewModel() {
      * Phase 8 — single-element SPL (geometric spreading + atmospheric loss + DSP).
      * Building block for both point sources and individual array elements.
      */
-    private fun elementSplDb(sensitivity: Float, dsp: SpeakerDsp, distanceM: Float): Float {
+    internal fun elementSplDb(sensitivity: Float, dsp: SpeakerDsp, distanceM: Float): Float {
         val geo    = 20f * log10(distanceM.toDouble()).toFloat()
         val air    = atmosphericLossDb(distanceM, _selectedBandHz.value, _temperatureC.value, _humidityPct.value)
         val eqGain = dsp.eqBands[_selectedBandHz.value] ?: 0f
@@ -4628,7 +4647,7 @@ class SceneViewModel : ViewModel() {
         return kotlin.math.abs(d)
     }
 
-    private fun floorBoundaryInterferenceDb(
+    internal fun floorBoundaryInterferenceDb(
         srcX: Float,
         srcY: Float,
         srcZ: Float,
