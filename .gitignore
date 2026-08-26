@@ -43,10 +43,13 @@ android/app/.cxx/
 *.apk
 *.aab
 
-# ─── Bundled manufacturer CLF library (430 MB) ────────────────────────────────
-# Deliberately not tracked. These are third-party manufacturer data files that
-# cannot ship inside the app anyway (Play base-delivery limit) and are slated to
-# move to an on-demand catalogue service. Kept locally at
-#   android/app/src/main/assets/clf/raw/
-# The index (sources.json) and the speaker catalogue ARE tracked.
+# ─── Manufacturer CLF corpus (430 MB) ─────────────────────────────────────────
+# Third-party manufacturer measurement data. Not tracked, and deliberately NOT
+# under assets/ - anything in assets/ is packaged into the APK, and bundling
+# this put the debug build at 317 MB against Play's 150 MB base limit. It is
+# also someone else's data to redistribute, which is not ours to do.
+# Kept locally at corpus/clf/ as a development and test fixture only.
+# The checksummed index (inventory.json) and sources.json ARE tracked, so a
+# corpus can be restored and verified file by file.
+corpus/
 android/app/src/main/assets/clf/raw/

@@ -1530,7 +1530,53 @@ class SceneViewModel : ViewModel() {
      * Accepts common key/value lines, e.g.:
      * ModelName=My Box, Sensitivity=99, Height=1.6, ArrayElements=1, ElementSpacing=0.2
      */
+    /**
+     * Import a CLF TAB document - the published text half of the format.
+     *
+     * This is the supported route for real measured directivity: the user
+     * supplies a file they hold, it is parsed on the device, and nothing
+     * third-party is redistributed. Falls back to the older `key=value` sketch
+     * for anything that is not a TAB document, so existing simple imports keep
+     * working.
+     */
+    fun importClfTabText(text: String, speakerId: String = ""): Boolean {
+        return runCatching {
+            val speaker = ClfTabParser.parse(text, speakerId)
+            if (speaker.bands.isEmpty()) throw IllegalArgumentException("CLF file contains no bands")
+
+            speaker.bands.firstNotNullOfOrNull { ClfTabParser.balloonIntegrityError(it) }?.let {
+                throw IllegalArgumentException("CLF balloon failed its consistency check - $it")
+            }
+
+            val data = ClfTabParser.toClfData(speaker)
+            _clfRegistry.value = _clfRegistry.value + (data.speakerId to data)
+            _clfSourceStatus.value = _clfSourceStatus.value + (data.speakerId to "TAB")
+
+            val name = speaker.model.ifBlank { data.speakerId }
+            if (_speakerPresets.value.none { it.id == data.speakerId }) {
+                _speakerPresets.value = _speakerPresets.value + SpeakerPreset(
+                    id = data.speakerId,
+                    name = name,
+                    sensitivityDb = speaker.sensitivityDb?.coerceIn(80f, 130f) ?: 100f,
+                    heightM = 1.8f,
+                    brand = speaker.manufacturer.ifBlank { "Other" },
+                    series = "CLF",
+                    model = name
+                )
+            }
+            _selectedPresetId.value = data.speakerId
+            _lastImportError.value = null
+            recalculate(); refreshHeatmap()
+        }.onFailure {
+            _lastImportError.value = it.message ?: "Invalid CLF TAB file"
+        }.isSuccess
+    }
+
     fun importClfText(text: String): Boolean {
+        // A real CLF TAB document announces itself on the first line.
+        if (text.lineSequence().any { it.trimStart().startsWith("<CLF") }) {
+            return importClfTabText(text)
+        }
         return runCatching {
             val lines = text.lineSequence().map { it.trim() }.filter { it.isNotEmpty() && !it.startsWith("#") }.toList()
             if (lines.isEmpty()) throw IllegalArgumentException("Empty CLF text")

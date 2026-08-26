@@ -33,7 +33,7 @@ THIRD_OCTAVE = [25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400,
 CF2_AZ, CF2_EL, CF2_BANDS = 72, 37, 30
 
 DEFAULT_ROOT = os.path.join(os.path.dirname(__file__), "..", "..",
-                            "android", "app", "src", "main", "assets", "clf", "raw")
+                            "corpus", "clf")
 
 
 def read_tab(path):
@@ -116,7 +116,7 @@ def main():
 
     if not os.path.exists(cf2):
         sys.exit("corpus not found at %s\n"
-                 "assets/clf/raw is gitignored; restore it from inventory.json." % root)
+                 "corpus/clf is gitignored; restore it from inventory.json." % root)
 
     print("reference file: %s" % os.path.relpath(cf2, root))
     with open(cf2, "rb") as fh:
