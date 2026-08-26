@@ -18,9 +18,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.droidacoustic.pro.MainActivity
@@ -57,6 +66,47 @@ fun SettingsSheet(
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
+    // ── CLF file import ──────────────────────────────────────────────────────
+    // The app ships no manufacturer measurements; the user brings their own
+    // file. TAB is the published text half of the format, so this path needs no
+    // reverse engineering and redistributes nothing.
+    val scope = rememberCoroutineScope()
+    var importing by remember { mutableStateOf(false) }
+    val clfPicker = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+        importing = true
+        scope.launch {
+            val outcome = withContext(Dispatchers.IO) {
+                runCatching {
+                    val bytes = activity.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+                        ?: throw java.io.IOException("Could not open the selected file")
+                    if (bytes.size > MAX_CLF_BYTES) {
+                        throw java.io.IOException(
+                            "File is ${bytes.size / 1_000_000} MB; the limit is " +
+                                "${MAX_CLF_BYTES / 1_000_000} MB"
+                        )
+                    }
+                    // CLF TAB files are Latin-1, and manufacturer names carry
+                    // accented characters that UTF-8 decoding would mangle.
+                    String(bytes, Charsets.ISO_8859_1)
+                }
+            }
+            importing = false
+            outcome.onSuccess { text ->
+                if (looksBinary(text)) {
+                    onMessage("That looks like a CF1/CF2 binary. Import the .tab text file instead.")
+                } else if (vm.importClfTabText(text)) {
+                    val name = vm.speakerPresets.value.lastOrNull()?.name ?: "speaker"
+                    onMessage("Imported measured directivity for $name")
+                } else {
+                    onMessage(vm.lastImportError.value ?: "Could not read that CLF file")
+                }
+            }.onFailure { onMessage(it.message ?: "Could not read that file") }
+        }
+    }
+
     val signalLevel by vm.signalLevelDbu.collectAsState()
     val signalType by vm.signalType.collectAsState()
     val bandwidthOct by vm.signalBandwidthOct.collectAsState()
@@ -77,6 +127,7 @@ fun SettingsSheet(
     val profile by vm.analysisProfile.collectAsState()
     val reflectionOrder by vm.reflectionOrder.collectAsState()
     val clfStats by vm.clfIngestionStats.collectAsState()
+    val clfRegistry by vm.clfRegistry.collectAsState()
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -311,17 +362,33 @@ fun SettingsSheet(
                     "${clfStats.indexedSpeakers}"
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Readout("Measured", "${clfStats.extractedBinarySpeakers}", Modifier.weight(1f))
+                    // Imported counts anything in the registry carrying real
+                    // polar data, which is what a user's own CLF file produces.
+                    Readout(
+                        "Imported",
+                        "${clfRegistry.count { it.value.patterns.isNotEmpty() }}",
+                        Modifier.weight(1f)
+                    )
                     Readout("Inferred", "${clfStats.inferredBinarySpeakers}", Modifier.weight(1f))
                     Readout("Pending", "${clfStats.pendingBinarySpeakers}", Modifier.weight(1f))
                 }
                 Text(
                     "\"Inferred\" means the polar pattern was synthesized from the " +
-                        "model name, not decoded from the CLF file. Those predictions " +
-                        "are indicative only.",
+                        "model name, not measured. Those predictions are indicative " +
+                        "only. Import a CLF .tab file to replace one with real data.",
                     style = MaterialTheme.typography.bodySmall,
                     color = Instrument.Caution
                 )
+                SmallAction(
+                    if (importing) "Reading CLF file..." else "Import CLF file (.tab)",
+                    Modifier.fillMaxWidth()
+                ) {
+                    if (!importing) {
+                        // No reliable MIME type for .tab, so accept anything and
+                        // validate by content.
+                        clfPicker.launch(arrayOf("*/*"))
+                    }
+                }
                 SmallAction("Load bundled catalogue", Modifier.fillMaxWidth()) {
                     val r = vm.loadBundledIndustryCatalog()
                     onMessage(
@@ -397,3 +464,13 @@ private fun copyToClipboard(context: Context, label: String, text: String) {
     val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     cm.setPrimaryClip(ClipData.newPlainText(label, text))
 }
+
+/** CLF TAB files run to a few hundred KB; anything far larger is not one. */
+private const val MAX_CLF_BYTES = 32 * 1024 * 1024
+
+/**
+ * Catch the common mistake of picking a CF1/CF2 binary instead of the .tab
+ * text, so the user gets a fixable message rather than a parse error.
+ */
+private fun looksBinary(text: String): Boolean =
+    text.take(512).any { it == '\u0000' }
