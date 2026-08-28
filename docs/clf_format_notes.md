@@ -163,32 +163,32 @@ out, taken from a single file where the string happened to start there.
   horizontal pattern is the only case where getting it wrong would show.
 - **`<BALLOON-SYMMETRY>`** turned out not to matter for the binary. It affects
   how the TAB stores arcs; every CF2 file examined carries all 72.
-- **CF1** (magic `0x000ABD40`, ten files) is not decoded, and this was a
-  decision rather than an omission.
+- **CF1 is decoded.** It was unblocked by more samples, not by a spec. Four
+  files from two further manufacturers made the invariant visible: the same
+  grid and the same offset recurring across files that share nothing else.
 
-  CF1 shares CF2's string table exactly - version, model, manufacturer,
-  description and the rest all read correctly out of both - so the files are
-  identifiable, and the reader names the loudspeaker when it refuses one.
+  CF1 differs from CF2 in three ways, and the third is what hid it:
 
-  The balloon is another matter. A CF1 file holds about 9,000 floats, and the
-  declared band range at `0x1210` reads `(2, 8)`, which is 125 Hz to 8 kHz in
-  the ten-band octave table - exactly what CLF1 should carry. But no
-  combination of grid, orientation and offset satisfies the pole geometry that
-  identifies a CF2 balloon unambiguously. Blocks that look like directivity
-  (values floored at -50 dB, peaks near 0) sit near the tail, but every
-  alignment leaves the poles disagreeing by 1 to 14 dB where CF2 gives 0.00.
+  | | CF2 | CF1 |
+  |---|---|---|
+  | Magic | `0x000ABD41` | `0x000ABD40` |
+  | Grid | 72 x 37, 5 deg | 36 x 19, 10 deg |
+  | Bands | 30 third octaves | 10 octaves |
+  | Storage | **all 30 slots**, unused ones zero or NaN | **only the declared bands**, packed |
+  | Balloon offset | `0x3798` | `0x23a8`, sometimes `0x2e58` |
 
-  What settles it is that **there is no ground truth for CF1 in this corpus**.
-  The only TAB file is `CLF2_XD12.tab`, which is CF2. Every CF2 claim in this
-  document could be checked against published text; nothing about CF1 can be.
-  Shipping a guessed layout would put fabricated directivity into predictions
-  under the banner of measured data, which is the exact failure this whole
-  effort exists to remove. The ten files are five Martin Audio ceiling models
-  duplicated across two directories, so the cost of refusing them is small and
-  the cost of getting them silently wrong is not.
+  Reading a CF1 as though it held all ten slots is why every alignment failed.
+  Once only `MAXBAND - MINBAND + 1` bands are expected, all 14 CF1 files in the
+  corpus land on a pole-exact fit, the same test that identifies a CF2 balloon.
 
-  What would unblock it: a CF1 file with a matching published TAB, from any
-  manufacturer.
+  The two offsets differ by exactly one band (36 x 19 floats), so the reader
+  tries both and then scans.
+
+  Still no published TAB exists for any CF1 file, so unlike CF2 this cannot be
+  checked against text the manufacturer released. What stands behind it is the
+  pole geometry - all 36 arcs agreeing to 0.0000 at both poles, across every
+  band of every file - which is the same evidence that located the CF2 balloon
+  before the TAB confirmed it.
 - **`<BALLOON-ARC-ORDER>`** is `<reversed>` in the XD12 TAB, yet the binary
   matches in direct order. The flag is presumably normalised at encode time, but
   this has been confirmed on exactly one file.

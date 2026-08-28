@@ -33,7 +33,7 @@ import kotlinx.coroutines.withContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.droidacoustic.pro.MainActivity
-import com.droidacoustic.pro.scene.ClfCf2Reader
+import com.droidacoustic.pro.scene.ClfBinaryReader
 import com.droidacoustic.pro.scene.SceneViewModel
 import com.droidacoustic.pro.ui.components.InspectorSection
 import com.droidacoustic.pro.ui.components.IntStepper
@@ -489,5 +489,5 @@ private fun isClfBinary(bytes: ByteArray): Boolean {
         ((bytes[1].toInt() and 0xFF) shl 8) or
         ((bytes[2].toInt() and 0xFF) shl 16) or
         ((bytes[3].toInt() and 0xFF) shl 24)
-    return magic == ClfCf2Reader.MAGIC_CF2 || magic == ClfCf2Reader.MAGIC_CF1
+    return magic == ClfBinaryReader.MAGIC_CF2 || magic == ClfBinaryReader.MAGIC_CF1
 }

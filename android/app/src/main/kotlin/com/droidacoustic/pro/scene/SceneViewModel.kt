@@ -1593,7 +1593,7 @@ class SceneViewModel : ViewModel() {
 
     /** Import a CF2 binary the user supplied. */
     fun importClfBinary(bytes: ByteArray, speakerId: String = ""): Boolean =
-        importClfSpeaker(speakerId) { ClfCf2Reader.parse(bytes, it) }
+        importClfSpeaker(speakerId) { ClfBinaryReader.parse(bytes, it) }
 
     private fun importClfSpeaker(
         speakerId: String,

@@ -5,7 +5,7 @@ import java.nio.ByteOrder
 import kotlin.math.abs
 
 /**
- * Reader for the CF2 binary distribution format.
+ * Reader for the CF1 and CF2 binary distribution formats.
  *
  * CF2 is the closed half of the Common Loudspeaker Format: the CLF Group
  * publishes the TAB text definition but not this one. The layout below was
@@ -37,16 +37,42 @@ import kotlin.math.abs
  * so it is positional. It sits at `0x3798` in all 669 CF2 files of the corpus,
  * and [findBalloon] falls back to a scan rather than assuming it.
  */
-object ClfCf2Reader {
+object ClfBinaryReader {
 
     const val MAGIC_CF2 = 0x000ABD41
     const val MAGIC_CF1 = 0x000ABD40
 
-    private const val ARCS = 72          // azimuths about the axis, 5 degrees apart
-    private const val SAMPLES = 37       // polar angles 0..180, 5 degrees apart
-    private const val BANDS = 30         // third octaves, 25 Hz to 20 kHz
-    private const val PER_BAND = ARCS * SAMPLES
-    private const val TOTAL = PER_BAND * BANDS
+    /**
+     * What separates the two formats, beyond the grid: CF2 lays out all 30
+     * third-octave slots and leaves the ones outside MIN/MAXBAND as zeros or
+     * NaN, while CF1 stores only the declared bands back to back. Reading a CF1
+     * as though it held all ten is what made it look undecodable.
+     */
+    private data class Layout(
+        val arcs: Int,
+        val samples: Int,
+        val resolutionDeg: Int,
+        val slots: Int,
+        val bandTable: List<Int>,
+        val storesEverySlot: Boolean,
+        val usualOffsets: List<Int>
+    ) {
+        val perBand: Int get() = arcs * samples
+    }
+
+    private val CF2 = Layout(
+        arcs = 72, samples = 37, resolutionDeg = 5, slots = 30,
+        bandTable = ClfTabParser.THIRD_OCTAVE_HZ,
+        storesEverySlot = true,
+        usualOffsets = listOf(0x3798)
+    )
+
+    private val CF1 = Layout(
+        arcs = 36, samples = 19, resolutionDeg = 10, slots = 10,
+        bandTable = ClfTabParser.OCTAVE_HZ,
+        storesEverySlot = false,
+        usualOffsets = listOf(0x23a8, 0x2e58)
+    )
 
     private const val OFF_VERSION = 0x0014
     private const val OFF_MODEL = 0x0138
@@ -69,48 +95,46 @@ object ClfCf2Reader {
         // otherwise be turned away as "too small" instead of being named.
         if (bytes.size < 8) throw ParseException("too small to be a CLF file (${bytes.size} bytes)")
         val buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN)
-        when (val magic = buf.getInt(0)) {
-            MAGIC_CF2 -> Unit
-            MAGIC_CF1 -> throw ParseException(
-                "${describe(bytes)} is a CF1 file. Its directivity layout has not " +
-                    "been worked out, so it is refused rather than guessed at. " +
-                    "Import the .tab text for this speaker if the manufacturer " +
-                    "publishes one."
-            )
-            else -> throw ParseException(
-                "not a CLF binary: magic 0x%08X".format(magic)
-            )
-        }
-
-        if (bytes.size < TOTAL * 4) {
-            throw ParseException("too small to be a CF2 file (${bytes.size} bytes)")
+        val layout = when (val magic = buf.getInt(0)) {
+            MAGIC_CF2 -> CF2
+            MAGIC_CF1 -> CF1
+            else -> throw ParseException("not a CLF binary: magic 0x%08X".format(magic))
         }
 
         val lo = buf.getInt(OFF_BAND_RANGE)
         val hi = buf.getInt(OFF_BAND_RANGE + 4)
-        if (lo < 0 || hi <= lo || hi > BANDS - 1) {
-            throw ParseException("band range $lo..$hi is not usable")
+        if (lo < 0 || hi <= lo || hi > layout.slots - 1) {
+            throw ParseException("${describe(bytes)}: band range $lo..$hi is not usable")
         }
 
-        val offset = findBalloon(buf, bytes.size, lo, hi)
+        val storedBands = if (layout.storesEverySlot) layout.slots else hi - lo + 1
+        val payload = storedBands * layout.perBand * 4
+        if (bytes.size < payload) {
+            throw ParseException("too small to hold its balloon (${bytes.size} bytes)")
+        }
+
+        val offset = findBalloon(buf, bytes.size, layout, lo, hi, storedBands)
             ?: throw ParseException(
-                "could not find the directivity balloon - the file may be a " +
-                    "variant this reader has not seen"
+                "${describe(bytes)}: could not find the directivity balloon - " +
+                    "the file may be a variant this reader has not seen"
             )
 
         val bands = (lo..hi).mapNotNull { slot ->
-            val arcs = readBand(buf, offset, slot)
-            if (arcs == null) null
-            else ClfTabParser.Band(
-                frequencyHz = ClfTabParser.THIRD_OCTAVE_HZ[slot],
-                attenuationDb = arcs,
-                resolutionDeg = 5
-            )
+            // CF2 indexes the slot directly; CF1 packs the declared bands from
+            // the start, so the same band sits at a different place in the block.
+            val stored = if (layout.storesEverySlot) slot else slot - lo
+            readBand(buf, offset, layout, stored)?.let { arcs ->
+                ClfTabParser.Band(
+                    frequencyHz = layout.bandTable[slot],
+                    attenuationDb = arcs,
+                    resolutionDeg = layout.resolutionDeg
+                )
+            }
         }
         if (bands.isEmpty()) throw ParseException("no usable bands in $lo..$hi")
 
-        val axial = (0 until BANDS).map { buf.getFloat(OFF_AXIAL + it * 4) }
-        val sensitivity = (lo..hi).map { axial[it] }
+        val sensitivity = (lo..hi)
+            .map { buf.getFloat(OFF_AXIAL + it * 4) }
             .filter { it.isFinite() && it > 0f }
             .takeIf { it.isNotEmpty() }?.average()?.toFloat()
 
@@ -120,12 +144,12 @@ object ClfCf2Reader {
             manufacturer = readString(bytes, OFF_MANUFACTURER),
             model = model,
             description = readString(bytes, OFF_DESCRIPTION),
-            resolutionDeg = 5,
+            resolutionDeg = layout.resolutionDeg,
             sensitivityDb = sensitivity,
             maxInputW = null,
             bands = bands,
             tags = mapOf(
-                "<FORMAT>" to listOf("CF2"),
+                "<FORMAT>" to listOf(if (layout === CF2) "CF2" else "CF1"),
                 "<VERSION>" to listOf(readString(bytes, OFF_VERSION))
             )
         )
@@ -143,10 +167,17 @@ object ClfCf2Reader {
      * right and leaves up and down alone - so a box with an asymmetric
      * horizontal pattern is the only case where getting it wrong would show.
      */
-    private fun readBand(buf: ByteBuffer, offset: Int, slot: Int): Array<FloatArray>? {
-        val base = offset + slot * PER_BAND * 4
-        val arcs = Array(ARCS) { arc ->
-            FloatArray(SAMPLES) { s -> buf.getFloat(base + (arc * SAMPLES + s) * 4) }
+    private fun readBand(
+        buf: ByteBuffer,
+        offset: Int,
+        layout: Layout,
+        stored: Int
+    ): Array<FloatArray>? {
+        val base = offset + stored * layout.perBand * 4
+        val arcs = Array(layout.arcs) { arc ->
+            FloatArray(layout.samples) { s ->
+                buf.getFloat(base + (arc * layout.samples + s) * 4)
+            }
         }
         if (arcs.any { row -> row.any { !it.isFinite() } }) return null
         return (listOf(arcs[0]) + arcs.drop(1).reversed()).toTypedArray()
@@ -161,22 +192,33 @@ object ClfCf2Reader {
      * balloon from the other float arrays in the file, and it caught two
      * plausible-looking false positives while this was being worked out.
      */
-    private fun findBalloon(buf: ByteBuffer, size: Int, lo: Int, hi: Int): Int? {
-        if (USUAL_BALLOON + TOTAL * 4 <= size &&
-            isBalloon(buf, USUAL_BALLOON, lo, hi, requireShape = false)
-        ) {
-            return USUAL_BALLOON
+    private fun findBalloon(
+        buf: ByteBuffer,
+        size: Int,
+        layout: Layout,
+        lo: Int,
+        hi: Int,
+        storedBands: Int
+    ): Int? {
+        val payload = storedBands * layout.perBand * 4
+        layout.usualOffsets.forEach { candidate ->
+            if (candidate + payload <= size &&
+                isBalloon(buf, candidate, layout, lo, hi, storedBands, requireShape = false)
+            ) {
+                return candidate
+            }
         }
-        val lastOffset = size - TOTAL * 4
+        val lastOffset = size - payload
+        val lastStored = if (layout.storesEverySlot) hi else storedBands - 1
+        val poleStride = lastStored * layout.perBand * 4
         var offset = 0x100
-        val poleStride = hi * PER_BAND * 4
         while (offset <= lastOffset) {
             // Cheap gate before the full check: the first two arcs of the last
-            // used band have to agree about the on-axis direction.
+            // band have to agree about the on-axis direction.
             val a = buf.getFloat(offset + poleStride)
-            val b = buf.getFloat(offset + poleStride + SAMPLES * 4)
+            val b = buf.getFloat(offset + poleStride + layout.samples * 4)
             if (a.isFinite() && b.isFinite() && abs(a - b) <= POLE_TOL &&
-                isBalloon(buf, offset, lo, hi, requireShape = true)
+                isBalloon(buf, offset, layout, lo, hi, storedBands, requireShape = true)
             ) {
                 return offset
             }
@@ -188,26 +230,29 @@ object ClfCf2Reader {
     private fun isBalloon(
         buf: ByteBuffer,
         offset: Int,
+        layout: Layout,
         lo: Int,
         hi: Int,
+        storedBands: Int,
         requireShape: Boolean
     ): Boolean {
         var min = Float.MAX_VALUE
         var max = -Float.MAX_VALUE
-        for (slot in lo..hi) {
-            val base = offset + slot * PER_BAND * 4
+        val range = if (layout.storesEverySlot) lo..hi else 0 until storedBands
+        for (stored in range) {
+            val base = offset + stored * layout.perBand * 4
             var frontLo = Float.MAX_VALUE; var frontHi = -Float.MAX_VALUE
             var rearLo = Float.MAX_VALUE; var rearHi = -Float.MAX_VALUE
             var flat = true
             var first = Float.NaN
-            for (arc in 0 until ARCS) {
-                val rowBase = base + arc * SAMPLES * 4
+            for (arc in 0 until layout.arcs) {
+                val rowBase = base + arc * layout.samples * 4
                 val front = buf.getFloat(rowBase)
-                val rear = buf.getFloat(rowBase + (SAMPLES - 1) * 4)
+                val rear = buf.getFloat(rowBase + (layout.samples - 1) * 4)
                 if (!front.isFinite() || !rear.isFinite()) return false
                 frontLo = minOf(frontLo, front); frontHi = maxOf(frontHi, front)
                 rearLo = minOf(rearLo, rear); rearHi = maxOf(rearHi, rear)
-                for (s in 0 until SAMPLES) {
+                for (s in 0 until layout.samples) {
                     val v = buf.getFloat(rowBase + s * 4)
                     if (!v.isFinite()) return false
                     if (v < -200f || v > 80f) return false
