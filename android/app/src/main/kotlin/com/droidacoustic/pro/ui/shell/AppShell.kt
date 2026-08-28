@@ -201,6 +201,7 @@ fun AppShell(activity: MainActivity) {
     )
 
     val contourMode by vm.contourMode.collectAsState()
+    val weighting by vm.weighting.collectAsState()
     // Iso-levels sit below a reference: the design target where one is set,
     // otherwise the 95th percentile. Recomputed with the map, not with the frame.
     val contourReference = remember(heatmap, contourMode, splMin, splMax) {
@@ -328,7 +329,17 @@ fun AppShell(activity: MainActivity) {
                                 summation = if (interference) "complex sum" else "energy sum",
                                 bandwidth = if (signalType == "BAND") {
                                     "1/${(1f / bandwidthOct).toInt().coerceAtLeast(1)} oct"
-                                } else "spectrum",
+                                } else {
+                                    // The weighting has to travel with the number.
+                                    // A dB(A) map that does not say it is A-weighted
+                                    // is a figure waiting to be quoted as if it were
+                                    // unweighted.
+                                    when (weighting) {
+                                        SceneViewModel.WEIGHTING_A -> "broadband dB(A)"
+                                        SceneViewModel.WEIGHTING_C -> "broadband dB(C)"
+                                        else -> "broadband"
+                                    }
+                                },
                                 temperatureC = temperatureC,
                                 humidityPct = humidityPct
                             )
