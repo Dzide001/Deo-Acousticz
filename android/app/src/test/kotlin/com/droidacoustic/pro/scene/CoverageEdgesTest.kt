@@ -70,6 +70,9 @@ class CoverageEdgesTest {
         assertTrue("should be reported as measured", e.measured)
         assertEquals(30f, e.upDeg, 1.5f)
         assertEquals(30f, e.downDeg, 1.5f)
+        // The fixture depends only on polar angle, so all four edges agree.
+        assertEquals(30f, e.leftDeg, 1.5f)
+        assertEquals(30f, e.rightDeg, 1.5f)
     }
 
     @Test
@@ -107,6 +110,8 @@ class CoverageEdgesTest {
         val e = v.coverageEdgesFor(placedFrom(v))
         assertEquals(90f, e.upDeg, 0.01f)
         assertEquals(90f, e.downDeg, 0.01f)
+        assertEquals(90f, e.leftDeg, 0.01f)
+        assertEquals(90f, e.rightDeg, 0.01f)
     }
 
     @Test
@@ -148,6 +153,11 @@ class CoverageEdgesTest {
         assertFalse("nothing was imported, so this is not measured", e.measured)
         assertEquals(35f, e.upDeg, 0.01f)
         assertEquals(e.upDeg, e.downDeg, 0.01f)
+        // horizontalDirectivityAttenuationDb puts a point source's -6 dB point
+        // at 60 degrees, and a box is wider across than it is tall.
+        assertEquals(60f, e.leftDeg, 0.01f)
+        assertEquals(60f, e.rightDeg, 0.01f)
+        assertTrue("horizontal should be wider than vertical", e.leftDeg > e.upDeg)
     }
 
     @Test
@@ -192,5 +202,80 @@ class CoverageEdgesTest {
         assertTrue("up ${e.upDeg} / down ${e.downDeg} should differ", e.downDeg > e.upDeg + 5f)
         assertTrue("up edge ${e.upDeg} out of range", e.upDeg in 5f..20f)
         assertTrue("down edge ${e.downDeg} out of range", e.downDeg in 15f..35f)
+    }
+
+    // ── Horizontal ───────────────────────────────────────────────────────────
+
+    @Test
+    fun `a box narrow across and wide up-down reports it that way round`() {
+        // phi 0 and 180 are the vertical plane, 90 and 270 the horizontal one.
+        // The floor has to be shallow enough that BOTH directions reach it by
+        // the rear pole, or the poles disagree and the import rejects the file.
+        // The wide direction only gets to -19.6 dB at 180 degrees, so -18 it is.
+        val doc = tab("Tall") { theta, phi ->
+            val vertical = phi <= 45 || phi >= 315 || phi in 136..224
+            val edge = if (vertical) 55.0 else 15.0
+            maxOf(-6.0 * theta / edge, -18.0)
+        }
+        val v = vmWith(doc)
+        val e = v.coverageEdgesFor(placedFrom(v))
+        assertTrue("measured", e.measured)
+        assertEquals(15f, e.leftDeg, 2f)
+        assertEquals(15f, e.rightDeg, 2f)
+        assertTrue("vertical (${e.upDeg}) should be wider than horizontal (${e.leftDeg})",
+                   e.upDeg > e.leftDeg + 20f)
+    }
+
+    @Test
+    fun `the horizontal edges follow the band selector too`() {
+        val doc = buildString {
+            appendLine("<CLF2>")
+            appendLine("<MODELNAME>\tHorizNarrowing")
+            appendLine("<SENSITIVITY>\t100.0")
+            appendLine("<BALLOON-SYMMETRY>\t<none>")
+            appendLine("<BALLOON-ARC-ORDER>\t<normal>")
+            SceneViewModel.SUPPORTED_BANDS_HZ.forEach { hz ->
+                appendLine("<BAND>\t$hz")
+                val edge = if (hz <= 250) 75.0 else 20.0
+                (0 until 72).forEach { _ ->
+                    appendLine((0..36).joinToString("\t") { t ->
+                        "%.2f".format(maxOf(-6.0 * (t * 5) / edge, -25.0))
+                    })
+                }
+            }
+        }
+        val low = vmWith(doc, band = 125).let { it.coverageEdgesFor(placedFrom(it)) }
+        val high = vmWith(doc, band = 4000).let { it.coverageEdgesFor(placedFrom(it)) }
+        assertTrue("125 Hz (${low.rightDeg}) should be wider than 4 kHz (${high.rightDeg})",
+                   low.rightDeg > high.rightDeg + 30f)
+    }
+
+    @Test
+    fun `an unmeasured array is narrower across than a point source`() {
+        val v = SceneViewModel().apply { setBandHz(1000) }
+        val spk = placedFrom(v)
+        val point = v.coverageEdgesFor(spk.copy(modelPackageId = "point_source", arrayElements = 1))
+        val array = v.coverageEdgesFor(spk.copy(modelPackageId = "line_array", arrayElements = 1))
+        assertEquals(60f, point.leftDeg, 0.01f)
+        assertEquals(45f, array.leftDeg, 0.01f)
+    }
+
+    @Test
+    fun `the published XD12 measures its stated 90 degree horizontal pattern`() {
+        val f = listOf(
+            "../corpus/clf/martin_audio/CLF2_XD12.tab",
+            "../../corpus/clf/martin_audio/CLF2_XD12.tab"
+        ).map(::File).firstOrNull { it.exists() }
+        assumeTrue("corpus not present - third-party data, not in the repo", f != null)
+
+        val v = SceneViewModel().apply { setBandHz(4000) }
+        v.importClfTabText(f!!.readText(Charsets.ISO_8859_1))
+        val e = v.coverageEdgesFor(placedFrom(v))
+        // Martin Audio publish the XD12 as 90 degrees horizontal, so the two
+        // half-angles should add to about that. This is the end-to-end check
+        // that the balloon, the coordinate conversion and the edge search all
+        // agree with the manufacturer's own number.
+        val full = e.leftDeg + e.rightDeg
+        assertTrue("measured horizontal coverage $full deg, expected about 90", full in 75f..105f)
     }
 }

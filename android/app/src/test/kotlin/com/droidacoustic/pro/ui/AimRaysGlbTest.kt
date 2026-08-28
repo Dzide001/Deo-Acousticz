@@ -1,5 +1,6 @@
 package com.droidacoustic.pro.ui
 
+import com.droidacoustic.pro.scene.CoverageEdges
 import com.droidacoustic.pro.scene.PlacedSpeaker
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -57,15 +58,17 @@ class AimRaysGlbTest {
     }
 
     @Test
-    fun `a single box produces an axis and two coverage edges`() {
+    fun `a single box produces an axis, two vertical edges and two horizontal`() {
         val r = rays(AimRaysGlb.build(listOf(box()))!!)
-        assertEquals(3, r.size)
+        assertEquals(5, r.size)
     }
 
     @Test
-    fun `an array produces a set per element`() {
+    fun `an array produces a vertical set per element and one horizontal pair`() {
+        // Splay is vertical, so every element shares one pan. A horizontal pair
+        // per element would stack identical lines on top of each other.
         val r = rays(AimRaysGlb.build(listOf(box(elements = 8)))!!)
-        assertEquals(24, r.size)
+        assertEquals(8 * 3 + 2, r.size)
     }
 
     @Test
@@ -138,7 +141,7 @@ class AimRaysGlbTest {
     fun `many speakers stay within a sane buffer size`() {
         val many = (0 until 40).map { box(x = it.toFloat(), elements = 12) }
         val glb = AimRaysGlb.build(many)!!
-        assertEquals(40 * 12 * 3, rays(glb).size)
+        assertEquals(40 * (12 * 3 + 2), rays(glb).size)
         assertTrue("overlay grew to ${glb.size} bytes", glb.size < 1_000_000)
     }
 
@@ -194,5 +197,80 @@ class AimRaysGlbTest {
     fun `no venue given means no clipping, so old callers are unaffected`() {
         val (_, end) = rays(AimRaysGlb.build(listOf(box(aimDeg = 0f)))!!).first()
         assertTrue("unbounded ray should run to the far limit", end.first > 50f)
+    }
+
+    // ── Horizontal edges ─────────────────────────────────────────────────────
+
+    /** The last two rays of a box are its horizontal pair. */
+    private fun horizontalPair(glb: ByteArray) = rays(glb).takeLast(2)
+
+    @Test
+    fun `the horizontal edges swing out either side of the pan`() {
+        // Pan 0 faces +X, so a symmetric pair must straddle it in Z.
+        val glb = AimRaysGlb.build(
+            listOf(box(heightM = 4f)),
+            edges = mapOf(0 to CoverageEdges(20f, 20f, 45f, 45f, measured = true))
+        )!!
+        val (a, b) = horizontalPair(glb)
+        assertTrue("both should travel forwards", a.second.first > 0f && b.second.first > 0f)
+        assertTrue("they should land on opposite sides", a.second.third * b.second.third < 0f)
+    }
+
+    @Test
+    fun `a wider horizontal pattern spreads the edges further apart`() {
+        fun spread(deg: Float): Float {
+            val glb = AimRaysGlb.build(
+                listOf(box(heightM = 4f)),
+                edges = mapOf(0 to CoverageEdges(20f, 20f, deg, deg, measured = true))
+            )!!
+            val (a, b) = horizontalPair(glb)
+            return kotlin.math.abs(a.second.third - b.second.third)
+        }
+        assertTrue("90 deg should spread wider than 30", spread(45f) > spread(15f))
+    }
+
+    @Test
+    fun `an asymmetric horizontal pattern is not drawn symmetrically`() {
+        val glb = AimRaysGlb.build(
+            listOf(box(heightM = 4f)),
+            edges = mapOf(0 to CoverageEdges(20f, 20f, leftDeg = 10f, rightDeg = 60f, measured = true))
+        )!!
+        val (a, b) = horizontalPair(glb)
+        val nearer = kotlin.math.abs(a.second.third)
+        val further = kotlin.math.abs(b.second.third)
+        assertTrue("the two sides should differ ($nearer vs $further)",
+                   kotlin.math.abs(nearer - further) > 1f)
+    }
+
+    @Test
+    fun `the horizontal pair turns with the box`() {
+        val glb = AimRaysGlb.build(
+            listOf(box(heightM = 4f, panDeg = 90f)),
+            edges = mapOf(0 to CoverageEdges(20f, 20f, 30f, 30f, measured = true))
+        )!!
+        horizontalPair(glb).forEach { (_, end) ->
+            assertTrue("pan 90 should send them down +Z, got ${end.third}", end.third > 0f)
+        }
+    }
+
+    @Test
+    fun `horizontal edges start at the acoustic centre, not at an element`() {
+        val spk = box(heightM = 7f, elements = 6)
+        horizontalPair(AimRaysGlb.build(listOf(spk))!!).forEach { (start, _) ->
+            assertEquals(7f, start.second, 1e-3f)
+        }
+    }
+
+    @Test
+    fun `horizontal edges are clipped to the room like everything else`() {
+        val glb = AimRaysGlb.build(
+            listOf(box(heightM = 4f)),
+            edges = mapOf(0 to CoverageEdges(20f, 20f, 80f, 80f, measured = true)),
+            venueWidthM = 20f, venueDepthM = 20f, venueHeightM = 8f
+        )!!
+        horizontalPair(glb).forEach { (_, end) ->
+            assertTrue("x ${end.first} outside", end.first in -10.1f..10.1f)
+            assertTrue("z ${end.third} outside", end.third in -10.1f..10.1f)
+        }
     }
 }

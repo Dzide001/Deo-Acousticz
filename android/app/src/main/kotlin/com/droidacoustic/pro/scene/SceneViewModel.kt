@@ -165,6 +165,8 @@ data class SpeakerDsp(
 data class CoverageEdges(
     val upDeg: Float,
     val downDeg: Float,
+    val leftDeg: Float,
+    val rightDeg: Float,
     /** True when read off a measured balloon rather than the synthetic model. */
     val measured: Boolean
 )
@@ -4784,30 +4786,43 @@ class SceneViewModel : ViewModel() {
      */
     internal fun coverageEdgesFor(spk: PlacedSpeaker): CoverageEdges {
         clfDataFor(spk)?.let { clf ->
-            val up = minusSixDeg(clf, +1f)
-            val down = minusSixDeg(clf, -1f)
-            if (up != null && down != null) return CoverageEdges(up, down, true)
+            val up = minusSixDeg(clf) { a -> 0f to a }
+            val down = minusSixDeg(clf) { a -> 0f to -a }
+            val right = minusSixDeg(clf) { a -> a to 0f }
+            val left = minusSixDeg(clf) { a -> -a to 0f }
+            if (up != null && down != null && left != null && right != null) {
+                return CoverageEdges(up, down, left, right, measured = true)
+            }
         }
-        val half = syntheticMinusSixDeg(spk)
-        return CoverageEdges(half, half, false)
+        return CoverageEdges(
+            upDeg = syntheticVerticalMinusSixDeg(spk),
+            downDeg = syntheticVerticalMinusSixDeg(spk),
+            leftDeg = syntheticHorizontalMinusSixDeg(spk),
+            rightDeg = syntheticHorizontalMinusSixDeg(spk),
+            measured = false
+        )
     }
 
     /**
-     * Angle off axis at which a measured balloon has fallen 6 dB, searching in
-     * the vertical plane in [direction] (+1 up, -1 down).
+     * Angle off axis at which a measured balloon has fallen 6 dB.
      *
-     * Returns 90 for a pattern that never falls that far - an omnidirectional
+     * [direction] turns a distance from the axis into the azimuth and elevation
+     * to sample, which is what lets the same walk find all four edges - up,
+     * down, left and right - without four copies of it.
+     *
+     * Returns 90 for a pattern that never falls that far: an omnidirectional
      * box has no coverage edge, and pretending otherwise would draw a boundary
      * that is not there.
      */
-    private fun minusSixDeg(clf: ClfData, direction: Float): Float? {
+    private fun minusSixDeg(clf: ClfData, direction: (Float) -> Pair<Float, Float>): Float? {
         val band = _selectedBandHz.value
         val onAxis = clf.splAtDirection(band, 0f, 0f) ?: return null
         var previousAngle = 0f
         var previousRel = 0f
         var angle = 0.5f
         while (angle <= 90f) {
-            val here = clf.splAtDirection(band, 0f, direction * angle) ?: return null
+            val (az, el) = direction(angle)
+            val here = clf.splAtDirection(band, az, el) ?: return null
             val rel = here - onAxis
             if (rel <= -6f) {
                 // Interpolate across the step that crossed the threshold.
@@ -4822,8 +4837,17 @@ class SceneViewModel : ViewModel() {
         return 90f
     }
 
-    /** Where the synthetic model puts its own -6 dB point, so the two agree. */
-    private fun syntheticMinusSixDeg(spk: PlacedSpeaker): Float {
+    /** Where the synthetic horizontal model puts its own -6 dB point. */
+    private fun syntheticHorizontalMinusSixDeg(spk: PlacedSpeaker): Float =
+        // horizontalDirectivityAttenuationDb: 6 * x^2, so -6 dB lands at x = 1.
+        when (spk.modelPackageId) {
+            "line_array" -> 45f
+            "point_source" -> 60f
+            else -> 50f
+        }
+
+    /** Where the synthetic vertical model puts its own -6 dB point, so the two agree. */
+    private fun syntheticVerticalMinusSixDeg(spk: PlacedSpeaker): Float {
         if (spk.arrayElements > 1) {
             // lineArraySplDb: -12 * x^2, so -6 dB lands at x = 1/sqrt(2).
             val freqK = (_selectedBandHz.value.toDouble() / 1000.0).coerceAtLeast(0.063)

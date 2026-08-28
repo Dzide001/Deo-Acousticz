@@ -17,10 +17,15 @@ import kotlin.math.tan
  * from each box out to the floor, which is the question a designer is actually
  * asking: not "which way is it facing" but "what does it cover".
  *
- * Three rays per box: the acoustic axis, bright, and the two vertical coverage
- * edges at the -6 dB angle, dim. For an array every element gets its own set,
- * drawn from its own position and its own aim, so the splay opens as a visible
- * fan - which is the whole reason to look at an array in section.
+ * Per radiating element: the acoustic axis, bright, and the two vertical
+ * coverage edges at the -6 dB angle, dim. For an array every element gets its
+ * own set, drawn from its own position and its own aim, so the splay opens as a
+ * visible fan - which is the whole reason to look at an array in section.
+ *
+ * The horizontal edges are drawn once per box rather than per element, because
+ * splay is vertical: every element in an array shares one pan, so a set per
+ * element would stack the same two lines on top of each other. One pair from
+ * the acoustic centre gives the plan-view wedge instead.
  *
  * glTF LINES (mode 1) with per-vertex colour and an unlit material, same
  * approach as [FloorGridGlb].
@@ -38,7 +43,7 @@ object AimRaysGlb {
     )
 
     /** Used when a caller supplies no edges for a speaker. */
-    private val FALLBACK_EDGES = CoverageEdges(20f, 20f, measured = false)
+    private val FALLBACK_EDGES = CoverageEdges(20f, 20f, 45f, 45f, measured = false)
 
     /**
      * @param edges per-speaker vertical -6 dB angles, keyed by speaker id.
@@ -126,10 +131,19 @@ object AimRaysGlb {
             // arrayAimDeg is down-positive, so the axis elevation is its negation.
             val axisElevation = -aims[elem].toFloat()
             val room = Room(venueWidthM, venueDepthM, venueHeightM)
-            out += ray(spk, ey, axisElevation, room, 0.10f, 0.95f, 1.00f, 0.95f)
-            out += ray(spk, ey, axisElevation + up, room, 0.10f, edgeG, 0.75f, edgeAlpha)
-            out += ray(spk, ey, axisElevation - down, room, 0.10f, edgeG, 0.75f, edgeAlpha)
+            out += ray(spk, ey, axisElevation, 0f, room, 0.10f, 0.95f, 1.00f, 0.95f)
+            out += ray(spk, ey, axisElevation + up, 0f, room, 0.10f, edgeG, 0.75f, edgeAlpha)
+            out += ray(spk, ey, axisElevation - down, 0f, room, 0.10f, edgeG, 0.75f, edgeAlpha)
         }
+
+        // Horizontal edges: one pair for the whole box, from its acoustic
+        // centre along the mean axis, swung out to either side.
+        val room = Room(venueWidthM, venueDepthM, venueHeightM)
+        val meanElevation = -globalAim
+        val left = edges.leftDeg.coerceIn(1f, 90f)
+        val right = edges.rightDeg.coerceIn(1f, 90f)
+        out += ray(spk, spk.heightM, meanElevation, -left, room, 0.10f, edgeG, 0.75f, edgeAlpha)
+        out += ray(spk, spk.heightM, meanElevation, right, room, 0.10f, edgeG, 0.75f, edgeAlpha)
         return out
     }
 
@@ -147,10 +161,11 @@ object AimRaysGlb {
         spk: PlacedSpeaker,
         startY: Float,
         elevationDeg: Float,
+        yawOffsetDeg: Float,
         room: Room,
         r: Float, g: Float, b: Float, a: Float
     ): Ray {
-        val yaw = Math.toRadians(spk.panDeg.toDouble())
+        val yaw = Math.toRadians((spk.panDeg + yawOffsetDeg).toDouble())
         val pitch = Math.toRadians(elevationDeg.toDouble())
         val horiz = cos(pitch).toFloat()
         val dx = (horiz * cos(yaw)).toFloat()
