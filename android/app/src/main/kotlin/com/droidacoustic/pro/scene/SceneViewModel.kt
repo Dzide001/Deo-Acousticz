@@ -155,6 +155,20 @@ data class SpeakerDsp(
     val eqBands   : Map<Int, Float> = emptyMap()  // bandHz -> +/-6 dB offset
 )
 
+/**
+ * The vertical -6 dB edges of a box, as drawn by the aim-ray overlay.
+ *
+ * Asymmetric on purpose: real boxes are not symmetric about their axis. The
+ * Martin Audio XD12 measures about 10 degrees up and 25 down at 2 kHz, and
+ * collapsing that to one number throws away the half a designer cares about.
+ */
+data class CoverageEdges(
+    val upDeg: Float,
+    val downDeg: Float,
+    /** True when read off a measured balloon rather than the synthetic model. */
+    val measured: Boolean
+)
+
 data class EarlyReflection(
     val speakerLabel : String,
     val surfaceName  : String,
@@ -4754,6 +4768,75 @@ class SceneViewModel : ViewModel() {
         val baseLoss = (6f * x * x).coerceAtMost(24f)
         val reflectionRelax = (1f - 0.16f * pathOrder.coerceAtLeast(0)).coerceIn(0.5f, 1f)
         return baseLoss * reflectionRelax
+    }
+
+    /**
+     * Vertical coverage edges for a box at the band being analysed.
+     *
+     * Measured data is walked outward from the axis until the response has
+     * fallen 6 dB, up and down separately. Without measured data this reports
+     * the angle the synthetic model itself would put the -6 dB point at, so the
+     * overlay never draws a coverage the calculation does not believe in.
+     *
+     * For an array this describes one element. The array's own coverage is
+     * narrower, because summation does the rest, but each box really does
+     * radiate this and it is each box the rays are drawn from.
+     */
+    internal fun coverageEdgesFor(spk: PlacedSpeaker): CoverageEdges {
+        clfDataFor(spk)?.let { clf ->
+            val up = minusSixDeg(clf, +1f)
+            val down = minusSixDeg(clf, -1f)
+            if (up != null && down != null) return CoverageEdges(up, down, true)
+        }
+        val half = syntheticMinusSixDeg(spk)
+        return CoverageEdges(half, half, false)
+    }
+
+    /**
+     * Angle off axis at which a measured balloon has fallen 6 dB, searching in
+     * the vertical plane in [direction] (+1 up, -1 down).
+     *
+     * Returns 90 for a pattern that never falls that far - an omnidirectional
+     * box has no coverage edge, and pretending otherwise would draw a boundary
+     * that is not there.
+     */
+    private fun minusSixDeg(clf: ClfData, direction: Float): Float? {
+        val band = _selectedBandHz.value
+        val onAxis = clf.splAtDirection(band, 0f, 0f) ?: return null
+        var previousAngle = 0f
+        var previousRel = 0f
+        var angle = 0.5f
+        while (angle <= 90f) {
+            val here = clf.splAtDirection(band, 0f, direction * angle) ?: return null
+            val rel = here - onAxis
+            if (rel <= -6f) {
+                // Interpolate across the step that crossed the threshold.
+                val span = previousRel - rel
+                val t = if (span > 1e-6f) (previousRel + 6f) / span else 0f
+                return previousAngle + (angle - previousAngle) * t.coerceIn(0f, 1f)
+            }
+            previousAngle = angle
+            previousRel = rel
+            angle += 0.5f
+        }
+        return 90f
+    }
+
+    /** Where the synthetic model puts its own -6 dB point, so the two agree. */
+    private fun syntheticMinusSixDeg(spk: PlacedSpeaker): Float {
+        if (spk.arrayElements > 1) {
+            // lineArraySplDb: -12 * x^2, so -6 dB lands at x = 1/sqrt(2).
+            val freqK = (_selectedBandHz.value.toDouble() / 1000.0).coerceAtLeast(0.063)
+            val halfPower = (65.0 / (sqrt(spk.arrayElements.toDouble()) * Math.pow(freqK, 0.35)))
+                .coerceIn(4.0, 80.0)
+            return (halfPower / sqrt(2.0)).toFloat()
+        }
+        // verticalAimAttenuationDb: 6 * x^2, so -6 dB lands at x = 1.
+        return when (spk.modelPackageId) {
+            "point_source" -> 35f
+            "line_array" -> 28f
+            else -> 40f
+        }
     }
 
     internal fun verticalAimAttenuationDb(

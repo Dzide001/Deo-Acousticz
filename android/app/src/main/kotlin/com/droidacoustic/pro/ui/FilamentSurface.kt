@@ -30,6 +30,7 @@ import com.droidacoustic.pro.scene.AudienceArea
 import com.droidacoustic.pro.scene.AudiencePoint
 import com.droidacoustic.pro.scene.HeatCell
 import com.droidacoustic.pro.scene.ListenerPos
+import com.droidacoustic.pro.scene.CoverageEdges
 import com.droidacoustic.pro.scene.PlacedSpeaker
 import com.droidacoustic.pro.scene.SpeakerModelPackage
 import com.droidacoustic.pro.scene.VenueGeometry
@@ -83,6 +84,7 @@ fun FilamentSurface(
     splScaleMaxDb: Float? = null,
     listener   : ListenerPos? = null,
     aimRaysEnabled: Boolean = false,
+    coverageEdges: Map<Int, CoverageEdges> = emptyMap(),
     onSpeakerMeshStatsChanged: (loaded: Int, total: Int) -> Unit = { _, _ -> },
     pickTargets: List<PickTarget> = emptyList(),
     onPickTarget: (id: Int) -> Unit = { },
@@ -111,7 +113,9 @@ fun FilamentSurface(
     LaunchedEffect(speakers, speakerModelPackages) { ctx.updateSpeakers(speakers, speakerModelPackages) }
     LaunchedEffect(heatmap, splScaleMinDb, splScaleMaxDb) { ctx.updateHeatmap(heatmap, splScaleMinDb, splScaleMaxDb) }
     LaunchedEffect(listener) { ctx.updateListener(listener) }
-    LaunchedEffect(speakers, aimRaysEnabled, venueGeometry) { ctx.updateAimRays(speakers, aimRaysEnabled, venueGeometry) }
+    LaunchedEffect(speakers, aimRaysEnabled, venueGeometry, coverageEdges) {
+        ctx.updateAimRays(speakers, aimRaysEnabled, venueGeometry, coverageEdges)
+    }
     DisposableEffect(Unit) { onDispose { ctx.destroy() } }
 
     AndroidView(
@@ -468,12 +472,18 @@ class FilamentContext(private val context: Context) {
     }
 
     /** Draw or clear the aim rays. Cheap enough to rebuild whenever aiming changes. */
-    fun updateAimRays(speakers: List<PlacedSpeaker>, enabled: Boolean, venue: VenueGeometry) {
+    fun updateAimRays(
+        speakers: List<PlacedSpeaker>,
+        enabled: Boolean,
+        venue: VenueGeometry,
+        edges: Map<Int, CoverageEdges>
+    ) {
         aimRaysAsset?.let { destroyAsset(it) }
         aimRaysAsset = null
         if (!enabled) return
         val data = AimRaysGlb.build(
             speakers,
+            edges = edges,
             venueWidthM = venue.widthM,
             venueDepthM = venue.depthM,
             venueHeightM = venue.wallHeightM

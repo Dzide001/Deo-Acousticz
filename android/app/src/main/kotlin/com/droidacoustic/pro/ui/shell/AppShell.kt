@@ -121,11 +121,17 @@ fun AppShell(activity: MainActivity) {
     val heatmap by vm.heatmap.collectAsState()
     val listener by vm.listener.collectAsState()
     val aimRays by vm.aimRaysEnabled.collectAsState()
+    val clfRegistryForRays by vm.clfRegistry.collectAsState()
     val dspMap by vm.dspMap.collectAsState()
     val combined by vm.combinedSplDb.collectAsState()
     val rt60 by vm.rt60Estimate.collectAsState()
     val sti by vm.stiEstimate.collectAsState()
     val band by vm.selectedBandHz.collectAsState()
+    // Measured coverage edges are per band, so they follow the band selector.
+    // Skipped entirely when the overlay is off - it is the only consumer.
+    val coverageEdges = remember(speakers, band, clfRegistryForRays, aimRays) {
+        if (!aimRays) emptyMap() else speakers.associate { it.id to vm.coverageEdgesFor(it) }
+    }
     val modelPackages by vm.speakerModelPackages.collectAsState()
     val canUndo by vm.canUndo.collectAsState()
     val canRedo by vm.canRedo.collectAsState()
@@ -250,6 +256,7 @@ fun AppShell(activity: MainActivity) {
                             splScaleMaxDb = splMax,
                             listener = listener,
                             aimRaysEnabled = aimRays,
+                            coverageEdges = coverageEdges,
                             // Speakers are selectable by a true 3D ray test; a
                             // floor-plane hit test cannot reach a flown cabinet.
                             pickTargets = if (tool == Tool.SELECT) {

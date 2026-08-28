@@ -1,5 +1,6 @@
 package com.droidacoustic.pro.ui
 
+import com.droidacoustic.pro.scene.CoverageEdges
 import com.droidacoustic.pro.scene.PlacedSpeaker
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -36,13 +37,17 @@ object AimRaysGlb {
         val r: Float, val g: Float, val b: Float, val a: Float
     )
 
+    /** Used when a caller supplies no edges for a speaker. */
+    private val FALLBACK_EDGES = CoverageEdges(20f, 20f, measured = false)
+
     /**
-     * @param verticalCoverageDeg full vertical coverage angle used for the edge
-     *   rays. Approximate by design - it is a sight line, not a prediction.
+     * @param edges per-speaker vertical -6 dB angles, keyed by speaker id.
+     *   Supplied by the scene layer, which reads them off the measured balloon
+     *   when there is one. Missing entries fall back to a symmetric guess.
      */
     fun build(
         speakers: List<PlacedSpeaker>,
-        verticalCoverageDeg: Float = 40f,
+        edges: Map<Int, CoverageEdges> = emptyMap(),
         venueWidthM: Float = 0f,
         venueDepthM: Float = 0f,
         venueHeightM: Float = 0f
@@ -51,7 +56,11 @@ object AimRaysGlb {
 
         val rays = mutableListOf<Ray>()
         speakers.forEach { spk ->
-            rays += raysFor(spk, verticalCoverageDeg, venueWidthM, venueDepthM, venueHeightM)
+            rays += raysFor(
+                spk,
+                edges[spk.id] ?: FALLBACK_EDGES,
+                venueWidthM, venueDepthM, venueHeightM
+            )
         }
         if (rays.isEmpty()) return null
 
@@ -82,7 +91,7 @@ object AimRaysGlb {
      */
     private fun raysFor(
         spk: PlacedSpeaker,
-        verticalCoverageDeg: Float,
+        edges: CoverageEdges,
         venueWidthM: Float,
         venueDepthM: Float,
         venueHeightM: Float
@@ -104,7 +113,12 @@ object AimRaysGlb {
             for (i in 0 until n) aims[i] += offset
         }
 
-        val half = (verticalCoverageDeg * 0.5f).coerceIn(5f, 80f)
+        val up = edges.upDeg.coerceIn(1f, 90f)
+        val down = edges.downDeg.coerceIn(1f, 90f)
+        // Measured edges are drawn brighter than guessed ones, so the overlay
+        // says which it is without a legend.
+        val edgeAlpha = if (edges.measured) 0.65f else 0.35f
+        val edgeG = if (edges.measured) 0.75f else 0.55f
         val out = mutableListOf<Ray>()
         for (elem in 0 until n) {
             val relIdx = elem - (n - 1) * 0.5f
@@ -113,8 +127,8 @@ object AimRaysGlb {
             val axisElevation = -aims[elem].toFloat()
             val room = Room(venueWidthM, venueDepthM, venueHeightM)
             out += ray(spk, ey, axisElevation, room, 0.10f, 0.95f, 1.00f, 0.95f)
-            out += ray(spk, ey, axisElevation + half, room, 0.10f, 0.55f, 0.65f, 0.40f)
-            out += ray(spk, ey, axisElevation - half, room, 0.10f, 0.55f, 0.65f, 0.40f)
+            out += ray(spk, ey, axisElevation + up, room, 0.10f, edgeG, 0.75f, edgeAlpha)
+            out += ray(spk, ey, axisElevation - down, room, 0.10f, edgeG, 0.75f, edgeAlpha)
         }
         return out
     }
