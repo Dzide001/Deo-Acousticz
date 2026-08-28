@@ -323,6 +323,59 @@ class SceneViewModel : ViewModel() {
         val SUPPORTED_BANDS_HZ = listOf(63, 125, 250, 500, 1000, 2000, 4000, 8000)
         val ANALYSIS_PROFILES = listOf("Fast", "Balanced", "Precision")
 
+        const val WEIGHTING_Z = "Z"
+        const val WEIGHTING_A = "A"
+        const val WEIGHTING_C = "C"
+        val WEIGHTINGS = listOf(WEIGHTING_Z, WEIGHTING_A, WEIGHTING_C)
+
+        /**
+         * IEC 61672 frequency weightings at the octave centres this app models.
+         *
+         * A approximates the ear's reduced sensitivity to low frequencies at
+         * moderate level, and is the curve almost every noise limit and licence
+         * condition is written in. C is nearly flat and rolls off only at the
+         * extremes, which makes it the honest one for high-level music - and the
+         * gap between a C and an A reading is a direct measure of how much low
+         * end a system is putting out. Z is no weighting at all: what the
+         * physics produced.
+         *
+         * These are per-band offsets, so applied to a single band they only
+         * shift the number. They mean something once bands are summed, which is
+         * what [broadbandSplDb] is for.
+         */
+        val WEIGHTING_DB: Map<String, Map<Int, Float>> = mapOf(
+            WEIGHTING_Z to SUPPORTED_BANDS_HZ.associateWith { 0f },
+            WEIGHTING_A to mapOf(
+                63 to -26.2f, 125 to -16.1f, 250 to -8.6f, 500 to -3.2f,
+                1000 to 0.0f, 2000 to 1.2f, 4000 to 1.0f, 8000 to -1.1f
+            ),
+            WEIGHTING_C to mapOf(
+                63 to -0.8f, 125 to -0.2f, 250 to 0.0f, 500 to 0.0f,
+                1000 to 0.0f, 2000 to -0.2f, 4000 to -0.8f, 8000 to -3.0f
+            )
+        )
+
+        fun weightingDb(weighting: String, bandHz: Int): Float =
+            WEIGHTING_DB[weighting]?.get(bandHz) ?: 0f
+
+        /**
+         * Power-sum a set of per-band levels into one broadband figure, applying
+         * the weighting curve on the way.
+         *
+         * Bands are independent slices of the spectrum, so they add as power -
+         * never as pressure. Summing them coherently would be claiming the
+         * bands are phase-related to each other, which they are not.
+         */
+        fun broadbandSplDb(perBand: Map<Int, Float>, weighting: String): Float? {
+            var power = 0.0
+            perBand.forEach { (band, spl) ->
+                if (spl.isFinite()) {
+                    power += Math.pow(10.0, (spl + weightingDb(weighting, band)) / 10.0)
+                }
+            }
+            return if (power <= 0.0) null else (10.0 * log10(power)).toFloat()
+        }
+
         const val CONTOUR_OFF = "OFF"
         const val CONTOUR_BANDS = "BANDS"
         const val CONTOUR_LINES = "LINES"
@@ -563,6 +616,10 @@ class SceneViewModel : ViewModel() {
 
     private val _signalLevelDbu = MutableStateFlow(0f)
     val signalLevelDbu: StateFlow<Float> = _signalLevelDbu.asStateFlow()
+
+    /** Z, A or C. Only meaningful across a broadband sum - see WEIGHTING_DB. */
+    private val _weighting = MutableStateFlow(WEIGHTING_Z)
+    val weighting: StateFlow<String> = _weighting.asStateFlow()
 
     private val _signalType = MutableStateFlow("BAND")
     val signalType: StateFlow<String> = _signalType.asStateFlow()
@@ -2141,6 +2198,7 @@ class SceneViewModel : ViewModel() {
         root.put("selectedBandHz", _selectedBandHz.value)
         root.put("signalLevelDbu", _signalLevelDbu.value)
         root.put("signalType", _signalType.value)
+        root.put("weighting", _weighting.value)
         root.put("signalBandwidthOct", _signalBandwidthOct.value)
         root.put("signalResolution", _signalResolution.value)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
@@ -2518,6 +2576,7 @@ class SceneViewModel : ViewModel() {
         root.put("selectedBandHz", _selectedBandHz.value)
         root.put("signalLevelDbu", _signalLevelDbu.value)
         root.put("signalType", _signalType.value)
+        root.put("weighting", _weighting.value)
         root.put("signalBandwidthOct", _signalBandwidthOct.value)
         root.put("signalResolution", _signalResolution.value)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
@@ -2664,6 +2723,7 @@ class SceneViewModel : ViewModel() {
                 .coerceIn(SUPPORTED_BANDS_HZ.min(), SUPPORTED_BANDS_HZ.max())
             _signalLevelDbu.value = root.optDouble("signalLevelDbu", _signalLevelDbu.value.toDouble()).toFloat().coerceIn(-24f, 24f)
             _signalType.value = root.optString("signalType", _signalType.value).takeIf { it == "BAND" || it == "SPECTRUM" } ?: "BAND"
+            _weighting.value = root.optString("weighting", _weighting.value).takeIf { it in WEIGHTINGS } ?: WEIGHTING_Z
             _signalBandwidthOct.value = root.optDouble("signalBandwidthOct", _signalBandwidthOct.value.toDouble()).toFloat().coerceIn(1f / 12f, 1f)
             _signalResolution.value = root.optInt("signalResolution", _signalResolution.value).coerceIn(3, 96)
             _signalInterferenceEnabled.value = root.optBoolean("signalInterferenceEnabled", _signalInterferenceEnabled.value)
@@ -2926,6 +2986,13 @@ class SceneViewModel : ViewModel() {
         if (_signalResolution.value == clamped) return
         pushUndoCheckpoint()
         _signalResolution.value = clamped
+        recomputeSignalIfNeeded()
+    }
+
+    fun setWeighting(w: String) {
+        if (w !in WEIGHTINGS || _weighting.value == w) return
+        pushUndoCheckpoint()
+        _weighting.value = w
         recomputeSignalIfNeeded()
     }
 
@@ -3815,11 +3882,12 @@ class SceneViewModel : ViewModel() {
         sz: Float,
         tx: Float,
         ty: Float,
-        tz: Float
+        tz: Float,
+        bandHz: Int = _selectedBandHz.value
     ): Float {
         val stats = collectPathObstructionStats(sx, sy, sz, tx, ty, tz)
         val distanceM = sqrt((tx - sx) * (tx - sx) + (ty - sy) * (ty - sy) + (tz - sz) * (tz - sz)).coerceAtLeast(0.1f)
-        val freqScale = (_selectedBandHz.value.toFloat() / 1000f).coerceAtLeast(0.063f)
+        val freqScale = (bandHz.toFloat() / 1000f).coerceAtLeast(0.063f)
         val hfWeight = kotlin.math.sqrt(freqScale).coerceIn(0.25f, 2.2f)
 
         // No hard block: keep a small grazing-edge diffraction shadow near top edges.
@@ -3836,7 +3904,7 @@ class SceneViewModel : ViewModel() {
         var loss = (blockedTerm + penetrationTerm) * (0.58f + 0.52f * hfWeight) * distanceTerm
 
         // Low frequencies bend around obstacles more (diffraction recovery).
-        val lowFreqRecovery = ((1000f / _selectedBandHz.value.toFloat()).coerceAtLeast(1f) - 1f).coerceIn(0f, 1.8f) * 6f
+        val lowFreqRecovery = ((1000f / bandHz.toFloat()).coerceAtLeast(1f) - 1f).coerceIn(0f, 1.8f) * 6f
         // Near-edge paths also recover more than deep-shadow paths.
         val shallowShadowRecovery = (1f - (stats.maxPenetrationM / 0.25f).coerceIn(0f, 1f)) * 6f
         val edgeRayRecovery = estimateEdgeDiffractionRecoveryDb(
@@ -3846,7 +3914,8 @@ class SceneViewModel : ViewModel() {
             tx = tx,
             ty = ty,
             tz = tz,
-            stats = stats
+            stats = stats,
+            bandHz = bandHz
         )
         loss -= (lowFreqRecovery + shallowShadowRecovery + edgeRayRecovery)
 
@@ -3860,7 +3929,8 @@ class SceneViewModel : ViewModel() {
         tx: Float,
         ty: Float,
         tz: Float,
-        stats: PathObstructionStats
+        stats: PathObstructionStats,
+        bandHz: Int = _selectedBandHz.value
     ): Float {
         if (stats.blockedSamples <= 0) return 0f
 
@@ -3887,7 +3957,7 @@ class SceneViewModel : ViewModel() {
         if (edgeCandidates.isEmpty()) return 0f
 
         val directDist = distance3d(sx, sy, sz, tx, ty, tz).coerceAtLeast(0.1f)
-        val freqK = (_selectedBandHz.value.toFloat() / 1000f).coerceAtLeast(0.063f)
+        val freqK = (bandHz.toFloat() / 1000f).coerceAtLeast(0.063f)
 
         var bestRecovery = 0f
         edgeCandidates.forEach { (ex, ey, ez) ->
@@ -4226,91 +4296,45 @@ class SceneViewModel : ViewModel() {
                 val lis    = _listener.value
                 val lisArr = floatArrayOf(lis.x, lis.earHeightM, lis.z)
                 val dists  = computeDistancesSafe(positions, lisArr)
+                val bands = analysisBands()
+                val selected = _selectedBandHz.value
+
+                // Per-speaker figures stay on the band being looked at: they are
+                // a readout of this band, not a spectrum. Only the combined level
+                // is summed across bands.
                 val results = spks.mapIndexed { i, spk ->
-                    val d   = dists[i].coerceAtLeast(0.1f)
-                    val dsp    = _dspMap.value[spk.id] ?: SpeakerDsp(spk.id)
-                    val occlusionPenalty = estimateObstructionAttenuationDb(
-                        sx = spk.x,
-                        sy = spk.heightM,
-                        sz = spk.z,
-                        tx = lis.x,
-                        ty = lis.earHeightM,
-                        tz = lis.z
-                    )
-                    // Measured directivity is applied exactly once. An array reads
-                    // the balloon per element inside directSplDb, so the box-level
-                    // penalty is zero for it; a single box reads it here.
-                    val perElementClf = perElementClfActive(spk)
-                    val clfPenalty = if (perElementClf) 0f else clfDirectivityAttenuationDb(
-                        speakerId = spk.presetId,
-                        fromX = spk.x,
-                        fromY = spk.heightM,
-                        fromZ = spk.z,
-                        toX = lis.x,
-                        toY = lis.earHeightM,
-                        toZ = lis.z,
-                        spk = spk
-                    )
-                    val directivityPenalty = clfPenalty ?: horizontalDirectivityAttenuationDb(
-                        spk = spk,
-                        fromX = spk.x,
-                        fromZ = spk.z,
-                        toX = lis.x,
-                        toZ = lis.z,
-                        pathOrder = 0
-                    )
-                    val verticalAimPenalty = if (clfPenalty != null) 0f else verticalAimAttenuationDb(
-                        spk = spk,
-                        fromX = spk.x,
-                        fromY = spk.heightM,
-                        fromZ = spk.z,
-                        toX = lis.x,
-                        toY = lis.earHeightM,
-                        toZ = lis.z,
-                        pathOrder = 0
-                    )
-                    val boundaryDelta = floorBoundaryInterferenceDb(
-                        srcX = spk.x,
-                        srcY = spk.heightM,
-                        srcZ = spk.z,
-                        dstX = lis.x,
-                        dstY = lis.earHeightM,
-                        dstZ = lis.z
-                    )
-                    // A flat 12 dB step once the synthetic model runs out of
-                    // shape - a crude stand-in for rear radiation. It must not
-                    // touch a measured balloon: a CLF file already describes
-                    // what happens behind the box, and stacking a step on top
-                    // of it corrupts real data with a discontinuity.
-                    val beamShadowPenalty = if (
-                        clfPenalty == null &&
-                        _signalDispersionEnabled.value &&
-                        (directivityPenalty + verticalAimPenalty) > 14f
-                    ) 12f else 0f
-                    val spl    = directSplDb(
-                        spk, dsp, d, lis.earHeightM,
-                        horizOffAxisDeg = horizontalOffAxisDeg(spk, spk.x, spk.z, lis.x, lis.z),
-                        clf = if (perElementClf) clfDataFor(spk) else null
-                    ) - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta
-                    val air    = atmosphericLossDb(
+                    val d = dists[i].coerceAtLeast(0.1f)
+                    val dsp = _dspMap.value[spk.id] ?: SpeakerDsp(spk.id)
+                    val spl = directPathSplDb(spk, dsp, lis.x, lis.earHeightM, lis.z, d, selected)
+                    val air = atmosphericLossDb(
                         distanceM = d,
-                        bandHz = _selectedBandHz.value,
+                        bandHz = selected,
                         temperatureC = _temperatureC.value,
                         humidityPct = _humidityPct.value
                     )
                     SpeakerResult(spk, d, spl, air)
                 }
-                val coherent = coherentSumDb(
-                    results.map { result ->
-                        val dsp = _dspMap.value[result.speaker.id] ?: SpeakerDsp(result.speaker.id)
-                        CoherentContribution(
-                            splDb = result.splDb,
-                            distanceM = result.distanceM,
-                            delayMs = dsp.delayMs,
-                            polarity = dsp.polarity
-                        )
-                    }
-                )
+
+                // Sources are phase-related within a band, so they sum coherently
+                // there; bands are not related to each other, so those add as
+                // power. Doing it the other way round would invent interference
+                // between frequencies.
+                val perBandCombined = bands.associateWith { band ->
+                    coherentSumDb(
+                        spks.mapIndexed { i, spk ->
+                            val d = dists[i].coerceAtLeast(0.1f)
+                            val dsp = _dspMap.value[spk.id] ?: SpeakerDsp(spk.id)
+                            CoherentContribution(
+                                splDb = directPathSplDb(spk, dsp, lis.x, lis.earHeightM, lis.z, d, band),
+                                distanceM = d,
+                                delayMs = dsp.delayMs,
+                                polarity = dsp.polarity
+                            )
+                        },
+                        band
+                    )
+                }
+                val coherent = combineAcrossBands(perBandCombined)
                 val room = estimateRoomBounds(spks, _listener.value, _audience.value, _audienceAreas.value)
                 AcousticAnalysis(
                     speakerResults = results,
@@ -4454,77 +4478,25 @@ class SceneViewModel : ViewModel() {
                     val zoneType = sourceZoneTypes[gi]
                     val zoneRake = sourceRakes[gi]
                     val zoneRakeDirection = sourceRakeDirections[gi]
-                    val contributions = ArrayList<CoherentContribution>(speakerCount)
-                    for (si in 0 until speakerCount) {
-                        val d = dists[gi * speakerCount + si].coerceAtLeast(0.1f)
-                        val dspH = _dspMap.value[spks[si].id] ?: SpeakerDsp(spks[si].id)
-                        val occlusionPenalty = estimateObstructionAttenuationDb(
-                            sx = spks[si].x,
-                            sy = spks[si].heightM,
-                            sz = spks[si].z,
-                            tx = x,
-                            ty = listenerY,
-                            tz = z
-                        )
-                        // Try CLF-based directivity first; fall back to simplified model if no CLF
-                        val perElementClf = perElementClfActive(spks[si])
-                        val clfPenalty = if (perElementClf) 0f else clfDirectivityAttenuationDb(
-                            speakerId = spks[si].presetId,
-                            fromX = spks[si].x,
-                            fromY = spks[si].heightM,
-                            fromZ = spks[si].z,
-                            toX = x,
-                            toY = listenerY,
-                            toZ = z,
-                            spk = spks[si]
-                        )
-                        val directivityPenalty = clfPenalty ?: horizontalDirectivityAttenuationDb(
-                            spk = spks[si],
-                            fromX = spks[si].x,
-                            fromZ = spks[si].z,
-                            toX = x,
-                            toZ = z,
-                            pathOrder = 0
-                        )
-                        val verticalAimPenalty = if (clfPenalty != null) 0f else verticalAimAttenuationDb(
-                            spk = spks[si],
-                            fromX = spks[si].x,
-                            fromY = spks[si].heightM,
-                            fromZ = spks[si].z,
-                            toX = x,
-                            toY = listenerY,
-                            toZ = z,
-                            pathOrder = 0
-                        )
-                        val boundaryDelta = floorBoundaryInterferenceDb(
-                            srcX = spks[si].x,
-                            srcY = spks[si].heightM,
-                            srcZ = spks[si].z,
-                            dstX = x,
-                            dstY = listenerY,
-                            dstZ = z
-                        )
-                        // Synthetic-only, as above: never stacked on measured data.
-                        val beamShadowPenalty = if (
-                            clfPenalty == null &&
-                            _signalDispersionEnabled.value &&
-                            (directivityPenalty + verticalAimPenalty) > 14f
-                        ) 12f else 0f
-                        contributions += CoherentContribution(
-                            splDb = directSplDb(
-                                spks[si], dspH, d, listenerY,
-                                horizOffAxisDeg = horizontalOffAxisDeg(spks[si], spks[si].x, spks[si].z, x, z),
-                                clf = if (perElementClf) clfDataFor(spks[si]) else null
-                            ) - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta,
-                            distanceM = d,
-                            delayMs = dspH.delayMs,
-                            polarity = dspH.polarity
-                        )
+                    val cellBands = analysisBands()
+                    val perBand = cellBands.associateWith { band ->
+                        val contributions = ArrayList<CoherentContribution>(speakerCount)
+                        for (si in 0 until speakerCount) {
+                            val d = dists[gi * speakerCount + si].coerceAtLeast(0.1f)
+                            val dspH = _dspMap.value[spks[si].id] ?: SpeakerDsp(spks[si].id)
+                            contributions += CoherentContribution(
+                                splDb = directPathSplDb(spks[si], dspH, x, listenerY, z, d, band),
+                                distanceM = d,
+                                delayMs = dspH.delayMs,
+                                polarity = dspH.polarity
+                            )
+                        }
+                        coherentSumDb(contributions, band)
                     }
                     HeatCell(
                         x = x,
                         z = z,
-                        splDb = coherentSumDb(contributions),
+                        splDb = combineAcrossBands(perBand),
                         sourceAreaId = areaId,
                         sourceAreaName = areaName,
                         sourceZoneType = zoneType,
@@ -4640,10 +4612,15 @@ class SceneViewModel : ViewModel() {
      * Phase 8 — single-element SPL (geometric spreading + atmospheric loss + DSP).
      * Building block for both point sources and individual array elements.
      */
-    internal fun elementSplDb(sensitivity: Float, dsp: SpeakerDsp, distanceM: Float): Float {
+    internal fun elementSplDb(
+        sensitivity: Float,
+        dsp: SpeakerDsp,
+        distanceM: Float,
+        bandHz: Int = _selectedBandHz.value
+    ): Float {
         val geo    = 20f * log10(distanceM.toDouble()).toFloat()
-        val air    = atmosphericLossDb(distanceM, _selectedBandHz.value, _temperatureC.value, _humidityPct.value)
-        val eqGain = dsp.eqBands[_selectedBandHz.value] ?: 0f
+        val air    = atmosphericLossDb(distanceM, bandHz, _temperatureC.value, _humidityPct.value)
+        val eqGain = dsp.eqBands[bandHz] ?: 0f
         return sensitivity + dsp.gainDb + eqGain - geo - air
     }
 
@@ -4658,11 +4635,12 @@ class SceneViewModel : ViewModel() {
         horizDistM: Float,         // XZ-plane distance to listener
         listenerY : Float,
         horizOffAxisDeg: Float = 0f,   // signed horizontal angle off the box's pan
-        clf       : ClfData? = null    // measured balloon, applied per element
+        clf       : ClfData? = null,   // measured balloon, applied per element
+        bandHz    : Int = _selectedBandHz.value
     ): Float {
         val n       = spk.arrayElements
         val spacing = spk.arraySpacingM.toDouble()
-        val freq    = _selectedBandHz.value.toDouble()
+        val freq    = bandHz.toDouble()
         val c       = (331.3 + 0.606 * _temperatureC.value).coerceAtLeast(300.0)
         val centreY = spk.heightM.toDouble()
         val globalSteerDeg = spk.arraySteerDeg + spk.arrayAimDeg
@@ -4703,13 +4681,13 @@ class SceneViewModel : ViewModel() {
             // the balloon at its own angle. Looking the array up once at the
             // centre would ignore the splay that shapes it.
             val dirAttenDb = if (clf != null) {
-                (clf.splAtDirection(_selectedBandHz.value, horizOffAxisDeg, mismatchDeg.toFloat())
+                (clf.splAtDirection(bandHz, horizOffAxisDeg, mismatchDeg.toFloat())
                     ?: 0f).toDouble()
             } else {
                 directivityAttenuationDb(mismatchDeg, n, freq)
             }
 
-            val spl = elementSplDb(spk.sensitivity, dsp, d.toFloat()) + taper.toFloat() + dirAttenDb.toFloat()
+            val spl = elementSplDb(spk.sensitivity, dsp, d.toFloat(), bandHz) + taper.toFloat() + dirAttenDb.toFloat()
             val amp = Math.pow(10.0, spl / 20.0)
 
             val steerRad = Math.toRadians(elemAim)
@@ -4733,12 +4711,13 @@ class SceneViewModel : ViewModel() {
         distanceM: Float,
         listenerY: Float = _listener.value.earHeightM,
         horizOffAxisDeg: Float = 0f,
-        clf: ClfData? = null
+        clf: ClfData? = null,
+        bandHz: Int = _selectedBandHz.value
     ): Float {
         val base = if (spk.arrayElements > 1) {
-            lineArraySplDb(spk, dsp, distanceM, listenerY, horizOffAxisDeg, clf)
+            lineArraySplDb(spk, dsp, distanceM, listenerY, horizOffAxisDeg, clf, bandHz)
         } else {
-            elementSplDb(spk.sensitivity, dsp, distanceM)
+            elementSplDb(spk.sensitivity, dsp, distanceM, bandHz)
         }
         return base + _signalLevelDbu.value
     }
@@ -4757,9 +4736,93 @@ class SceneViewModel : ViewModel() {
     private fun perElementClfActive(spk: PlacedSpeaker): Boolean =
         spk.arrayElements > 1 && clfDataFor(spk) != null
 
-    internal fun coherentSumDb(contributions: List<CoherentContribution>): Float {
+    /**
+     * One speaker's contribution at one point, in one band.
+     *
+     * Everything between the box and the ear that depends on frequency lives
+     * here: spreading, air, the balloon or its synthetic stand-in, obstruction,
+     * and the floor bounce. Taking a band as an argument rather than reading the
+     * selected one is what lets the same path be evaluated across the spectrum
+     * and summed, which is the whole basis of a weighted broadband figure.
+     */
+    internal fun directPathSplDb(
+        spk: PlacedSpeaker,
+        dsp: SpeakerDsp,
+        tx: Float,
+        ty: Float,
+        tz: Float,
+        distanceM: Float,
+        bandHz: Int
+    ): Float {
+        val occlusionPenalty = estimateObstructionAttenuationDb(
+            sx = spk.x, sy = spk.heightM, sz = spk.z,
+            tx = tx, ty = ty, tz = tz,
+            bandHz = bandHz
+        )
+        // Measured directivity is applied exactly once. An array reads the
+        // balloon per element inside directSplDb, so the box-level penalty is
+        // zero for it; a single box reads it here.
+        val perElementClf = perElementClfActive(spk)
+        val clfPenalty = if (perElementClf) 0f else clfDirectivityAttenuationDb(
+            speakerId = spk.presetId,
+            fromX = spk.x, fromY = spk.heightM, fromZ = spk.z,
+            toX = tx, toY = ty, toZ = tz,
+            spk = spk,
+            bandHz = bandHz
+        )
+        val directivityPenalty = clfPenalty ?: horizontalDirectivityAttenuationDb(
+            spk = spk, fromX = spk.x, fromZ = spk.z, toX = tx, toZ = tz, pathOrder = 0
+        )
+        val verticalAimPenalty = if (clfPenalty != null) 0f else verticalAimAttenuationDb(
+            spk = spk,
+            fromX = spk.x, fromY = spk.heightM, fromZ = spk.z,
+            toX = tx, toY = ty, toZ = tz,
+            pathOrder = 0
+        )
+        val boundaryDelta = floorBoundaryInterferenceDb(
+            srcX = spk.x, srcY = spk.heightM, srcZ = spk.z,
+            dstX = tx, dstY = ty, dstZ = tz,
+            bandHz = bandHz
+        )
+        // A flat 12 dB step once the synthetic model runs out of shape - a crude
+        // stand-in for rear radiation. It must not touch a measured balloon: a
+        // CLF file already describes what happens behind the box, and stacking a
+        // step on top of it corrupts real data with a discontinuity.
+        val beamShadowPenalty = if (
+            clfPenalty == null &&
+            _signalDispersionEnabled.value &&
+            (directivityPenalty + verticalAimPenalty) > 14f
+        ) 12f else 0f
+
+        return directSplDb(
+            spk, dsp, distanceM, ty,
+            horizOffAxisDeg = horizontalOffAxisDeg(spk, spk.x, spk.z, tx, tz),
+            clf = if (perElementClf) clfDataFor(spk) else null,
+            bandHz = bandHz
+        ) - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta
+    }
+
+    /**
+     * Bands the current analysis covers: one, or the whole spectrum.
+     *
+     * "Spectrum" used to mean only that summation was treated as less coherent -
+     * the level was still computed at the selected band alone, so it produced no
+     * broadband figure at all despite the name. It now sums every band.
+     */
+    internal fun analysisBands(): List<Int> =
+        if (_signalType.value == "SPECTRUM") SUPPORTED_BANDS_HZ else listOf(_selectedBandHz.value)
+
+    /** Combined level at a point: one band, or every band weighted and summed. */
+    private fun combineAcrossBands(perBand: Map<Int, Float>): Float =
+        if (perBand.size == 1) perBand.values.first()
+        else broadbandSplDb(perBand, _weighting.value) ?: perBand.values.first()
+
+    internal fun coherentSumDb(
+        contributions: List<CoherentContribution>,
+        bandHz: Int = _selectedBandHz.value
+    ): Float {
         if (contributions.isEmpty()) return 0f
-        val frequencyHz = _selectedBandHz.value.toDouble().coerceAtLeast(1.0)
+        val frequencyHz = bandHz.toDouble().coerceAtLeast(1.0)
         val speedOfSound = (331.3 + 0.606 * _temperatureC.value.toDouble()).coerceAtLeast(300.0)
         var real = 0.0
         var imag = 0.0
@@ -4777,7 +4840,7 @@ class SceneViewModel : ViewModel() {
         val incoherentPower = contributions.sumOf { Math.pow(10.0, it.splDb.toDouble() / 10.0) }.coerceAtLeast(1e-12)
         val incoherentDb = (10.0 * log10(incoherentPower)).toFloat()
 
-        val lowFreqForceIncoherent = !_signalInterferenceEnabled.value && _selectedBandHz.value <= 163
+        val lowFreqForceIncoherent = !_signalInterferenceEnabled.value && bandHz <= 163
         if (lowFreqForceIncoherent) return incoherentDb
 
         val coherentWeight = if (_signalType.value == "BAND") {
@@ -4806,11 +4869,11 @@ class SceneViewModel : ViewModel() {
         toX: Float,
         toY: Float,
         toZ: Float,
-        spk: PlacedSpeaker
+        spk: PlacedSpeaker,
+        bandHz: Int = _selectedBandHz.value
     ): Float? {
         if (!_signalDispersionEnabled.value) return 0f
         val clf = _clfRegistry.value[speakerId] ?: return null
-        val bandHz = _selectedBandHz.value
         
         // Calculate direction from speaker to listener
         val dx = toX - fromX
@@ -5029,11 +5092,12 @@ class SceneViewModel : ViewModel() {
         srcZ: Float,
         dstX: Float,
         dstY: Float,
-        dstZ: Float
+        dstZ: Float,
+        bandHz: Int = _selectedBandHz.value
     ): Float {
         // Simple two-ray model against floor plane (y = 0).
         val c = (331.3f + 0.606f * _temperatureC.value).coerceAtLeast(300f)
-        val f = _selectedBandHz.value.toFloat().coerceAtLeast(1f)
+        val f = bandHz.toFloat().coerceAtLeast(1f)
 
         val direct = distance3d(srcX, srcY, srcZ, dstX, dstY, dstZ).coerceAtLeast(0.1f)
         val imgY = -srcY

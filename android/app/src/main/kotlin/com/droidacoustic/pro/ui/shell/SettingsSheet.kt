@@ -115,6 +115,7 @@ fun SettingsSheet(
 
     val signalLevel by vm.signalLevelDbu.collectAsState()
     val signalType by vm.signalType.collectAsState()
+    val weighting by vm.weighting.collectAsState()
     val bandwidthOct by vm.signalBandwidthOct.collectAsState()
     val resolution by vm.signalResolution.collectAsState()
     val interference by vm.signalInterferenceEnabled.collectAsState()
@@ -172,7 +173,7 @@ fun SettingsSheet(
                     options = listOf("BAND", "SPECTRUM"),
                     selected = signalType,
                     onSelect = { vm.setSignalType(it) },
-                    label = { if (it == "BAND") "Frequency band" else "Spectrum" }
+                    label = { if (it == "BAND") "Frequency band" else "Broadband" }
                 )
                 if (signalType == "BAND") {
                     SectionLabel("Bandwidth")
@@ -192,6 +193,45 @@ fun SettingsSheet(
                         }
                     )
                 } else {
+                    SectionLabel("Weighting")
+                    SegmentedControl(
+                        options = SceneViewModel.WEIGHTINGS,
+                        selected = weighting,
+                        onSelect = { vm.setWeighting(it) },
+                        label = {
+                            when (it) {
+                                SceneViewModel.WEIGHTING_A -> "A"
+                                SceneViewModel.WEIGHTING_C -> "C"
+                                else -> "Z (none)"
+                            }
+                        }
+                    )
+                    Text(
+                        when (weighting) {
+                            SceneViewModel.WEIGHTING_A ->
+                                "dB(A). The curve almost every noise limit and licence " +
+                                    "condition is written in. It discounts the low end " +
+                                    "heavily, so it flatters a bass-shy system."
+                            SceneViewModel.WEIGHTING_C ->
+                                "dB(C). Nearly flat, rolling off only at the extremes - " +
+                                    "the honest one for music at level. The gap between " +
+                                    "a C and an A reading is a direct measure of how much " +
+                                    "low end the system is putting out."
+                            else ->
+                                "Unweighted. What the model actually produced, summed " +
+                                    "across 63 Hz to 8 kHz."
+                        },
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        "Broadband sums all eight bands - coherently within each band, " +
+                            "as power between them. The range stops at 8 kHz, so a " +
+                            "figure here is not directly comparable with a meter that " +
+                            "reaches 20 kHz.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Instrument.Caution
+                    )
                     IntStepper(
                         "Spectrum resolution", resolution,
                         { vm.setSignalResolution(it) }, 3..96
