@@ -166,3 +166,24 @@ The CF2 work in this document remains useful — it is how the coordinate system
 and grid were established, and TAB and CF2 share both — but a CF2 reader is not
 required for the app to use real measured directivity. It would only be a
 convenience for users who hold CF2 rather than TAB.
+
+## Wired into the SPL path
+
+`PlacedSpeaker.presetId` records which preset a box was placed from, which is
+what links it back to measured data in the CLF registry. Before that field
+existed the lookup passed the placed box's integer id against a registry keyed
+by model, so it never matched and the synthetic fallback ran every time - the
+TAB reader and the file picker were both inert.
+
+Two things the measured path must switch off, because a balloon already contains
+them and stacking synthetic terms on top corrupts real data:
+
+- `verticalAimAttenuationDb` - was already handled.
+- `beamShadowPenalty`, a flat 12 dB step applied once the synthetic model's
+  attenuation passes 14 dB. This was NOT handled, and it silently added 12 dB to
+  every measured off-axis prediction. Found by a test asserting that a fixture
+  with a 30 dB cliff produces a 30 dB drop; it produced 42.
+
+Verified on device with the real XD12: same venue, same speaker position, avg
+audience level 55.5 -> 63.6 dB and uniformity +/-16.8 -> +/-9.0 dB when the
+measured pattern replaces the synthetic one.

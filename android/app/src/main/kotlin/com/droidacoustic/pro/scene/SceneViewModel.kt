@@ -48,6 +48,16 @@ data class PlacedSpeaker(
     val arraySteerDeg: Float = 0f,   // electronic steering angle (vertical plane)
     val arrayEdgeTaperDb: Float = 0f,// attenuation at top/bottom element edges
     val modelPackageId: String = "generic",
+    /**
+     * Which speaker preset this box was placed from.
+     *
+     * Carries the identity that links a placed box back to measured CLF data in
+     * the registry. Without it the only thing recorded is [modelPackageId],
+     * which selects synthetic fallback coefficients and says nothing about
+     * which actual loudspeaker this is. Blank on scenes saved before this
+     * existed, which simply means no measured data is available for them.
+     */
+    val presetId   : String = "",
     val sourceId   : Int? = null,
     val label      : String = "SPK ${id + 1}"
 )
@@ -1265,6 +1275,7 @@ class SceneViewModel : ViewModel() {
             arraySplayByBoxDeg = List((preset.arrayElements - 1).coerceAtLeast(0)) { 0f },
             panDeg = 0f,
             modelPackageId = modelPkg,
+            presetId = preset.id,
             sourceId = activeSource?.id,
             label = "${sourceName} ${id + 1}"
         )
@@ -2185,6 +2196,7 @@ class SceneViewModel : ViewModel() {
                             .put("arraySteerDeg", s.arraySteerDeg)
                             .put("arrayEdgeTaperDb", s.arrayEdgeTaperDb)
                             .put("modelPackageId", s.modelPackageId)
+                            .put("presetId", s.presetId)
                             .put("sourceId", s.sourceId ?: -1)
                             .put("label", s.label)
                     )
@@ -2650,6 +2662,7 @@ class SceneViewModel : ViewModel() {
                         arraySteerDeg = o.optDouble("arraySteerDeg", 0.0).toFloat().coerceIn(-30f, 30f),
                         arrayEdgeTaperDb = o.optDouble("arrayEdgeTaperDb", 0.0).toFloat().coerceIn(0f, 12f),
                         modelPackageId = o.optString("modelPackageId", "generic").let { if (isKnownModelPackage(it)) it else "generic" },
+                        presetId = o.optString("presetId", ""),
                         sourceId = o.optInt("sourceId", -1).takeIf { it >= 0 },
                         label = o.optString("label", "SPK ${i + 1}")
                     )
@@ -4069,7 +4082,7 @@ class SceneViewModel : ViewModel() {
                     )
                     // Try CLF-based directivity first; fall back to simplified model if no CLF
                     val clfPenalty = clfDirectivityAttenuationDb(
-                        speakerId = spk.id.toString(),
+                        speakerId = spk.presetId,
                         fromX = spk.x,
                         fromY = spk.heightM,
                         fromZ = spk.z,
@@ -4104,7 +4117,16 @@ class SceneViewModel : ViewModel() {
                         dstY = lis.earHeightM,
                         dstZ = lis.z
                     )
-                    val beamShadowPenalty = if (_signalDispersionEnabled.value && (directivityPenalty + verticalAimPenalty) > 14f) 12f else 0f
+                    // A flat 12 dB step once the synthetic model runs out of
+                    // shape - a crude stand-in for rear radiation. It must not
+                    // touch a measured balloon: a CLF file already describes
+                    // what happens behind the box, and stacking a step on top
+                    // of it corrupts real data with a discontinuity.
+                    val beamShadowPenalty = if (
+                        clfPenalty == null &&
+                        _signalDispersionEnabled.value &&
+                        (directivityPenalty + verticalAimPenalty) > 14f
+                    ) 12f else 0f
                     val spl    = directSplDb(spk, dsp, d) - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta
                     val air    = atmosphericLossDb(
                         distanceM = d,
@@ -4282,7 +4304,7 @@ class SceneViewModel : ViewModel() {
                         )
                         // Try CLF-based directivity first; fall back to simplified model if no CLF
                         val clfPenalty = clfDirectivityAttenuationDb(
-                            speakerId = spks[si].id.toString(),
+                            speakerId = spks[si].presetId,
                             fromX = spks[si].x,
                             fromY = spks[si].heightM,
                             fromZ = spks[si].z,
@@ -4317,7 +4339,12 @@ class SceneViewModel : ViewModel() {
                             dstY = listenerY,
                             dstZ = z
                         )
-                        val beamShadowPenalty = if (_signalDispersionEnabled.value && (directivityPenalty + verticalAimPenalty) > 14f) 12f else 0f
+                        // Synthetic-only, as above: never stacked on measured data.
+                        val beamShadowPenalty = if (
+                            clfPenalty == null &&
+                            _signalDispersionEnabled.value &&
+                            (directivityPenalty + verticalAimPenalty) > 14f
+                        ) 12f else 0f
                         contributions += CoherentContribution(
                             splDb = directSplDb(spks[si], dspH, d, listenerY) - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta,
                             distanceM = d,
