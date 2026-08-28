@@ -257,11 +257,15 @@ data class ClfIngestionStats(
  * Defaults represent a typical treated venue (Phase 7 baselines).
  */
 data class RoomMaterials(
-    val floorAlpha   : Float = 0.15f,   // carpet / sealed concrete
-    val ceilingAlpha : Float = 0.55f,   // acoustic tile / open-truss
-    val wallAlpha    : Float = 0.25f,   // gypsum / acoustic panels
+    val floor        : SurfaceMaterial = SurfaceMaterial.CARPET,
+    val ceiling      : SurfaceMaterial = SurfaceMaterial.ACOUSTIC_TILE,
+    val wall         : SurfaceMaterial = SurfaceMaterial.GYPSUM,
     val roomHeightM  : Float = 8f       // ceiling height (metres)
-)
+) {
+    fun floorAlphaAt(bandHz: Int) = floor.alphaAt(bandHz)
+    fun ceilingAlphaAt(bandHz: Int) = ceiling.alphaAt(bandHz)
+    fun wallAlphaAt(bandHz: Int) = wall.alphaAt(bandHz)
+}
 
 data class VenueGeometry(
     val widthM       : Float = 28f,
@@ -838,6 +842,38 @@ class SceneViewModel : ViewModel() {
     /** Records that persisted state changed. Safe to call more often than needed. */
     private fun touch() {
         _revision.value = _revision.value + 1
+    }
+
+    /** The absorption curve, so a scene reopens with the numbers it was designed on. */
+    private fun alphaJson(m: SurfaceMaterial): JSONObject {
+        val o = JSONObject()
+        SUPPORTED_BANDS_HZ.forEach { o.put(it.toString(), m.alphaAt(it).toDouble()) }
+        return o
+    }
+
+    /**
+     * Restore one surface, newest form first.
+     *
+     * A catalogue id is enough on its own and keeps the scene readable. The
+     * stored curve is used when the id is unknown - a custom surface, or a
+     * catalogue entry from a later version. Failing both, a scene from before
+     * per-band absorption existed carries one broadband number, which becomes a
+     * flat curve: the same answer that version would have given.
+     */
+    private fun readSurface(rm: JSONObject, key: String, fallback: SurfaceMaterial): SurfaceMaterial {
+        SurfaceMaterial.byId(rm.optString("${key}Material", ""))?.let { return it }
+        rm.optJSONObject("${key}AlphaByBand")?.let { curve ->
+            val byBand = SUPPORTED_BANDS_HZ.mapNotNull { band ->
+                val v = curve.optDouble(band.toString(), Double.NaN)
+                if (v.isNaN()) null else band to v.toFloat().coerceIn(0.01f, 1f)
+            }.toMap()
+            if (byBand.isNotEmpty()) {
+                return SurfaceMaterial(SurfaceMaterial.CUSTOM_ID, "Custom", byBand)
+            }
+        }
+        val legacy = rm.optDouble("${key}Alpha", Double.NaN)
+        if (!legacy.isNaN()) return SurfaceMaterial.flat(legacy.toFloat())
+        return fallback
     }
 
     private fun pushUndoCheckpoint() {
@@ -2347,9 +2383,12 @@ class SceneViewModel : ViewModel() {
         root.put(
             "roomMaterials",
             JSONObject()
-                .put("floorAlpha", _roomMaterials.value.floorAlpha)
-                .put("ceilingAlpha", _roomMaterials.value.ceilingAlpha)
-                .put("wallAlpha", _roomMaterials.value.wallAlpha)
+                .put("floorMaterial", _roomMaterials.value.floor.id)
+                .put("ceilingMaterial", _roomMaterials.value.ceiling.id)
+                .put("wallMaterial", _roomMaterials.value.wall.id)
+                .put("floorAlphaByBand", alphaJson(_roomMaterials.value.floor))
+                .put("ceilingAlphaByBand", alphaJson(_roomMaterials.value.ceiling))
+                .put("wallAlphaByBand", alphaJson(_roomMaterials.value.wall))
                 .put("roomHeightM", _roomMaterials.value.roomHeightM)
         )
 
@@ -2507,9 +2546,12 @@ class SceneViewModel : ViewModel() {
         root.put(
             "roomMaterials",
             JSONObject()
-                .put("floorAlpha", _roomMaterials.value.floorAlpha)
-                .put("ceilingAlpha", _roomMaterials.value.ceilingAlpha)
-                .put("wallAlpha", _roomMaterials.value.wallAlpha)
+                .put("floorMaterial", _roomMaterials.value.floor.id)
+                .put("ceilingMaterial", _roomMaterials.value.ceiling.id)
+                .put("wallMaterial", _roomMaterials.value.wall.id)
+                .put("floorAlphaByBand", alphaJson(_roomMaterials.value.floor))
+                .put("ceilingAlphaByBand", alphaJson(_roomMaterials.value.ceiling))
+                .put("wallAlphaByBand", alphaJson(_roomMaterials.value.wall))
                 .put("roomHeightM", _roomMaterials.value.roomHeightM)
         )
         return root.toString()
@@ -2557,9 +2599,9 @@ class SceneViewModel : ViewModel() {
             )
             root.optJSONObject("roomMaterials")?.let { rm ->
                 _roomMaterials.value = RoomMaterials(
-                    floorAlpha = rm.optDouble("floorAlpha", _roomMaterials.value.floorAlpha.toDouble()).toFloat().coerceIn(0.01f, 1f),
-                    ceilingAlpha = rm.optDouble("ceilingAlpha", _roomMaterials.value.ceilingAlpha.toDouble()).toFloat().coerceIn(0.01f, 1f),
-                    wallAlpha = rm.optDouble("wallAlpha", _roomMaterials.value.wallAlpha.toDouble()).toFloat().coerceIn(0.01f, 1f),
+                    floor = readSurface(rm, "floor", _roomMaterials.value.floor),
+                    ceiling = readSurface(rm, "ceiling", _roomMaterials.value.ceiling),
+                    wall = readSurface(rm, "wall", _roomMaterials.value.wall),
                     roomHeightM = rm.optDouble("roomHeightM", wallH.toDouble()).toFloat().coerceIn(3f, 30f)
                 )
             } ?: run {
@@ -2821,9 +2863,9 @@ class SceneViewModel : ViewModel() {
 
             root.optJSONObject("roomMaterials")?.let { rm ->
                 _roomMaterials.value = RoomMaterials(
-                    floorAlpha = rm.optDouble("floorAlpha", 0.15).toFloat().coerceIn(0.01f, 1f),
-                    ceilingAlpha = rm.optDouble("ceilingAlpha", 0.55).toFloat().coerceIn(0.01f, 1f),
-                    wallAlpha = rm.optDouble("wallAlpha", 0.25).toFloat().coerceIn(0.01f, 1f),
+                    floor = readSurface(rm, "floor", SurfaceMaterial.CARPET),
+                    ceiling = readSurface(rm, "ceiling", SurfaceMaterial.ACOUSTIC_TILE),
+                    wall = readSurface(rm, "wall", SurfaceMaterial.GYPSUM),
                     roomHeightM = rm.optDouble("roomHeightM", 8.0).toFloat().coerceIn(3f, 30f)
                 )
             }
@@ -3430,19 +3472,35 @@ class SceneViewModel : ViewModel() {
 
     fun setFloorAbsorption(v: Float) {
         pushUndoCheckpoint()
-        _roomMaterials.value = _roomMaterials.value.copy(floorAlpha = v.coerceIn(0.01f, 1f))
+        _roomMaterials.value = _roomMaterials.value.copy(floor = SurfaceMaterial.flat(v))
+        recalculate(); refreshHeatmap()
+    }
+
+    /** Choose a catalogue surface. Unknown ids are ignored rather than guessed at. */
+    fun setSurfaceMaterial(surface: String, materialId: String) {
+        val m = SurfaceMaterial.byId(materialId) ?: return
+        val current = _roomMaterials.value
+        val updated = when (surface) {
+            "FLOOR" -> current.copy(floor = m)
+            "CEILING" -> current.copy(ceiling = m)
+            "WALL" -> current.copy(wall = m)
+            else -> return
+        }
+        if (updated == current) return
+        pushUndoCheckpoint()
+        _roomMaterials.value = updated
         recalculate(); refreshHeatmap()
     }
 
     fun setCeilingAbsorption(v: Float) {
         pushUndoCheckpoint()
-        _roomMaterials.value = _roomMaterials.value.copy(ceilingAlpha = v.coerceIn(0.01f, 1f))
+        _roomMaterials.value = _roomMaterials.value.copy(ceiling = SurfaceMaterial.flat(v))
         recalculate(); refreshHeatmap()
     }
 
     fun setWallAbsorption(v: Float) {
         pushUndoCheckpoint()
-        _roomMaterials.value = _roomMaterials.value.copy(wallAlpha = v.coerceIn(0.01f, 1f))
+        _roomMaterials.value = _roomMaterials.value.copy(wall = SurfaceMaterial.flat(v))
         recalculate(); refreshHeatmap()
     }
 
@@ -5131,7 +5189,7 @@ class SceneViewModel : ViewModel() {
         val delta = (reflected - direct).coerceAtLeast(0f)
 
         // Reflection magnitude derived from floor absorption coefficient.
-        val floorAlpha = _roomMaterials.value.floorAlpha.coerceIn(0.01f, 0.99f)
+        val floorAlpha = _roomMaterials.value.floorAlphaAt(bandHz).coerceIn(0.01f, 0.99f)
         val r = kotlin.math.sqrt((1f - floorAlpha).coerceIn(0.01f, 0.99f)).toDouble()
 
         val phi = 2.0 * PI * f.toDouble() * delta.toDouble() / c.toDouble()
@@ -5191,30 +5249,20 @@ class SceneViewModel : ViewModel() {
     internal fun buildEarlyReflections(
         results: List<SpeakerResult>,
         room: RoomBounds?,
-        listener: ListenerPos
+        listener: ListenerPos,
+        bandHz: Int = _selectedBandHz.value
     ): List<EarlyReflection> {
         if (room == null) return emptyList()
         val mat = _roomMaterials.value
         val speedOfSound = (331.3f + 0.606f * _temperatureC.value).coerceAtLeast(300f)
 
-        fun surfaceLossDb(alpha: Float, surfaceType: String): Float {
-            val freqK = (_selectedBandHz.value.toFloat() / 1000f).coerceAtLeast(0.063f)
-            val logFreq = kotlin.math.log10(freqK.toDouble()).toFloat()
-
-            val surfaceFreqTilt = when (surfaceType) {
-                "FLOOR" -> 0.10f
-                "CEILING" -> 0.14f
-                else -> 0.12f // WALL
-            }
-            val profileBias = when (_analysisProfile.value) {
-                "Fast" -> -0.02f
-                "Precision" -> 0.03f
-                else -> 0f
-            }
-
-            // Effective absorption rises mildly toward HF and depends on surface family.
-            val effectiveAlpha = (alpha + surfaceFreqTilt * logFreq + profileBias).coerceIn(0.01f, 0.99f)
-            val a = effectiveAlpha
+        // Reflected energy is whatever the surface did not absorb, and how much
+        // that is depends on the band. This used to tilt one broadband number
+        // upward with frequency by a coefficient chosen per surface family -
+        // 0.10 for floors, 0.14 for ceilings - which was a guess at the shape of
+        // a curve the material data already contains. It now reads the curve.
+        fun surfaceLossDb(material: SurfaceMaterial): Float {
+            val a = material.alphaAt(bandHz).coerceIn(0.01f, 0.99f)
             return (-10.0 * Math.log10((1.0 - a).toDouble())).toFloat()
         }
 
@@ -5228,12 +5276,12 @@ class SceneViewModel : ViewModel() {
             val nx    : Float, val ny: Float, val nz: Float
         )
         val surfs = listOf(
-            Surf("Floor",      "FLOOR",   1f, -1f,  1f,  0f,              0f,              0f, surfaceLossDb(mat.floorAlpha, "FLOOR"),     0f,  1f,  0f),
-            Surf("Ceiling",    "CEILING", 1f, -1f,  1f,  0f, 2f*room.heightM,              0f, surfaceLossDb(mat.ceilingAlpha, "CEILING"), 0f, -1f,  0f),
-            Surf("Left wall",  "WALL",   -1f,  1f,  1f, 2f*room.minX,    0f,              0f, surfaceLossDb(mat.wallAlpha, "WALL"),      1f,  0f,  0f),
-            Surf("Right wall", "WALL",   -1f,  1f,  1f, 2f*room.maxX,    0f,              0f, surfaceLossDb(mat.wallAlpha, "WALL"),     -1f,  0f,  0f),
-            Surf("Front wall", "WALL",    1f,  1f, -1f,  0f,              0f, 2f*room.minZ,   surfaceLossDb(mat.wallAlpha, "WALL"),      0f,  0f,  1f),
-            Surf("Back wall",  "WALL",    1f,  1f, -1f,  0f,              0f, 2f*room.maxZ,   surfaceLossDb(mat.wallAlpha, "WALL"),      0f,  0f, -1f)
+            Surf("Floor",      "FLOOR",   1f, -1f,  1f,  0f,              0f,              0f, surfaceLossDb(mat.floor),   0f,  1f,  0f),
+            Surf("Ceiling",    "CEILING", 1f, -1f,  1f,  0f, 2f*room.heightM,              0f, surfaceLossDb(mat.ceiling), 0f, -1f,  0f),
+            Surf("Left wall",  "WALL",   -1f,  1f,  1f, 2f*room.minX,    0f,              0f, surfaceLossDb(mat.wall),    1f,  0f,  0f),
+            Surf("Right wall", "WALL",   -1f,  1f,  1f, 2f*room.maxX,    0f,              0f, surfaceLossDb(mat.wall),   -1f,  0f,  0f),
+            Surf("Front wall", "WALL",    1f,  1f, -1f,  0f,              0f, 2f*room.minZ,   surfaceLossDb(mat.wall),    0f,  0f,  1f),
+            Surf("Back wall",  "WALL",    1f,  1f, -1f,  0f,              0f, 2f*room.maxZ,   surfaceLossDb(mat.wall),    0f,  0f, -1f)
         )
 
         fun reflect(x: Float, y: Float, z: Float, s: Surf) =
@@ -5378,7 +5426,11 @@ class SceneViewModel : ViewModel() {
      * Phase 8 — Sabine RT60 with per-surface absorption from [RoomMaterials].
      * Formula: RT60 = 0.161 × V / Σ(α × S)
      */
-    internal fun estimateRt60(room: RoomBounds, mat: RoomMaterials): Rt60Estimate {
+    internal fun estimateRt60(
+        room: RoomBounds,
+        mat: RoomMaterials,
+        bandHz: Int = _selectedBandHz.value
+    ): Rt60Estimate {
         val width  = room.maxX - room.minX
         val depth  = room.maxZ - room.minZ
         val height = room.heightM
@@ -5388,9 +5440,9 @@ class SceneViewModel : ViewModel() {
         val volume      = width * depth * height
 
         val sabins =
-            floorArea   * mat.floorAlpha   +
-            ceilingArea * mat.ceilingAlpha +
-            wallArea    * mat.wallAlpha
+            floorArea   * mat.floorAlphaAt(bandHz)   +
+            ceilingArea * mat.ceilingAlphaAt(bandHz) +
+            wallArea    * mat.wallAlphaAt(bandHz)
         val rt60 = if (sabins <= 0.01f) 0f else 0.161f * volume / sabins
         return Rt60Estimate(width, depth, height, volume, rt60)
     }

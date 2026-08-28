@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.droidacoustic.pro.MainActivity
 import com.droidacoustic.pro.scene.ClfBinaryReader
 import com.droidacoustic.pro.scene.SceneViewModel
+import com.droidacoustic.pro.scene.SurfaceMaterial
 import com.droidacoustic.pro.ui.components.InspectorSection
 import com.droidacoustic.pro.ui.components.IntStepper
 import com.droidacoustic.pro.ui.components.NumericField
@@ -116,6 +117,7 @@ fun SettingsSheet(
     val signalLevel by vm.signalLevelDbu.collectAsState()
     val signalType by vm.signalType.collectAsState()
     val weighting by vm.weighting.collectAsState()
+    val selectedBand by vm.selectedBandHz.collectAsState()
     val bandwidthOct by vm.signalBandwidthOct.collectAsState()
     val resolution by vm.signalResolution.collectAsState()
     val interference by vm.signalInterferenceEnabled.collectAsState()
@@ -265,25 +267,39 @@ fun SettingsSheet(
 
             // ── Surfaces ─────────────────────────────────────────────────────
             InspectorSection("Surface absorption") {
-                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    NumericField(
-                        "Floor α", materials.floorAlpha, { vm.setFloorAbsorption(it) },
-                        Modifier.weight(1f), range = 0.01f..0.99f, decimals = 2, dragStep = 0.01f
+                listOf(
+                    Triple("Floor", "FLOOR", materials.floor),
+                    Triple("Ceiling", "CEILING", materials.ceiling),
+                    Triple("Walls", "WALL", materials.wall)
+                ).forEach { (label, key, current) ->
+                    SectionLabel("$label — ${current.name}")
+                    SegmentedControl(
+                        options = SurfaceMaterial.CATALOGUE.map { it.id },
+                        selected = current.id,
+                        onSelect = { vm.setSurfaceMaterial(key, it) },
+                        label = { id -> SurfaceMaterial.byId(id)?.name ?: id }
                     )
-                    NumericField(
-                        "Ceiling α", materials.ceilingAlpha, { vm.setCeilingAbsorption(it) },
-                        Modifier.weight(1f), range = 0.01f..0.99f, decimals = 2, dragStep = 0.01f
-                    )
-                    NumericField(
-                        "Wall α", materials.wallAlpha, { vm.setWallAbsorption(it) },
-                        Modifier.weight(1f), range = 0.01f..0.99f, decimals = 2, dragStep = 0.01f
+                    Readout(
+                        "α at ${if (selectedBand >= 1000) "${selectedBand / 1000} kHz" else "$selectedBand Hz"}",
+                        "%.2f".format(current.alphaAt(selectedBand))
                     )
                 }
                 Text(
-                    "Single broadband coefficient per surface family. Per-band " +
-                        "coefficients are planned; treat RT60 as indicative.",
+                    "Absorption is per octave band, from the published values for " +
+                        "each construction type - heavy carpet is 0.02 at 125 Hz and " +
+                        "0.65 at 4 kHz, so one broadband number was wrong at both " +
+                        "ends. RT60, the loss at each reflection and the floor bounce " +
+                        "all read the curve.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    "These describe a type of construction, not a specific product, " +
+                        "and the published tables run 125 Hz to 4 kHz - the 63 Hz and " +
+                        "8 kHz bands hold the nearest measured value. A room that " +
+                        "matters should be measured.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Instrument.Caution
                 )
             }
 
