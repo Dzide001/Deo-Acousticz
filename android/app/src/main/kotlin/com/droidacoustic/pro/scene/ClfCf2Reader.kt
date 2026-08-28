@@ -65,18 +65,25 @@ object ClfCf2Reader {
         runCatching { parse(bytes, speakerId) }.getOrNull()
 
     fun parse(bytes: ByteArray, speakerId: String = ""): ClfTabParser.Speaker {
-        if (bytes.size < TOTAL * 4) {
-            throw ParseException("too small to be a CF2 file (${bytes.size} bytes)")
-        }
+        // Magic before size: a CF1 file is smaller than any CF2 and would
+        // otherwise be turned away as "too small" instead of being named.
+        if (bytes.size < 8) throw ParseException("too small to be a CLF file (${bytes.size} bytes)")
         val buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN)
         when (val magic = buf.getInt(0)) {
             MAGIC_CF2 -> Unit
             MAGIC_CF1 -> throw ParseException(
-                "this is a CF1 file; only CF2 is supported. Import the .tab text instead."
+                "${describe(bytes)} is a CF1 file. Its directivity layout has not " +
+                    "been worked out, so it is refused rather than guessed at. " +
+                    "Import the .tab text for this speaker if the manufacturer " +
+                    "publishes one."
             )
             else -> throw ParseException(
                 "not a CLF binary: magic 0x%08X".format(magic)
             )
+        }
+
+        if (bytes.size < TOTAL * 4) {
+            throw ParseException("too small to be a CF2 file (${bytes.size} bytes)")
         }
 
         val lo = buf.getInt(OFF_BAND_RANGE)
@@ -220,6 +227,22 @@ object ClfCf2Reader {
         // omnidirectional, and d&b's T-SUB spans only 4.9 dB across its range.
         if (requireShape && max - min < 5f) return false
         return true
+    }
+
+    /**
+     * Name a CLF binary from its header, without decoding any acoustics.
+     *
+     * CF1 shares CF2's string table - the offsets below read correctly out of
+     * both - so a file that cannot be decoded can still be identified. Telling
+     * someone "Martin Audio C4,8T is a CF1 file" is worth a great deal more than
+     * "unsupported format".
+     */
+    fun describe(bytes: ByteArray): String {
+        if (bytes.size < OFF_DESCRIPTION) return "this file"
+        val model = readString(bytes, OFF_MODEL)
+        val manufacturer = readString(bytes, OFF_MANUFACTURER)
+        return listOf(manufacturer, model).filter { it.isNotBlank() }
+            .joinToString(" ").ifBlank { "this file" }
     }
 
     /** NUL-terminated Latin-1, the encoding these files use throughout. */

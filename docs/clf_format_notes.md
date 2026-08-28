@@ -163,9 +163,32 @@ out, taken from a single file where the string happened to start there.
   horizontal pattern is the only case where getting it wrong would show.
 - **`<BALLOON-SYMMETRY>`** turned out not to matter for the binary. It affects
   how the TAB stores arcs; every CF2 file examined carries all 72.
-- **CF1** (magic `0x000ABD40`, ten files) is not decoded. No grid or offset that
-  satisfies the pole geometry was found. All ten are Martin Audio ceiling
-  speakers, five models duplicated across two directories.
+- **CF1** (magic `0x000ABD40`, ten files) is not decoded, and this was a
+  decision rather than an omission.
+
+  CF1 shares CF2's string table exactly - version, model, manufacturer,
+  description and the rest all read correctly out of both - so the files are
+  identifiable, and the reader names the loudspeaker when it refuses one.
+
+  The balloon is another matter. A CF1 file holds about 9,000 floats, and the
+  declared band range at `0x1210` reads `(2, 8)`, which is 125 Hz to 8 kHz in
+  the ten-band octave table - exactly what CLF1 should carry. But no
+  combination of grid, orientation and offset satisfies the pole geometry that
+  identifies a CF2 balloon unambiguously. Blocks that look like directivity
+  (values floored at -50 dB, peaks near 0) sit near the tail, but every
+  alignment leaves the poles disagreeing by 1 to 14 dB where CF2 gives 0.00.
+
+  What settles it is that **there is no ground truth for CF1 in this corpus**.
+  The only TAB file is `CLF2_XD12.tab`, which is CF2. Every CF2 claim in this
+  document could be checked against published text; nothing about CF1 can be.
+  Shipping a guessed layout would put fabricated directivity into predictions
+  under the banner of measured data, which is the exact failure this whole
+  effort exists to remove. The ten files are five Martin Audio ceiling models
+  duplicated across two directories, so the cost of refusing them is small and
+  the cost of getting them silently wrong is not.
+
+  What would unblock it: a CF1 file with a matching published TAB, from any
+  manufacturer.
 - **`<BALLOON-ARC-ORDER>`** is `<reversed>` in the XD12 TAB, yet the binary
   matches in direct order. The flag is presumably normalised at encode time, but
   this has been confirmed on exactly one file.

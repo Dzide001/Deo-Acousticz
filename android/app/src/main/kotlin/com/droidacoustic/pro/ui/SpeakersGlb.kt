@@ -42,7 +42,16 @@ object SpeakersGlb {
             val cB = pkg?.colorB ?: 0.9f
 
             val yaw = Math.toRadians(spk.panDeg.toDouble())
-            val pitch = Math.toRadians(spk.arrayAimDeg.toDouble())
+            // arrayAimDeg is down-positive, and the transform below rotates the
+            // cabinet's forward axis by +pitch. Passing the aim through
+            // unnegated tilted the box the wrong way: asking for 20 degrees up
+            // pointed the cabinet 20 degrees down, while the aim rays - which do
+            // negate it - correctly went up.
+            //
+            // Only the mechanical aim moves the box. arraySteerDeg is electronic
+            // steering, which swings the beam without touching the cabinet, so
+            // the rays use aim + steer and the mesh uses aim alone.
+            val pitch = Math.toRadians(-spk.arrayAimDeg.toDouble())
             val cyaw = cos(yaw).toFloat()
             val syaw = sin(yaw).toFloat()
             val cp = cos(pitch).toFloat()

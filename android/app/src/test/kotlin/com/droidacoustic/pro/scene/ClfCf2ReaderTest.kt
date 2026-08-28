@@ -32,10 +32,21 @@ class ClfCf2ReaderTest {
     // ── Rejections, which need no corpus ─────────────────────────────────────
 
     @Test
-    fun `something far too small is rejected`() {
-        val e = runCatching { ClfCf2Reader.parse(ByteArray(64)) }.exceptionOrNull()
+    fun `a CF2 file truncated mid-balloon is rejected as too small`() {
+        // Valid magic, not enough file behind it.
+        val stub = ByteArray(50_000)
+        stub[0] = 0x41; stub[1] = 0xBD.toByte(); stub[2] = 0x0A; stub[3] = 0x00
+        val e = runCatching { ClfCf2Reader.parse(stub) }.exceptionOrNull()
         assertTrue(e is ClfCf2Reader.ParseException)
         assertTrue(e!!.message!!, e.message!!.contains("too small"))
+    }
+
+    @Test
+    fun `a handful of bytes is rejected without reading past the end`() {
+        listOf(0, 1, 4, 7, 64).forEach { n ->
+            val e = runCatching { ClfCf2Reader.parse(ByteArray(n)) }.exceptionOrNull()
+            assertTrue("$n bytes should be refused", e is ClfCf2Reader.ParseException)
+        }
     }
 
     @Test
@@ -55,6 +66,32 @@ class ClfCf2ReaderTest {
         assertTrue(e is ClfCf2Reader.ParseException)
         assertTrue(e!!.message!!, e.message!!.contains("CF1"))
         assertTrue("should say what to do instead", e.message!!.contains(".tab"))
+    }
+
+    @Test
+    fun `a real CF1 file is named in the refusal, not just rejected`() {
+        // CF1 shares CF2's string table, so a file whose acoustics cannot be
+        // read can still say what loudspeaker it is. "Martin Audio, Inc. C4,8T
+        // is a CF1 file" is worth much more to the user than "unsupported".
+        val root = corpus()
+        assumeTrue("corpus not present", root != null)
+        val cf1 = root!!.walkTopDown()
+            .firstOrNull { it.isFile && it.extension.equals("cf1", ignoreCase = true) }
+        assumeTrue("corpus present but holds no CF1 files", cf1 != null)
+
+        val bytes = cf1!!.readBytes()
+        assertTrue("should identify the model", ClfCf2Reader.describe(bytes).contains("C", true))
+        val e = runCatching { ClfCf2Reader.parse(bytes) }.exceptionOrNull()
+        assertTrue(e is ClfCf2Reader.ParseException)
+        assertTrue("refusal should name the speaker: ${e!!.message}",
+                   e.message!!.contains("Martin Audio"))
+    }
+
+    @Test
+    fun `describe never throws on rubbish`() {
+        assertEquals("this file", ClfCf2Reader.describe(ByteArray(0)))
+        assertEquals("this file", ClfCf2Reader.describe(ByteArray(16)))
+        assertTrue(ClfCf2Reader.describe(ByteArray(5000)).isNotBlank())
     }
 
     @Test
