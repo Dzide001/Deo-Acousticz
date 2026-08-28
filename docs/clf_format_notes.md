@@ -21,7 +21,7 @@ find.
 ## Corpus
 
 `corpus/clf` — gitignored, inventoried with checksums in
-`assets/clf/inventory.json` (714 files, 448 MB). 679 are CF1/CF2; the rest are
+`tools/clf/inventory.json` (714 files, 448 MB). 679 are CF1/CF2; the rest are
 release notes, DXF cabinet geometry, TAB sources and zips.
 
 | Vendor dir | Files |

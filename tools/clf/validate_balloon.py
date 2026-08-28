@@ -116,7 +116,7 @@ def main():
 
     if not os.path.exists(cf2):
         sys.exit("corpus not found at %s\n"
-                 "corpus/clf is gitignored; restore it from inventory.json." % root)
+                 "corpus/clf is gitignored; restore it from tools/clf/inventory.json." % root)
 
     print("reference file: %s" % os.path.relpath(cf2, root))
     with open(cf2, "rb") as fh:

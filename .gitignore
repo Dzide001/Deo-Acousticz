@@ -49,7 +49,7 @@ android/app/.cxx/
 # this put the debug build at 317 MB against Play's 150 MB base limit. It is
 # also someone else's data to redistribute, which is not ours to do.
 # Kept locally at corpus/clf/ as a development and test fixture only.
-# The checksummed index (inventory.json) and sources.json ARE tracked, so a
+# The checksummed index (tools/clf/inventory.json) and sources.json ARE tracked,
 # corpus can be restored and verified file by file.
 corpus/
 android/app/src/main/assets/clf/raw/

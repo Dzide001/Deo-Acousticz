@@ -4541,7 +4541,7 @@ class SceneViewModel : ViewModel() {
      * N elements stacked along Y, centred at [spk.heightM].
      * Each element contributes a complex phasor summed at the selected band.
      */
-    private fun lineArraySplDb(
+    internal fun lineArraySplDb(
         spk       : PlacedSpeaker,
         dsp       : SpeakerDsp,
         horizDistM: Float,         // XZ-plane distance to listener
@@ -4959,7 +4959,7 @@ class SceneViewModel : ViewModel() {
         return db.coerceIn(-9f, 3f)
     }
 
-    private fun estimateRoomBounds(
+    internal fun estimateRoomBounds(
         speakers: List<PlacedSpeaker>,
         listener: ListenerPos,
         audience: List<AudiencePoint>,
@@ -5003,7 +5003,7 @@ class SceneViewModel : ViewModel() {
      *
      * Per-surface absorption → insertion loss:  loss_dB = -10·log10(1 - α)
      */
-    private fun buildEarlyReflections(
+    internal fun buildEarlyReflections(
         results: List<SpeakerResult>,
         room: RoomBounds?,
         listener: ListenerPos
