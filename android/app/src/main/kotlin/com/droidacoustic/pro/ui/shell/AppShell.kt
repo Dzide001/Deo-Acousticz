@@ -174,10 +174,13 @@ fun AppShell(activity: MainActivity) {
         }
         restored = true
     }
-    LaunchedEffect(
-        restored, speakers, zones, venue, dspMap, listener, band,
-        splScaleMode, splTarget, splSpan, splFixedMin, splFixedMax
-    ) {
+    // Keyed on the view model's revision rather than on a list of the things
+    // worth saving. The list version silently fell behind every setting added
+    // after it was written - analysis type, weighting, contour mode, aim rays
+    // were all in the JSON and none of them triggered a write - so they reset on
+    // every restart. A counter cannot fall behind, because it names nothing.
+    val revision by vm.revision.collectAsState()
+    LaunchedEffect(restored, revision) {
         if (!restored) return@LaunchedEffect
         delay(1200)
         // includeClfRegistry MUST stay false here. The registry holds the

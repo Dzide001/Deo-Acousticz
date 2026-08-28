@@ -822,7 +822,26 @@ class SceneViewModel : ViewModel() {
         _canRedo.value = redoStack.isNotEmpty()
     }
 
+    /**
+     * Bumped whenever anything the scene JSON captures changes.
+     *
+     * The autosave used to be triggered by a hand-written list of the flows it
+     * cared about, and that list fell behind the state it was meant to capture:
+     * the analysis type, the weighting, the contour mode and the aim-ray toggle
+     * were all written into the JSON but changing them never triggered a write,
+     * so they came back at their defaults after a restart. A single counter
+     * cannot drift, because it does not enumerate anything.
+     */
+    private val _revision = MutableStateFlow(0L)
+    val revision: StateFlow<Long> = _revision.asStateFlow()
+
+    /** Records that persisted state changed. Safe to call more often than needed. */
+    private fun touch() {
+        _revision.value = _revision.value + 1
+    }
+
     private fun pushUndoCheckpoint() {
+        touch()
         if (isApplyingHistory) return
         val snapshot = exportSceneJson(includeClfRegistry = false)
         if (undoStack.isEmpty() || undoStack.last() != snapshot) {
@@ -2997,7 +3016,12 @@ class SceneViewModel : ViewModel() {
     }
 
     fun setContourMode(mode: String) {
-        if (mode in CONTOUR_MODES) _contourMode.value = mode
+        // Not undoable - it is a way of looking at the map, not a change to the
+        // design - but it is still saved, so it still has to mark the scene.
+        if (mode in CONTOUR_MODES && _contourMode.value != mode) {
+            _contourMode.value = mode
+            touch()
+        }
     }
 
     /**
@@ -3023,7 +3047,9 @@ class SceneViewModel : ViewModel() {
 
     /** Purely visual, so it neither pushes undo nor triggers a recalculation. */
     fun setAimRaysEnabled(enabled: Boolean) {
+        if (_aimRaysEnabled.value == enabled) return
         _aimRaysEnabled.value = enabled
+        touch()
     }
 
     fun setSignalInterferenceEnabled(enabled: Boolean) {
