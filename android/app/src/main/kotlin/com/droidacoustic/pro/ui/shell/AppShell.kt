@@ -120,6 +120,7 @@ fun AppShell(activity: MainActivity) {
     val venue by vm.venueGeometry.collectAsState()
     val heatmap by vm.heatmap.collectAsState()
     val listener by vm.listener.collectAsState()
+    val aimRays by vm.aimRaysEnabled.collectAsState()
     val dspMap by vm.dspMap.collectAsState()
     val combined by vm.combinedSplDb.collectAsState()
     val rt60 by vm.rt60Estimate.collectAsState()
@@ -248,6 +249,7 @@ fun AppShell(activity: MainActivity) {
                             splScaleMinDb = splMin,
                             splScaleMaxDb = splMax,
                             listener = listener,
+                            aimRaysEnabled = aimRays,
                             // Speakers are selectable by a true 3D ray test; a
                             // floor-plane hit test cannot reach a flown cabinet.
                             pickTargets = if (tool == Tool.SELECT) {

@@ -128,6 +128,7 @@ fun SettingsSheet(
     val reflectionOrder by vm.reflectionOrder.collectAsState()
     val clfStats by vm.clfIngestionStats.collectAsState()
     val clfRegistry by vm.clfRegistry.collectAsState()
+    val aimRays by vm.aimRaysEnabled.collectAsState()
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -282,6 +283,12 @@ fun SettingsSheet(
                 LayerToggle("Direct SPL", splEnabled) { vm.setSignalSplEnabled(it) }
                 LayerToggle("Coverage heatmap", coverage) { vm.setSignalCoverageEnabled(it) }
                 LayerToggle("Directivity", dispersion) { vm.setSignalDispersionEnabled(it) }
+                LayerToggle("Aim rays", aimRays) { vm.setAimRaysEnabled(it) }
+                Text(
+                    "Aim rays draw each box's acoustic axis and coverage edges out to the floor. An array fans one set per element, so splay is visible.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
 
             // ── Colour scale ─────────────────────────────────────────────────

@@ -519,6 +519,10 @@ class SceneViewModel : ViewModel() {
     private val _signalResolution = MutableStateFlow(24)
     val signalResolution: StateFlow<Int> = _signalResolution.asStateFlow()
 
+    /** Draw aim rays from each box, ArrayCalc style. A view layer, not a calculation. */
+    private val _aimRaysEnabled = MutableStateFlow(false)
+    val aimRaysEnabled: StateFlow<Boolean> = _aimRaysEnabled.asStateFlow()
+
     private val _signalInterferenceEnabled = MutableStateFlow(true)
     val signalInterferenceEnabled: StateFlow<Boolean> = _signalInterferenceEnabled.asStateFlow()
 
@@ -638,6 +642,24 @@ class SceneViewModel : ViewModel() {
     private var recalcJob: Job? = null
     private var heatmapJob: Job? = null
     private var earlyReflectionJob: Job? = null
+
+    /**
+     * Stop every background analysis job and wait for them to unwind.
+     *
+     * viewModelScope does this on its own when the ViewModel is cleared, which
+     * covers the app. Tests have no ViewModelStore to clear, so without an
+     * explicit hook a finished test leaves recalculation still running and the
+     * next one trips over `Dispatchers.Main is used concurrently with setting
+     * it`. Bounded, so a wedged job cannot hang a suite.
+     */
+    internal fun cancelAnalysisJobs(timeoutMs: Long = 3_000) {
+        val jobs = listOfNotNull(optimizerJob, recalcJob, heatmapJob, earlyReflectionJob)
+        jobs.forEach { it.cancel() }
+        val deadline = System.currentTimeMillis() + timeoutMs
+        while (jobs.any { it.isActive } && System.currentTimeMillis() < deadline) {
+            Thread.sleep(5)
+        }
+    }
 
     private val _activeZoneType = MutableStateFlow("AUDIENCE_SEATED")
     val activeZoneType: StateFlow<String> = _activeZoneType.asStateFlow()
@@ -2046,6 +2068,7 @@ class SceneViewModel : ViewModel() {
         root.put("signalBandwidthOct", _signalBandwidthOct.value)
         root.put("signalResolution", _signalResolution.value)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
+        root.put("aimRaysEnabled", _aimRaysEnabled.value)
         root.put("signalAutoCalculate", _signalAutoCalculate.value)
         root.put("splScaleMode", _splScaleMode.value)
         root.put("splTargetDb", _splTargetDb.value.toDouble())
@@ -2421,6 +2444,7 @@ class SceneViewModel : ViewModel() {
         root.put("signalBandwidthOct", _signalBandwidthOct.value)
         root.put("signalResolution", _signalResolution.value)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
+        root.put("aimRaysEnabled", _aimRaysEnabled.value)
         root.put("signalAutoCalculate", _signalAutoCalculate.value)
         root.put("splScaleMode", _splScaleMode.value)
         root.put("splTargetDb", _splTargetDb.value.toDouble())
@@ -2565,6 +2589,7 @@ class SceneViewModel : ViewModel() {
             _signalBandwidthOct.value = root.optDouble("signalBandwidthOct", _signalBandwidthOct.value.toDouble()).toFloat().coerceIn(1f / 12f, 1f)
             _signalResolution.value = root.optInt("signalResolution", _signalResolution.value).coerceIn(3, 96)
             _signalInterferenceEnabled.value = root.optBoolean("signalInterferenceEnabled", _signalInterferenceEnabled.value)
+            _aimRaysEnabled.value = root.optBoolean("aimRaysEnabled", _aimRaysEnabled.value)
             _signalAutoCalculate.value = root.optBoolean("signalAutoCalculate", _signalAutoCalculate.value)
             setSplScaleMode(root.optString("splScaleMode", _splScaleMode.value))
             setSplTargetDb(root.optDouble("splTargetDb", _splTargetDb.value.toDouble()).toFloat())
@@ -2814,6 +2839,11 @@ class SceneViewModel : ViewModel() {
         pushUndoCheckpoint()
         _signalResolution.value = clamped
         recomputeSignalIfNeeded()
+    }
+
+    /** Purely visual, so it neither pushes undo nor triggers a recalculation. */
+    fun setAimRaysEnabled(enabled: Boolean) {
+        _aimRaysEnabled.value = enabled
     }
 
     fun setSignalInterferenceEnabled(enabled: Boolean) {
@@ -4080,8 +4110,11 @@ class SceneViewModel : ViewModel() {
                         ty = lis.earHeightM,
                         tz = lis.z
                     )
-                    // Try CLF-based directivity first; fall back to simplified model if no CLF
-                    val clfPenalty = clfDirectivityAttenuationDb(
+                    // Measured directivity is applied exactly once. An array reads
+                    // the balloon per element inside directSplDb, so the box-level
+                    // penalty is zero for it; a single box reads it here.
+                    val perElementClf = perElementClfActive(spk)
+                    val clfPenalty = if (perElementClf) 0f else clfDirectivityAttenuationDb(
                         speakerId = spk.presetId,
                         fromX = spk.x,
                         fromY = spk.heightM,
@@ -4127,7 +4160,11 @@ class SceneViewModel : ViewModel() {
                         _signalDispersionEnabled.value &&
                         (directivityPenalty + verticalAimPenalty) > 14f
                     ) 12f else 0f
-                    val spl    = directSplDb(spk, dsp, d) - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta
+                    val spl    = directSplDb(
+                        spk, dsp, d, lis.earHeightM,
+                        horizOffAxisDeg = horizontalOffAxisDeg(spk, spk.x, spk.z, lis.x, lis.z),
+                        clf = if (perElementClf) clfDataFor(spk) else null
+                    ) - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta
                     val air    = atmosphericLossDb(
                         distanceM = d,
                         bandHz = _selectedBandHz.value,
@@ -4303,7 +4340,8 @@ class SceneViewModel : ViewModel() {
                             tz = z
                         )
                         // Try CLF-based directivity first; fall back to simplified model if no CLF
-                        val clfPenalty = clfDirectivityAttenuationDb(
+                        val perElementClf = perElementClfActive(spks[si])
+                        val clfPenalty = if (perElementClf) 0f else clfDirectivityAttenuationDb(
                             speakerId = spks[si].presetId,
                             fromX = spks[si].x,
                             fromY = spks[si].heightM,
@@ -4346,7 +4384,11 @@ class SceneViewModel : ViewModel() {
                             (directivityPenalty + verticalAimPenalty) > 14f
                         ) 12f else 0f
                         contributions += CoherentContribution(
-                            splDb = directSplDb(spks[si], dspH, d, listenerY) - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta,
+                            splDb = directSplDb(
+                                spks[si], dspH, d, listenerY,
+                                horizOffAxisDeg = horizontalOffAxisDeg(spks[si], spks[si].x, spks[si].z, x, z),
+                                clf = if (perElementClf) clfDataFor(spks[si]) else null
+                            ) - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta,
                             distanceM = d,
                             delayMs = dspH.delayMs,
                             polarity = dspH.polarity
@@ -4487,7 +4529,9 @@ class SceneViewModel : ViewModel() {
         spk       : PlacedSpeaker,
         dsp       : SpeakerDsp,
         horizDistM: Float,         // XZ-plane distance to listener
-        listenerY : Float
+        listenerY : Float,
+        horizOffAxisDeg: Float = 0f,   // signed horizontal angle off the box's pan
+        clf       : ClfData? = null    // measured balloon, applied per element
     ): Float {
         val n       = spk.arrayElements
         val spacing = spk.arraySpacingM.toDouble()
@@ -4536,8 +4580,23 @@ class SceneViewModel : ViewModel() {
 
             val elemAim = elemAimDeg[elem]
             val listenerAngleDeg = Math.toDegrees(atan2((listenerY.toDouble() - ey), horizDistM.toDouble().coerceAtLeast(0.05)))
-            val mismatchDeg = listenerAngleDeg - elemAim
-            val dirAttenDb = directivityAttenuationDb(mismatchDeg, n, freq)
+            // arrayAimDeg is down-positive, so this element's acoustic axis sits
+            // at elevation -elemAim. Subtracting the aim instead of the axis
+            // inverted the steering: aiming an array down at an audience below
+            // it moved the modelled beam further away from them.
+            val mismatchDeg = signedAngularDeltaDeg(
+                listenerAngleDeg.toFloat(),
+                (-elemAim).toFloat()
+            ).toDouble()
+            // Each box in an array is aimed differently, so each one is read off
+            // the balloon at its own angle. Looking the array up once at the
+            // centre would ignore the splay that shapes it.
+            val dirAttenDb = if (clf != null) {
+                (clf.splAtDirection(_selectedBandHz.value, horizOffAxisDeg, mismatchDeg.toFloat())
+                    ?: 0f).toDouble()
+            } else {
+                directivityAttenuationDb(mismatchDeg, n, freq)
+            }
 
             val spl = elementSplDb(spk.sensitivity, dsp, d.toFloat()) + taper.toFloat() + dirAttenDb.toFloat()
             val amp = Math.pow(10.0, spl / 20.0)
@@ -4561,15 +4620,31 @@ class SceneViewModel : ViewModel() {
         spk: PlacedSpeaker,
         dsp: SpeakerDsp,
         distanceM: Float,
-        listenerY: Float = _listener.value.earHeightM
+        listenerY: Float = _listener.value.earHeightM,
+        horizOffAxisDeg: Float = 0f,
+        clf: ClfData? = null
     ): Float {
         val base = if (spk.arrayElements > 1) {
-            lineArraySplDb(spk, dsp, distanceM, listenerY)
+            lineArraySplDb(spk, dsp, distanceM, listenerY, horizOffAxisDeg, clf)
         } else {
             elementSplDb(spk.sensitivity, dsp, distanceM)
         }
         return base + _signalLevelDbu.value
     }
+
+    /**
+     * Measured data for a placed box, if any was imported for its preset.
+     *
+     * An array applies this per element inside [lineArraySplDb]; a single box
+     * applies it once, outside, via [clfDirectivityAttenuationDb]. Either way it
+     * is applied exactly once - [perElementClfActive] is what keeps the callers
+     * from adding it a second time.
+     */
+    private fun clfDataFor(spk: PlacedSpeaker): ClfData? =
+        _clfRegistry.value[spk.presetId]?.takeIf { it.patterns.isNotEmpty() }
+
+    private fun perElementClfActive(spk: PlacedSpeaker): Boolean =
+        spk.arrayElements > 1 && clfDataFor(spk) != null
 
     internal fun coherentSumDb(contributions: List<CoherentContribution>): Float {
         if (contributions.isEmpty()) return 0f
@@ -4635,14 +4710,16 @@ class SceneViewModel : ViewModel() {
         }
 
         // Horizontal angle (azimuth): relative to speaker's pan direction
+        // Signed, not absolute: a measured balloon is not symmetric, so the side
+        // of the axis the listener is on changes the answer.
         val bearingDeg = Math.toDegrees(atan2(dz.toDouble(), dx.toDouble())).toFloat()
-        val azimuthDeg = angularDeltaDeg(bearingDeg, spk.panDeg)
-        
+        val azimuthDeg = signedAngularDeltaDeg(bearingDeg, spk.panDeg)
+
         // Vertical angle (elevation): relative to speaker's aim direction
         val horizDist = sqrt(dx * dx + dz * dz).coerceAtLeast(1e-4f)
         val targetElevationDeg = Math.toDegrees(atan2(dy.toDouble(), horizDist.toDouble())).toFloat()
         val acousticAxisDeg = -spk.arrayAimDeg  // App convention: down-positive → elevation negative
-        val elevationDeg = angularDeltaDeg(targetElevationDeg, acousticAxisDeg)
+        val elevationDeg = signedAngularDeltaDeg(targetElevationDeg, acousticAxisDeg)
         
         // Look up SPL at this direction and frequency from CLF
         val splDbRelative = clf.splAtDirection(bandHz, azimuthDeg, elevationDeg) ?: return null
@@ -4715,9 +4792,33 @@ class SceneViewModel : ViewModel() {
         return baseLoss * reflectionRelax
     }
 
-    internal fun angularDeltaDeg(aDeg: Float, bDeg: Float): Float {
-        val d = (((aDeg - bDeg) + 540f) % 360f) - 180f
-        return kotlin.math.abs(d)
+    internal fun angularDeltaDeg(aDeg: Float, bDeg: Float): Float =
+        kotlin.math.abs(signedAngularDeltaDeg(aDeg, bDeg))
+
+    /**
+     * Shortest angle from [bDeg] to [aDeg], keeping its sign.
+     *
+     * The unsigned [angularDeltaDeg] is all a symmetric model needs, but a
+     * measured balloon is not symmetric - a box can be 10 degrees wide upwards
+     * and 25 downwards at the same frequency - so throwing the sign away
+     * mirrors real data onto the wrong side of the axis.
+     */
+    internal fun signedAngularDeltaDeg(aDeg: Float, bDeg: Float): Float =
+        (((aDeg - bDeg) + 540f) % 360f) - 180f
+
+    /** Horizontal angle of a target off the speaker's aim, signed. */
+    internal fun horizontalOffAxisDeg(
+        spk: PlacedSpeaker,
+        fromX: Float,
+        fromZ: Float,
+        toX: Float,
+        toZ: Float
+    ): Float {
+        val dx = toX - fromX
+        val dz = toZ - fromZ
+        if (kotlin.math.abs(dx) < 1e-5f && kotlin.math.abs(dz) < 1e-5f) return 0f
+        val bearingDeg = Math.toDegrees(atan2(dz.toDouble(), dx.toDouble())).toFloat()
+        return signedAngularDeltaDeg(bearingDeg, spk.panDeg)
     }
 
     internal fun floorBoundaryInterferenceDb(

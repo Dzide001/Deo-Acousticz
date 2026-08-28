@@ -30,8 +30,20 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class MeasuredDirectivityTest {
 
+    private val live = mutableListOf<SceneViewModel>()
+
     @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
-    @After fun tearDown() = Dispatchers.resetMain()
+
+    @After fun tearDown() {
+        // These tests drive real recalculation, which runs on Dispatchers.Default
+        // and resumes on Main. Leaving that in flight breaks the *next* test
+        // class's setMain, so every view model created here is stopped first.
+        live.forEach { it.cancelAnalysisJobs() }
+        live.clear()
+        Dispatchers.resetMain()
+    }
+
+    private fun track(vm: SceneViewModel): SceneViewModel = vm.also { live += it }
 
     /**
      * A CLF2 document with a deliberately extreme pattern: flat to 30 degrees
@@ -57,7 +69,7 @@ class MeasuredDirectivityTest {
 
     /** A speaker at the origin facing +X, listener [d] metres away, [offAxis] degrees round. */
     private fun vmWithGeometry(offAxisDeg: Float, d: Float = 10f): SceneViewModel =
-        SceneViewModel().apply {
+        track(SceneViewModel()).apply {
             setBandHz(1000)
             val rad = Math.toRadians(offAxisDeg.toDouble())
             moveListener((d * kotlin.math.cos(rad)).toFloat(), (d * kotlin.math.sin(rad)).toFloat())
@@ -87,7 +99,7 @@ class MeasuredDirectivityTest {
     @Test
     fun `a placed speaker remembers which preset it came from`() {
         // Without this the registry lookup has nothing to match on.
-        val v = SceneViewModel()
+        val v = track(SceneViewModel())
         v.importClfTabText(cliffPatternTab())
         v.addSpeaker(0f, 0f)
         assertEquals("cliff_box", v.speakers.value.single().presetId)
@@ -148,23 +160,23 @@ class MeasuredDirectivityTest {
     fun `preset identity survives a scene round trip`() {
         // A saved scene that forgets which box it held would quietly downgrade
         // to synthetic directivity on reload.
-        val v = SceneViewModel()
+        val v = track(SceneViewModel())
         v.importClfTabText(cliffPatternTab())
         v.addSpeaker(3f, 4f)
         val json = v.exportSceneJson()
 
-        val restored = SceneViewModel()
+        val restored = track(SceneViewModel())
         assertTrue(restored.importSceneJson(json))
         assertEquals("cliff_box", restored.speakers.value.single().presetId)
     }
 
     @Test
     fun `a scene saved before preset identity existed still loads`() {
-        val v = SceneViewModel()
+        val v = track(SceneViewModel())
         v.addSpeaker(1f, 2f)
         val legacy = v.exportSceneJson().replace(Regex("\"presetId\":\"[^\"]*\","), "")
 
-        val restored = SceneViewModel()
+        val restored = track(SceneViewModel())
         assertTrue("older scenes must still open", restored.importSceneJson(legacy))
         assertEquals("", restored.speakers.value.single().presetId)
     }

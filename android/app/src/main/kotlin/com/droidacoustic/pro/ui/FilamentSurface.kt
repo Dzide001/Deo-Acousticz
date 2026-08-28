@@ -82,6 +82,7 @@ fun FilamentSurface(
     splScaleMinDb: Float? = null,
     splScaleMaxDb: Float? = null,
     listener   : ListenerPos? = null,
+    aimRaysEnabled: Boolean = false,
     onSpeakerMeshStatsChanged: (loaded: Int, total: Int) -> Unit = { _, _ -> },
     pickTargets: List<PickTarget> = emptyList(),
     onPickTarget: (id: Int) -> Unit = { },
@@ -110,6 +111,7 @@ fun FilamentSurface(
     LaunchedEffect(speakers, speakerModelPackages) { ctx.updateSpeakers(speakers, speakerModelPackages) }
     LaunchedEffect(heatmap, splScaleMinDb, splScaleMaxDb) { ctx.updateHeatmap(heatmap, splScaleMinDb, splScaleMaxDb) }
     LaunchedEffect(listener) { ctx.updateListener(listener) }
+    LaunchedEffect(speakers, aimRaysEnabled, venueGeometry) { ctx.updateAimRays(speakers, aimRaysEnabled, venueGeometry) }
     DisposableEffect(Unit) { onDispose { ctx.destroy() } }
 
     AndroidView(
@@ -145,6 +147,7 @@ class FilamentContext(private val context: Context) {
     private var audienceAreasAsset: FilamentAsset? = null
     private var audienceAsset: FilamentAsset? = null
     private var speakersAsset: FilamentAsset? = null
+    private var aimRaysAsset : FilamentAsset? = null
     private val speakerMeshAssetsById = mutableMapOf<Int, FilamentAsset>()
     private val speakerMeshKindsById = mutableMapOf<Int, String>()
     private val speakerAssetBytesCache = mutableMapOf<String, ByteArray>()
@@ -458,6 +461,24 @@ class FilamentContext(private val context: Context) {
         listenerAsset = null
         val data = ListenerGlb.build(listener) ?: return
         listenerAsset = assetLoader.createAsset(ByteBuffer.wrap(data))?.also { asset ->
+            resourceLoader.loadResources(asset)
+            asset.releaseSourceData()
+            scene.addEntities(asset.entities)
+        }
+    }
+
+    /** Draw or clear the aim rays. Cheap enough to rebuild whenever aiming changes. */
+    fun updateAimRays(speakers: List<PlacedSpeaker>, enabled: Boolean, venue: VenueGeometry) {
+        aimRaysAsset?.let { destroyAsset(it) }
+        aimRaysAsset = null
+        if (!enabled) return
+        val data = AimRaysGlb.build(
+            speakers,
+            venueWidthM = venue.widthM,
+            venueDepthM = venue.depthM,
+            venueHeightM = venue.wallHeightM
+        ) ?: return
+        aimRaysAsset = assetLoader.createAsset(ByteBuffer.wrap(data))?.also { asset ->
             resourceLoader.loadResources(asset)
             asset.releaseSourceData()
             scene.addEntities(asset.entities)
