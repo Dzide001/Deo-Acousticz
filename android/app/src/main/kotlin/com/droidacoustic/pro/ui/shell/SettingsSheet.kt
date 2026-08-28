@@ -33,6 +33,7 @@ import kotlinx.coroutines.withContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.droidacoustic.pro.MainActivity
+import com.droidacoustic.pro.scene.ClfCf2Reader
 import com.droidacoustic.pro.scene.SceneViewModel
 import com.droidacoustic.pro.ui.components.InspectorSection
 import com.droidacoustic.pro.ui.components.IntStepper
@@ -90,13 +91,18 @@ fun SettingsSheet(
                     }
                     // CLF TAB files are Latin-1, and manufacturer names carry
                     // accented characters that UTF-8 decoding would mangle.
-                    String(bytes, Charsets.ISO_8859_1)
+                    bytes to String(bytes, Charsets.ISO_8859_1)
                 }
             }
             importing = false
-            outcome.onSuccess { text ->
-                if (looksBinary(text)) {
-                    onMessage("That looks like a CF1/CF2 binary. Import the .tab text file instead.")
+            outcome.onSuccess { (bytes, text) ->
+                if (isClfBinary(bytes)) {
+                    if (vm.importClfBinary(bytes)) {
+                        val name = vm.speakerPresets.value.lastOrNull()?.name ?: "speaker"
+                        onMessage("Imported measured directivity for $name")
+                    } else {
+                        onMessage(vm.lastImportError.value ?: "Could not read that CLF file")
+                    }
                 } else if (vm.importClfTabText(text)) {
                     val name = vm.speakerPresets.value.lastOrNull()?.name ?: "speaker"
                     onMessage("Imported measured directivity for $name")
@@ -382,12 +388,13 @@ fun SettingsSheet(
                 Text(
                     "\"Inferred\" means the polar pattern was synthesized from the " +
                         "model name, not measured. Those predictions are indicative " +
-                        "only. Import a CLF .tab file to replace one with real data.",
+                        "only. Import a manufacturer CLF file - .cf2 or .tab - to " +
+                        "replace one with measured data.",
                     style = MaterialTheme.typography.bodySmall,
                     color = Instrument.Caution
                 )
                 SmallAction(
-                    if (importing) "Reading CLF file..." else "Import CLF file (.tab)",
+                    if (importing) "Reading CLF file..." else "Import CLF file (.cf2 / .tab)",
                     Modifier.fillMaxWidth()
                 ) {
                     if (!importing) {
@@ -475,9 +482,12 @@ private fun copyToClipboard(context: Context, label: String, text: String) {
 /** CLF TAB files run to a few hundred KB; anything far larger is not one. */
 private const val MAX_CLF_BYTES = 32 * 1024 * 1024
 
-/**
- * Catch the common mistake of picking a CF1/CF2 binary instead of the .tab
- * text, so the user gets a fixable message rather than a parse error.
- */
-private fun looksBinary(text: String): Boolean =
-    text.take(512).any { it == '\u0000' }
+/** CLF binaries announce themselves: CF2 is 0x000ABD41, CF1 one less. */
+private fun isClfBinary(bytes: ByteArray): Boolean {
+    if (bytes.size < 4) return false
+    val magic = (bytes[0].toInt() and 0xFF) or
+        ((bytes[1].toInt() and 0xFF) shl 8) or
+        ((bytes[2].toInt() and 0xFF) shl 16) or
+        ((bytes[3].toInt() and 0xFF) shl 24)
+    return magic == ClfCf2Reader.MAGIC_CF2 || magic == ClfCf2Reader.MAGIC_CF1
+}

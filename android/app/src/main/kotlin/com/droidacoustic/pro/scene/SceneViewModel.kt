@@ -1588,9 +1588,19 @@ class SceneViewModel : ViewModel() {
      * for anything that is not a TAB document, so existing simple imports keep
      * working.
      */
-    fun importClfTabText(text: String, speakerId: String = ""): Boolean {
+    fun importClfTabText(text: String, speakerId: String = ""): Boolean =
+        importClfSpeaker(speakerId) { ClfTabParser.parse(text, it) }
+
+    /** Import a CF2 binary the user supplied. */
+    fun importClfBinary(bytes: ByteArray, speakerId: String = ""): Boolean =
+        importClfSpeaker(speakerId) { ClfCf2Reader.parse(bytes, it) }
+
+    private fun importClfSpeaker(
+        speakerId: String,
+        read: (String) -> ClfTabParser.Speaker
+    ): Boolean {
         return runCatching {
-            val speaker = ClfTabParser.parse(text, speakerId)
+            val speaker = read(speakerId)
             if (speaker.bands.isEmpty()) throw IllegalArgumentException("CLF file contains no bands")
 
             speaker.bands.firstNotNullOfOrNull { ClfTabParser.balloonIntegrityError(it) }?.let {
@@ -1599,7 +1609,7 @@ class SceneViewModel : ViewModel() {
 
             val data = ClfTabParser.toClfData(speaker)
             _clfRegistry.value = _clfRegistry.value + (data.speakerId to data)
-            _clfSourceStatus.value = _clfSourceStatus.value + (data.speakerId to "TAB")
+            _clfSourceStatus.value = _clfSourceStatus.value + (data.speakerId to (speaker.tags["<FORMAT>"]?.firstOrNull() ?: "TAB"))
 
             val name = speaker.model.ifBlank { data.speakerId }
             if (_speakerPresets.value.none { it.id == data.speakerId }) {
@@ -1617,7 +1627,7 @@ class SceneViewModel : ViewModel() {
             _lastImportError.value = null
             recalculate(); refreshHeatmap()
         }.onFailure {
-            _lastImportError.value = it.message ?: "Invalid CLF TAB file"
+            _lastImportError.value = it.message ?: "Could not read that CLF file"
         }.isSuccess
     }
 

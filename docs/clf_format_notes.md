@@ -1,9 +1,9 @@
 # CLF CF1/CF2 container — reverse-engineering notes
 
-Status: **reconnaissance only. No parser has been written against this.**
-Phase 2 is waiting on the official CLF Group reader tooling (see
-`docs/clf_sdk_request.md`). These notes exist so that (a) the knowledge is not
-lost, and (b) whatever the SDK returns can be checked against something.
+Status: **implemented.** `ClfCf2Reader` reads CF2 and decodes all 669 CF2 files
+in the corpus. The SDK request in `docs/clf_sdk_request.md` was never sent and is
+no longer blocking; it remains worth doing if the format is to be relied on
+long-term, and the open questions at the end of this document are what to ask.
 
 Everything marked *verified* below was measured against the bundled corpus and,
 where stated, against published ground truth. Everything marked *inferred* is a
@@ -127,15 +127,45 @@ decoded, and it was wrong — the region before the balloon contains other
 small-valued float arrays that pass a range test. Enforcing the pole identity
 dropped that to a truthful 197.
 
+## The string table (fixed offsets)
+
+Established by dumping printable runs across vendors. The entries line up
+one-for-one with the TAB tags.
+
+| Offset | Field |
+|---|---|
+| `0x0014` | version string |
+| `0x0034` | measuring organisation - **not** the manufacturer |
+| `0x0138` | model name |
+| `0x0238` | manufacturer |
+| `0x0338` | description |
+| `0x043c` | colours |
+| `0x053c` | mounting |
+| `0x0740` | measurement contact |
+| `0x0940` | measurement date |
+| `0x1000` | 30 x f32 axial spectrum - matches the TAB's `<AXIAL-SPECTRUM>` exactly |
+
+An earlier draft of this document put the model at `0x13c`. That was four bytes
+out, taken from a single file where the string happened to start there.
+
 ## What is NOT solved
 
 - **The balloon offset is not stored anywhere.** Every u32 in every file was
   searched; none holds the offset, the offset minus the header, or the payload
-  length. It is positional, derived from the metadata block's layout. 182 files
-  share `0x3798`, but that is an observation, not a rule.
-- **`<BALLOON-SYMMETRY>`** can be `<none>`, or quarter/half, in which case fewer
-  arcs are stored and mirrored on read. Unhandled. This is the most likely
-  reason ~480 files do not currently decode.
+  length. It is positional. It is `0x3798` in all 669 CF2 files of the corpus,
+  and the reader tries there first, then scans - so a variant that moves it is
+  handled, just more slowly.
+- **`<BALLOON-ARC-ORDER>`** was not found in the binary. The XD12's TAB declares
+  `<reversed>` and the binary stores its arcs in the same order as the TAB rows,
+  so the reader applies the same reversal the TAB reader does. That is
+  calibrated on the one file where both formats exist. Reversal mirrors phi,
+  which swaps left and right and leaves up and down alone, so an asymmetric
+  horizontal pattern is the only case where getting it wrong would show.
+- **`<BALLOON-SYMMETRY>`** turned out not to matter for the binary. It affects
+  how the TAB stores arcs; every CF2 file examined carries all 72.
+- **CF1** (magic `0x000ABD40`, ten files) is not decoded. No grid or offset that
+  satisfies the pole geometry was found. All ten are Martin Audio ceiling
+  speakers, five models duplicated across two directories.
 - **`<BALLOON-ARC-ORDER>`** is `<reversed>` in the XD12 TAB, yet the binary
   matches in direct order. The flag is presumably normalised at encode time, but
   this has been confirmed on exactly one file.
