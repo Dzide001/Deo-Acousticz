@@ -323,6 +323,14 @@ class SceneViewModel : ViewModel() {
         val SUPPORTED_BANDS_HZ = listOf(63, 125, 250, 500, 1000, 2000, 4000, 8000)
         val ANALYSIS_PROFILES = listOf("Fast", "Balanced", "Precision")
 
+        const val CONTOUR_OFF = "OFF"
+        const val CONTOUR_BANDS = "BANDS"
+        const val CONTOUR_LINES = "LINES"
+        val CONTOUR_MODES = listOf(CONTOUR_OFF, CONTOUR_BANDS, CONTOUR_LINES)
+
+        /** Step between iso-levels, in dB. Three is the usual coverage grain. */
+        const val CONTOUR_STEP_DB = 3f
+
         const val SPL_SCALE_AUTO = "AUTO"
         const val SPL_SCALE_TARGET = "TARGET"
         const val SPL_SCALE_FIXED = "FIXED"
@@ -565,9 +573,17 @@ class SceneViewModel : ViewModel() {
     private val _signalResolution = MutableStateFlow(24)
     val signalResolution: StateFlow<Int> = _signalResolution.asStateFlow()
 
-    /** Draw iso-level contours over the coverage map. A view layer, not a calculation. */
-    private val _contoursEnabled = MutableStateFlow(false)
-    val contoursEnabled: StateFlow<Boolean> = _contoursEnabled.asStateFlow()
+    /**
+     * How iso-levels are shown over the coverage map. A view layer, not a
+     * calculation.
+     *
+     * "Bands" quantises the ramp itself into steps, so the boundaries appear as
+     * colour changes with nothing drawn on top - the same information as a
+     * contour line, without an overlay competing with the field for attention.
+     * "Lines" draws them explicitly, which is easier to trace across a busy map.
+     */
+    private val _contourMode = MutableStateFlow(CONTOUR_OFF)
+    val contourMode: StateFlow<String> = _contourMode.asStateFlow()
 
     /** Draw aim rays from each box, ArrayCalc style. A view layer, not a calculation. */
     private val _aimRaysEnabled = MutableStateFlow(false)
@@ -2129,7 +2145,7 @@ class SceneViewModel : ViewModel() {
         root.put("signalResolution", _signalResolution.value)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
         root.put("aimRaysEnabled", _aimRaysEnabled.value)
-        root.put("contoursEnabled", _contoursEnabled.value)
+        root.put("contourMode", _contourMode.value)
         root.put("signalAutoCalculate", _signalAutoCalculate.value)
         root.put("splScaleMode", _splScaleMode.value)
         root.put("splTargetDb", _splTargetDb.value.toDouble())
@@ -2506,7 +2522,7 @@ class SceneViewModel : ViewModel() {
         root.put("signalResolution", _signalResolution.value)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
         root.put("aimRaysEnabled", _aimRaysEnabled.value)
-        root.put("contoursEnabled", _contoursEnabled.value)
+        root.put("contourMode", _contourMode.value)
         root.put("signalAutoCalculate", _signalAutoCalculate.value)
         root.put("splScaleMode", _splScaleMode.value)
         root.put("splTargetDb", _splTargetDb.value.toDouble())
@@ -2652,10 +2668,19 @@ class SceneViewModel : ViewModel() {
             _signalResolution.value = root.optInt("signalResolution", _signalResolution.value).coerceIn(3, 96)
             _signalInterferenceEnabled.value = root.optBoolean("signalInterferenceEnabled", _signalInterferenceEnabled.value)
             _aimRaysEnabled.value = root.optBoolean("aimRaysEnabled", _aimRaysEnabled.value)
-            _contoursEnabled.value = root.optBoolean("contoursEnabled", _contoursEnabled.value)
+            _contourMode.value = root.optString("contourMode", _contourMode.value)
+                .takeIf { it in CONTOUR_MODES } ?: CONTOUR_OFF
             _signalAutoCalculate.value = root.optBoolean("signalAutoCalculate", _signalAutoCalculate.value)
-            setSplScaleMode(root.optString("splScaleMode", _splScaleMode.value))
-            setSplTargetDb(root.optDouble("splTargetDb", _splTargetDb.value.toDouble()).toFloat())
+            // Restored directly, not through setSplTargetDb: that setter adopts
+            // Target mode when the scale is on Auto, which is right for someone
+            // typing a target and wrong for reloading a scene that was
+            // deliberately saved on Auto.
+            _splTargetDb.value = root
+                .optDouble("splTargetDb", _splTargetDb.value.toDouble())
+                .toFloat().coerceIn(40f, 140f)
+            root.optString("splScaleMode", _splScaleMode.value)
+                .takeIf { it in SPL_SCALE_MODES }
+                ?.let { _splScaleMode.value = it }
             setSplSpanDb(root.optDouble("splSpanDb", _splSpanDb.value.toDouble()).toFloat())
             setSplFixedMinDb(root.optDouble("splFixedMinDb", _splFixedMinDb.value.toDouble()).toFloat())
             setSplFixedMaxDb(root.optDouble("splFixedMaxDb", _splFixedMaxDb.value.toDouble()).toFloat())
@@ -2904,8 +2929,8 @@ class SceneViewModel : ViewModel() {
         recomputeSignalIfNeeded()
     }
 
-    fun setContoursEnabled(enabled: Boolean) {
-        _contoursEnabled.value = enabled
+    fun setContourMode(mode: String) {
+        if (mode in CONTOUR_MODES) _contourMode.value = mode
     }
 
     /**
@@ -2949,11 +2974,25 @@ class SceneViewModel : ViewModel() {
         _splScaleMode.value = mode
     }
 
+    /**
+     * The design target, and the scale that shows it.
+     *
+     * Setting a target selects Target mode when the scale was on Auto. Auto
+     * restretches the ramp to whatever each calculation happens to contain, so
+     * 95-98 dB and 85-105 dB paint the same picture and cannot be compared
+     * between runs - which is the mistake the target exists to prevent. Someone
+     * who has just stated the level they are designing to should not have to
+     * find a second control before the map honours it.
+     *
+     * A deliberate choice of Fixed window is left alone.
+     */
     fun setSplTargetDb(db: Float) {
         val v = db.coerceIn(40f, 140f)
-        if (_splTargetDb.value == v) return
+        val adopt = _splScaleMode.value == SPL_SCALE_AUTO
+        if (_splTargetDb.value == v && !adopt) return
         pushUndoCheckpoint()
         _splTargetDb.value = v
+        if (adopt) _splScaleMode.value = SPL_SCALE_TARGET
     }
 
     fun setSplSpanDb(db: Float) {

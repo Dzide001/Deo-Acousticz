@@ -86,6 +86,8 @@ fun FilamentSurface(
     aimRaysEnabled: Boolean = false,
     coverageEdges: Map<Int, CoverageEdges> = emptyMap(),
     contourThresholds: List<Float> = emptyList(),
+    bandStepDb: Float? = null,
+    bandReferenceDb: Float? = null,
     contourEmphasisDb: Float? = null,
     onSpeakerMeshStatsChanged: (loaded: Int, total: Int) -> Unit = { _, _ -> },
     pickTargets: List<PickTarget> = emptyList(),
@@ -113,7 +115,9 @@ fun FilamentSurface(
     }
     LaunchedEffect(audience) { ctx.updateAudience(audience) }
     LaunchedEffect(speakers, speakerModelPackages) { ctx.updateSpeakers(speakers, speakerModelPackages) }
-    LaunchedEffect(heatmap, splScaleMinDb, splScaleMaxDb) { ctx.updateHeatmap(heatmap, splScaleMinDb, splScaleMaxDb) }
+    LaunchedEffect(heatmap, splScaleMinDb, splScaleMaxDb, bandStepDb, bandReferenceDb) {
+        ctx.updateHeatmap(heatmap, splScaleMinDb, splScaleMaxDb, bandStepDb, bandReferenceDb)
+    }
     LaunchedEffect(listener) { ctx.updateListener(listener) }
     LaunchedEffect(heatmap, contourThresholds, contourEmphasisDb) {
         ctx.updateContours(heatmap, contourThresholds, contourEmphasisDb)
@@ -515,13 +519,19 @@ class FilamentContext(private val context: Context) {
     }
 
     /** Swap heatmap bars whenever the computed SPL grid changes. */
-    fun updateHeatmap(cells: List<HeatCell>, minDb: Float? = null, maxDb: Float? = null) {
+    fun updateHeatmap(
+        cells: List<HeatCell>,
+        minDb: Float? = null,
+        maxDb: Float? = null,
+        bandStepDb: Float? = null,
+        bandReferenceDb: Float? = null
+    ) {
         heatmapAsset?.let { destroyAsset(it) }
         heatmapAsset = null
         val renderCells = flattenHeatmapCellsForRender(cells)
         val lo = minDb ?: renderCells.minOfOrNull { it.splDb } ?: return
         val hi = maxDb ?: renderCells.maxOfOrNull { it.splDb } ?: return
-        val data = HeatmapGlb.build(renderCells, lo, hi) ?: return
+        val data = HeatmapGlb.build(renderCells, lo, hi, bandStepDb, bandReferenceDb) ?: return
         heatmapAsset = assetLoader.createAsset(ByteBuffer.wrap(data))?.also { asset ->
             resourceLoader.loadResources(asset)
             asset.releaseSourceData()

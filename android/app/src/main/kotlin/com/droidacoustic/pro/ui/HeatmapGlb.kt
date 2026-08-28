@@ -41,9 +41,30 @@ object HeatmapGlb {
      * field read as a smooth gradient rather than a raft of overlapping ovals.
      * Anything that is not a lattice falls back to the original blob renderer.
      */
-    fun build(cells: List<HeatCell>, minDb: Float, maxDb: Float): ByteArray? {
+    /**
+     * @param bandStepDb when set, levels are quantised to this step about
+     *   [bandReferenceDb] before they are coloured, so the ramp becomes a
+     *   staircase and every boundary between steps is an iso-level. It is the
+     *   same information a contour line carries, drawn as the field itself
+     *   rather than on top of it.
+     */
+    fun build(
+        cells: List<HeatCell>,
+        minDb: Float,
+        maxDb: Float,
+        bandStepDb: Float? = null,
+        bandReferenceDb: Float? = null
+    ): ByteArray? {
         if (cells.isEmpty()) return null
-        return buildField(cells, minDb, maxDb) ?: buildBlobs(cells, minDb, maxDb)
+        val shaped = if (bandStepDb != null && bandStepDb > 0f && bandReferenceDb != null) {
+            cells.map { c ->
+                val steps = kotlin.math.floor((c.splDb - bandReferenceDb) / bandStepDb)
+                c.copy(splDb = bandReferenceDb + steps * bandStepDb)
+            }
+        } else {
+            cells
+        }
+        return buildField(shaped, minDb, maxDb) ?: buildBlobs(shaped, minDb, maxDb)
     }
 
     /**

@@ -200,15 +200,17 @@ fun AppShell(activity: MainActivity) {
         splScaleMode, splTarget, splSpan, splFixedMin, splFixedMax, heatmap
     )
 
-    val contoursOn by vm.contoursEnabled.collectAsState()
-    // Contour levels sit below a reference: the design target where one is set,
-    // otherwise the loudest point. Recomputed with the map, not with the frame.
-    val contourReference = remember(heatmap, contoursOn, splMin, splMax) {
-        if (!contoursOn) null else vm.contourReferenceDb(heatmap)
+    val contourMode by vm.contourMode.collectAsState()
+    // Iso-levels sit below a reference: the design target where one is set,
+    // otherwise the 95th percentile. Recomputed with the map, not with the frame.
+    val contourReference = remember(heatmap, contourMode, splMin, splMax) {
+        if (contourMode == SceneViewModel.CONTOUR_OFF) null else vm.contourReferenceDb(heatmap)
     }
-    val contourThresholds = remember(contourReference) {
-        contourReference?.let { ref -> ContoursGlb.DEFAULT_STEPS_DB.map { ref + it } }.orEmpty()
+    val contourThresholds = remember(contourReference, contourMode) {
+        if (contourMode != SceneViewModel.CONTOUR_LINES) emptyList()
+        else contourReference?.let { ref -> ContoursGlb.DEFAULT_STEPS_DB.map { ref + it } }.orEmpty()
     }
+    val bandStep = if (contourMode == SceneViewModel.CONTOUR_BANDS) SceneViewModel.CONTOUR_STEP_DB else null
 
 
     Scaffold(
@@ -271,6 +273,8 @@ fun AppShell(activity: MainActivity) {
                             coverageEdges = coverageEdges,
                             contourThresholds = contourThresholds,
                             contourEmphasisDb = contourReference?.minus(6f),
+                            bandStepDb = bandStep,
+                            bandReferenceDb = contourReference,
                             // Speakers are selectable by a true 3D ray test; a
                             // floor-plane hit test cannot reach a flown cabinet.
                             pickTargets = if (tool == Tool.SELECT) {

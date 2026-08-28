@@ -135,7 +135,7 @@ fun SettingsSheet(
     val clfStats by vm.clfIngestionStats.collectAsState()
     val clfRegistry by vm.clfRegistry.collectAsState()
     val aimRays by vm.aimRaysEnabled.collectAsState()
-    val contours by vm.contoursEnabled.collectAsState()
+    val contourMode by vm.contourMode.collectAsState()
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -291,12 +291,29 @@ fun SettingsSheet(
                 LayerToggle("Coverage heatmap", coverage) { vm.setSignalCoverageEnabled(it) }
                 LayerToggle("Directivity", dispersion) { vm.setSignalDispersionEnabled(it) }
                 LayerToggle("Aim rays", aimRays) { vm.setAimRaysEnabled(it) }
-                LayerToggle("Level contours", contours) { vm.setContoursEnabled(it) }
+                SectionLabel("Level contours")
+                SegmentedControl(
+                    options = SceneViewModel.CONTOUR_MODES,
+                    selected = contourMode,
+                    onSelect = { vm.setContourMode(it) },
+                    label = {
+                        when (it) {
+                            SceneViewModel.CONTOUR_BANDS -> "Shaded bands"
+                            SceneViewModel.CONTOUR_LINES -> "Lines"
+                            else -> "Off"
+                        }
+                    }
+                )
                 Text(
-                    "Contours mark -3, -6, -9 and -12 dB below the design target, or " +
-                        "below the loudest point when no target is set. -6 dB is drawn " +
-                        "brightest: it is the conventional edge of coverage. Colour alone " +
-                        "cannot say where coverage stops, because the ramp has no threshold.",
+                    "Iso-levels are measured down from the design target, or from the " +
+                        "95th percentile when no target is set. Shaded bands step the " +
+                        "ramp every 3 dB so each colour change is itself a contour; " +
+                        "Lines draws -3, -6, -9 and -12 dB on top, with -6 dB heaviest " +
+                        "as the conventional edge of coverage. Either way the point is " +
+                        "the same: a smooth ramp has no threshold, so colour alone " +
+                        "cannot say where coverage stops. Bands read best against a " +
+                        "target or fixed window - Auto can stretch over 60 dB, and " +
+                        "twenty steps of a six-colour ramp look like no steps at all.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -322,18 +339,26 @@ fun SettingsSheet(
                         }
                     }
                 )
+                // The target is a property of the design, not of the display, so
+                // it stays visible whichever scale is showing. Editing it while
+                // on Auto switches to Target - Auto cannot be compared between
+                // runs, and a stated target is a request to be able to.
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    NumericField(
+                        "Target", splTarget, { vm.setSplTargetDb(it) },
+                        Modifier.weight(1f), unit = "dB", range = 40f..140f, dragStep = 0.5f
+                    )
+                    if (splScaleMode == SceneViewModel.SPL_SCALE_TARGET) {
+                        NumericField(
+                            "Span ±", splSpan, { vm.setSplSpanDb(it) },
+                            Modifier.weight(1f), unit = "dB", range = 1f..40f, dragStep = 0.5f
+                        )
+                    } else {
+                        Box(Modifier.weight(1f))
+                    }
+                }
                 when (splScaleMode) {
                     SceneViewModel.SPL_SCALE_TARGET -> {
-                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            NumericField(
-                                "Target", splTarget, { vm.setSplTargetDb(it) },
-                                Modifier.weight(1f), unit = "dB", range = 40f..140f, dragStep = 0.5f
-                            )
-                            NumericField(
-                                "Span ±", splSpan, { vm.setSplSpanDb(it) },
-                                Modifier.weight(1f), unit = "dB", range = 1f..40f, dragStep = 0.5f
-                            )
-                        }
                         Text(
                             "Ramp spans ${"%.1f".format(splTarget - splSpan)} to " +
                                 "${"%.1f".format(splTarget + splSpan)} dB. Mid-ramp is on target.",
