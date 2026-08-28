@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.droidacoustic.pro.MainActivity
 import com.droidacoustic.pro.scene.SceneViewModel
+import com.droidacoustic.pro.ui.ContoursGlb
 import com.droidacoustic.pro.ui.FilamentSurface
 import com.droidacoustic.pro.ui.PickTarget
 import com.droidacoustic.pro.ui.ViewPreset
@@ -199,6 +200,17 @@ fun AppShell(activity: MainActivity) {
         splScaleMode, splTarget, splSpan, splFixedMin, splFixedMax, heatmap
     )
 
+    val contoursOn by vm.contoursEnabled.collectAsState()
+    // Contour levels sit below a reference: the design target where one is set,
+    // otherwise the loudest point. Recomputed with the map, not with the frame.
+    val contourReference = remember(heatmap, contoursOn, splMin, splMax) {
+        if (!contoursOn) null else vm.contourReferenceDb(heatmap)
+    }
+    val contourThresholds = remember(contourReference) {
+        contourReference?.let { ref -> ContoursGlb.DEFAULT_STEPS_DB.map { ref + it } }.orEmpty()
+    }
+
+
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
         containerColor = MaterialTheme.colorScheme.background
@@ -257,6 +269,8 @@ fun AppShell(activity: MainActivity) {
                             listener = listener,
                             aimRaysEnabled = aimRays,
                             coverageEdges = coverageEdges,
+                            contourThresholds = contourThresholds,
+                            contourEmphasisDb = contourReference?.minus(6f),
                             // Speakers are selectable by a true 3D ray test; a
                             // floor-plane hit test cannot reach a flown cabinet.
                             pickTargets = if (tool == Tool.SELECT) {

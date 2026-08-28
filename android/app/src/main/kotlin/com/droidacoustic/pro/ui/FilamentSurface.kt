@@ -85,6 +85,8 @@ fun FilamentSurface(
     listener   : ListenerPos? = null,
     aimRaysEnabled: Boolean = false,
     coverageEdges: Map<Int, CoverageEdges> = emptyMap(),
+    contourThresholds: List<Float> = emptyList(),
+    contourEmphasisDb: Float? = null,
     onSpeakerMeshStatsChanged: (loaded: Int, total: Int) -> Unit = { _, _ -> },
     pickTargets: List<PickTarget> = emptyList(),
     onPickTarget: (id: Int) -> Unit = { },
@@ -113,6 +115,9 @@ fun FilamentSurface(
     LaunchedEffect(speakers, speakerModelPackages) { ctx.updateSpeakers(speakers, speakerModelPackages) }
     LaunchedEffect(heatmap, splScaleMinDb, splScaleMaxDb) { ctx.updateHeatmap(heatmap, splScaleMinDb, splScaleMaxDb) }
     LaunchedEffect(listener) { ctx.updateListener(listener) }
+    LaunchedEffect(heatmap, contourThresholds, contourEmphasisDb) {
+        ctx.updateContours(heatmap, contourThresholds, contourEmphasisDb)
+    }
     LaunchedEffect(speakers, aimRaysEnabled, venueGeometry, coverageEdges) {
         ctx.updateAimRays(speakers, aimRaysEnabled, venueGeometry, coverageEdges)
     }
@@ -152,6 +157,7 @@ class FilamentContext(private val context: Context) {
     private var audienceAsset: FilamentAsset? = null
     private var speakersAsset: FilamentAsset? = null
     private var aimRaysAsset : FilamentAsset? = null
+    private var contourAsset : FilamentAsset? = null
     private val speakerMeshAssetsById = mutableMapOf<Int, FilamentAsset>()
     private val speakerMeshKindsById = mutableMapOf<Int, String>()
     private val speakerAssetBytesCache = mutableMapOf<String, ByteArray>()
@@ -489,6 +495,19 @@ class FilamentContext(private val context: Context) {
             venueHeightM = venue.wallHeightM
         ) ?: return
         aimRaysAsset = assetLoader.createAsset(ByteBuffer.wrap(data))?.also { asset ->
+            resourceLoader.loadResources(asset)
+            asset.releaseSourceData()
+            scene.addEntities(asset.entities)
+        }
+    }
+
+    /** Iso-level lines over the coverage map. */
+    fun updateContours(cells: List<HeatCell>, thresholds: List<Float>, emphasisDb: Float?) {
+        contourAsset?.let { destroyAsset(it) }
+        contourAsset = null
+        if (thresholds.isEmpty() || cells.isEmpty()) return
+        val data = ContoursGlb.build(cells, thresholds, emphasisDb) ?: return
+        contourAsset = assetLoader.createAsset(ByteBuffer.wrap(data))?.also { asset ->
             resourceLoader.loadResources(asset)
             asset.releaseSourceData()
             scene.addEntities(asset.entities)

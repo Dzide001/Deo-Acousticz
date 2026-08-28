@@ -31,6 +31,11 @@ import com.droidacoustic.pro.scene.SceneViewModel
 import com.droidacoustic.pro.scene.SpeakerDsp
 import com.droidacoustic.pro.scene.VenueBlock
 import com.droidacoustic.pro.scene.VenueGeometry
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import com.droidacoustic.pro.scene.elementAimsDeg
 import com.droidacoustic.pro.ui.components.InspectorSection
 import com.droidacoustic.pro.ui.components.IntStepper
 import com.droidacoustic.pro.ui.components.NumericField
@@ -241,6 +246,45 @@ private fun SpeakerInspector(vm: SceneViewModel, spk: PlacedSpeaker, dsp: Speake
                 "Edge taper", spk.arrayEdgeTaperDb, { vm.setSpeakerArrayEdgeTaper(spk.id, it) },
                 unit = "dB", range = 0f..12f, dragStep = 0.5f
             )
+
+            // Per-box angles. "Splay" above sets every joint at once; this opens
+            // them individually, which is the only way to hang a real array -
+            // tight at the top for the far throw, opening downward for the near
+            // field. The angle beside each box is its resulting absolute tilt,
+            // which is the number that gets rigged, not the joint angle.
+            var perBox by remember(spk.id) { mutableStateOf(false) }
+            val aims = spk.elementAimsDeg()
+            SmallAction(
+                if (perBox) "Hide per-box angles" else "Per-box angles",
+                Modifier.fillMaxWidth()
+            ) { perBox = !perBox }
+
+            if (perBox) {
+                Text(
+                    "Box 1 (top) ${"%+.1f".format(aims.first())}°",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Instrument.InkDim
+                )
+                (0 until spk.arrayElements - 1).forEach { joint ->
+                    val splay = spk.arraySplayByBoxDeg.getOrNull(joint)
+                        ?: spk.arrayInterBoxSplayDeg
+                    NumericField(
+                        "Box ${joint + 2}  (${"%+.1f".format(aims[joint + 1])}°)",
+                        splay,
+                        { vm.setSpeakerArraySplayAt(spk.id, joint, it) },
+                        unit = "°",
+                        range = 0f..10f,
+                        dragStep = 0.1f
+                    )
+                }
+                Text(
+                    "Each value is the angle between that box and the one above " +
+                        "it. The array is re-centred on its stated tilt, so opening " +
+                        "a joint spreads the fan rather than swinging it.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Instrument.InkDim
+                )
+            }
         }
     }
 

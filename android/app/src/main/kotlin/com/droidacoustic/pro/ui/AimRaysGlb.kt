@@ -1,6 +1,7 @@
 package com.droidacoustic.pro.ui
 
 import com.droidacoustic.pro.scene.CoverageEdges
+import com.droidacoustic.pro.scene.elementAimsDeg
 import com.droidacoustic.pro.scene.PlacedSpeaker
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -104,19 +105,7 @@ object AimRaysGlb {
         val n = spk.arrayElements.coerceAtLeast(1)
         val spacing = spk.arraySpacingM
         val globalAim = spk.arraySteerDeg + spk.arrayAimDeg
-        val joints = (n - 1).coerceAtLeast(0)
-        val splay = if (spk.arraySplayByBoxDeg.size == joints) {
-            spk.arraySplayByBoxDeg
-        } else {
-            List(joints) { spk.arrayInterBoxSplayDeg }
-        }
-
-        val aims = DoubleArray(n) { globalAim.toDouble() }
-        for (i in 1 until n) aims[i] = aims[i - 1] + splay[i - 1].toDouble()
-        if (n > 1) {
-            val offset = globalAim.toDouble() - aims.average()
-            for (i in 0 until n) aims[i] += offset
-        }
+        val aims = spk.elementAimsDeg()
 
         val up = edges.upDeg.coerceIn(1f, 90f)
         val down = edges.downDeg.coerceIn(1f, 90f)
@@ -129,7 +118,7 @@ object AimRaysGlb {
             val relIdx = elem - (n - 1) * 0.5f
             val ey = spk.heightM + relIdx * spacing
             // arrayAimDeg is down-positive, so the axis elevation is its negation.
-            val axisElevation = -aims[elem].toFloat()
+            val axisElevation = -aims[elem]
             val room = Room(venueWidthM, venueDepthM, venueHeightM)
             out += ray(spk, ey, axisElevation, 0f, room, 0.10f, 0.95f, 1.00f, 0.95f)
             out += ray(spk, ey, axisElevation + up, 0f, room, 0.10f, edgeG, 0.75f, edgeAlpha)

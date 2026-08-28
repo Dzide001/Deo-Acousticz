@@ -26,6 +26,7 @@ import kotlin.math.log10
 import kotlin.math.max
 import kotlin.math.round
 import kotlin.math.sin
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 import kotlin.math.tan
 
@@ -61,6 +62,35 @@ data class PlacedSpeaker(
     val sourceId   : Int? = null,
     val label      : String = "SPK ${id + 1}"
 )
+
+/**
+ * Absolute vertical aim of every element in an array, in the app's down-positive
+ * convention.
+ *
+ * Cumulative splay opens the array downward from the top box, then the whole
+ * fan is re-centred so its mean sits on the speaker's stated aim - otherwise
+ * adding splay would swing the array away from where the user pointed it.
+ *
+ * The summation, the aim-ray overlay and the inspector all read this. It used to
+ * be written out three times, which is how the mesh and the rays came to
+ * disagree about a sign.
+ */
+fun PlacedSpeaker.elementAimsDeg(): List<Float> {
+    val n = arrayElements.coerceAtLeast(1)
+    val global = arraySteerDeg + arrayAimDeg
+    if (n == 1) return listOf(global)
+
+    val joints = n - 1
+    val profile = if (arraySplayByBoxDeg.size == joints) {
+        arraySplayByBoxDeg
+    } else {
+        List(joints) { arrayInterBoxSplayDeg }
+    }
+    val aims = DoubleArray(n) { global.toDouble() }
+    for (i in 1 until n) aims[i] = aims[i - 1] + profile[i - 1].toDouble()
+    val offset = global.toDouble() - aims.average()
+    return aims.map { (it + offset).toFloat() }
+}
 
 data class SpeakerSource(
     val id: Int,
@@ -534,6 +564,10 @@ class SceneViewModel : ViewModel() {
 
     private val _signalResolution = MutableStateFlow(24)
     val signalResolution: StateFlow<Int> = _signalResolution.asStateFlow()
+
+    /** Draw iso-level contours over the coverage map. A view layer, not a calculation. */
+    private val _contoursEnabled = MutableStateFlow(false)
+    val contoursEnabled: StateFlow<Boolean> = _contoursEnabled.asStateFlow()
 
     /** Draw aim rays from each box, ArrayCalc style. A view layer, not a calculation. */
     private val _aimRaysEnabled = MutableStateFlow(false)
@@ -2095,6 +2129,7 @@ class SceneViewModel : ViewModel() {
         root.put("signalResolution", _signalResolution.value)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
         root.put("aimRaysEnabled", _aimRaysEnabled.value)
+        root.put("contoursEnabled", _contoursEnabled.value)
         root.put("signalAutoCalculate", _signalAutoCalculate.value)
         root.put("splScaleMode", _splScaleMode.value)
         root.put("splTargetDb", _splTargetDb.value.toDouble())
@@ -2471,6 +2506,7 @@ class SceneViewModel : ViewModel() {
         root.put("signalResolution", _signalResolution.value)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
         root.put("aimRaysEnabled", _aimRaysEnabled.value)
+        root.put("contoursEnabled", _contoursEnabled.value)
         root.put("signalAutoCalculate", _signalAutoCalculate.value)
         root.put("splScaleMode", _splScaleMode.value)
         root.put("splTargetDb", _splTargetDb.value.toDouble())
@@ -2616,6 +2652,7 @@ class SceneViewModel : ViewModel() {
             _signalResolution.value = root.optInt("signalResolution", _signalResolution.value).coerceIn(3, 96)
             _signalInterferenceEnabled.value = root.optBoolean("signalInterferenceEnabled", _signalInterferenceEnabled.value)
             _aimRaysEnabled.value = root.optBoolean("aimRaysEnabled", _aimRaysEnabled.value)
+            _contoursEnabled.value = root.optBoolean("contoursEnabled", _contoursEnabled.value)
             _signalAutoCalculate.value = root.optBoolean("signalAutoCalculate", _signalAutoCalculate.value)
             setSplScaleMode(root.optString("splScaleMode", _splScaleMode.value))
             setSplTargetDb(root.optDouble("splTargetDb", _splTargetDb.value.toDouble()).toFloat())
@@ -2865,6 +2902,31 @@ class SceneViewModel : ViewModel() {
         pushUndoCheckpoint()
         _signalResolution.value = clamped
         recomputeSignalIfNeeded()
+    }
+
+    fun setContoursEnabled(enabled: Boolean) {
+        _contoursEnabled.value = enabled
+    }
+
+    /**
+     * The level contours are drawn against.
+     *
+     * A design target if one is set, because that is the level the system is
+     * being built to hold. Otherwise the loudest point on the plane, which makes
+     * the contours read as "how far down from the hot spot" - useful, but a
+     * moving reference, so it changes as the design changes.
+     */
+    fun contourReferenceDb(cells: List<HeatCell>): Float? {
+        if (cells.isEmpty()) return null
+        if (_splScaleMode.value == SPL_SCALE_TARGET) return _splTargetDb.value
+        // Not the maximum. The single loudest cell is usually the one directly
+        // under a box, and referencing it drags every contour into a tight knot
+        // around the speaker instead of across the listening plane. The 95th
+        // percentile is the same number for a smooth field and far steadier when
+        // one cell happens to sit in the near field.
+        val sorted = cells.map { it.splDb }.sorted()
+        val idx = ((sorted.size - 1) * 0.95f).roundToInt().coerceIn(0, sorted.size - 1)
+        return sorted[idx]
     }
 
     /** Purely visual, so it neither pushes undo nor triggers a recalculation. */
@@ -4566,23 +4628,7 @@ class SceneViewModel : ViewModel() {
         val centreY = spk.heightM.toDouble()
         val globalSteerDeg = spk.arraySteerDeg + spk.arrayAimDeg
         val edgeTaperDb = spk.arrayEdgeTaperDb.toDouble()
-        val joints = (n - 1).coerceAtLeast(0)
-        val splayProfile = if (spk.arraySplayByBoxDeg.size == joints) {
-            spk.arraySplayByBoxDeg
-        } else {
-            List(joints) { spk.arrayInterBoxSplayDeg }
-        }
-
-        // Build per-element absolute aim from cumulative per-joint splay.
-        val elemAimDeg = DoubleArray(n) { globalSteerDeg.toDouble() }
-        for (i in 1 until n) {
-            elemAimDeg[i] = elemAimDeg[i - 1] + splayProfile[i - 1].toDouble()
-        }
-        if (n > 1) {
-            val meanAim = elemAimDeg.average()
-            val offset = globalSteerDeg.toDouble() - meanAim
-            for (i in 0 until n) elemAimDeg[i] += offset
-        }
+        val elemAimDeg = spk.elementAimsDeg().map { it.toDouble() }.toDoubleArray()
 
         val edgeNormDen = ((n - 1) * 0.5).coerceAtLeast(1.0)
         var real    = 0.0

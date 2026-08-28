@@ -135,6 +135,7 @@ fun SettingsSheet(
     val clfStats by vm.clfIngestionStats.collectAsState()
     val clfRegistry by vm.clfRegistry.collectAsState()
     val aimRays by vm.aimRaysEnabled.collectAsState()
+    val contours by vm.contoursEnabled.collectAsState()
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -290,6 +291,15 @@ fun SettingsSheet(
                 LayerToggle("Coverage heatmap", coverage) { vm.setSignalCoverageEnabled(it) }
                 LayerToggle("Directivity", dispersion) { vm.setSignalDispersionEnabled(it) }
                 LayerToggle("Aim rays", aimRays) { vm.setAimRaysEnabled(it) }
+                LayerToggle("Level contours", contours) { vm.setContoursEnabled(it) }
+                Text(
+                    "Contours mark -3, -6, -9 and -12 dB below the design target, or " +
+                        "below the loudest point when no target is set. -6 dB is drawn " +
+                        "brightest: it is the conventional edge of coverage. Colour alone " +
+                        "cannot say where coverage stops, because the ramp has no threshold.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 Text(
                     "Aim rays draw each box's acoustic axis and coverage edges out to the floor. An array fans one set per element, so splay is visible.",
                     style = MaterialTheme.typography.bodySmall,
