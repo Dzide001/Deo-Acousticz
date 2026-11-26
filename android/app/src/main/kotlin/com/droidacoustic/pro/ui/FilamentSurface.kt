@@ -1,6 +1,7 @@
 package com.droidacoustic.pro.ui
 
 import android.content.Context
+import android.widget.FrameLayout
 import android.view.Choreographer
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -9,6 +10,10 @@ import android.view.SurfaceView
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import com.droidacoustic.pro.geometry.SpeakerGizmoTransform
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
@@ -28,6 +33,11 @@ import android.view.GestureDetector
 import androidx.compose.runtime.LaunchedEffect
 import com.droidacoustic.pro.scene.AudienceArea
 import com.droidacoustic.pro.scene.AudiencePoint
+import com.droidacoustic.pro.geometry.PreparedAudienceGeometry
+import com.droidacoustic.pro.geometry.ViewportRay
+import com.droidacoustic.pro.geometry.PickPoint3D
+import com.droidacoustic.pro.geometry.GizmoCamera
+import com.droidacoustic.pro.geometry.GizmoPoint3
 import com.droidacoustic.pro.scene.HeatCell
 import com.droidacoustic.pro.scene.ListenerPos
 import com.droidacoustic.pro.scene.CoverageEdges
@@ -37,10 +47,8 @@ import com.droidacoustic.pro.scene.VenueGeometry
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
-import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.math.sqrt
-import kotlin.math.tan
 
 // =============================================================================
 // FilamentSurface — 3D viewport + tap-to-place
@@ -63,14 +71,25 @@ data class PickTarget(
     val radius: Float = 0.6f
 )
 
+/** Stable selected-object snapshot; preview geometry never changes its identity. */
+data class SceneTransformTarget(val kind: String, val id: Int, val transform: SpeakerGizmoTransform, val snapshot: Any)
+data class SceneTransformPreview(val venue: VenueGeometry? = null, val areas: List<AudienceArea>? = null)
+
 @Composable
 fun FilamentSurface(
     modifier   : Modifier = Modifier,
     viewPreset : ViewPreset = ViewPreset.PERSPECTIVE,
     frameAllToken: Int = 0,
+    receiverCameraFocus: com.droidacoustic.pro.geometry.ReceiverCameraFocus?=null,
+    receiverFrameTarget: com.droidacoustic.pro.prediction.AngularReceiver?=null,
+    receiverFrameToken:Long=0,
+    receiverFrameObstructions:List<com.droidacoustic.pro.geometry.ReceiverLabelRect> = emptyList(),
+    onReceiverFrameMessage:(String?)->Unit={},
     venueGeometry: VenueGeometry = VenueGeometry(),
     audienceAreas: List<AudienceArea> = emptyList(),
+    selectedMeshAreaId: Int? = null, selectedMeshFaces: Set<Int> = emptySet(),
     areaDraft    : List<Pair<Float, Float>> = emptyList(),
+    draftSurface: AudienceArea? = null,
     activeZoneType: String = "AUDIENCE_SEATED",
     activeZoneBaseHeightM: Float = 0f,
     activeZoneRakeDeg: Float = 0f,
@@ -79,48 +98,86 @@ fun FilamentSurface(
     speakers   : List<PlacedSpeaker> = emptyList(),
     speakerModelPackages: List<SpeakerModelPackage> = emptyList(),
     heatmap    : List<HeatCell> = emptyList(),
+    coverageGeometry: PreparedAudienceGeometry? = null,
     // Null keeps the old behaviour: scale to whatever the cells contain.
     splScaleMinDb: Float? = null,
     splScaleMaxDb: Float? = null,
     listener   : ListenerPos? = null,
     aimRaysEnabled: Boolean = false,
+    receiverAngularReport: com.droidacoustic.pro.prediction.ReceiverAngularReport? = null,
+    selectedReceiverMarkerId:String="listener",
+    receiverMarkerPickingEnabled:Boolean=false,
+    onReceiverMarkerSelected:(String)->Boolean={false},
     coverageEdges: Map<Int, CoverageEdges> = emptyMap(),
     contourThresholds: List<Float> = emptyList(),
     bandStepDb: Float? = null,
     bandReferenceDb: Float? = null,
     contourEmphasisDb: Float? = null,
     onSpeakerMeshStatsChanged: (loaded: Int, total: Int) -> Unit = { _, _ -> },
+    selectedObject: SceneTransformTarget? = null,
+    previewObject: (SceneTransformTarget, SpeakerGizmoTransform) -> SceneTransformPreview = { _, _ -> SceneTransformPreview() },
+    commitObject: (SceneTransformTarget, SpeakerGizmoTransform) -> Unit = { _, _ -> },
+    selectedSpeaker: PlacedSpeaker? = null,
+    previewSpeaker: (PlacedSpeaker) -> List<PlacedSpeaker> = { listOf(it) },
+    onMoveSpeaker: (Int, Float, Float, Float) -> Unit = { _, _, _, _ -> },
+    onRotateSpeaker: (Int, Float) -> Unit = { _, _ -> },
+    onTiltSpeaker: (Int, Float) -> Unit = { _, _ -> },
     pickTargets: List<PickTarget> = emptyList(),
     onPickTarget: (id: Int) -> Unit = { },
+    onSceneRayTap: (ViewportRay) -> Boolean = { false },
     onFloorTap : (x: Float, z: Float) -> Unit = { _, _ -> }
 ) {
     val context = LocalContext.current
     val ctx = remember { FilamentContext(context) }
+    var objectPreview by remember { mutableStateOf<SceneTransformPreview?>(null) }
+    val renderedVenue = objectPreview?.venue ?: venueGeometry
+    val renderedAreas = objectPreview?.areas ?: audienceAreas
+    ctx.receiverMarkerReport=receiverAngularReport
+    ctx.selectedReceiverMarkerId=selectedReceiverMarkerId
+    ctx.receiverMarkerPickingEnabled=receiverMarkerPickingEnabled
+    ctx.onReceiverMarkerSelected=onReceiverMarkerSelected
+    ctx.onReceiverFrameMessage=onReceiverFrameMessage
+    ctx.gizmoObject = selectedObject
+    ctx.onObjectPreview = { target, transform -> objectPreview = if(target != null && transform != null) previewObject(target,transform) else null }
+    ctx.onObjectCommit = commitObject
 
+    ctx.gizmoSpeaker = selectedSpeaker
+    ctx.previewSpeaker = previewSpeaker
+    ctx.gizmoPreset = viewPreset
+    ctx.onGizmoMove = onMoveSpeaker
+    ctx.onGizmoRotate = onRotateSpeaker
+    ctx.onGizmoTilt = onTiltSpeaker
     ctx.onFloorTap = onFloorTap                      // refresh on each recompose
     ctx.onSpeakerMeshStatsChanged = onSpeakerMeshStatsChanged
     ctx.pickTargets = pickTargets
     ctx.onPickTarget = onPickTarget
-    LaunchedEffect(venueGeometry) { ctx.updateVenueGeometry(venueGeometry) }
+    ctx.onSceneRayTap = onSceneRayTap
+    LaunchedEffect(renderedVenue) { ctx.updateVenueGeometry(renderedVenue) }
     LaunchedEffect(viewPreset, frameAllToken) { ctx.setViewPreset(viewPreset, venueGeometry) }
-    LaunchedEffect(audienceAreas, areaDraft, activeZoneType, activeZoneBaseHeightM, activeZoneRakeDeg, activeZoneRakeDirectionDeg) {
+    LaunchedEffect(receiverCameraFocus,receiverFrameTarget,receiverFrameToken,receiverFrameObstructions) {
+        ctx.setReceiverFraming(receiverCameraFocus,receiverFrameTarget,receiverFrameObstructions)
+    }
+    LaunchedEffect(renderedAreas, selectedMeshAreaId, selectedMeshFaces, areaDraft, draftSurface, activeZoneType, activeZoneBaseHeightM, activeZoneRakeDeg, activeZoneRakeDirectionDeg) {
         ctx.updateAudienceAreas(
-            areas = audienceAreas,
+            areas = renderedAreas,
             draft = areaDraft,
             draftZoneType = activeZoneType,
             draftBaseHeightM = activeZoneBaseHeightM,
             draftRakeDeg = activeZoneRakeDeg,
-            draftRakeDirectionDeg = activeZoneRakeDirectionDeg
+            draftRakeDirectionDeg = activeZoneRakeDirectionDeg,
+            draftSurface = draftSurface,
+            selectedAreaId = selectedMeshAreaId, selectedFaces = selectedMeshFaces
         )
     }
     LaunchedEffect(audience) { ctx.updateAudience(audience) }
     LaunchedEffect(speakers, speakerModelPackages) { ctx.updateSpeakers(speakers, speakerModelPackages) }
-    LaunchedEffect(heatmap, splScaleMinDb, splScaleMaxDb, bandStepDb, bandReferenceDb) {
-        ctx.updateHeatmap(heatmap, splScaleMinDb, splScaleMaxDb, bandStepDb, bandReferenceDb)
+    LaunchedEffect(heatmap, coverageGeometry, splScaleMinDb, splScaleMaxDb, bandStepDb, bandReferenceDb) {
+        ctx.updateHeatmap(heatmap, splScaleMinDb, splScaleMaxDb, bandStepDb, bandReferenceDb, coverageGeometry)
     }
     LaunchedEffect(listener) { ctx.updateListener(listener) }
-    LaunchedEffect(heatmap, contourThresholds, contourEmphasisDb) {
-        ctx.updateContours(heatmap, contourThresholds, contourEmphasisDb)
+    LaunchedEffect(receiverAngularReport,selectedReceiverMarkerId) { ctx.updateReceiverAngular(receiverAngularReport,selectedReceiverMarkerId) }
+    LaunchedEffect(heatmap, coverageGeometry, contourThresholds, contourEmphasisDb) {
+        ctx.updateContours(heatmap, contourThresholds, contourEmphasisDb, coverageGeometry)
     }
     LaunchedEffect(speakers, aimRaysEnabled, venueGeometry, coverageEdges) {
         ctx.updateAimRays(speakers, aimRaysEnabled, venueGeometry, coverageEdges)
@@ -128,9 +185,19 @@ fun FilamentSurface(
     DisposableEffect(Unit) { onDispose { ctx.destroy() } }
 
     AndroidView(
-        factory  = { c -> SurfaceView(c).also { sv -> ctx.attach(sv, venueGeometry) } },
+        factory = { c -> FrameLayout(c).also { frame ->
+            val sv = SurfaceView(c); frame.addView(sv); ctx.attach(sv, venueGeometry)
+            frame.addView(ReceiverMarkerView(c,ctx), FrameLayout.LayoutParams(-1,-1))
+            frame.addView(SpeakerTransformOverlay(c, ctx), FrameLayout.LayoutParams(-1,-1))
+        } },
         modifier = modifier,
-        update   = {}
+        update   = { frame ->
+            ctx.gizmoSpeaker = selectedSpeaker
+            ctx.gizmoObject = selectedObject
+            ctx.gizmoPreset = viewPreset
+            (frame.getChildAt(1) as? ReceiverMarkerView)?.refresh()
+            (frame.getChildAt(2) as? SpeakerTransformOverlay)?.refresh()
+        }
     )
 }
 
@@ -160,6 +227,7 @@ class FilamentContext(private val context: Context) {
     private var audienceAreasAsset: FilamentAsset? = null
     private var audienceAsset: FilamentAsset? = null
     private var speakersAsset: FilamentAsset? = null
+    private var receiverAngularAsset: FilamentAsset?=null
     private var aimRaysAsset : FilamentAsset? = null
     private var contourAsset : FilamentAsset? = null
     private val speakerMeshAssetsById = mutableMapOf<Int, FilamentAsset>()
@@ -179,10 +247,49 @@ class FilamentContext(private val context: Context) {
     var onSpeakerMeshStatsChanged: (Int, Int) -> Unit = { _, _ -> }
 
     /** Objects a tap can select, in world space. */
+    var receiverMarkerReport: com.droidacoustic.pro.prediction.ReceiverAngularReport?=null
+    var invalidateReceiverMarkers:()->Unit={}
+    var selectedReceiverMarkerId:String="listener"
+    var receiverMarkerPickingEnabled=false
+    var onReceiverMarkerSelected:(String)->Boolean={false}
+    var receiverMarkerLayoutProvider:(()->com.droidacoustic.pro.geometry.ReceiverMarkerLayout)?=null
     var pickTargets: List<PickTarget> = emptyList()
 
     /** Called instead of [onFloorTap] when a tap lands on a pick target. */
+    var gizmoObject: SceneTransformTarget? = null
+    var onObjectPreview: (SceneTransformTarget?, SpeakerGizmoTransform?) -> Unit = { _, _ -> }
+    var onObjectCommit: (SceneTransformTarget, SpeakerGizmoTransform) -> Unit = { _, _ -> }
+    fun previewObjectGizmo(target: SceneTransformTarget?, transform: SpeakerGizmoTransform?) {
+        if (!destroyed) onObjectPreview(target,transform)
+    }
+    var gizmoSpeaker: PlacedSpeaker? = null
+    var gizmoPreset: ViewPreset = ViewPreset.PERSPECTIVE
+    var onGizmoMove: (Int, Float, Float, Float) -> Unit = { _, _, _, _ -> }
+    var onGizmoRotate: (Int, Float) -> Unit = { _, _ -> }
+    var onGizmoTilt: (Int, Float) -> Unit = { _, _ -> }
+    var previewSpeaker: (PlacedSpeaker) -> List<PlacedSpeaker> = { listOf(it) }
+    private var savedSpeakers: List<PlacedSpeaker> = emptyList()
+    private var savedPackages: List<SpeakerModelPackage> = emptyList()
+    private var previewSpeakers: List<PlacedSpeaker>? = null
+    private var destroyed = false
+    fun previewGizmo(speaker: PlacedSpeaker?) {
+        if (destroyed) return
+        val next = speaker?.let(previewSpeaker)
+        if (next == previewSpeakers) return
+        previewSpeakers = next
+        renderSpeakers(next ?: savedSpeakers, savedPackages)
+        updateAimRays(next ?: savedSpeakers, savedAimEnabled, savedAimVenue, savedAimEdges)
+    }
+    private var savedAimEnabled = false
+    private var savedAimVenue = VenueGeometry()
+    private var savedAimEdges: Map<Int,CoverageEdges> = emptyMap()
+    fun gizmoCamera() = GizmoCamera(
+        GizmoPoint3(eyeArr[0],eyeArr[1],eyeArr[2]),
+        GizmoPoint3(targetArr[0],targetArr[1],targetArr[2]),
+        GizmoPoint3(upArr[0],upArr[1],upArr[2]),
+        viewportW,viewportH,fovDegrees.toFloat())
     var onPickTarget: (Int) -> Unit = { }
+    var onSceneRayTap: (ViewportRay) -> Boolean = { false }
 
     // ── Camera orbit controller ───────────────────────────────────────────────
     //
@@ -197,6 +304,38 @@ class FilamentContext(private val context: Context) {
     // with the venue instead of being a constant.
     private var manipulator: Manipulator = buildManipulator(ViewPreset.PERSPECTIVE, VenueGeometry())
     private var currentPreset: ViewPreset = ViewPreset.PERSPECTIVE
+    private var receiverFocus:com.droidacoustic.pro.geometry.ReceiverCameraFocus?=null
+    private var receiverTarget:com.droidacoustic.pro.prediction.AngularReceiver?=null
+    private var receiverObstructions:List<com.droidacoustic.pro.geometry.ReceiverLabelRect> = emptyList()
+    var receiverLabelSafeRect:com.droidacoustic.pro.geometry.ReceiverLabelRect?=null
+        private set
+    var onReceiverFrameMessage:(String?)->Unit={}
+    fun setReceiverFraming(focus:com.droidacoustic.pro.geometry.ReceiverCameraFocus?,target:com.droidacoustic.pro.prediction.AngularReceiver?,obstructions:List<com.droidacoustic.pro.geometry.ReceiverLabelRect>) {
+        val wasFocused=receiverFocus!=null
+        receiverFocus=focus;receiverTarget=target;receiverObstructions=obstructions.toList()
+        if(focus!=null) applyReceiverFrame() else {
+            receiverLabelSafeRect=null
+            if(wasFocused) setViewPreset(currentPreset,currentVenueGeometry)
+            onReceiverFrameMessage(null)
+        }
+    }
+    private fun applyReceiverFrame() {
+        val focus=receiverFocus ?: return
+        if(viewportW<2 || viewportH<2) return // surfaceChanged will retry with real dimensions.
+        val target=receiverTarget
+        val frame=target?.let {com.droidacoustic.pro.geometry.ReceiverCameraFraming.fit(focus,it,viewportW,viewportH,context.resources.displayMetrics.density,fovDegrees.toFloat(),receiverObstructions)}
+        if(frame==null) {
+            receiverLabelSafeRect=null
+            onReceiverFrameMessage("Unable to frame: hide details, narrow context or enlarge the viewport.");return
+        }
+        receiverLabelSafeRect=frame.usable
+        val c=frame.camera
+        manipulator=Manipulator.Builder().targetPosition(c.target.x,c.target.y,c.target.z)
+            .upVector(c.up.x,c.up.y,c.up.z).orbitHomePosition(c.eye.x,c.eye.y,c.eye.z).build(Manipulator.Mode.ORBIT)
+        manipulator.setViewport(viewportW,viewportH)
+        manipulator.getLookAt(eyeArr,targetArr,upArr)
+        onReceiverFrameMessage(null)
+    }
 
     private fun buildManipulator(preset: ViewPreset, venue: VenueGeometry): Manipulator {
         // Frame the whole venue with a margin, never closer than a small room.
@@ -226,6 +365,7 @@ class FilamentContext(private val context: Context) {
         currentPreset = preset
         manipulator = buildManipulator(preset, venue)
         if (viewportW > 1 && viewportH > 1) manipulator.setViewport(viewportW, viewportH)
+        applyReceiverFrame()
     }
 
     /** Re-frame the current preset — "zoom to fit". */
@@ -261,7 +401,10 @@ class FilamentContext(private val context: Context) {
     }
 
     fun destroy() {
+        destroyed = true
         choreographer.removeFrameCallback(frameCallback)
+        receiverMarkerLayoutProvider=null
+        receiverAngularAsset?.let {destroyAsset(it)}
         listenerAsset?.let { destroyAsset(it) }
         heatmapAsset?.let { destroyAsset(it) }
         speakersAsset?.let { destroyAsset(it) }
@@ -291,7 +434,9 @@ class FilamentContext(private val context: Context) {
         draftZoneType: String,
         draftBaseHeightM: Float,
         draftRakeDeg: Float,
-        draftRakeDirectionDeg: Float
+        draftRakeDirectionDeg: Float,
+        draftSurface: AudienceArea? = null,
+        selectedAreaId: Int? = null, selectedFaces: Set<Int> = emptySet()
     ) {
         audienceAreasAsset?.let { destroyAsset(it) }
         audienceAreasAsset = null
@@ -301,7 +446,9 @@ class FilamentContext(private val context: Context) {
             draftZoneType = draftZoneType,
             draftBaseHeightM = draftBaseHeightM,
             draftRakeDeg = draftRakeDeg,
-            draftRakeDirectionDeg = draftRakeDirectionDeg
+            draftRakeDirectionDeg = draftRakeDirectionDeg,
+            draftSurface = draftSurface,
+            selectedAreaId = selectedAreaId, selectedFaces = selectedFaces
         ) ?: return
         audienceAreasAsset = assetLoader.createAsset(ByteBuffer.wrap(data))?.also { asset ->
             resourceLoader.loadResources(asset)
@@ -311,6 +458,7 @@ class FilamentContext(private val context: Context) {
     }
 
     fun updateVenueGeometry(venue: VenueGeometry) {
+        val gridChanged = currentVenueGeometry.widthM != venue.widthM || currentVenueGeometry.depthM != venue.depthM
         currentVenueGeometry = venue
         venueAsset?.let { destroyAsset(it) }
         venueAsset = null
@@ -321,7 +469,7 @@ class FilamentContext(private val context: Context) {
             scene.addEntities(asset.entities)
         }
         // Reload floor grid to match new venue dimensions
-        loadFloorGrid()
+        if(gridChanged) loadFloorGrid()
     }
 
     /** Swap speaker markers whenever the ViewModel list changes. */
@@ -338,6 +486,11 @@ class FilamentContext(private val context: Context) {
 
     /** Swap speaker markers whenever the ViewModel list changes. */
     fun updateSpeakers(speakers: List<PlacedSpeaker>, modelPackages: List<SpeakerModelPackage>) {
+        savedSpeakers = speakers
+        savedPackages = modelPackages
+        renderSpeakers(previewSpeakers ?: speakers, modelPackages)
+    }
+    private fun renderSpeakers(speakers: List<PlacedSpeaker>, modelPackages: List<SpeakerModelPackage>) {
         val packageById = modelPackages.associateBy { it.id }
 
         val activeIds = speakers.mapTo(mutableSetOf()) { it.id }
@@ -432,7 +585,7 @@ class FilamentContext(private val context: Context) {
         if (instance == 0) return
 
         val yaw = Math.toRadians(spk.panDeg.toDouble())
-        val pitch = Math.toRadians(spk.arrayAimDeg.toDouble())
+        val pitch = Math.toRadians(-spk.arrayAimDeg.toDouble())
         val cy = cos(yaw).toFloat()
         val syaw = sin(yaw).toFloat()
         val cp = cos(pitch).toFloat()
@@ -449,13 +602,13 @@ class FilamentContext(private val context: Context) {
         // Rotation = yaw(Y) * pitch(local Z), then non-uniform scale by package dimensions.
         val c0x = cy * cp
         val c0y = sp
-        val c0z = -syaw * cp
+        val c0z = syaw * cp
 
         val c1x = -cy * sp
         val c1y = cp
-        val c1z = syaw * sp
+        val c1z = -syaw * sp
 
-        val c2x = syaw
+        val c2x = -syaw
         val c2y = 0f
         val c2z = cy
 
@@ -482,12 +635,22 @@ class FilamentContext(private val context: Context) {
     }
 
     /** Draw or clear the aim rays. Cheap enough to rebuild whenever aiming changes. */
+    fun updateReceiverAngular(report:com.droidacoustic.pro.prediction.ReceiverAngularReport?,selectedId:String="listener") {
+        invalidateReceiverMarkers()
+        receiverAngularAsset?.let {destroyAsset(it)};receiverAngularAsset=null
+        val data=ReceiverAngularGlb.build(report,selectedId) ?: return
+        receiverAngularAsset=assetLoader.createAsset(ByteBuffer.wrap(data))?.also {asset->
+            resourceLoader.loadResources(asset);asset.releaseSourceData();scene.addEntities(asset.entities)
+        }
+    }
+
     fun updateAimRays(
         speakers: List<PlacedSpeaker>,
         enabled: Boolean,
         venue: VenueGeometry,
         edges: Map<Int, CoverageEdges>
     ) {
+        savedAimEnabled = enabled; savedAimVenue = venue; savedAimEdges = edges
         aimRaysAsset?.let { destroyAsset(it) }
         aimRaysAsset = null
         if (!enabled) return
@@ -506,11 +669,11 @@ class FilamentContext(private val context: Context) {
     }
 
     /** Iso-level lines over the coverage map. */
-    fun updateContours(cells: List<HeatCell>, thresholds: List<Float>, emphasisDb: Float?) {
+    fun updateContours(cells: List<HeatCell>, thresholds: List<Float>, emphasisDb: Float?, geometry: PreparedAudienceGeometry?) {
         contourAsset?.let { destroyAsset(it) }
         contourAsset = null
         if (thresholds.isEmpty() || cells.isEmpty()) return
-        val data = ContoursGlb.build(cells, thresholds, emphasisDb) ?: return
+        val data = ContoursGlb.build(cells, thresholds, emphasisDb, geometry) ?: return
         contourAsset = assetLoader.createAsset(ByteBuffer.wrap(data))?.also { asset ->
             resourceLoader.loadResources(asset)
             asset.releaseSourceData()
@@ -518,20 +681,21 @@ class FilamentContext(private val context: Context) {
         }
     }
 
-    /** Swap heatmap bars whenever the computed SPL grid changes. */
+    /** Swap the surface mesh whenever computed coverage changes. */
     fun updateHeatmap(
         cells: List<HeatCell>,
         minDb: Float? = null,
         maxDb: Float? = null,
         bandStepDb: Float? = null,
-        bandReferenceDb: Float? = null
+        bandReferenceDb: Float? = null,
+        geometry: PreparedAudienceGeometry? = null
     ) {
         heatmapAsset?.let { destroyAsset(it) }
         heatmapAsset = null
-        val renderCells = flattenHeatmapCellsForRender(cells)
+        val renderCells = cells
         val lo = minDb ?: renderCells.minOfOrNull { it.splDb } ?: return
         val hi = maxDb ?: renderCells.maxOfOrNull { it.splDb } ?: return
-        val data = HeatmapGlb.build(renderCells, lo, hi, bandStepDb, bandReferenceDb) ?: return
+        val data = HeatmapGlb.build(renderCells, lo, hi, bandStepDb, bandReferenceDb, geometry) ?: return
         heatmapAsset = assetLoader.createAsset(ByteBuffer.wrap(data))?.also { asset ->
             resourceLoader.loadResources(asset)
             asset.releaseSourceData()
@@ -542,31 +706,6 @@ class FilamentContext(private val context: Context) {
     // =========================================================================
     // Private helpers
     // =========================================================================
-
-    /**
-     * Multi-layer audience can produce multiple heat cells at identical X/Z.
-     * For floor rendering, collapse coincident cells to a single tile to avoid overdraw artifacts.
-     */
-    private fun flattenHeatmapCellsForRender(cells: List<HeatCell>): List<HeatCell> {
-        if (cells.isEmpty()) return cells
-
-        val grouped = LinkedHashMap<String, MutableList<HeatCell>>()
-        cells.forEach { c ->
-            val qx = (c.x * 100f).roundToInt()
-            val qz = (c.z * 100f).roundToInt()
-            val key = "$qx:$qz"
-            grouped.getOrPut(key) { mutableListOf() }.add(c)
-        }
-
-        return grouped.values.map { bucket ->
-            if (bucket.size == 1) return@map bucket[0]
-
-            val avgSpl = bucket.map { it.splDb }.average().toFloat()
-            val topY = bucket.maxOf { it.renderY }
-            val representative = bucket.maxByOrNull { it.splDb } ?: bucket[0]
-            representative.copy(splDb = avgSpl, renderY = topY)
-        }
-    }
 
     private fun destroyAsset(asset: FilamentAsset) {
         asset.entities.forEach { scene.removeEntity(it) }
@@ -595,6 +734,7 @@ class FilamentContext(private val context: Context) {
                 view.viewport = Viewport(0, 0, width, height)
                 camera.setProjection(fovDegrees, width.toDouble() / height.toDouble(), 0.1, 200.0, Camera.Fov.VERTICAL)
                 manipulator.setViewport(width, height)
+                applyReceiverFrame()
             }
             override fun surfaceDestroyed(holder: SurfaceHolder) {
                 swapChain?.let { engine.destroySwapChain(it) }
@@ -619,11 +759,20 @@ class FilamentContext(private val context: Context) {
                 // onSingleTapUp is the one kept: placement should feel
                 // immediate, and nothing here handles double taps.
                 override fun onSingleTapUp(e: MotionEvent): Boolean {
+                    if(receiverMarkerPickingEnabled && receiverMarkerReport!=null) {
+                        val receiver=receiverMarkerLayoutProvider?.invoke()?.pick(com.droidacoustic.pro.geometry.GizmoPoint2(e.x,e.y),selectedReceiverMarkerId)
+                        if(receiver!=null) {
+                            if(onReceiverMarkerSelected(receiver)) selectedReceiverMarkerId=receiver
+                            return true
+                        }
+                    }
                     val hit = pickTarget(e.x, e.y)
                     if (hit != null) {
                         onPickTarget(hit)
                     } else {
-                        rayFloorIntersect(e.x, e.y)?.let { (wx, wz) -> onFloorTap(wx, wz) }
+                        val ray=viewportRay(e.x,e.y)
+                        if (ray==null || !onSceneRayTap(ray))
+                            rayFloorIntersect(e.x, e.y)?.let { (wx, wz) -> onFloorTap(wx, wz) }
                     }
                     return true
                 }
@@ -644,7 +793,7 @@ class FilamentContext(private val context: Context) {
                     // Use the actual pinch focus point, not the screen centre
                     manipulator.scroll(
                         detector.focusX.toInt(), detector.focusY.toInt(),
-                        (1f - detector.scaleFactor) * 150f
+                        (1f - detector.scaleFactor) * 600f
                     )
                     return true
                 }
@@ -710,38 +859,16 @@ class FilamentContext(private val context: Context) {
         }
     }
 
-    /**
-     * Unprojects a screen tap to the Y=0 world plane via perspective ray casting.
-     * Returns (worldX, worldZ) or null if the ray misses the floor or grid bounds.
-     */
-    /** Camera-space ray through a screen point: origin + normalised direction. */
-    private fun screenRay(sx: Float, sy: Float): DoubleArray? {
-        val W = viewportW.toDouble(); val H = viewportH.toDouble()
-        if (W <= 0 || H <= 0) return null
-        val ndcX = 2.0 * sx / W - 1.0
-        val ndcY = 1.0 - 2.0 * sy / H
+    /** Shared projection uses the same camera pose, field of view and clipping planes as Filament. */
+    private fun viewportRay(sx: Float,sy: Float): ViewportRay? = ViewportRay.perspective(
+        sx.toDouble(),sy.toDouble(),viewportW.toDouble(),viewportH.toDouble(),
+        PickPoint3D(eyeArr[0].toDouble(),eyeArr[1].toDouble(),eyeArr[2].toDouble()),
+        PickPoint3D(targetArr[0].toDouble(),targetArr[1].toDouble(),targetArr[2].toDouble()),
+        PickPoint3D(upArr[0].toDouble(),upArr[1].toDouble(),upArr[2].toDouble()),fovDegrees)
 
-        val ex = eyeArr[0].toDouble(); val ey = eyeArr[1].toDouble(); val ez = eyeArr[2].toDouble()
-        val tx = targetArr[0].toDouble(); val ty = targetArr[1].toDouble(); val tz = targetArr[2].toDouble()
-        val ux = upArr[0].toDouble(); val uy = upArr[1].toDouble(); val uz = upArr[2].toDouble()
-
-        var fX = tx - ex; var fY = ty - ey; var fZ = tz - ez
-        val fL = sqrt(fX * fX + fY * fY + fZ * fZ); if (fL < 1e-9) return null
-        fX /= fL; fY /= fL; fZ /= fL
-
-        var rX = fY * uz - fZ * uy; var rY = fZ * ux - fX * uz; var rZ = fX * uy - fY * ux
-        val rL = sqrt(rX * rX + rY * rY + rZ * rZ); if (rL < 1e-9) return null
-        rX /= rL; rY /= rL; rZ /= rL
-
-        val aX = rY * fZ - rZ * fY; val aY = rZ * fX - rX * fZ; val aZ = rX * fY - rY * fX
-
-        val th = tan(fovDegrees * PI / 360.0); val asp = W / H
-        val dX = ndcX * th * asp * rX + ndcY * th * aX + fX
-        val dY = ndcX * th * asp * rY + ndcY * th * aY + fY
-        val dZ = ndcX * th * asp * rZ + ndcY * th * aZ + fZ
-        val dL = sqrt(dX * dX + dY * dY + dZ * dZ); if (dL < 1e-9) return null
-
-        return doubleArrayOf(ex, ey, ez, dX / dL, dY / dL, dZ / dL)
+    /** Same shared projection for face, object and floor taps. */
+    private fun screenRay(sx: Float,sy: Float): DoubleArray? = viewportRay(sx,sy)?.let {
+        doubleArrayOf(it.origin.x,it.origin.y,it.origin.z,it.direction.x,it.direction.y,it.direction.z)
     }
 
     /**
@@ -780,36 +907,12 @@ class FilamentContext(private val context: Context) {
     }
 
     private fun rayFloorIntersect(sx: Float, sy: Float): Pair<Float, Float>? {
-        val W = viewportW.toDouble(); val H = viewportH.toDouble()
-        if (W <= 0 || H <= 0) return null
-        val ndcX = 2.0 * sx / W - 1.0
-        val ndcY = 1.0 - 2.0 * sy / H
-
-        val ex = eyeArr[0].toDouble(); val ey = eyeArr[1].toDouble(); val ez = eyeArr[2].toDouble()
-        val tx = targetArr[0].toDouble(); val ty = targetArr[1].toDouble(); val tz = targetArr[2].toDouble()
-        val ux = upArr[0].toDouble(); val uy = upArr[1].toDouble(); val uz = upArr[2].toDouble()
-
-        var fX = tx-ex; var fY = ty-ey; var fZ = tz-ez
-        val fL = sqrt(fX*fX+fY*fY+fZ*fZ); if (fL < 1e-9) return null
-        fX /= fL; fY /= fL; fZ /= fL
-
-        var rX = fY*uz-fZ*uy; var rY = fZ*ux-fX*uz; var rZ = fX*uy-fY*ux
-        val rL = sqrt(rX*rX+rY*rY+rZ*rZ); if (rL < 1e-9) return null
-        rX /= rL; rY /= rL; rZ /= rL
-
-        val aX = rY*fZ-rZ*fY; val aY = rZ*fX-rX*fZ; val aZ = rX*fY-rY*fX
-
-        val th = tan(fovDegrees * PI / 360.0); val asp = W / H
-        val dX = ndcX*th*asp*rX + ndcY*th*aX + fX
-        val dY = ndcX*th*asp*rY + ndcY*th*aY + fY
-        val dZ = ndcX*th*asp*rZ + ndcY*th*aZ + fZ
-        val dL = sqrt(dX*dX+dY*dY+dZ*dZ); if (dL < 1e-9) return null
-
-        val dirY = dY / dL
-        if (abs(dirY) < 1e-6) return null
-        val t = -ey / dirY; if (t < 0) return null
-        val hX = (ex + t * dX/dL).toFloat()
-        val hZ = (ez + t * dZ/dL).toFloat()
+        val ray=viewportRay(sx,sy) ?: return null
+        if (abs(ray.direction.y)<1e-6) return null
+        val t=-ray.origin.y/ray.direction.y
+        if (t<0) return null
+        val hX=(ray.origin.x+t*ray.direction.x).toFloat()
+        val hZ=(ray.origin.z+t*ray.direction.z).toFloat()
         val halfW = (currentVenueGeometry.widthM * 0.5f).coerceAtLeast(4f)
         val halfD = (currentVenueGeometry.depthM * 0.5f).coerceAtLeast(4f)
         val clampedX = hX.coerceIn(-halfW, halfW)

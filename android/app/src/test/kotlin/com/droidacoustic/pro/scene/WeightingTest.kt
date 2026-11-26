@@ -1,6 +1,7 @@
 package com.droidacoustic.pro.scene
 
 import kotlinx.coroutines.Dispatchers
+import com.droidacoustic.pro.acoustics.BroadbandDrive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -51,7 +52,7 @@ class WeightingTest {
     }
 
     private fun scene(broadband: Boolean, weighting: String = SceneViewModel.WEIGHTING_Z) =
-        track(SceneViewModel()).apply {
+        track(SceneViewModel(predictionDispatcher = Dispatchers.Main)).apply {
             setBandHz(1000)
             if (broadband) setSignalType("SPECTRUM")
             setWeighting(weighting)
@@ -169,7 +170,7 @@ class WeightingTest {
 
     @Test
     fun `broadband analysis covers every band, single-band covers one`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         v.setBandHz(2000)
         assertEquals(listOf(2000), v.analysisBands())
         v.setSignalType("SPECTRUM")
@@ -178,7 +179,7 @@ class WeightingTest {
 
     @Test
     fun `weighting is remembered and only known curves are accepted`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         assertEquals(SceneViewModel.WEIGHTING_Z, v.weighting.value)
         v.setWeighting(SceneViewModel.WEIGHTING_A)
         assertEquals(SceneViewModel.WEIGHTING_A, v.weighting.value)
@@ -186,7 +187,7 @@ class WeightingTest {
         assertEquals(SceneViewModel.WEIGHTING_A, v.weighting.value)
 
         v.addSpeaker(1f, 1f)
-        val restored = SceneViewModel()
+        val restored = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         restored.importSceneJson(v.exportSceneJson())
         assertEquals(SceneViewModel.WEIGHTING_A, restored.weighting.value)
     }
@@ -205,9 +206,13 @@ class WeightingTest {
     // ── End to end ───────────────────────────────────────────────────────────
 
     @Test
-    fun `broadband reads higher than one band, because it is summing the rest`() {
+    fun `legacy broadband adds full band powers while fixed total removes the extra drive`() {
         val oneBand = splOf(scene(broadband = false))
-        val broad = splOf(scene(broadband = true))
+        val fixed = splOf(scene(broadband = true))
+        val broad = splOf(scene(broadband = true).apply {
+            setBroadbandDrive(BroadbandDrive.PER_BAND_REFERENCE)
+        })
+        assertEquals(10f * log10(8f), broad - fixed, 0.001f)
         assertTrue("broadband ($broad) should exceed a single band ($oneBand)", broad > oneBand)
         assertTrue("but not by more than eight equal bands could give",
                    broad - oneBand < 10f * log10(8f) + 3f)

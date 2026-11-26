@@ -33,7 +33,7 @@ class IntelligibilityScoreTest {
     @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
     @After fun tearDown() = Dispatchers.resetMain()
 
-    private val vm = SceneViewModel()
+    private val vm = SceneViewModel(predictionDispatcher = Dispatchers.Main)
 
     private fun score(avgDb: Float, devDb: Float, rt60S: Float) =
         vm.intelligibilityScore(avgDb, devDb, rt60S)

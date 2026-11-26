@@ -26,7 +26,7 @@ class DirectivityTest {
     @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
     @After fun tearDown() = Dispatchers.resetMain()
 
-    private fun vm() = SceneViewModel()
+    private fun vm() = SceneViewModel(predictionDispatcher = Dispatchers.Main)
 
     private fun box(
         panDeg: Float = 0f,

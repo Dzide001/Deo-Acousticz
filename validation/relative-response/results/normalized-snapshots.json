@@ -1,0 +1,137 @@
+{
+    "scope": "SYNTHETIC_RELATIVE_RESPONSE_NUMERICAL_CHECK_ONLY",
+    "referenceSha256": "e3bc36e091a6c5b933d6870649f1f657854eaad0d717072e4635fea484c57d3a",
+    "cases": [
+        {
+            "gainDb": 0.0,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 2,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "b14b384b0c218294e74136fe95cc7373a211252afd69751343f465ef62924b10",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Per-frequency total-field level difference; explicit denominator; no fitted offsets, distance correction or display floor",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 1000,
+                            "rawReferenceLevelDb": 79.95309020780562,
+                            "status": "VALID"
+                        },
+                        {
+                            "frequencyHz": 2000,
+                            "rawReferenceLevelDb": 79.90022997867833,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "normalization": {
+                    "method": "per-frequency-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":0.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"unweighted-band-mean-square; fixed-total-drive-flat-PSD\",\"widthOct\":0.33333334,\"bands\":[{\"hz\":1000,\"segments\":[[1000,890.8987181403393,1122.4620483093731]]},{\"hz\":2000,\"segments\":[[2000,1781.7974362806785,2244.9240966187463]]}]}",
+                    "levelConvention": "RELATIVE_TO_ON_AXIS",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"per-frequency-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}"
+                },
+                "units": {
+                    "frequency": "Hz",
+                    "position": "m",
+                    "level": "dB_relative"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"1000:10\",\"frequencyHz\":1000.0,\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":0.0},{\"id\":\"1000:20\",\"frequencyHz\":1000.0,\"xM\":20.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":-6.067509705474009},{\"id\":\"2000:10\",\"frequencyHz\":2000.0,\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":0.0},{\"id\":\"2000:20\",\"frequencyHz\":2000.0,\"xM\":20.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":-6.120369934601314}]",
+                "sourceSha256": "9f6a0b4d9dec1b99d24350e988b9000772d2f7e0bac2a78e07401fad75d281c0",
+                "toleranceDb": 0.1
+            },
+            "residualsDb": [
+                0.0,
+                7.889955355722122E-11,
+                0.0,
+                2.5864732577929317E-10
+            ],
+            "maximumErrorDb": 2.5864732577929317E-10,
+            "roundTripPassed": true
+        },
+        {
+            "gainDb": 12.0,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 2,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "51a01995175520acc68d221f777bbe74ef3c9a180e66a4e60369658264a17548",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Per-frequency total-field level difference; explicit denominator; no fitted offsets, distance correction or display floor",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 1000,
+                            "rawReferenceLevelDb": 91.95309020780562,
+                            "status": "VALID"
+                        },
+                        {
+                            "frequencyHz": 2000,
+                            "rawReferenceLevelDb": 91.90022997867831,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "normalization": {
+                    "method": "per-frequency-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":12.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"unweighted-band-mean-square; fixed-total-drive-flat-PSD\",\"widthOct\":0.33333334,\"bands\":[{\"hz\":1000,\"segments\":[[1000,890.8987181403393,1122.4620483093731]]},{\"hz\":2000,\"segments\":[[2000,1781.7974362806785,2244.9240966187463]]}]}",
+                    "levelConvention": "RELATIVE_TO_ON_AXIS",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"per-frequency-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}"
+                },
+                "units": {
+                    "frequency": "Hz",
+                    "position": "m",
+                    "level": "dB_relative"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"1000:10\",\"frequencyHz\":1000.0,\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":0.0},{\"id\":\"1000:20\",\"frequencyHz\":1000.0,\"xM\":20.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":-6.067509705474009},{\"id\":\"2000:10\",\"frequencyHz\":2000.0,\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":0.0},{\"id\":\"2000:20\",\"frequencyHz\":2000.0,\"xM\":20.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":-6.120369934601285}]",
+                "sourceSha256": "7282581a0f36c702f18f8eca5ac3a8da441f726385dcbfe3b638dc7d8b42c168",
+                "toleranceDb": 0.1
+            },
+            "residualsDb": [
+                0.0,
+                7.889955355722122E-11,
+                0.0,
+                2.5867574748872357E-10
+            ],
+            "maximumErrorDb": 2.5867574748872357E-10,
+            "roundTripPassed": true
+        }
+    ],
+    "allPassed": true
+}

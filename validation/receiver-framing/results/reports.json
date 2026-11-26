@@ -1,0 +1,198 @@
+{
+    "schema": 1,
+    "scope": "Synthetic camera framing/recovery geometry; no acoustic accuracy claim",
+    "cases": [
+        {
+            "view": "PLAN",
+            "width": 1200,
+            "height": 700,
+            "focus": {
+                "version": 1,
+                "receiverId": "reference:4",
+                "view": "PLAN",
+                "spanM": 8.0
+            },
+            "receiverScreen": [
+                464.0001,
+                350.0
+            ],
+            "eye": [
+                40.422924,
+                27.050747,
+                -16.698984
+            ],
+            "target": [
+                40.422924,
+                12.0,
+                -17.0
+            ],
+            "usableRect": [
+                16.0,
+                32.0,
+                896.0,
+                636.0
+            ],
+            "selectedPick": "reference:4"
+        },
+        {
+            "view": "PLAN",
+            "width": 400,
+            "height": 800,
+            "focus": {
+                "version": 1,
+                "receiverId": "reference:4",
+                "view": "PLAN",
+                "spanM": 8.0
+            },
+            "receiverScreen": [
+                200.0,
+                322.0
+            ],
+            "eye": [
+                38.0,
+                37.786,
+                -14.397298
+            ],
+            "target": [
+                38.0,
+                11.958277,
+                -14.913853
+            ],
+            "usableRect": [
+                16.0,
+                32.0,
+                368.0,
+                580.0
+            ],
+            "selectedPick": "reference:4"
+        },
+        {
+            "view": "SECTION",
+            "width": 1200,
+            "height": 700,
+            "focus": {
+                "version": 1,
+                "receiverId": "reference:4",
+                "view": "SECTION",
+                "spanM": 8.0
+            },
+            "receiverScreen": [
+                464.00003,
+                350.0
+            ],
+            "eye": [
+                52.818073,
+                14.666817,
+                -19.40811
+            ],
+            "target": [
+                38.002422,
+                12.0,
+                -19.422924
+            ],
+            "usableRect": [
+                16.0,
+                32.0,
+                896.0,
+                636.0
+            ],
+            "selectedPick": "reference:4"
+        },
+        {
+            "view": "SECTION",
+            "width": 400,
+            "height": 800,
+            "focus": {
+                "version": 1,
+                "receiverId": "reference:4",
+                "view": "SECTION",
+                "spanM": 8.0
+            },
+            "receiverScreen": [
+                200.00002,
+                322.0
+            ],
+            "eye": [
+                63.793926,
+                14.522809,
+                -16.974207
+            ],
+            "target": [
+                38.36964,
+                9.946438,
+                -16.99963
+            ],
+            "usableRect": [
+                16.0,
+                32.0,
+                368.0,
+                580.0
+            ],
+            "selectedPick": "reference:4"
+        },
+        {
+            "view": "PERSPECTIVE",
+            "width": 1200,
+            "height": 700,
+            "focus": {
+                "version": 1,
+                "receiverId": "reference:4",
+                "view": "PERSPECTIVE",
+                "spanM": 8.0
+            },
+            "receiverScreen": [
+                463.99994,
+                350.0
+            ],
+            "eye": [
+                47.18427,
+                20.102472,
+                -7.9178553
+            ],
+            "target": [
+                39.996593,
+                12.0,
+                -18.372658
+            ],
+            "usableRect": [
+                16.0,
+                32.0,
+                896.0,
+                636.0
+            ],
+            "selectedPick": "reference:4"
+        },
+        {
+            "view": "PERSPECTIVE",
+            "width": 400,
+            "height": 800,
+            "focus": {
+                "version": 1,
+                "receiverId": "reference:4",
+                "view": "PERSPECTIVE",
+                "spanM": 8.0
+            },
+            "receiverScreen": [
+                199.99994,
+                322.0
+            ],
+            "eye": [
+                50.970608,
+                24.145641,
+                1.8663362
+            ],
+            "target": [
+                38.63625,
+                10.241455,
+                -16.074549
+            ],
+            "usableRect": [
+                16.0,
+                32.0,
+                368.0,
+                580.0
+            ],
+            "selectedPick": "reference:4"
+        }
+    ]
+}

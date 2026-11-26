@@ -1,0 +1,268 @@
+{
+  "schema": 1,
+  "date": "2026-11-20",
+  "scope": "Synthetic camera framing geometry and Android recovery; not acoustic accuracy validation",
+  "tests": 79,
+  "failures": 0,
+  "suites": [
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.geometry.ReceiverCameraFramingTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "intentRoundTripsAndStaleTargetInvalidSchemaAndDegenerateViewportsAreRejected[jvm]",
+        "obstructingPanelsAreAvoidedAndCompleteObstructionNeverProducesABadFrame[jvm]",
+        "allViewsFrameTheReceiverAndPreserveRequestedContextAcrossAspectRatios[jvm]",
+        "widerContextPullsBackAndFramingIsDeterministicAtTranslatedReceiverPositions[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.geometry.ReceiverMarkerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "coincidentMarkersCycleButSeparatedLabelsSelectExactlyAndOrderIsDeterministic[jvm]",
+        "allViewDirectionsProjectPickAndLabelStableReceiverIdentities[jvm]",
+        "denseLabelsStayBoundedNonoverlappingAndSelectedLabelHasPriority[jvm]",
+        "densityScalesTouchTargetsAndSelectionReconciliationNeverChangesIdentityByName[jvm]",
+        "clippingRejectsBehindCameraNearFarAndOffscreenMarkers[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.geometry.SpeakerGizmoTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "projectionMatchesSharedPickingRaysAwayFromScreenCentre[jvm]",
+        "projectionUsesCameraBasisAndRejectsInvalidOrBehindCameraPoints[jvm]",
+        "coincidentAndDegenerateAxesRemainDistinctAndReachableAtViewportCorners[jvm]",
+        "axisDragsUseFrozenProjectionAndClampWorldCoordinates[jvm]",
+        "presetsExposeExpectedAxesAndRotationControls[jvm]",
+        "sceneObjectsExposeMoveAndYawWithoutTilt[jvm]",
+        "rotationWrapsPanClampsTiltAndCancelCannotCommitOrResume[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.persistence.ProjectPersistenceTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "absentAssetsRemainPinnedAndUnavailableOnResave[jvm]",
+        "legacyEmbeddedDataMigratesAndUnknownVersionsFailBeforeApply[jvm]",
+        "missingAssetKeepsLatestSceneRatherThanRollingBackGeometry[jvm]",
+        "portableProjectRestoresIdenticalDataWithoutExternalState[jvm]",
+        "newerCheckpointIsNotSilentlyRolledBackToOlderBackup[jvm]",
+        "corruptPrimaryFallsBackWithoutOverwritingLastValidBackup[jvm]",
+        "freshStoreReopensCompactSnapshotAndDeduplicatesAssets[jvm]",
+        "incompletePrimaryDoesNotReplaceCompleteBackupDuringSave[jvm]",
+        "interruptedSnapshotWritePreservesPreviousSceneAndData[jvm]",
+        "hashesAreStableAcrossJsonObjectOrderAndCalibrationIsCovered[jvm]",
+        "futureAssetFormatRemainsUnavailableAndIsPreservedOnResave[jvm]",
+        "assetWriteFailureCannotPublishSnapshot[jvm]",
+        "wrongRevisionAndIdentityNeverResolveByModelName[jvm]",
+        "corruptEmbeddedDataCanRecoverOnlyFromExactExternalAsset[jvm]",
+        "migrationKeysIncludeOlderSchemaSlotsInNewestFirstOrder[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.prediction.ReceiverAngularSupportTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "aMissingSecondSourceCannotBeHiddenByAnAvailableFirstSource[jvm]",
+        "transformedDirectRaysReportOriginsAndSparseInterpolationSeparately[jvm]",
+        "frozenResponsesMarkersAndReceiverIdentitiesRemainIndependentOfLiveInputs[jvm]",
+        "arrayGeometryAndMechanicalTiltRotateRaysButElectronicSteeringDoesNot[jvm]",
+        "missingGenericBypassedAndCoincidentDirectionsCannotBecomeMeasuredSuccess[jvm]",
+        "elevationBoundsAndComplexBandOriginsAreNotHiddenByMagnitudeData[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.validation.PublicMeasurementComparisonTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "realCalibratedPaMeasurementsAreHeldOutAndReplayedThroughProductionCapture[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.validation.ReceiverFramingPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "retainedFramesKeepReceiverPickableInAllViewsAndRestoreTheSameIntent[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.validation.ReceiverMarkerPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "retainedGeometryCasesPickAndLabelReceiversInAllViews[jvm]"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.ProjectRecoveryTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "tamperedEmbeddedAssetIsNotReplacedByPreviousRegistry",
+        "malformedLoadLeavesSceneDataAndHistoryUnchanged",
+        "missingDiskAssetPreservesSceneAndReportsUnavailable",
+        "undoAndRedoRetainExactMeasuredRevisions",
+        "diskCorruptionUsesPreviousCheckpoint",
+        "diskSaveAndFreshReopenRecoverCalibrationAndPrediction"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.ReceiverAngularOverlayTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "overlayPreferenceReceiversOriginsAndDirectionsSurviveDiskReopenWithoutChangingLevels",
+        "changedGeometryInvalidatesDisplayRevisionAndUndoRestoresDiagnostics",
+        "nativeMarkerGeometryContainsBothSupportAndOriginInEveryOrthogonalPlane"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.ReceiverFramingRecoveryTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "framingIntentAndViewSurviveReopenWithoutChangingSceneAcoustics",
+        "removedLegacyAndInvalidTargetsCannotRestoreAnUnrelatedReceiver",
+        "visualFramingAndInspectionDoNotInvalidateAnAdjustmentPreview"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.ReceiverMarkerRecoveryTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "markerAndListSelectionShareIdentityAndPersistWithoutAcousticOrAlignmentChanges",
+        "deletionUndoRedoAndLegacyReopenReconcileStaleSelection"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.SavedTraceIntegrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "malformedTraceArchiveDoesNotModifyOpenProject",
+        "capturedDesignsRemainFrozenAndCompareRealGainChangesAfterSaveReopen",
+        "captureRejectsEmptyAndStaleResultsAndLegacyProjectsHaveNoTraces"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "the document converges after one round trip",
+        "the SPL colour scale survives",
+        "a populated scene survives export and import",
+        "malformed JSON is rejected rather than half-applied",
+        "speaker positions survive exactly",
+        "an empty scene round trips without inventing content"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.SpeakerManipulationTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "linkedPreviewsMatchFinalMotionInBothModes",
+        "invalidPreviewCannotChangeGeometryOrHistory",
+        "sameSourceSpeakersMoveAndAimIndependentlyWithoutAnExplicitLink",
+        "previewNeverPersistsAndEachDragCommitsOneUndoableEditAcrossReopen"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "applyingDelayRecomputesAfterMovementAndCanBeUndone",
+        "systemAdjustmentRejectsStaleSceneAndReceiverChanges",
+        "sceneEditsAndReceiverSwitchRejectOldPreviewWithoutEditingDsp",
+        "previewDoesNotEditProjectApplyMatchesPreviewAndUndoRestoresAllComparisons",
+        "delayApplicationUsesNewlySelectedReceiverAndLegacyReferenceMigrates",
+        "referenceIsPinnedAndSurvivesSaveReopenAndUndo",
+        "multipleReceiversKeepTheirSpeakerSelectionAcrossSaveReopenAndUndo",
+        "invalidSavedSelectionRejectsImportBeforeChangingTheScene",
+        "legacySceneClearsReferenceAndImpossibleDelayDoesNotMutateDsp",
+        "polarityAndDelayPreviewChangeInterferenceAtReceivers",
+        "combinedAdjustmentIsPureAtomicUndoRedoAndSurvivesReopen",
+        "deletedReferenceDoesNotSilentlySelectAnotherSpeaker"
+      ]
+    }
+  ],
+  "androidDebugBuild": "PASSED",
+  "iosSimulatorSharedTestCompilation": "PASSED",
+  "onDeviceVisualGestureAcceptance": "NOT_RUN",
+  "independentPythonProjection": "PASSED: six camera/aspect cases, context-cube corners and near/far clipping",
+  "saveReopen": "PASSED: receiver/view/span intent and deterministic reconstruction; invalid import atomicity, stale/legacy/deleted targets, Undo/Redo",
+  "acousticIsolation": "PASSED: unchanged levels, scene revision, alignment state; valid adjustment preview still applies after camera/overlay inspection changes",
+  "publicMeasurementReportUnchanged": true,
+  "publicMeasurementReportSha256": "c391bf1ba0c8d068b8db23330ea17e923a0879b231202ce1c458ac2b8e94a365",
+  "reportsSha256": "a095a236a7bcab8074bd6d189ae8d0848d91a992609d8b2b89456120472d332c",
+  "referenceScriptSha256": "c4d135ed6861c724a7c06b9242f80ebf562a55c287f01b735941aa3d765dcd11",
+  "scopedSourceSha256": {
+    "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/geometry/ReceiverCameraFraming.kt": "11b3ab3e2226b76e81a326ec826951deec9497ce16f22baebdf592c0815e3be5",
+    "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/geometry/ReceiverMarkers.kt": "029f4fad99ca71ea29655b625e0789a93c57bc781e391f0a631859d2e7e4700c",
+    "android/shared-core/src/jvmTest/kotlin/com/droidacoustic/pro/validation/ReceiverFramingPackageTest.kt": "88a648c4e29128fd3fd0d9cda791ce2f10f9d87f2cd1b88c430ea63e2eaefa90",
+    "android/app/src/main/kotlin/com/droidacoustic/pro/scene/SceneViewModel.kt": "b9ef14252ee800d8b97a6bd91370138e490e2f041e9616008e57d1ea40c961f3",
+    "android/app/src/main/kotlin/com/droidacoustic/pro/ui/FilamentSurface.kt": "eabe1662d2acec25c1087437dd09019eb73f0829c8b6b597c2d705db790403b1",
+    "android/app/src/main/kotlin/com/droidacoustic/pro/ui/ReceiverMarkerView.kt": "b532f9efc67c917deed639010ae05539f96bb4023468a143e92591f1e1e9b79c",
+    "android/app/src/main/kotlin/com/droidacoustic/pro/ui/shell/AppShell.kt": "90245ab83b2dd729b727c6fe35ec44b79ec750a7fb7c06193211f5e2c8811369",
+    "android/app/src/main/kotlin/com/droidacoustic/pro/ui/shell/ReceiverAngularOverlay.kt": "c9cf7258716d8bc627f14b7c1fa4371766434259d201d539bdcafba3f87e145a"
+  }
+}

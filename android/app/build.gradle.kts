@@ -99,6 +99,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":shared-core"))
     // ─── AndroidX core ───────────────────────────────────────────────────────
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -135,4 +136,30 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.compose.ui.test.junit4)
+}
+
+// Benchmark selection changes test execution even when compiled test classes are unchanged.
+tasks.withType<Test>().configureEach {
+    inputs.property("diffuseBenchmarkHz", providers.environmentVariable("ACOUSTIC_DIFFUSE_BENCH_HZ").orElse("1000"))
+    inputs.property("benchmarkExportDirectory", providers.environmentVariable("ACOUSTIC_BENCHMARK_EXPORT_DIR").orElse(""))
+}
+
+tasks.withType<Test>().configureEach {
+    val validationRoot = project.file("../..")
+    val source = providers.environmentVariable("ACOUSTIC_MANUFACTURER_SOURCE_DIR")
+        .orElse(validationRoot.resolve("corpus/clf/martin_audio").absolutePath)
+    inputs.property("manufacturerSource", source)
+    val files = listOf("CLF2_XD12.tab", "Martin Audio-XD12.CF2").map { File(source.get(),it) }
+    inputs.files(files.filter { it.exists() })
+    inputs.dir(validationRoot.resolve("validation/comparison-import/fixtures"))
+    inputs.dir(validationRoot.resolve("validation/public-measurements/imports"))
+    inputs.file(validationRoot.resolve("validation/public-measurements/fixtures.json"))
+    inputs.file(validationRoot.resolve("validation/angular-domains/recovery-fixture.json"))
+    inputs.file(validationRoot.resolve("validation/speaker-data/results/reference.json"))
+    inputs.file(validationRoot.resolve("validation/speaker-data/reference.py"))
+    systemProperty("manufacturerValidationRoot",validationRoot.absolutePath)
+    systemProperty("manufacturerValidationSource",source.get())
+    val report=layout.buildDirectory.file("reports/speaker-data/${name}.json")
+    outputs.file(report)
+    systemProperty("manufacturerValidationReport",report.get().asFile.absolutePath)
 }

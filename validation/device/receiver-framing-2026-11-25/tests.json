@@ -1,0 +1,10 @@
+{
+  "android/shared-core/build/test-results/jvmTest": {
+    "tests": 596,
+    "failures": 0
+  },
+  "android/app/build/test-results/testDebugUnitTest": {
+    "tests": 5,
+    "failures": 0
+  }
+}

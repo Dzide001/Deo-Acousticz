@@ -1,0 +1,329 @@
+{
+  "schema": 1,
+  "referenceScriptSha256": "e63955ebd8a227013dde83665cc220df0bb4f6770f2ddee447f19f2eb5a5a393",
+  "fixtureSha256": "8ed71bae89df6afdd35912a3282829dc07fdbf58c1f7262836fbdc26bcb348e9",
+  "cases": [
+    {
+      "id": "direct-1m",
+      "classification": "numerical-verification",
+      "power": 9989264824.251646,
+      "scale": 9989264824.251646,
+      "normalizedTolerance": 3e-06,
+      "convergence": [
+        {
+          "samples": 64,
+          "power": 9989264824.251646
+        },
+        {
+          "samples": 256,
+          "power": 9989264824.251646
+        },
+        {
+          "samples": 1024,
+          "power": 9989264824.251646
+        },
+        {
+          "samples": 4096,
+          "power": 9989264824.251646
+        }
+      ]
+    },
+    {
+      "id": "direct-2m",
+      "classification": "numerical-verification",
+      "power": 2494635293.2257824,
+      "scale": 2494635293.2257824,
+      "normalizedTolerance": 3e-06,
+      "convergence": [
+        {
+          "samples": 64,
+          "power": 2494635293.225782
+        },
+        {
+          "samples": 256,
+          "power": 2494635293.225782
+        },
+        {
+          "samples": 1024,
+          "power": 2494635293.2257824
+        },
+        {
+          "samples": 4096,
+          "power": 2494635293.2257824
+        }
+      ]
+    },
+    {
+      "id": "direct-10m",
+      "classification": "numerical-verification",
+      "power": 98931653.58697002,
+      "scale": 98931653.58697002,
+      "normalizedTolerance": 3e-06,
+      "convergence": [
+        {
+          "samples": 64,
+          "power": 98931653.58697002
+        },
+        {
+          "samples": 256,
+          "power": 98931653.58697002
+        },
+        {
+          "samples": 1024,
+          "power": 98931653.58697002
+        },
+        {
+          "samples": 4096,
+          "power": 98931653.58697002
+        }
+      ]
+    },
+    {
+      "id": "air-and-distance-8khz-60m",
+      "classification": "numerical-verification",
+      "power": 648562.6654848271,
+      "scale": 648562.6654848271,
+      "normalizedTolerance": 3e-06,
+      "convergence": [
+        {
+          "samples": 64,
+          "power": 648562.6654848271
+        },
+        {
+          "samples": 256,
+          "power": 648562.6654848271
+        },
+        {
+          "samples": 1024,
+          "power": 648562.6654848271
+        },
+        {
+          "samples": 4096,
+          "power": 648562.6654848271
+        }
+      ]
+    },
+    {
+      "id": "quarter-period-delay",
+      "classification": "numerical-verification",
+      "power": 197863307.1739411,
+      "scale": 197863307.17394003,
+      "normalizedTolerance": 3e-06,
+      "complexPressure": [
+        -996.793061650269,
+        14031.026718176649
+      ]
+    },
+    {
+      "id": "half-period-null",
+      "classification": "numerical-verification",
+      "power": 1.132989285013882e-20,
+      "scale": 197863307.17394003,
+      "normalizedTolerance": 1e-12,
+      "complexPressure": [
+        -8.094502845779061e-11,
+        6.912159733474255e-11
+      ]
+    },
+    {
+      "id": "polarity-null",
+      "classification": "numerical-verification",
+      "power": 0.0,
+      "scale": 197863307.17394003,
+      "normalizedTolerance": 1e-12,
+      "complexPressure": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "eight-emitter-asymmetric",
+      "classification": "numerical-verification",
+      "power": 686449627.1695986,
+      "scale": 181131162.48537654,
+      "normalizedTolerance": 3e-06,
+      "complexPressure": [
+        -11266.104408888581,
+        -23654.270621129283
+      ]
+    },
+    {
+      "id": "band-comb-short-delay",
+      "classification": "numerical-verification",
+      "power": 192602310.18634918,
+      "scale": 197863307.17394003,
+      "normalizedTolerance": 3e-06,
+      "convergence": [
+        {
+          "samples": 64,
+          "power": 192600521.49420527
+        },
+        {
+          "samples": 256,
+          "power": 192602198.41802722
+        },
+        {
+          "samples": 1024,
+          "power": 192602303.20092642
+        },
+        {
+          "samples": 4096,
+          "power": 192602309.74976063
+        }
+      ]
+    },
+    {
+      "id": "band-comb-long-delay",
+      "classification": "numerical-verification",
+      "power": 197418852.47495666,
+      "scale": 197863307.17394003,
+      "normalizedTolerance": 3e-06,
+      "convergence": [
+        {
+          "samples": 64,
+          "power": 197368843.67156816
+        },
+        {
+          "samples": 256,
+          "power": 197415940.33250308
+        },
+        {
+          "samples": 1024,
+          "power": 197418671.2449532
+        },
+        {
+          "samples": 4096,
+          "power": 197418841.1511116
+        }
+      ]
+    },
+    {
+      "id": "hard-ground-double-pressure",
+      "classification": "numerical-verification",
+      "power": 395726614.34788007,
+      "scale": 197863307.17394003,
+      "normalizedTolerance": 3e-06,
+      "convergence": [
+        {
+          "samples": 64,
+          "power": 395726614.34788007
+        },
+        {
+          "samples": 256,
+          "power": 395726614.34788007
+        },
+        {
+          "samples": 1024,
+          "power": 395726614.34788007
+        },
+        {
+          "samples": 4096,
+          "power": 395726614.34788007
+        }
+      ]
+    },
+    {
+      "id": "absorbing-ground-free-field",
+      "classification": "numerical-verification",
+      "power": 98931653.58697002,
+      "scale": 98931653.58697002,
+      "normalizedTolerance": 3e-06,
+      "convergence": [
+        {
+          "samples": 64,
+          "power": 98931653.58697002
+        },
+        {
+          "samples": 256,
+          "power": 98931653.58697002
+        },
+        {
+          "samples": 1024,
+          "power": 98931653.58697002
+        },
+        {
+          "samples": 4096,
+          "power": 98931653.58697002
+        }
+      ]
+    },
+    {
+      "id": "ground-destructive-interference",
+      "classification": "numerical-verification",
+      "power": 23674728.76166272,
+      "scale": 289866202.9116242,
+      "normalizedTolerance": 3e-06,
+      "convergence": [
+        {
+          "samples": 64,
+          "power": 23673696.74998668
+        },
+        {
+          "samples": 256,
+          "power": 23674664.26109712
+        },
+        {
+          "samples": 1024,
+          "power": 23674724.73037807
+        },
+        {
+          "samples": 4096,
+          "power": 23674728.509707484
+        }
+      ]
+    },
+    {
+      "id": "finite-edge-inside",
+      "classification": "known-model-limitation",
+      "power": 186592253.28402233,
+      "scale": 193943374.1205594,
+      "normalizedTolerance": 3e-06
+    },
+    {
+      "id": "finite-edge-outside",
+      "classification": "known-model-limitation",
+      "power": 115282730.05304879,
+      "scale": 115282730.05304879,
+      "normalizedTolerance": 3e-06
+    },
+    {
+      "id": "barrier-shadow",
+      "classification": "known-model-limitation",
+      "power": 0,
+      "scale": 1.0,
+      "normalizedTolerance": 3e-06
+    },
+    {
+      "id": "barrier-above",
+      "classification": "known-model-limitation",
+      "power": 397857569.6642607,
+      "scale": 397857569.6642607,
+      "normalizedTolerance": 3e-06
+    },
+    {
+      "id": "wideband-frequency-refinement",
+      "classification": "numerical-verification",
+      "power": 5258848.804609066,
+      "scale": 5193235.387962835,
+      "normalizedTolerance": 3e-06,
+      "convergence": [
+        {
+          "samples": 256,
+          "power": 5259091.685217939
+        },
+        {
+          "samples": 1024,
+          "power": 5258863.933951947
+        },
+        {
+          "samples": 4096,
+          "power": 5258849.746546086
+        },
+        {
+          "samples": 16384,
+          "power": 5258848.86001645
+        }
+      ]
+    }
+  ]
+}

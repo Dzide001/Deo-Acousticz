@@ -27,7 +27,7 @@ class SplScaleAdoptionTest {
 
     @Test
     fun `setting a target moves the scale off Auto`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         assertEquals(SceneViewModel.SPL_SCALE_AUTO, v.splScaleMode.value)
         v.setSplTargetDb(97f)
         assertEquals(SceneViewModel.SPL_SCALE_TARGET, v.splScaleMode.value)
@@ -36,7 +36,7 @@ class SplScaleAdoptionTest {
 
     @Test
     fun `a fixed window is a decision and is not overridden`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         v.setSplScaleMode(SceneViewModel.SPL_SCALE_FIXED)
         v.setSplTargetDb(97f)
         assertEquals(SceneViewModel.SPL_SCALE_FIXED, v.splScaleMode.value)
@@ -47,14 +47,14 @@ class SplScaleAdoptionTest {
     fun `re-entering the same target still adopts the scale`() {
         // The default target is 95. Typing 95 while on Auto is a statement of
         // intent, and returning early on "no change" would have ignored it.
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         v.setSplTargetDb(v.splTargetDb.value)
         assertEquals(SceneViewModel.SPL_SCALE_TARGET, v.splScaleMode.value)
     }
 
     @Test
     fun `already on target, setting one just changes the level`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         v.setSplScaleMode(SceneViewModel.SPL_SCALE_TARGET)
         v.setSplTargetDb(102f)
         assertEquals(SceneViewModel.SPL_SCALE_TARGET, v.splScaleMode.value)
@@ -75,7 +75,7 @@ class SplScaleAdoptionTest {
 
     @Test
     fun `contours are off until asked for, and only known modes are accepted`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         assertEquals(SceneViewModel.CONTOUR_OFF, v.contourMode.value)
         v.setContourMode(SceneViewModel.CONTOUR_BANDS)
         assertEquals(SceneViewModel.CONTOUR_BANDS, v.contourMode.value)
@@ -86,17 +86,17 @@ class SplScaleAdoptionTest {
 
     @Test
     fun `contour mode survives a scene round trip`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         v.setContourMode(SceneViewModel.CONTOUR_LINES)
         v.addSpeaker(1f, 1f)
-        val restored = SceneViewModel()
+        val restored = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         restored.importSceneJson(v.exportSceneJson())
         assertEquals(SceneViewModel.CONTOUR_LINES, restored.contourMode.value)
     }
 
     @Test
     fun `the contour reference prefers a stated target over the data`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         val cells = (0..20).map { HeatCell(x = it.toFloat(), z = 0f, splDb = 80f + it) }
         val fromData = v.contourReferenceDb(cells)!!
         v.setSplTargetDb(97f)                       // also adopts Target mode
@@ -109,12 +109,12 @@ class SplScaleAdoptionTest {
     fun `loading a scene saved on Auto does not silently switch it to Target`() {
         // Restoring state must not trip the adoption rule. The scale is part of
         // what was saved, and reopening a design should show it as it was left.
-        val saved = SceneViewModel()
+        val saved = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         saved.addSpeaker(2f, 2f)
         assertEquals(SceneViewModel.SPL_SCALE_AUTO, saved.splScaleMode.value)
         val json = saved.exportSceneJson()
 
-        val restored = SceneViewModel()
+        val restored = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         restored.setSplScaleMode(SceneViewModel.SPL_SCALE_FIXED)   // something else first
         restored.importSceneJson(json)
         assertEquals(SceneViewModel.SPL_SCALE_AUTO, restored.splScaleMode.value)
@@ -122,10 +122,10 @@ class SplScaleAdoptionTest {
 
     @Test
     fun `a scene saved on Target comes back on Target`() {
-        val saved = SceneViewModel()
+        val saved = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         saved.setSplTargetDb(101f)
         saved.addSpeaker(0f, 0f)
-        val restored = SceneViewModel()
+        val restored = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         restored.importSceneJson(saved.exportSceneJson())
         assertEquals(SceneViewModel.SPL_SCALE_TARGET, restored.splScaleMode.value)
         assertEquals(101f, restored.splTargetDb.value, 1e-3f)

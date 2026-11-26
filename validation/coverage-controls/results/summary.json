@@ -1,0 +1,25 @@
+{
+  "suites": [
+    {
+      "suite": "com.droidacoustic.pro.prediction.CoveragePresentationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.scene.CoverageModeControlsTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.scene.PredictionConcurrencyTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    }
+  ],
+  "tests": 15,
+  "androidDebugBuild": "passed",
+  "deviceAcceptance": "OnePlus compact controls passed; see device evidence"
+}

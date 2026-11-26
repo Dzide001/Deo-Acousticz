@@ -1,30 +1,13 @@
 package com.droidacoustic.pro.ui
 
 import com.droidacoustic.pro.scene.VenueGeometry
+import com.droidacoustic.pro.geometry.*
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.Locale
-import kotlin.math.tan
 
-import kotlin.math.cos
-import kotlin.math.sin
 /** Wireframe room + stage geometry for architectural context in the 3D viewport. */
 object VenueGeometryGlb {
-
-    /**
-     * Phase 6: Rotate a 2D point (x, z) around a center by given angle in degrees.
-     * Returns rotated (x, z) coordinates in XZ plane.
-     */
-    private fun rotatePoint(x: Float, z: Float, centerX: Float, centerZ: Float, angleDegreesFromNorth: Float): Pair<Float, Float> {
-        val rad = Math.toRadians(angleDegreesFromNorth.toDouble())
-        val cos = cos(rad).toFloat()
-        val sin = sin(rad).toFloat()
-        val dx = x - centerX
-        val dz = z - centerZ
-        val rotX = dx * cos - dz * sin
-        val rotZ = dx * sin + dz * cos
-        return Pair(centerX + rotX, centerZ + rotZ)
-    }
 
     fun build(venue: VenueGeometry): ByteArray? {
         val lines = mutableListOf<Pair<FloatArray, FloatArray>>()
@@ -43,7 +26,6 @@ object VenueGeometryGlb {
         }
 
         val roomColor = floatArrayOf(0.35f, 0.72f, 0.95f, 1f)
-        val stageColor = floatArrayOf(0.85f, 0.2f, 0.95f, 1f)
 
         addLine(floatArrayOf(minX, 0f, minZ), floatArrayOf(maxX, 0f, minZ), roomColor)
         addLine(floatArrayOf(maxX, 0f, minZ), floatArrayOf(maxX, 0f, maxZ), roomColor)
@@ -62,70 +44,23 @@ object VenueGeometryGlb {
         addLine(floatArrayOf(maxX, 0f, maxZ), floatArrayOf(maxX, h, maxZ), roomColor)
         addLine(floatArrayOf(minX, 0f, maxZ), floatArrayOf(minX, h, maxZ), roomColor)
 
-        // Stage top (with slope along depth axis)
-        val sx0 = venue.stageCenterX - venue.stageWidthM * 0.5f
-        val sx1 = venue.stageCenterX + venue.stageWidthM * 0.5f
-        val sz0 = venue.stageCenterZ - venue.stageDepthM * 0.5f
-        val sz1 = venue.stageCenterZ + venue.stageDepthM * 0.5f
-        val rise = tan(Math.toRadians(venue.stageSlopeDeg.toDouble())).toFloat() * venue.stageDepthM
-        val yFront = venue.stageHeightM - rise * 0.5f
-        val yBack = venue.stageHeightM + rise * 0.5f
-
-        addLine(floatArrayOf(sx0, yFront, sz0), floatArrayOf(sx1, yFront, sz0), stageColor)
-        addLine(floatArrayOf(sx1, yFront, sz0), floatArrayOf(sx1, yBack, sz1), stageColor)
-        addLine(floatArrayOf(sx1, yBack, sz1), floatArrayOf(sx0, yBack, sz1), stageColor)
-        addLine(floatArrayOf(sx0, yBack, sz1), floatArrayOf(sx0, yFront, sz0), stageColor)
-
-        // Stage verticals
-        addLine(floatArrayOf(sx0, 0f, sz0), floatArrayOf(sx0, yFront, sz0), stageColor)
-        addLine(floatArrayOf(sx1, 0f, sz0), floatArrayOf(sx1, yFront, sz0), stageColor)
-        addLine(floatArrayOf(sx1, 0f, sz1), floatArrayOf(sx1, yBack, sz1), stageColor)
-        addLine(floatArrayOf(sx0, 0f, sz1), floatArrayOf(sx0, yBack, sz1), stageColor)
-
-        fun blockColor(type: String): FloatArray = when (type) {
-            "SEATING_BANK" -> floatArrayOf(0.95f, 0.72f, 0.2f, 1f)
-            "BALCONY" -> floatArrayOf(0.55f, 0.95f, 0.65f, 1f)
-            "WALL" -> floatArrayOf(0.45f, 0.75f, 0.95f, 1f)
-            "STAGE" -> floatArrayOf(0.85f, 0.2f, 0.95f, 1f)
-            else -> floatArrayOf(0.95f, 0.25f, 0.25f, 1f)
+        fun boundaryColor(role: AcousticBoundaryRole)=when(role) {
+            AcousticBoundaryRole.NONE -> floatArrayOf(0.45f,0.45f,0.45f,1f)
+            AcousticBoundaryRole.OCCLUDING -> floatArrayOf(1f,0.25f,0.2f,1f)
+            AcousticBoundaryRole.RIGID_REFLECTOR -> floatArrayOf(0.25f,0.55f,1f,1f)
         }
-
-        venue.blocks.forEach { b ->
-            val bx0 = b.centerX - b.widthM * 0.5f
-            val bx1 = b.centerX + b.widthM * 0.5f
-            val bz0 = b.centerZ - b.depthM * 0.5f
-            val bz1 = b.centerZ + b.depthM * 0.5f
-            val riseB = tan(Math.toRadians(b.slopeDeg.toDouble())).toFloat() * b.depthM
-            val byTopF = b.heightM - riseB * 0.5f
-            val byTopB = b.heightM + riseB * 0.5f
-            val byBottomF = byTopF - b.blockHeightM
-            val byBottomB = byTopB - b.blockHeightM
-            val c = blockColor(b.type)
-
-            // Phase 6: Apply rotation around block center
-            val (rbx0, rbz0) = rotatePoint(bx0, bz0, b.centerX, b.centerZ, b.rotationDeg)
-            val (rbx1, rbz0b) = rotatePoint(bx1, bz0, b.centerX, b.centerZ, b.rotationDeg)
-            val (rbx1b, rbz1) = rotatePoint(bx1, bz1, b.centerX, b.centerZ, b.rotationDeg)
-            val (rbx0b, rbz1b) = rotatePoint(bx0, bz1, b.centerX, b.centerZ, b.rotationDeg)
-
-            // Top face
-            addLine(floatArrayOf(rbx0, byTopF, rbz0), floatArrayOf(rbx1, byTopF, rbz0b), c)
-            addLine(floatArrayOf(rbx1, byTopF, rbz0b), floatArrayOf(rbx1b, byTopB, rbz1), c)
-            addLine(floatArrayOf(rbx1b, byTopB, rbz1), floatArrayOf(rbx0b, byTopB, rbz1b), c)
-            addLine(floatArrayOf(rbx0b, byTopB, rbz1b), floatArrayOf(rbx0, byTopF, rbz0), c)
-
-            // Bottom face
-            addLine(floatArrayOf(rbx0, byBottomF, rbz0), floatArrayOf(rbx1, byBottomF, rbz0b), c)
-            addLine(floatArrayOf(rbx1, byBottomF, rbz0b), floatArrayOf(rbx1b, byBottomB, rbz1), c)
-            addLine(floatArrayOf(rbx1b, byBottomB, rbz1), floatArrayOf(rbx0b, byBottomB, rbz1b), c)
-            addLine(floatArrayOf(rbx0b, byBottomB, rbz1b), floatArrayOf(rbx0, byBottomF, rbz0), c)
-
-            // Vertical edges
-            addLine(floatArrayOf(rbx0, byBottomF, rbz0), floatArrayOf(rbx0, byTopF, rbz0), c)
-            addLine(floatArrayOf(rbx1, byBottomF, rbz0b), floatArrayOf(rbx1, byTopF, rbz0b), c)
-            addLine(floatArrayOf(rbx1b, byBottomB, rbz1), floatArrayOf(rbx1b, byTopB, rbz1), c)
-            addLine(floatArrayOf(rbx0b, byBottomB, rbz1b), floatArrayOf(rbx0b, byTopB, rbz1b), c)
+        fun shape(shape: BoundaryShape,role: AcousticBoundaryRole) {
+            if (shape.vertices.isEmpty()) return
+            val edges=listOf(0 to 1,1 to 2,2 to 3,3 to 0,4 to 5,5 to 6,6 to 7,7 to 4,0 to 4,1 to 5,2 to 6,3 to 7)
+            for ((a,b) in edges) {
+                val p=shape.vertices[a]; val q=shape.vertices[b]
+                if (p==q) continue
+                addLine(floatArrayOf(p.x.toFloat(),p.y.toFloat(),p.z.toFloat()),
+                    floatArrayOf(q.x.toFloat(),q.y.toFloat(),q.z.toFloat()),boundaryColor(role))
+            }
         }
+        shape(VenueBoundaryGeometry.stage(venue),venue.stageBoundaryRole)
+        venue.blocks.forEach {shape(VenueBoundaryGeometry.block(it),it.boundaryRole)}
 
         val totalVerts = lines.size * 2
         if (totalVerts == 0) return null

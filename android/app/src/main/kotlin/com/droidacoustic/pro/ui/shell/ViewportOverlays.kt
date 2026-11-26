@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.droidacoustic.pro.ui.ViewPreset
 import com.droidacoustic.pro.ui.components.SegmentedControl
 import com.droidacoustic.pro.ui.theme.Instrument
+import com.droidacoustic.pro.prediction.CoveragePresentation
 import kotlin.math.roundToInt
 
 // =============================================================================
@@ -55,30 +56,37 @@ private fun FloatingPanel(
     ) { content() }
 }
 
-/** Third-octave band selector, pinned to the viewport. */
+/** Coverage mode, coverage/inspection frequency and calculation status beside the map. */
 @Composable
 fun BandOverlay(
     bands: List<Int>,
     selected: Int,
     onSelect: (Int) -> Unit,
+    signalType: String,
+    onSignalType: (String) -> Unit,
+    presentation: CoveragePresentation,
     modifier: Modifier = Modifier
 ) {
     FloatingPanel(modifier) {
         Column {
             Text(
-                "BAND",
+                presentation.mapLabel,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 2.dp, bottom = 4.dp)
             )
-            SegmentedControl(
-                options = bands,
-                selected = selected,
-                onSelect = onSelect,
-                // Full label, never abbreviated — this is the control that used
-                // to render "1000" as four stacked digits.
-                label = { hz -> if (hz >= 1000) "${hz / 1000}k" else "$hz" }
-            )
+            SegmentedControl(options=listOf("BAND","SPECTRUM"),selected=signalType,
+                onSelect=onSignalType,label={if(it=="BAND") "Band" else "Broadband SPL"})
+            if(presentation.showFrequencyButtons) {
+                SegmentedControl(
+                    options = bands,
+                    selected = selected,
+                    onSelect = onSelect,
+                    // Full label, never abbreviated — this is the control that used
+                    // to render "1000" as four stacked digits.
+                    label = { hz -> if (hz >= 1000) "${hz / 1000}k" else "$hz" }
+                )
+            }
         }
     }
 }

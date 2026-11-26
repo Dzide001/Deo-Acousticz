@@ -1,0 +1,20 @@
+[
+  {
+    "weighting": "Z",
+    "fixedTotalNoAirDb": 100.0,
+    "perBandReferenceNoAirDb": 109.03089986991944,
+    "driveDifferenceDb": 9.030899869919436
+  },
+  {
+    "weighting": "A",
+    "fixedTotalNoAirDb": 97.95623161127824,
+    "perBandReferenceNoAirDb": 106.98713148119768,
+    "driveDifferenceDb": 9.030899869919436
+  },
+  {
+    "weighting": "C",
+    "fixedTotalNoAirDb": 99.46618038300456,
+    "perBandReferenceNoAirDb": 108.497080252924,
+    "driveDifferenceDb": 9.030899869919436
+  }
+]

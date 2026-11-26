@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.persistence.ProjectPersistenceTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2026-11-26T13:15:02.852Z" hostname="Dzide.local" time="0.01">
+  <properties/>
+  <testcase name="absentAssetsRemainPinnedAndUnavailableOnResave[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.001"/>
+  <testcase name="legacyEmbeddedDataMigratesAndUnknownVersionsFailBeforeApply[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.0"/>
+  <testcase name="unassignedReferenceSourceSurvivesCheckpointRecovery[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.002"/>
+  <testcase name="missingAssetKeepsLatestSceneRatherThanRollingBackGeometry[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.001"/>
+  <testcase name="portableProjectRestoresIdenticalDataWithoutExternalState[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.0"/>
+  <testcase name="newerCheckpointIsNotSilentlyRolledBackToOlderBackup[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.001"/>
+  <testcase name="corruptPrimaryFallsBackWithoutOverwritingLastValidBackup[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.001"/>
+  <testcase name="freshStoreReopensCompactSnapshotAndDeduplicatesAssets[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.0"/>
+  <testcase name="incompletePrimaryDoesNotReplaceCompleteBackupDuringSave[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.001"/>
+  <testcase name="interruptedSnapshotWritePreservesPreviousSceneAndData[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.001"/>
+  <testcase name="hashesAreStableAcrossJsonObjectOrderAndCalibrationIsCovered[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.0"/>
+  <testcase name="futureAssetFormatRemainsUnavailableAndIsPreservedOnResave[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.0"/>
+  <testcase name="assetWriteFailureCannotPublishSnapshot[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.001"/>
+  <testcase name="wrongRevisionAndIdentityNeverResolveByModelName[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.0"/>
+  <testcase name="corruptEmbeddedDataCanRecoverOnlyFromExactExternalAsset[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.0"/>
+  <testcase name="migrationKeysIncludeOlderSchemaSlotsInNewestFirstOrder[jvm]" classname="com.droidacoustic.pro.persistence.ProjectPersistenceTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

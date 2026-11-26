@@ -1,8 +1,21 @@
 package com.droidacoustic.pro.scene
 
+import com.droidacoustic.pro.alignment.*
+import com.droidacoustic.pro.traces.*
+
 import android.content.res.AssetManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.droidacoustic.pro.acoustics.*
+import com.droidacoustic.pro.persistence.*
+import com.droidacoustic.pro.prediction.*
+import com.droidacoustic.pro.geometry.*
+import com.droidacoustic.pro.statistics.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.yield
 import com.droidacoustic.pro.engine.AcousticEngine
 import com.droidacoustic.pro.optimizer.ArrayCalcOptimizer
 import com.droidacoustic.pro.optimizer.CoverageGridBuilder
@@ -19,6 +32,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.zip.ZipInputStream
+import kotlin.math.pow
 import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -39,7 +53,7 @@ data class PlacedSpeaker(
     val x          : Float,           // world-space X (metres)
     val z          : Float,           // world-space Z (metres)
     val heightM    : Float = 1.2f,    // cabinet height above floor
-    val sensitivity: Float = 100f,   // dBSPL @ 1W/1m
+    val sensitivity: Float = 100f,   // generic reference level at 1 m; no implied electrical calibration
     val arrayElements: Int = 1,      // 1 = point source, >1 = vertical line-array
     val arraySpacingM: Float = 0.2f, // inter-element spacing (metres)
     val arrayInterBoxSplayDeg: Float = 0f, // uniform inter-box splay angle (deg)
@@ -59,6 +73,7 @@ data class PlacedSpeaker(
      * existed, which simply means no measured data is available for them.
      */
     val presetId   : String = "",
+    val requiresMeasuredData: Boolean = false,
     val sourceId   : Int? = null,
     val label      : String = "SPK ${id + 1}"
 )
@@ -76,21 +91,14 @@ data class PlacedSpeaker(
  * disagree about a sign.
  */
 fun PlacedSpeaker.elementAimsDeg(): List<Float> {
-    val n = arrayElements.coerceAtLeast(1)
-    val global = arraySteerDeg + arrayAimDeg
-    if (n == 1) return listOf(global)
-
-    val joints = n - 1
-    val profile = if (arraySplayByBoxDeg.size == joints) {
-        arraySplayByBoxDeg
-    } else {
-        List(joints) { arrayInterBoxSplayDeg }
-    }
-    val aims = DoubleArray(n) { global.toDouble() }
-    for (i in 1 until n) aims[i] = aims[i - 1] + profile[i - 1].toDouble()
-    val offset = global.toDouble() - aims.average()
-    return aims.map { (it + offset).toFloat() }
+    return elementPoses().map { it.tiltDownDeg }
 }
+
+fun PlacedSpeaker.elementPoses(): List<ArrayGeometry.Pose> = ArrayGeometry.poses(
+    arrayElements, arraySpacingM, arrayAimDeg,
+    if (arraySplayByBoxDeg.size == arrayElements - 1) arraySplayByBoxDeg
+    else List((arrayElements - 1).coerceAtLeast(0)) { arrayInterBoxSplayDeg }
+)
 
 data class SpeakerSource(
     val id: Int,
@@ -127,7 +135,10 @@ data class HeatCell(
     val sourceZoneType: String? = null,
     val sourceRakeDeg: Float = 0f,
     val sourceRakeDirectionDeg: Float = 0f,
-    val renderY: Float = 0f
+    val renderY: Float = 0f,
+    val sampleIndex: Int? = null,
+    val receiverY: Float? = null,
+    val surfaceKey: String? = null
 )
 
 data class AudiencePoint(
@@ -148,8 +159,18 @@ data class AudienceArea(
     val rakeDirectionDeg: Float = 0f,
     val rotationDeg: Float = 0f,
     val linkedZoneId: Int? = null,
-    val vertices : List<Pair<Float, Float>>
+    val vertices : List<Pair<Float, Float>>,
+    val holes: List<List<Pair<Float, Float>>> = emptyList(),
+    val exclusions: List<List<Pair<Float, Float>>> = emptyList(),
+    val vertexOffsetsM: List<Float> = emptyList(),
+    val elevationPoints: List<AudienceElevationPoint> = emptyList(),
+    val breaklines: List<AudienceBreakline> = emptyList(),
+    val importedMesh: AudienceMesh? = null
 )
+
+data class ImportedFaceSelection(val areaId: Int,val faceIndices: Set<Int>)
+
+data class AudienceCutoutTarget(val areaId: Int, val hole: Boolean)
 
 data class SpeakerModelPackage(
     val id            : String,
@@ -182,7 +203,8 @@ data class SpeakerDsp(
     val delayMs   : Float = 0f,          // 0-200 ms  (Phase 8: arrival-time shift)
     val gainDb    : Float = 0f,          // +/-12 dB system gain trim
     val polarity  : Boolean = false,     // true = polarity invert (Phase 8: coherent sum)
-    val eqBands   : Map<Int, Float> = emptyMap()  // bandHz -> +/-6 dB offset
+    val eqBands   : Map<Int, Float> = emptyMap(),  // legacy magnitude-only offsets
+    val filters: com.droidacoustic.pro.acoustics.DspFilterChain = com.droidacoustic.pro.acoustics.DspFilterChain()
 )
 
 /**
@@ -267,33 +289,6 @@ data class RoomMaterials(
     fun wallAlphaAt(bandHz: Int) = wall.alphaAt(bandHz)
 }
 
-data class VenueGeometry(
-    val widthM       : Float = 28f,
-    val depthM       : Float = 28f,
-    val wallHeightM  : Float = 8f,
-    val stageCenterX : Float = 0f,
-    val stageCenterZ : Float = -10f,
-    val stageWidthM  : Float = 10f,
-    val stageDepthM  : Float = 4f,
-    val stageHeightM : Float = 1f,
-    val stageSlopeDeg: Float = 0f,
-    val blocks       : List<VenueBlock> = emptyList()
-)
-
-data class VenueBlock(
-    val id           : Int,
-    val type         : String = "STAGE",
-    val centerX      : Float = 0f,
-    val centerZ      : Float = 0f,
-    val widthM       : Float = 6f,
-    val depthM       : Float = 3f,
-    val heightM      : Float = 1f,
-    val blockHeightM : Float = 1f,
-    val slopeDeg     : Float = 0f,
-        val rotationDeg  : Float = 0f,  // Phase 6: Yaw rotation in degrees, 0-360
-    val label        : String = "Block"
-)
-
 internal data class RoomBounds(
     val minX    : Float,
     val maxX    : Float,
@@ -302,22 +297,23 @@ internal data class RoomBounds(
     val heightM : Float
 )
 
-private data class AcousticAnalysis(
-    val speakerResults    : List<SpeakerResult>,
-    val combinedSplDb     : Float,
-    val roomBounds        : RoomBounds?,
-    val rt60Estimate      : Rt60Estimate?
-)
-
 // =============================================================================
 // ViewModel
 // =============================================================================
 
 
-class SceneViewModel : ViewModel() {
+class SceneViewModel(
+    private val predictionRunner: PredictionRunner = PredictionRunner { request ->
+        val context = currentCoroutineContext()
+        request.calculate { context.ensureActive() }
+    },
+    private val predictionDispatcher: CoroutineDispatcher = Dispatchers.Default,
+    private val geometryCache: GeometryCache = GeometryCache(),
+    private val snapshotOnly: Boolean = false
+) : ViewModel() {
 
     companion object {
-        const val SCENE_SCHEMA_VERSION = 7
+        const val SCENE_SCHEMA_VERSION = ProjectArchive.VERSION
         private const val MIN_SUPPORTED_SCENE_VERSION = 1
         private const val MAX_HISTORY_ENTRIES = 80
         private const val AREA_GRID_SNAP_M = 0.25f
@@ -347,17 +343,7 @@ class SceneViewModel : ViewModel() {
          * shift the number. They mean something once bands are summed, which is
          * what [broadbandSplDb] is for.
          */
-        val WEIGHTING_DB: Map<String, Map<Int, Float>> = mapOf(
-            WEIGHTING_Z to SUPPORTED_BANDS_HZ.associateWith { 0f },
-            WEIGHTING_A to mapOf(
-                63 to -26.2f, 125 to -16.1f, 250 to -8.6f, 500 to -3.2f,
-                1000 to 0.0f, 2000 to 1.2f, 4000 to 1.0f, 8000 to -1.1f
-            ),
-            WEIGHTING_C to mapOf(
-                63 to -0.8f, 125 to -0.2f, 250 to 0.0f, 500 to 0.0f,
-                1000 to 0.0f, 2000 to -0.2f, 4000 to -0.8f, 8000 to -3.0f
-            )
-        )
+        val WEIGHTING_DB: Map<String, Map<Int, Float>> = OctaveWeighting.tables
 
         fun weightingDb(weighting: String, bandHz: Int): Float =
             WEIGHTING_DB[weighting]?.get(bandHz) ?: 0f
@@ -410,7 +396,7 @@ class SceneViewModel : ViewModel() {
             SPL_SCALE_FIXED -> fixedMinDb to fixedMaxDb
             else -> {
                 val lo = cells.minOfOrNull { it.splDb } ?: 70f
-                val hi = cells.maxOfOrNull { it.splDb } ?: 100f
+                val hi = cells.map { it.splDb }.filter { it.isFinite() }.maxOrNull() ?: 100f
                 if (hi - lo < 0.1f) lo to (lo + 0.1f) else lo to hi
             }
         }
@@ -596,6 +582,72 @@ class SceneViewModel : ViewModel() {
 
     private val _areaDraft = MutableStateFlow<List<Pair<Float, Float>>>(emptyList())
     val areaDraft: StateFlow<List<Pair<Float, Float>>> = _areaDraft.asStateFlow()
+    private val _cutoutTarget = MutableStateFlow<AudienceCutoutTarget?>(null)
+    val cutoutTarget = _cutoutTarget.asStateFlow()
+    private val _elevationTarget = MutableStateFlow<Int?>(null)
+    val elevationTarget = _elevationTarget.asStateFlow()
+    private val _audienceGeometryError = MutableStateFlow<String?>(null)
+    val audienceGeometryError = _audienceGeometryError.asStateFlow()
+    private val _importedFaceSelection = MutableStateFlow<ImportedFaceSelection?>(null)
+    val importedFaceSelection = _importedFaceSelection.asStateFlow()
+
+    private val _facePickMode = MutableStateFlow(FacePickMode.SINGLE)
+    val facePickMode = _facePickMode.asStateFlow()
+    fun setFacePickMode(mode: FacePickMode) { _facePickMode.value=mode }
+    fun pickImportedFace(ray: ViewportRay): ImportedFaceHit? {
+        val hit=ImportedMeshPicking.pick(_audienceAreas.value.map {it.sharedSurface()},ray)
+        if (hit==null) { clearImportedFaceSelection(); return null }
+        val mesh=_audienceAreas.value.first {it.id==hit.areaId}.importedMesh!!
+        val current=_importedFaceSelection.value?.takeIf {it.areaId==hit.areaId}?.faceIndices.orEmpty()
+        selectImportedFaces(hit.areaId,ImportedMeshPicking.select(mesh,current,hit.faceIndex,_facePickMode.value))
+        return hit
+    }
+
+    fun selectImportedFaces(areaId: Int,indices: Collection<Int>): Boolean {
+        val mesh=_audienceAreas.value.find {it.id==areaId}?.importedMesh ?: return false
+        val count=mesh.triangles().size
+        if (indices.size>count || indices.any {it !in 0 until count}) return false
+        _importedFaceSelection.value=ImportedFaceSelection(areaId,indices.toSet())
+        return true
+    }
+    fun clearImportedFaceSelection() { _importedFaceSelection.value=null }
+    private fun editImportedMesh(areaId: Int,edit: (AudienceMesh)->AudienceMesh): Boolean {
+        val area=_audienceAreas.value.find {it.id==areaId} ?: return false
+        val mesh=area.importedMesh ?: return false
+        val updated=runCatching {edit(mesh)}
+        if (updated.isFailure) { _audienceGeometryError.value=updated.exceptionOrNull()?.message; return false }
+        if (updated.getOrThrow()===mesh) { _audienceGeometryError.value=null; return true }
+        return updateAudienceElevation(area.copy(importedMesh=updated.getOrThrow()))
+    }
+    fun assignImportedFaces(areaId: Int,indices: Collection<Int>,assignment: MeshFaceAssignment): Boolean =
+        editImportedMesh(areaId) {it.assignFaces(indices,assignment)}
+    fun createImportedFaceGroup(areaId: Int,name: String,indices: Collection<Int>): Boolean = editImportedMesh(areaId) {
+        require(indices.isNotEmpty()) { "Select faces before creating a group" }
+        it.createFaceGroup(name,indices)
+    }
+    fun renameImportedFaceGroup(areaId: Int,groupId: Int,name: String): Boolean =
+        editImportedMesh(areaId) {it.renameFaceGroup(groupId,name)}
+    fun setImportedFaceGroupMembers(areaId: Int,groupId: Int,indices: Collection<Int>): Boolean =
+        editImportedMesh(areaId) {it.setFaceGroupMembers(groupId,indices)}
+    fun addToImportedFaceGroup(areaId: Int,groupId: Int,indices: Collection<Int>): Boolean =
+        editImportedMesh(areaId) {it.addToFaceGroup(groupId,indices)}
+    fun ungroupImportedFaces(areaId: Int,indices: Collection<Int>): Boolean =
+        editImportedMesh(areaId) {it.ungroupFaces(indices)}
+    fun removeImportedFaceGroup(areaId: Int,groupId: Int): Boolean =
+        editImportedMesh(areaId) {it.removeFaceGroup(groupId)}
+    fun assignImportedBoundaryRole(areaId: Int,indices: Collection<Int>,role: AcousticBoundaryRole): Boolean =
+        editImportedMesh(areaId) {it.assignBoundaryRoles(indices,role)}
+    fun assignImportedGroupBoundaryRole(areaId: Int,groupId: Int,role: AcousticBoundaryRole): Boolean =
+        editImportedMesh(areaId) {it.assignGroupBoundaryRole(groupId,role)}
+    fun assignImportedFaceGroup(areaId: Int,groupId: Int,assignment: MeshFaceAssignment): Boolean =
+        editImportedMesh(areaId) {it.assignFaceGroup(groupId,assignment)}
+    fun selectImportedFaceGroup(areaId: Int,groupId: Int): Boolean {
+        val mesh=_audienceAreas.value.find {it.id==areaId}?.importedMesh ?: return false
+        val group=runCatching {mesh.faceGroup(groupId)}
+        if (group.isFailure) { _audienceGeometryError.value=group.exceptionOrNull()?.message; return false }
+        _audienceGeometryError.value=null
+        return selectImportedFaces(areaId,group.getOrThrow().faces())
+    }
 
     private val _engineReady = MutableStateFlow(false)
     val engineReady: StateFlow<Boolean> = _engineReady.asStateFlow()
@@ -647,8 +699,60 @@ class SceneViewModel : ViewModel() {
     val contourMode: StateFlow<String> = _contourMode.asStateFlow()
 
     /** Draw aim rays from each box, ArrayCalc style. A view layer, not a calculation. */
+    private val _receiverAngularOverlayEnabled=MutableStateFlow(false)
+    val receiverAngularOverlayEnabled=_receiverAngularOverlayEnabled.asStateFlow()
+    private val _receiverAngularSelection=MutableStateFlow("listener")
+    val receiverAngularSelection=_receiverAngularSelection.asStateFlow()
+    private fun angularReceiverIds()=listOf("listener")+_alignmentReferences.value.receivers.map {"reference:${it.id}"}
+    private val _receiverCameraFocus=MutableStateFlow<com.droidacoustic.pro.geometry.ReceiverCameraFocus?>(null)
+    val receiverCameraFocus=_receiverCameraFocus.asStateFlow()
+    private val _receiverFrameToken=MutableStateFlow(0L)
+    val receiverFrameToken=_receiverFrameToken.asStateFlow()
+    private val _receiverFrameMessage=MutableStateFlow<String?>(null)
+    val receiverFrameMessage=_receiverFrameMessage.asStateFlow()
+    fun receiverFrameMessage(message:String?) {_receiverFrameMessage.value=message}
+    fun frameAngularReceiver(view:String):Boolean {
+        val mode=com.droidacoustic.pro.geometry.ReceiverFrameView.entries.firstOrNull {it.name==view} ?: return false
+        val id=com.droidacoustic.pro.geometry.ReceiverMarkerSelection.accept(_receiverAngularSelection.value,angularReceiverIds()) ?: return false
+        _receiverCameraFocus.value=com.droidacoustic.pro.geometry.ReceiverCameraFocus(id,mode,_receiverCameraFocus.value?.spanM ?: 8f)
+        _receiverFrameToken.value++;_receiverFrameMessage.value=null;return true
+    }
+    fun setReceiverFrameView(view:String) {
+        val mode=com.droidacoustic.pro.geometry.ReceiverFrameView.entries.firstOrNull {it.name==view} ?: return
+        _receiverCameraFocus.value=_receiverCameraFocus.value?.copy(view=mode)
+        if(_receiverCameraFocus.value!=null) _receiverFrameToken.value++
+    }
+    fun scaleReceiverFrame(factor:Float) {
+        if(!factor.isFinite() || factor<=0) return
+        _receiverCameraFocus.value=_receiverCameraFocus.value?.let {it.copy(spanM=(it.spanM*factor).coerceIn(2f,64f))}
+        if(_receiverCameraFocus.value!=null) _receiverFrameToken.value++
+    }
+    fun clearReceiverFrame() {_receiverCameraFocus.value=null;_receiverFrameMessage.value=null}
+    fun receiverFrameTarget():com.droidacoustic.pro.prediction.AngularReceiver? {
+        val id=_receiverCameraFocus.value?.receiverId ?: return null
+        if(id=="listener") {val p=_listener.value;return com.droidacoustic.pro.prediction.AngularReceiver(id,"Listener",BoundaryPoint(p.x.toDouble(),p.earHeightM.toDouble(),p.z.toDouble()))}
+        return _alignmentReferences.value.receivers.firstOrNull {"reference:${it.id}"==id}?.let {com.droidacoustic.pro.prediction.AngularReceiver(id,it.receiver.name,it.receiver.position)}
+    }
+    fun selectAngularReceiver(id:String):Boolean {
+        val accepted=com.droidacoustic.pro.geometry.ReceiverMarkerSelection.accept(id,angularReceiverIds()) ?: return false
+        _receiverAngularSelection.value=accepted;return true
+    }
+    fun setReceiverAngularOverlayEnabled(enabled:Boolean) {
+        if(enabled==_receiverAngularOverlayEnabled.value) return
+        _receiverAngularOverlayEnabled.value=enabled
+    }
+    /** Main-thread freeze; support calculation is done by the caller on its worker. */
+    fun captureReceiverAngularOverlay():Pair<com.droidacoustic.pro.prediction.PredictionRequest,List<com.droidacoustic.pro.prediction.AngularReceiver>> {
+        val p=_listener.value
+        val targets=listOf(com.droidacoustic.pro.prediction.AngularReceiver("listener","Listener",com.droidacoustic.pro.geometry.BoundaryPoint(p.x.toDouble(),p.earHeightM.toDouble(),p.z.toDouble())))+
+            _alignmentReferences.value.receivers.map {r->com.droidacoustic.pro.prediction.AngularReceiver("reference:${r.id}",r.receiver.name,r.receiver.position)}
+        return capturePredictionRequest(PredictionTicket(_revision.value,0,PredictionChannel.LISTENER),_speakers.value.toList(),emptyList()) to targets
+    }
     private val _aimRaysEnabled = MutableStateFlow(false)
     val aimRaysEnabled: StateFlow<Boolean> = _aimRaysEnabled.asStateFlow()
+
+    private val _groundReflectionEnabled = MutableStateFlow(false)
+    val groundReflectionEnabled: StateFlow<Boolean> = _groundReflectionEnabled.asStateFlow()
 
     private val _signalInterferenceEnabled = MutableStateFlow(true)
     val signalInterferenceEnabled: StateFlow<Boolean> = _signalInterferenceEnabled.asStateFlow()
@@ -700,6 +804,7 @@ class SceneViewModel : ViewModel() {
     private val _combinedSplDb = MutableStateFlow<Float?>(null)
     val combinedSplDb: StateFlow<Float?> = _combinedSplDb.asStateFlow()
 
+    // Compatibility states only; no legacy room solver publishes these in production.
     private val _earlyReflections = MutableStateFlow<List<EarlyReflection>>(emptyList())
     val earlyReflections: StateFlow<List<EarlyReflection>> = _earlyReflections.asStateFlow()
 
@@ -711,6 +816,13 @@ class SceneViewModel : ViewModel() {
 
     // CLF (Common Loudspeaker Format) polar pattern registry: maps speaker ID to parsed CLF data.
     // NOTE: This now starts empty and is populated by real-data ingestion paths (JSON imports or bundled assets).
+    private val projectAssets = SpeakerAssetCache()
+    private var projectAssetReferences: Map<String, SpeakerAssetRef> = emptyMap()
+    private val _assetRecoveryProblems = MutableStateFlow<List<AssetProblem>>(emptyList())
+    val assetRecoveryProblems: StateFlow<List<AssetProblem>> = _assetRecoveryProblems.asStateFlow()
+    fun projectAssetPayloads(): Map<String, String> = projectAssets.snapshot()
+    fun resolveProjectAsset(hash: String): String? = projectAssets.resolve(hash)
+
     private val _clfRegistry = MutableStateFlow<Map<String, ClfData>>(emptyMap())
     val clfRegistry: StateFlow<Map<String, ClfData>> = _clfRegistry.asStateFlow()
 
@@ -730,6 +842,398 @@ class SceneViewModel : ViewModel() {
     val clfIngestionStats: StateFlow<ClfIngestionStats> = _clfIngestionStats.asStateFlow()
     private val _strictExtractedBinaryClfOnly = MutableStateFlow(false)
     val strictExtractedBinaryClfOnly: StateFlow<Boolean> = _strictExtractedBinaryClfOnly.asStateFlow()
+
+    private val _coverageComparisonSelection=MutableStateFlow<CoverageComparisonSelection?>(null)
+    val coverageComparisonSelection=_coverageComparisonSelection.asStateFlow()
+    private val _coverageDifference=MutableStateFlow<CoverageDifference?>(null)
+    val coverageDifference=_coverageDifference.asStateFlow()
+    private val _coverageComparisonError=MutableStateFlow<String?>(null)
+    val coverageComparisonError=_coverageComparisonError.asStateFlow()
+    private val _coverageComparisonRunning=MutableStateFlow(false)
+    val coverageComparisonRunning=_coverageComparisonRunning.asStateFlow()
+    private var comparisonJob: Job?=null
+    private var comparisonGeneration=0L
+
+    fun selectCoverageComparison(baselineId: Int,candidateId: Int) {
+        require(listOf(baselineId,candidateId).all {id -> _designVariants.value.variants.any {it.id==id}})
+        val selection=CoverageComparisonSelection(baselineId,candidateId)
+        if(selection==_coverageComparisonSelection.value) return
+        pushUndoCheckpoint()
+        _coverageComparisonSelection.value=selection
+    }
+
+    /** The Android adapter reads saved scene fields through the existing import path.
+     * It never restores into the live editor; requests, geometry checks and delta math are shared. */
+    internal fun variantCoverageRequest(variant: DesignVariant): PredictionRequest {
+        val isolated=SceneViewModel(predictionRunner,predictionDispatcher,geometryCache,snapshotOnly=true)
+        val opened=ProjectArchive.open(variant.sceneJson)
+        require(isolated.applyPreparedProject(opened,false)) {isolated.lastImportError.value ?: "Invalid saved design"}
+        require(isolated.speakers.value.isNotEmpty()) {"Saved design has no speakers"}
+        return isolated.capturePredictionRequest(PredictionTicket(0,variant.id.toLong(),PredictionChannel.COVERAGE),
+            isolated.speakers.value,emptyList(),coveragePlan=isolated.captureCoveragePlan())
+    }
+
+    fun calculateCoverageComparison() {
+        comparisonJob?.cancel()
+        val generation=++comparisonGeneration
+        _coverageDifference.value=null;_coverageComparisonError.value=null;_coverageComparisonRunning.value=false
+        val selection=_coverageComparisonSelection.value ?: return
+        val variants=_designVariants.value.variants
+        val a=variants.firstOrNull {it.id==selection.baselineId}
+        val b=variants.firstOrNull {it.id==selection.candidateId}
+        if(a==null || b==null) {_coverageComparisonError.value="Select two saved designs";return}
+        _coverageComparisonRunning.value=true
+        comparisonJob=viewModelScope.launch {
+            try {
+                val result=withContext(predictionDispatcher) {
+                    val context=currentCoroutineContext()
+                    CoverageComparisons.calculate(variantCoverageRequest(a),variantCoverageRequest(b)) {context.ensureActive()}
+                }
+                if(generation==comparisonGeneration) _coverageDifference.value=result
+            } catch(cancelled: CancellationException) {throw cancelled}
+            catch(error: Exception) {
+                if(generation==comparisonGeneration) _coverageComparisonError.value=error.message ?: "Comparison failed"
+            } finally {if(generation==comparisonGeneration) _coverageComparisonRunning.value=false}
+        }
+    }
+
+    private val _designVariants=MutableStateFlow(DesignVariants.empty())
+    val designVariants=_designVariants.asStateFlow()
+    fun captureDesignVariant(name: String): Boolean = runCatching {
+        val updated=_designVariants.value.capture(name,exportSceneJson(false,includeDesignLibrary=false),projectAssets::resolve)
+        pushUndoCheckpoint();_designVariants.value=updated;_lastImportError.value=null
+    }.onFailure {_lastImportError.value=it.message ?: "Unable to capture design"}.isSuccess
+    fun restoreDesignVariant(id: Int): Boolean {
+        val prepared=runCatching {_designVariants.value.prepareRestore(id,JSONObject(exportSceneJson(false,includeDesignLibrary=false)).apply {
+            _coverageComparisonSelection.value?.let {put("coverageComparison",JSONObject(it.toJsonString()))}
+        }.toString(),projectAssets::resolve)}
+            .getOrElse {_lastImportError.value=it.message ?: "Unable to restore design";return false}
+        return applyPreparedProject(prepared,true)
+    }
+    fun removeDesignVariant(id: Int) {
+        val updated=_designVariants.value.remove(id)
+        pushUndoCheckpoint();_designVariants.value=updated
+        _coverageComparisonSelection.value?.let {if(it.baselineId==id || it.candidateId==id) _coverageComparisonSelection.value=null}
+    }
+    fun renameDesignVariant(id: Int,name: String) {
+        if(name.isBlank() || name.length>200) return
+        val updated=_designVariants.value.rename(id,name)
+        pushUndoCheckpoint();_designVariants.value=updated
+    }
+
+    private val _referenceTraceSelection=MutableStateFlow(ReferenceTraceSelection())
+    val referenceTraceSelection=_referenceTraceSelection.asStateFlow()
+    private val _referenceTraceRunning=MutableStateFlow(false)
+    val referenceTraceRunning=_referenceTraceRunning.asStateFlow()
+    private val _referenceTraceMessage=MutableStateFlow<String?>(null)
+    val referenceTraceMessage=_referenceTraceMessage.asStateFlow()
+    private var referenceTraceJob: Job?=null
+    private var referenceTraceGeneration=0L
+
+    fun selectTraceReceivers(ids: List<Int>) {
+        val selection=ReferenceTraceSelection(ids)
+        selection.receivers(_alignmentReferences.value)
+        if(selection.ids==_referenceTraceSelection.value.ids) return
+        pushUndoCheckpoint();_referenceTraceSelection.value=selection
+    }
+    fun captureReferenceTraces(name: String) {
+        referenceTraceJob?.cancel()
+        val generation=++referenceTraceGeneration
+        _referenceTraceRunning.value=false;_referenceTraceMessage.value=null
+        val prepared=runCatching {
+            require(_speakers.value.isNotEmpty()) {"Add a speaker before capturing traces"}
+            val receivers=_referenceTraceSelection.value.receivers(_alignmentReferences.value)
+            require(receivers.isNotEmpty()) {"Select at least one saved reference receiver"}
+            require(_savedTraces.value.traces.size+receivers.size<=64) {"Not enough space: at most 64 saved traces are supported"}
+            val inputs=JSONObject(exportSceneJson(false,includeDesignLibrary=false)).apply {remove("savedTraces");remove("referenceTraceSelection");remove("receiverAngularOverlayEnabled");remove("receiverAngularSelection");remove("receiverCameraFocus")}.toString()
+            val metadata=TraceMetadata(receivers.first().receiver.position,
+                if(_signalType.value=="SPECTRUM") 1f else _signalBandwidthOct.value,_temperatureC.value,_humidityPct.value,
+                TraceComparisons.fingerprint(inputs),System.currentTimeMillis(),predictionDataWarnings().joinToString("\n"))
+            val capture=ReferenceTraceCapture(name,receivers,metadata)
+            val ticket=PredictionTicket(_revision.value,generation,PredictionChannel.LISTENER)
+            val cells=receivers.map {r->val p=r.receiver.position;HeatCell(p.x.toFloat(),p.z.toFloat(),Float.NaN,renderY=p.y.toFloat())}
+            capture to capturePredictionRequest(ticket,_speakers.value.toList(),cells,retainBandPowers=true)
+        }.getOrElse {_referenceTraceMessage.value=it.message ?: "Unable to capture traces";return}
+        val (capture,request)=prepared
+        _referenceTraceRunning.value=true
+        referenceTraceJob=viewModelScope.launch {
+            try {
+                val output=withContext(predictionDispatcher) {predictionRunner.run(request)}
+                if(generation!=referenceTraceGeneration || request.ticket.sceneRevision!=_revision.value || output.ticket!=request.ticket) return@launch
+                val updated=capture.capture(_savedTraces.value,output)
+                // Detach the completed job before recording history, which invalidates pending work.
+                referenceTraceJob=null
+                pushUndoCheckpoint();_savedTraces.value=updated
+                _referenceTraceMessage.value="Captured ${capture.receivers.size} reference traces for $name"
+            } catch(cancelled:CancellationException) {throw cancelled}
+            catch(error:Exception) {if(generation==referenceTraceGeneration) _referenceTraceMessage.value=error.message ?: "Trace capture failed"}
+            finally {if(generation==referenceTraceGeneration) _referenceTraceRunning.value=false}
+        }
+    }
+
+    private val _comparisonSourceSpectrum=MutableStateFlow(BroadbandSourceSpectrum.preset("PER_BAND_REFERENCE"))
+    val comparisonSourceSpectrum=_comparisonSourceSpectrum.asStateFlow()
+    private val _broadbandDrive=MutableStateFlow(BroadbandDrive.DEFAULT)
+    val broadbandDrive=_broadbandDrive.asStateFlow()
+    fun setBroadbandDrive(mode:BroadbandDrive) {
+        if(mode==_broadbandDrive.value) return
+        pushUndoCheckpoint();_broadbandDrive.value=mode;recomputeSignalIfNeeded()
+    }
+    fun setComparisonSourceSpectrum(text: String): Boolean = runCatching {
+        val spectrum=BroadbandSourceSpectrum.parseJson(text)
+        spectrum.fractions(OctaveWeighting.bands)
+        if(spectrum.canonical()!=_comparisonSourceSpectrum.value.canonical()) {pushUndoCheckpoint();_comparisonSourceSpectrum.value=spectrum}
+        _lastImportError.value=null
+    }.onFailure {_lastImportError.value=it.message ?: "Invalid comparison spectrum"}.isSuccess
+
+    private val engineCaptureGate=PredictionGate()
+    private var engineCaptureJob: Job?=null
+    private var engineCaptureTicket: PredictionTicket?=null
+    private val _engineCaptureRunning=MutableStateFlow(false)
+    val engineCaptureRunning=_engineCaptureRunning.asStateFlow()
+    private val _engineCaptureMessage=MutableStateFlow<String?>(null)
+    val engineCaptureMessage=_engineCaptureMessage.asStateFlow()
+    internal data class PendingEngineCapture(val request: PredictionRequest,val ticket: PredictionTicket,
+        val targets: List<SpeakerComparisonSample>,val referenceHash: String,
+        val normalization: RelativeResponseNormalization?,val levelConvention: String)
+    internal fun prepareEngineCapture(): PendingEngineCapture {
+        val reference=_comparisonWorkspace.value.reference ?: error("Import reference sample locations/frequencies first")
+        require(reference.run.conditions.levelConvention in listOf("ABSOLUTE_SPL","BROADBAND_SPL") || reference.normalization!=null) {"Relative capture needs an explicit normalization receiver in import version 2"}
+        require(_speakers.value.isNotEmpty()) {"Place a speaker before capture"}
+        require((_signalType.value=="SPECTRUM")== (reference.run.conditions.levelConvention in listOf("BROADBAND_SPL","RELATIVE_BROADBAND_TO_REFERENCE"))) {"Select Spectrum for broadband references, or Band for per-frequency references"}
+        val ticket=engineCaptureGate.begin(PredictionChannel.LISTENER,_revision.value)
+        val request=capturePredictionRequest(ticket,_speakers.value.toList(),emptyList(),forComparison=true)
+        engineCaptureTicket=ticket
+        return PendingEngineCapture(request,ticket,reference.run.samples.toList(),reference.documentSha256,reference.normalization,reference.run.conditions.levelConvention)
+    }
+    internal fun finishEngineCapture(pending: PendingEngineCapture,result: ImportedComparison): Boolean {
+        if(_comparisonWorkspace.value.reference?.documentSha256!=pending.referenceHash ||
+            !engineCaptureGate.complete(pending.ticket,_revision.value)) return false
+        _engineCaptureRunning.value=false;engineCaptureJob=null
+        applyComparisonWorkspace(_comparisonWorkspace.value.withImported(result,false))
+        _engineCaptureMessage.value="Captured immutable engine snapshot; inspect protocol differences before treating it as matched"
+        return true
+    }
+    fun captureEngineComparison() {
+        engineCaptureJob?.cancel()
+        val pending=runCatching {prepareEngineCapture()}.getOrElse {_engineCaptureRunning.value=false;_engineCaptureMessage.value=it.message;return}
+        _engineCaptureRunning.value=true;_engineCaptureMessage.value=null
+        engineCaptureJob=viewModelScope.launch {
+            try {
+                val result=withContext(predictionDispatcher) {
+                    val context=currentCoroutineContext()
+                    pending.request.captureComparison(pending.targets,pending.ticket.sceneRevision,pending.normalization,pending.levelConvention,pending.levelConvention in listOf("BROADBAND_SPL","RELATIVE_BROADBAND_TO_REFERENCE")) {context.ensureActive()}
+                }
+                finishEngineCapture(pending,result)
+            } catch(cancelled: CancellationException) {throw cancelled}
+            catch(failure: Exception) {if(engineCaptureTicket==pending.ticket) _engineCaptureMessage.value=failure.message ?: "Capture failed"}
+            finally {if(engineCaptureTicket==pending.ticket) _engineCaptureRunning.value=false}
+        }
+    }
+
+    private val _comparisonWorkspace=MutableStateFlow(ComparisonWorkspace.empty())
+    val comparisonWorkspace=_comparisonWorkspace.asStateFlow()
+    fun importComparisonDocument(document: String, asReference: Boolean): Boolean = runCatching {
+        val prepared=_comparisonWorkspace.value.import(document,asReference)
+        applyComparisonWorkspace(prepared)
+    }.onFailure {_lastImportError.value=it.message ?: "Invalid comparison data"}.isSuccess
+    /** UI parses off Main, then merges one immutable imported artifact into the current workspace. */
+    fun applyComparisonImport(data: ImportedComparison, asReference: Boolean): Boolean = runCatching {
+        applyComparisonWorkspace(_comparisonWorkspace.value.withImported(data,asReference))
+    }.onFailure {_lastImportError.value=it.message ?: "Invalid comparison data"}.isSuccess
+    private fun applyComparisonWorkspace(prepared: ComparisonWorkspace) {
+        if(prepared.toJsonString()!=_comparisonWorkspace.value.toJsonString()) {
+            pushUndoCheckpoint();_comparisonWorkspace.value=prepared
+        }
+        _lastImportError.value=null
+    }
+    fun clearComparisonImports() = applyComparisonWorkspace(ComparisonWorkspace.empty())
+
+    private val _savedTraces=MutableStateFlow(SavedTraces.empty())
+    val savedTraces=_savedTraces.asStateFlow()
+    private val _currentTrace=MutableStateFlow<SavedTrace?>(null)
+    val currentTrace=_currentTrace.asStateFlow()
+    fun captureListenerTrace(name: String): Boolean {
+        if(name.isBlank()) return false
+        val trace=_currentTrace.value ?: return false
+        val ticket=listenerResultTicket ?: return false
+        if(!predictionGate.isLatest(ticket,_revision.value) || _savedTraces.value.traces.size>=64) return false
+        val updated=_savedTraces.value.capture(name,trace.metadata,trace.powers,trace.phases,trace.phaseConvention,trace.delayReferenceS)
+        pushUndoCheckpoint();_savedTraces.value=updated;return true
+    }
+    fun setOverlayInspection(selection:com.droidacoustic.pro.traces.MatchSampleSelection?,changedOnly:Boolean) {
+        val current=_savedTraces.value
+        if(current.inspectedSample==selection && current.overlayChangedOnly==changedOnly) return
+        val updated=current.withInspectedSample(selection).withOverlayChangedOnly(changedOnly)
+        pushUndoCheckpoint();_savedTraces.value=updated
+    }
+    fun applyExclusionHistoryPreview(preview:com.droidacoustic.pro.traces.ExclusionHistoryPreview):Boolean {
+        val current=_savedTraces.value
+        val updated=runCatching {com.droidacoustic.pro.traces.ExclusionHistoryPreviews.apply(current,preview)}.getOrNull() ?: return false
+        if(updated!==current) {pushUndoCheckpoint();_savedTraces.value=updated}
+        return true
+    }
+    fun navigateMatchingExclusionHistory(view:com.droidacoustic.pro.traces.ExclusionHistoryView,position:Int):Boolean {
+        val current=_savedTraces.value
+        val updated=runCatching {current.navigateExclusionHistory(view,position)}.getOrNull() ?: return false
+        if(updated!==current) {pushUndoCheckpoint();_savedTraces.value=updated}
+        return true
+    }
+    fun undoMatchingExclusion(a:Int,b:Int,redo:Boolean=false) {
+        val current=_savedTraces.value
+        val updated=if(redo) current.redoExclusion(a,b) else current.undoExclusion(a,b)
+        if(updated===current) return
+        pushUndoCheckpoint();_savedTraces.value=updated
+    }
+    fun editMatchingRange(original:com.droidacoustic.pro.traces.MatchRangeExclusion,replacement:com.droidacoustic.pro.traces.MatchRangeExclusion):Boolean {
+        val updated=runCatching {_savedTraces.value.replaceRangeExclusion(original,replacement)}.getOrNull() ?: return false
+        if(original!=replacement) {pushUndoCheckpoint();_savedTraces.value=updated}
+        return true
+    }
+    fun excludeMatchingRange(range:com.droidacoustic.pro.traces.MatchRangeExclusion,exclude:Boolean) {
+        if((range in _savedTraces.value.rangeExclusions)==exclude) return
+        val updated=_savedTraces.value.withRangeExcluded(range,exclude)
+        pushUndoCheckpoint();_savedTraces.value=updated
+    }
+    fun excludeMatchingSample(sample:com.droidacoustic.pro.traces.MatchSampleSelection,exclude:Boolean) {
+        if((sample in _savedTraces.value.manualExclusions)==exclude) return
+        val updated=_savedTraces.value.withSampleExcluded(sample,exclude)
+        pushUndoCheckpoint();_savedTraces.value=updated
+    }
+    fun inspectMatchingSample(selection:com.droidacoustic.pro.traces.MatchSampleSelection?) {
+        if(_savedTraces.value.inspectedSample==selection) return
+        val updated=_savedTraces.value.withInspectedSample(selection)
+        pushUndoCheckpoint();_savedTraces.value=updated
+    }
+    fun setMatchingFrequencyRange(range:com.droidacoustic.pro.traces.MatchingFrequencyRange?) {
+        if(_savedTraces.value.matchingFrequencyRange==range) return
+        val updated=_savedTraces.value.withMatchingFrequencyRange(range)
+        pushUndoCheckpoint();_savedTraces.value=updated
+    }
+    fun applyTraceReferenceMatch(preview:com.droidacoustic.pro.traces.TraceReferenceMatch):Boolean {
+        val updated=runCatching {com.droidacoustic.pro.traces.TraceReferenceMatching.apply(_savedTraces.value,preview)}.getOrNull() ?: return false
+        pushUndoCheckpoint();_savedTraces.value=updated;return true
+    }
+    fun setTraceDelayReference(id:Int,seconds:Double?) {
+        val current=_savedTraces.value.traces.firstOrNull {it.id==id} ?: return
+        if(current.manualDelayReferenceS==seconds) return
+        val updated=_savedTraces.value.withDelayReference(id,seconds)
+        pushUndoCheckpoint();_savedTraces.value=updated
+    }
+    fun setTraceRelativeDisplay(relative:Boolean) {
+        if(_savedTraces.value.relativeToReference==relative) return
+        val updated=_savedTraces.value.withRelativeDisplay(relative)
+        pushUndoCheckpoint();_savedTraces.value=updated
+    }
+    fun removeSavedTrace(id: Int) {
+        val updated=_savedTraces.value.remove(id)
+        pushUndoCheckpoint();_savedTraces.value=updated
+    }
+
+    private val _alignmentReferences = MutableStateFlow(AlignmentReferences.empty())
+    val alignmentReferences = _alignmentReferences.asStateFlow()
+    private val _alignmentReceiver = MutableStateFlow<AlignmentReceiver?>(null)
+    val alignmentReceiver = _alignmentReceiver.asStateFlow()
+    private val _alignmentSourceId = MutableStateFlow<Int?>(null)
+    val alignmentSourceId = _alignmentSourceId.asStateFlow()
+    private fun publishAlignment(state: AlignmentReferences) {
+        _alignmentReferences.value=state
+        _receiverCameraFocus.value=_receiverCameraFocus.value?.reconcile(angularReceiverIds())
+        _receiverAngularSelection.value=com.droidacoustic.pro.geometry.ReceiverMarkerSelection.reconcile(_receiverAngularSelection.value,angularReceiverIds()) ?: "listener"
+        _referenceTraceSelection.value=_referenceTraceSelection.value.reconcile(state)
+        _alignmentReceiver.value=state.selected?.receiver
+        _alignmentSourceId.value=state.selected?.referenceSourceId
+    }
+    fun addAlignmentReceiver(name: String, x: Float, y: Float, z: Float) {
+        val updated=_alignmentReferences.value.add(AlignmentReceiver(name,BoundaryPoint(x.toDouble(),y.toDouble(),z.toDouble())),
+            _alignmentSourceId.value ?: _speakers.value.firstOrNull()?.id)
+        pushUndoCheckpoint();publishAlignment(updated)
+    }
+    fun selectAlignmentReceiver(id: Int) {
+        val updated=_alignmentReferences.value.select(id)
+        pushUndoCheckpoint();publishAlignment(updated)
+    }
+    fun removeAlignmentReceiver(id: Int) {
+        val updated=_alignmentReferences.value.remove(id)
+        pushUndoCheckpoint();publishAlignment(updated)
+    }
+    fun renameAlignmentReceiver(id: Int, name: String) {
+        if(name.isBlank()) return
+        val state=_alignmentReferences.value;val entry=state.receivers.firstOrNull {it.id==id} ?: return
+        val updated=state.update(id,entry.receiver.copy(name=name),entry.referenceSourceId)
+        pushUndoCheckpoint();publishAlignment(updated)
+    }
+    fun setAlignmentReceiver(name: String, x: Float, y: Float, z: Float) {
+        val state=_alignmentReferences.value;val selected=state.selected
+        if(selected==null) {addAlignmentReceiver(name,x,y,z);return}
+        val updated=state.update(selected.id,AlignmentReceiver(name,BoundaryPoint(x.toDouble(),y.toDouble(),z.toDouble())),selected.referenceSourceId)
+        pushUndoCheckpoint();publishAlignment(updated)
+    }
+    fun setAlignmentSource(id: Int) {
+        if(_speakers.value.none {it.id==id}) return
+        val state=_alignmentReferences.value;val selected=state.selected ?: return
+        val updated=state.update(selected.id,selected.receiver,id)
+        pushUndoCheckpoint();publishAlignment(updated)
+    }
+    private fun alignmentSources(air: Atmosphere): List<AlignmentSource> =_speakers.value.map {s ->
+            val dsp=_dspMap.value[s.id] ?: SpeakerDsp(s.id)
+            AlignmentSource(s.id,predictionSources(s,dsp,air),dsp.delayMs.toDouble())
+        }
+    fun allAlignmentComparisons(): List<ReceiverAlignmentComparison> {
+        val air=Atmosphere(_temperatureC.value,_humidityPct.value)
+        return _alignmentReferences.value.compare(alignmentSources(air),air.speedOfSound)
+    }
+    fun alignmentComparisons(): List<ArrivalComparison> = allAlignmentComparisons()
+        .firstOrNull {it.receiver.id==_alignmentReferences.value.selectedId}?.arrivals.orEmpty()
+    fun previewAlignmentDelay(sourceId: Int): AlignmentDelayPreview? {
+        val air=Atmosphere(_temperatureC.value,_humidityPct.value)
+        return _alignmentReferences.value.previewDelay(alignmentSources(air),air.speedOfSound,sourceId)
+    }
+    /** Reject a stale preview instead of silently applying a different adjustment. */
+    fun applyAlignmentPreview(preview: AlignmentDelayPreview): Boolean {
+        val current=previewAlignmentDelay(preview.sourceId) ?: return false
+        if(current!=preview) return false
+        setDelay(current.sourceId,current.proposedDelayMs.toFloat());return true
+    }
+    fun applyAlignmentDelay(sourceId: Int): Boolean = previewAlignmentDelay(sourceId)?.let(::applyAlignmentPreview) ?: false
+
+    private fun adjustmentInputsJson()=JSONObject(exportSceneJson(false)).apply {
+        remove("receiverAngularOverlayEnabled");remove("receiverAngularSelection");remove("receiverCameraFocus")
+    }.toString()
+    private fun SpeakerDsp.systemDsp() = SystemDsp(gainDb,delayMs,polarity)
+    /** Snapshot on Main; calculate both states off Main without touching the live scene. */
+    suspend fun previewSystemAdjustment(sourceId: Int, proposed: SystemDsp): SystemAdjustmentPreview? {
+        if(_speakers.value.none {it.id==sourceId}) return null
+        val current=_dspMap.value[sourceId] ?: SpeakerDsp(sourceId)
+        val change=SystemAdjustment(sourceId,current.systemDsp(),proposed)
+        val references=_alignmentReferences.value
+        if(!change.changed || references.receivers.isEmpty()) return null
+        val key=adjustmentInputsJson()
+        val cells=references.receivers.map {r -> val p=r.receiver.position
+            HeatCell(p.x.toFloat(),p.z.toFloat(),Float.NaN,renderY=p.y.toFloat()) }
+        val ticket=PredictionTicket(_revision.value,0,PredictionChannel.LISTENER)
+        val before=capturePredictionRequest(ticket,_speakers.value.toList(),cells,retainBandPowers=true)
+        val dsps=_dspMap.value+(sourceId to current.copy(gainDb=proposed.gainDb,delayMs=proposed.delayMs,polarity=proposed.inverted))
+        val after=capturePredictionRequest(ticket,_speakers.value.toList(),cells,dsps=dsps,retainBandPowers=true)
+        val air=Atmosphere(_temperatureC.value,_humidityPct.value)
+        val sources=alignmentSources(air)
+        val result=withContext(Dispatchers.Default) {
+            val context=currentCoroutineContext()
+            SystemAdjustmentComparison.calculate(change,key,references,sources,air.speedOfSound,before,after) {context.ensureActive()}
+        }
+        return result.takeIf {it.applicable(adjustmentInputsJson(),(_dspMap.value[sourceId] ?: SpeakerDsp(sourceId)).systemDsp())}
+    }
+    fun applySystemAdjustment(preview: SystemAdjustmentPreview): Boolean {
+        val id=preview.adjustment.sourceId
+        if(_speakers.value.none {it.id==id}) return false
+        val current=_dspMap.value[id] ?: SpeakerDsp(id)
+        if(!preview.applicable(adjustmentInputsJson(),current.systemDsp())) return false
+        val next=preview.adjustment.apply(current.systemDsp()) ?: return false
+        pushUndoCheckpoint()
+        _dspMap.value=_dspMap.value+(id to current.copy(gainDb=next.gainDb,delayMs=next.delayMs,polarity=next.inverted))
+        recalculate();refreshHeatmap()
+        return true
+    }
 
     private val _listener    = MutableStateFlow(ListenerPos())
     val listener: StateFlow<ListenerPos> = _listener.asStateFlow()
@@ -766,9 +1270,34 @@ class SceneViewModel : ViewModel() {
 
     private var optimizerJob: Job? = null
 
+    private val _coverageGeometry = MutableStateFlow<PreparedAudienceGeometry?>(null)
+    val coverageGeometry: StateFlow<PreparedAudienceGeometry?> = _coverageGeometry.asStateFlow()
+    private val _coverageStatistics = MutableStateFlow<CoverageStatistics?>(null)
+    val coverageStatistics: StateFlow<CoverageStatistics?> = _coverageStatistics.asStateFlow()
+
+    private val predictionGate = PredictionGate()
+    private val _predictionState = MutableStateFlow(PredictionState.EMPTY)
+    val predictionState: StateFlow<PredictionState> = _predictionState.asStateFlow()
+    private val _predictionValidity=MutableStateFlow<PredictionValidity?>(null)
+    val predictionValidity=_predictionValidity.asStateFlow()
+    private var listenerValidity: PredictionValidity?=null
+    private var coverageValidity: PredictionValidity?=null
+    private var listenerResultTicket: PredictionTicket? = null
+    private var coverageResultTicket: PredictionTicket? = null
+    private fun refreshPredictionState() {
+        _predictionValidity.value=if(_signalCoverageEnabled.value) coverageValidity else listenerValidity
+        val channels = buildSet {
+            if (_signalSplEnabled.value && _speakers.value.isNotEmpty()) {
+                add(PredictionChannel.LISTENER)
+                if (_signalCoverageEnabled.value) add(PredictionChannel.COVERAGE)
+            }
+        }
+        _predictionState.value = predictionGate.state(channels)
+    }
+
+    private var autoRecomputeJob: Job? = null
     private var recalcJob: Job? = null
     private var heatmapJob: Job? = null
-    private var earlyReflectionJob: Job? = null
 
     /**
      * Stop every background analysis job and wait for them to unwind.
@@ -780,7 +1309,7 @@ class SceneViewModel : ViewModel() {
      * it`. Bounded, so a wedged job cannot hang a suite.
      */
     internal fun cancelAnalysisJobs(timeoutMs: Long = 3_000) {
-        val jobs = listOfNotNull(optimizerJob, recalcJob, heatmapJob, earlyReflectionJob)
+        val jobs = listOfNotNull(engineCaptureJob,referenceTraceJob,comparisonJob,autoRecomputeJob, optimizerJob, recalcJob, heatmapJob)
         jobs.forEach { it.cancel() }
         val deadline = System.currentTimeMillis() + timeoutMs
         while (jobs.any { it.isActive } && System.currentTimeMillis() < deadline) {
@@ -841,7 +1370,29 @@ class SceneViewModel : ViewModel() {
 
     /** Records that persisted state changed. Safe to call more often than needed. */
     private fun touch() {
+        engineCaptureJob?.cancel();engineCaptureJob=null
+        if(_engineCaptureRunning.value) _engineCaptureMessage.value="Capture discarded: scene or comparison inputs changed"
+        _engineCaptureRunning.value=false
+        referenceTraceGeneration++
+        referenceTraceJob?.cancel()
+        _referenceTraceRunning.value=false
+        _referenceTraceMessage.value=null
+        comparisonGeneration++
+        comparisonJob?.cancel()
+        _coverageDifference.value=null
+        _coverageComparisonRunning.value=false
+        _coverageComparisonError.value=null
         _revision.value = _revision.value + 1
+        clearAnalysisResults(PredictionState.STALE)
+        if (snapshotOnly) return
+        val changedRevision = _revision.value
+        autoRecomputeJob = viewModelScope.launch {
+            // touch() precedes the synchronous mutation. Capture only after that edit completes.
+            yield()
+            if (_revision.value != changedRevision || !_signalAutoCalculate.value) return@launch
+            if (predictionGate.needsRequest(PredictionChannel.LISTENER, changedRevision)) recalculate()
+            if (predictionGate.needsRequest(PredictionChannel.COVERAGE, changedRevision)) refreshHeatmap()
+        }
     }
 
     /** The absorption curve, so a scene reopens with the numbers it was designed on. */
@@ -1140,9 +1691,6 @@ class SceneViewModel : ViewModel() {
                 }
             }
 
-            _clfRegistry.value = parsedRegistry
-            _clfBinaryAssets.value = binaryMap.mapValues { it.value.toList() }
-            _clfExternalAssets.value = externalMap.mapValues { it.value.toList() }
 
             // Fill unresolved statuses for display/audit.
             for (i in 0 until speakers.length()) {
@@ -1162,19 +1710,27 @@ class SceneViewModel : ViewModel() {
                 }
             }
 
-            _clfSourceStatus.value = statusMap.toMap()
-            val pendingBinary = binaryMap.keys.count { key -> parsedRegistry[key]?.patterns?.isNotEmpty() != true }
-            _clfIngestionStats.value = ClfIngestionStats(
-                indexedSpeakers = speakers.length(),
-                parsedJsonSpeakers = jsonParsedSpeakers.size,
-                parsedBinarySpeakers = binaryParsedSpeakers.size,
-                extractedBinarySpeakers = extractedBinarySpeakers.size,
-                inferredBinarySpeakers = inferredBinarySpeakers.size,
-                registrySpeakers = parsedRegistry.size,
-                pendingBinarySpeakers = pendingBinary,
-                unresolvedExternalSpeakers = externalMap.size,
-                strictExtractedOnlyMode = strictExtractedOnly
-            )
+            // Publish catalogue changes on the same owner thread as request capture/results.
+            viewModelScope.launch(Dispatchers.Main.immediate) {
+                touch()
+                _clfRegistry.value = parsedRegistry + _clfRegistry.value
+                _clfBinaryAssets.value = binaryMap.mapValues { it.value.toList() }
+                _clfExternalAssets.value = externalMap.mapValues { it.value.toList() }
+                _clfSourceStatus.value = statusMap.toMap()
+                val pendingBinary = binaryMap.keys.count { key -> parsedRegistry[key]?.patterns?.isNotEmpty() != true }
+                _clfIngestionStats.value = ClfIngestionStats(
+                    indexedSpeakers = speakers.length(),
+                    parsedJsonSpeakers = jsonParsedSpeakers.size,
+                    parsedBinarySpeakers = binaryParsedSpeakers.size,
+                    extractedBinarySpeakers = extractedBinarySpeakers.size,
+                    inferredBinarySpeakers = inferredBinarySpeakers.size,
+                    registrySpeakers = parsedRegistry.size,
+                    pendingBinarySpeakers = pendingBinary,
+                    unresolvedExternalSpeakers = externalMap.size,
+                    strictExtractedOnlyMode = strictExtractedOnly
+                )
+                recomputeSignalIfNeeded()
+            }
         }.onFailure {
             _lastImportError.value = it.message ?: "Failed to load bundled CLF sources"
         }
@@ -1318,6 +1874,7 @@ class SceneViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
+        geometryCache.clear()
         viewModelScope.launch { engine.destroy() }
     }
 
@@ -1427,8 +1984,10 @@ class SceneViewModel : ViewModel() {
     private fun linkedSourceIds(sourceId: Int?): Set<Int> {
         if (sourceId == null) return emptySet()
         val sources = _speakerSources.value
-        val root = sources.firstOrNull { it.id == sourceId } ?: return setOf(sourceId)
-        val set = linkedSetOf(sourceId)
+        val root = sources.firstOrNull { it.id == sourceId } ?: return emptySet()
+        // Sharing an acoustic source is not an instruction to move every cabinet.
+        // Only an explicitly linked *other* source follows an individual speaker edit.
+        val set = linkedSetOf<Int>()
         root.linkedSourceId?.let { set += it }
         sources.filter { it.linkedSourceId == sourceId }.forEach { set += it.id }
         return set
@@ -1476,6 +2035,7 @@ class SceneViewModel : ViewModel() {
             panDeg = 0f,
             modelPackageId = modelPkg,
             presetId = preset.id,
+            requiresMeasuredData = _clfRegistry.value.containsKey(preset.id) || preset.series == "CLF",
             sourceId = activeSource?.id,
             label = "${sourceName} ${id + 1}"
         )
@@ -1595,9 +2155,9 @@ class SceneViewModel : ViewModel() {
         val name = obj.optString("name", "Imported Package ${idx + 1}").trim().ifBlank { "Imported Package ${idx + 1}" }
         val markerHeightM = obj.optDouble("markerHeightM", 2.0).toFloat().coerceIn(0.2f, 30f)
         val crossHalfM = obj.optDouble("crossHalfM", 0.35).toFloat().coerceIn(0.05f, 5f)
-        val cabinetWidthM = obj.optDouble("cabinetWidthM", 0.42).toFloat().coerceIn(0.1f, 6f)
-        val cabinetDepthM = obj.optDouble("cabinetDepthM", 0.40).toFloat().coerceIn(0.1f, 6f)
-        val cabinetHeightM = obj.optDouble("cabinetHeightM", 0.65).toFloat().coerceIn(0.1f, 6f)
+        val cabinetWidthM = obj.optDouble("cabinetWidthM", 0.42).toFloat().coerceIn(0.01f, 6f)
+        val cabinetDepthM = obj.optDouble("cabinetDepthM", 0.40).toFloat().coerceIn(0.01f, 6f)
+        val cabinetHeightM = obj.optDouble("cabinetHeightM", 0.65).toFloat().coerceIn(0.01f, 6f)
 
         val colorObj = obj.optJSONObject("color")
         val colorR = normalizeModelPackageColor(
@@ -1770,7 +2330,10 @@ class SceneViewModel : ViewModel() {
             }
 
             val data = ClfTabParser.toClfData(speaker)
+            validateAssetRecovery(data)
+            clearAnalysisResults()
             _clfRegistry.value = _clfRegistry.value + (data.speakerId to data)
+            _assetRecoveryProblems.value = _assetRecoveryProblems.value.filterNot { it.speakerId == data.speakerId }
             _clfSourceStatus.value = _clfSourceStatus.value + (data.speakerId to (speaker.tags["<FORMAT>"]?.firstOrNull() ?: "TAB"))
 
             val name = speaker.model.ifBlank { data.speakerId }
@@ -1786,6 +2349,7 @@ class SceneViewModel : ViewModel() {
                 )
             }
             _selectedPresetId.value = data.speakerId
+            touch()
             _lastImportError.value = null
             recalculate(); refreshHeatmap()
         }.onFailure {
@@ -1847,14 +2411,18 @@ class SceneViewModel : ViewModel() {
         return runCatching {
             val clfData = ClfParser.parseJson(json) ?: throw IllegalArgumentException("Failed to parse CLF JSON")
             if (clfData.patterns.isEmpty()) throw IllegalArgumentException("CLF data contains no polar patterns")
+            validateAssetRecovery(clfData)
             
             // Register CLF data in registry
             val newRegistry = _clfRegistry.value.toMutableMap()
             newRegistry[clfData.speakerId] = clfData
+            _assetRecoveryProblems.value = _assetRecoveryProblems.value.filterNot { it.speakerId == clfData.speakerId }
+            clearAnalysisResults()
             _clfRegistry.value = newRegistry
             val status = _clfSourceStatus.value.toMutableMap()
             status[clfData.speakerId] = "JSON"
             _clfSourceStatus.value = status
+            touch()
             
             _lastImportError.value = null
             true
@@ -1908,12 +2476,22 @@ class SceneViewModel : ViewModel() {
 
     /** Clear CLF data for a specific speaker. */
     fun clearClfData(speakerId: String) {
+        _clfRegistry.value[speakerId]?.let { projectAssets.capture(it) }
+        projectAssetReferences = projectAssetReferences + (speakerId to SpeakerAssetRef(null))
+        touch()
+        clearAnalysisResults()
+        if (_clfRegistry.value.containsKey(speakerId)) {
+            _speakers.value = _speakers.value.map {
+                if (it.presetId == speakerId) it.copy(requiresMeasuredData = true) else it
+            }
+        }
         val newRegistry = _clfRegistry.value.toMutableMap()
         newRegistry.remove(speakerId)
         _clfRegistry.value = newRegistry
         val newStatus = _clfSourceStatus.value.toMutableMap()
         newStatus.remove(speakerId)
         _clfSourceStatus.value = newStatus
+        recalculate(); refreshHeatmap()
     }
 
     fun setActiveZoneType(zoneType: String) {
@@ -1953,6 +2531,29 @@ class SceneViewModel : ViewModel() {
             if (spk.id != speakerId) spk else spk.copy(modelPackageId = packageId)
         }
         refreshHeatmap()
+    }
+
+    /** Render-only drag preview. Does not change saved state, history or predictions. */
+    fun previewSpeakerManipulation(speakerId: Int, x: Float, y: Float, z: Float,
+        pan: Float, tilt: Float): List<PlacedSpeaker> {
+        val current = _speakers.value
+        if (listOf(x,y,z,pan,tilt).any { !it.isFinite() }) return current
+        val anchor = current.firstOrNull { it.id == speakerId } ?: return current
+        val target = anchor.copy(x=x.coerceIn(-200f,200f),heightM=y.coerceIn(0f,40f),
+            z=z.coerceIn(-200f,200f),panDeg=pan.coerceIn(-180f,180f),arrayAimDeg=tilt.coerceIn(-30f,30f))
+        val linked = linkedSourceIds(anchor.sourceId)
+        val sign = if (linkedMotionModeForSource(anchor.sourceId)=="OPPOSITE") -1f else 1f
+        val deltaPan = normalizePanDeg(target.panDeg-anchor.panDeg)
+        return current.map { spk -> when {
+            spk.id==speakerId -> target
+            spk.sourceId!=null && spk.sourceId in linked -> spk.copy(
+                x=(spk.x+sign*(target.x-anchor.x)).coerceIn(-200f,200f),
+                heightM=(spk.heightM+sign*(target.heightM-anchor.heightM)).coerceIn(0f,40f),
+                z=(spk.z+sign*(target.z-anchor.z)).coerceIn(-200f,200f),
+                panDeg=normalizePanDeg(spk.panDeg+sign*deltaPan),
+                arrayAimDeg=(spk.arrayAimDeg+sign*(target.arrayAimDeg-anchor.arrayAimDeg)).coerceIn(-30f,30f))
+            else -> spk
+        } }
     }
 
     fun setSpeakerPan(speakerId: Int, panDeg: Float) {
@@ -2056,6 +2657,15 @@ class SceneViewModel : ViewModel() {
     // --- DSP per-speaker controls ----------------------------------------
 
     /** +/-12 dB gain trim - updates heatmap and listener results immediately. */
+    fun setFilters(speakerId: Int, filters: com.droidacoustic.pro.acoustics.DspFilterChain) {
+        if(_speakers.value.none {it.id==speakerId}) return
+        val current=_dspMap.value[speakerId] ?: SpeakerDsp(speakerId)
+        if(current.filters==filters) return
+        pushUndoCheckpoint()
+        _dspMap.value=_dspMap.value+(speakerId to current.copy(filters=filters))
+        recalculate();refreshHeatmap()
+    }
+
     fun setGain(speakerId: Int, db: Float) {
         pushUndoCheckpoint()
         val cur = _dspMap.value[speakerId] ?: SpeakerDsp(speakerId)
@@ -2206,12 +2816,23 @@ class SceneViewModel : ViewModel() {
     }
 
     fun clearAll() {
+        _cutoutTarget.value = null
+        _elevationTarget.value = null
+        _audienceGeometryError.value = null
+        _importedFaceSelection.value = null
+        _areaDraft.value = emptyList()
+        geometryCache.clear()
         pushUndoCheckpoint()
+        _comparisonSourceSpectrum.value=BroadbandSourceSpectrum.preset("PER_BAND_REFERENCE")
+        _broadbandDrive.value=BroadbandDrive.DEFAULT
+        _comparisonWorkspace.value=ComparisonWorkspace.empty()
         _speakers.value = emptyList()
         _speakerSources.value = emptyList()
         _activeSpeakerSourceId.value = null
         _results.value  = emptyList()
         _heatmap.value  = emptyList()
+        _coverageGeometry.value = null
+        _coverageStatistics.value = null
         _dspMap.value   = emptyMap()
         _combinedSplDb.value = null
         _earlyReflections.value = emptyList()
@@ -2228,10 +2849,15 @@ class SceneViewModel : ViewModel() {
         _signalType.value = "BAND"
         _signalBandwidthOct.value = 1f / 3f
         _signalResolution.value = 24
+        _groundReflectionEnabled.value = false
+        _groundReflectionPhase.value=null
         _signalInterferenceEnabled.value = true
         _signalAutoCalculate.value = false
         _signalSplEnabled.value = true
         _signalDispersionEnabled.value = true
+        _receiverAngularOverlayEnabled.value=false
+        _receiverAngularSelection.value="listener"
+        clearReceiverFrame()
         _signalCoverageEnabled.value = true
         _highestSplDb.value = null
     }
@@ -2240,10 +2866,14 @@ class SceneViewModel : ViewModel() {
      * Export full scene + acoustics state to JSON.
      * Includes geometry, DSP, audience, atmosphere, and room material settings.
      */
-    fun exportSceneJson(includeClfRegistry: Boolean = true): String {
+    fun exportSceneJson(includeClfRegistry: Boolean = true, includeDesignLibrary: Boolean = true): String {
         val root = JSONObject()
         root.put("version", SCENE_SCHEMA_VERSION)
         root.put("schema", "droidacoustic.scene")
+        root.put("comparisonSourceSpectrum",JSONObject(_comparisonSourceSpectrum.value.canonical()))
+        root.put("broadbandDrive",_broadbandDrive.value.name)
+        if(_comparisonWorkspace.value.reference!=null || _comparisonWorkspace.value.engine!=null)
+            root.put("comparisonWorkspace",JSONObject(_comparisonWorkspace.value.toJsonString()))
         root.put("selectedPresetId", _selectedPresetId.value)
         root.put("activeZoneType", _activeZoneType.value)
         root.put("activeZoneBaseHeightM", _activeZoneBaseHeightM.value)
@@ -2256,8 +2886,18 @@ class SceneViewModel : ViewModel() {
         root.put("weighting", _weighting.value)
         root.put("signalBandwidthOct", _signalBandwidthOct.value)
         root.put("signalResolution", _signalResolution.value)
+        root.put("groundReflectionEnabled", _groundReflectionEnabled.value)
+        _groundReflectionPhase.value?.let {root.put("groundReflectionPhase",JSONObject(it.toJsonString()))}
+        root.put("bandLevelConvention", "fixed-total-drive-flat-psd")
+        root.put("driveLevelConvention", "gain-db-relative-to-model-reference")
+        root.put("speakerDataWarnings", JSONArray(predictionDataWarnings()))
+
+        root.put("spectrumConvention", _broadbandDrive.value.convention)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
         root.put("aimRaysEnabled", _aimRaysEnabled.value)
+        root.put("receiverAngularOverlayEnabled",_receiverAngularOverlayEnabled.value)
+        if(_receiverAngularSelection.value!="listener") root.put("receiverAngularSelection",_receiverAngularSelection.value)
+        _receiverCameraFocus.value?.let {root.put("receiverCameraFocus",JSONObject(it.toJsonString()))}
         root.put("contourMode", _contourMode.value)
         root.put("signalAutoCalculate", _signalAutoCalculate.value)
         root.put("splScaleMode", _splScaleMode.value)
@@ -2349,6 +2989,8 @@ class SceneViewModel : ViewModel() {
                 .put("stageDepthM", _venueGeometry.value.stageDepthM)
                 .put("stageHeightM", _venueGeometry.value.stageHeightM)
                 .put("stageSlopeDeg", _venueGeometry.value.stageSlopeDeg)
+                .put("stageBoundaryRole", _venueGeometry.value.stageBoundaryRole.name)
+                .put("stageBoundaryMaterial", org.json.JSONTokener(_venueGeometry.value.stageBoundaryMaterial.toJsonString()).nextValue())
                 .put(
                     "blocks",
                     JSONArray().apply {
@@ -2366,12 +3008,25 @@ class SceneViewModel : ViewModel() {
                                     .put("slopeDeg", b.slopeDeg)
                                                                         .put("rotationDeg", b.rotationDeg)
                                     .put("label", b.label)
+                                    .put("boundaryRole", b.boundaryRole.name)
+                                    .put("boundaryMaterial", org.json.JSONTokener(b.boundaryMaterial.toJsonString()).nextValue())
                             )
                         }
                     }
                 )
         )
 
+        if(includeDesignLibrary) {
+            root.put("designVariants",JSONObject(_designVariants.value.toJsonString()))
+            _coverageComparisonSelection.value?.let {root.put("coverageComparison",JSONObject(it.toJsonString()))}
+        }
+        root.put("referenceTraceSelection",JSONObject(_referenceTraceSelection.value.toJsonString()))
+        root.put("savedTraces",JSONObject(_savedTraces.value.toJsonString()))
+        root.put("alignmentReferences",JSONObject(_alignmentReferences.value.toJsonString()))
+        _alignmentReceiver.value?.let {r ->
+            root.put("alignmentReference",JSONObject().put("name",r.name).put("x",r.position.x)
+                .put("y",r.position.y).put("z",r.position.z).put("sourceId",_alignmentSourceId.value ?: JSONObject.NULL))
+        }
         root.put(
             "listener",
             JSONObject()
@@ -2413,6 +3068,7 @@ class SceneViewModel : ViewModel() {
                             .put("arrayEdgeTaperDb", s.arrayEdgeTaperDb)
                             .put("modelPackageId", s.modelPackageId)
                             .put("presetId", s.presetId)
+                            .put("requiresMeasuredData", requiresMeasuredData(s))
                             .put("sourceId", s.sourceId ?: -1)
                             .put("label", s.label)
                     )
@@ -2430,6 +3086,7 @@ class SceneViewModel : ViewModel() {
                             .put("delayMs", d.delayMs)
                             .put("gainDb", d.gainDb)
                             .put("polarity", d.polarity)
+                            .put("filters", JSONObject(d.filters.toJsonString()))
                             .put(
                                 "eqBands",
                                 JSONObject().apply {
@@ -2470,6 +3127,13 @@ class SceneViewModel : ViewModel() {
                             .put("rakeDeg", area.rakeDeg)
                             .put("rakeDirectionDeg", area.rakeDirectionDeg)
                             .put("rotationDeg", area.rotationDeg)
+                            .put("holes", audienceRingsJson(area.holes))
+                            .put("exclusions", audienceRingsJson(area.exclusions))
+                            .put("vertexOffsetsM", JSONArray(area.vertexOffsetsM))
+                            .put("elevationPoints", audienceElevationPointsJson(area.elevationPoints))
+                            .put("breaklines", audienceBreaklinesJson(area.breaklines))
+                            .put("geometryType",if (area.importedMesh==null) "AUTHORED" else "IMPORTED_MESH")
+                            .apply { area.importedMesh?.let { put("audienceMesh",JSONObject(AudienceMeshJson.encode(it))) } }
                             .apply { area.linkedZoneId?.let { put("linkedZoneId", it) } }
                             .put(
                                 "vertices",
@@ -2484,18 +3148,11 @@ class SceneViewModel : ViewModel() {
             }
         )
 
-        if (includeClfRegistry) {
-            root.put(
-                "clfRegistry",
-                JSONObject().apply {
-                    _clfRegistry.value.forEach { (speakerId, clfData) ->
-                        put(speakerId, JSONObject(ClfParser.toJson(clfData)))
-                    }
-                }
-            )
-        }
-
-        return root.toString()
+        val refs = projectAssetReferences.toMutableMap()
+        _clfRegistry.value.forEach { (id, data) -> refs[id] = projectAssets.capture(data).reference }
+        _speakers.value.filter { requiresMeasuredData(it) }.forEach { refs.putIfAbsent(it.presetId, SpeakerAssetRef(null)) }
+        projectAssetReferences = refs.toMap()
+        return ProjectArchive.encode(root.toString(), refs, projectAssets::resolve, includeClfRegistry)
     }
 
     /**
@@ -2508,7 +3165,7 @@ class SceneViewModel : ViewModel() {
     fun exportVenueJson(): String {
         val root = JSONObject()
         root.put("schema", "droidacoustic.venue")
-        root.put("version", 1)
+        root.put("version", 7)
         root.put(
             "venueGeometry",
             JSONObject()
@@ -2521,6 +3178,8 @@ class SceneViewModel : ViewModel() {
                 .put("stageDepthM", _venueGeometry.value.stageDepthM)
                 .put("stageHeightM", _venueGeometry.value.stageHeightM)
                 .put("stageSlopeDeg", _venueGeometry.value.stageSlopeDeg)
+                .put("stageBoundaryRole", _venueGeometry.value.stageBoundaryRole.name)
+                .put("stageBoundaryMaterial", org.json.JSONTokener(_venueGeometry.value.stageBoundaryMaterial.toJsonString()).nextValue())
                 .put(
                     "blocks",
                     JSONArray().apply {
@@ -2538,6 +3197,8 @@ class SceneViewModel : ViewModel() {
                                     .put("slopeDeg", b.slopeDeg)
                                     .put("rotationDeg", b.rotationDeg)
                                     .put("label", b.label)
+                                    .put("boundaryRole", b.boundaryRole.name)
+                                    .put("boundaryMaterial", org.json.JSONTokener(b.boundaryMaterial.toJsonString()).nextValue())
                             )
                         }
                     }
@@ -2560,6 +3221,7 @@ class SceneViewModel : ViewModel() {
     /** Phase 2 — import venue-only package without replacing full scene. */
     fun importVenueJson(json: String): Boolean {
         return runCatching {
+            com.droidacoustic.pro.persistence.VenueBoundaryJson.validatePackage(json)
             val root = JSONObject(json)
             val vg = root.optJSONObject("venueGeometry") ?: root
             val wallH = vg.optDouble("wallHeightM", _venueGeometry.value.wallHeightM.toDouble()).toFloat().coerceIn(3f, 30f)
@@ -2579,7 +3241,9 @@ class SceneViewModel : ViewModel() {
                         blockHeightM = o.optDouble("blockHeightM", 1.0).toFloat().coerceIn(0.1f, 40f),
                         slopeDeg = o.optDouble("slopeDeg", 0.0).toFloat().coerceIn(-30f, 30f),
                         rotationDeg = o.optDouble("rotationDeg", 0.0).toFloat().coerceIn(0f, 360f),
-                        label = o.optString("label", "$type ${i + 1}")
+                        label = o.optString("label", "$type ${i + 1}"),
+                        boundaryRole = AcousticBoundaryRole.valueOf(o.optString("boundaryRole", "OCCLUDING")),
+                        boundaryMaterial = BoundaryMaterial.fromJsonString(o.opt("boundaryMaterial").let { if (it == null) "\"IDEAL_RIGID\"" else if (it is String) JSONObject.quote(it) else it.toString() })
                     )
                 }
             }
@@ -2595,7 +3259,9 @@ class SceneViewModel : ViewModel() {
                 stageDepthM = vg.optDouble("stageDepthM", _venueGeometry.value.stageDepthM.toDouble()).toFloat().coerceIn(1f, 80f),
                 stageHeightM = vg.optDouble("stageHeightM", _venueGeometry.value.stageHeightM.toDouble()).toFloat().coerceIn(0f, 20f),
                 stageSlopeDeg = vg.optDouble("stageSlopeDeg", _venueGeometry.value.stageSlopeDeg.toDouble()).toFloat().coerceIn(-20f, 20f),
-                blocks = loadedBlocks
+                blocks = loadedBlocks,
+                stageBoundaryRole = AcousticBoundaryRole.valueOf(vg.optString("stageBoundaryRole", "OCCLUDING")),
+                stageBoundaryMaterial = BoundaryMaterial.fromJsonString(vg.opt("stageBoundaryMaterial").let { if (it == null) "\"IDEAL_RIGID\"" else if (it is String) JSONObject.quote(it) else it.toString() })
             )
             root.optJSONObject("roomMaterials")?.let { rm ->
                 _roomMaterials.value = RoomMaterials(
@@ -2619,20 +3285,26 @@ class SceneViewModel : ViewModel() {
     fun exportProjectReportJson(): String {
         val root = JSONObject()
         root.put("schema", "droidacoustic.project-report")
-        root.put("version", 1)
+        root.put("version", 2)
+        root.put("importedComparison",JSONObject(_comparisonWorkspace.value.reportJson()))
         root.put("speakerCount", _speakers.value.size)
         root.put("audiencePointCount", _audience.value.size)
         root.put("audienceAreaCount", _audienceAreas.value.size)
-        _combinedSplDb.value?.let { root.put("combinedSplDb", it) }
-        _rt60Estimate.value?.let {
-            root.put("rt60S", it.rt60S)
-            root.put("roomVolumeM3", it.volumeM3)
+        root.put("predictionState", _predictionState.value.name)
+        root.put("sceneRevision", _revision.value)
+        listenerResultTicket?.takeIf { predictionGate.isLatest(it, _revision.value) }?.let { ticket ->
+            root.put("predictionRevision", ticket.sceneRevision)
+            listenerValidity?.let {root.put("listenerValidity",JSONObject(it.toJsonString()))}
+            _combinedSplDb.value?.let { root.put("combinedSplDb", it) }
         }
-        _stiEstimate.value?.let {
-            root.put("sti", it.sti)
-            root.put("stiQuality", it.quality)
-            root.put("alconsPct", it.alconsPct)
+        coverageResultTicket?.takeIf { predictionGate.isLatest(it, _revision.value) }?.let { ticket ->
+            coverageValidity?.let {root.put("coverageValidity",JSONObject(it.toJsonString()))}
+            _coverageStatistics.value?.let { statistics ->
+                root.put("coverageRevision",ticket.sceneRevision)
+                root.put("coverageStatistics",statistics.toReportJson())
+            }
         }
+        root.put("predictionModel", JSONObject(PredictionModelScope.reportJson()))
         root.put("venue", JSONObject(exportVenueJson()).optJSONObject("venueGeometry"))
         root.put("selectedBandHz", _selectedBandHz.value)
         root.put("signalLevelDbu", _signalLevelDbu.value)
@@ -2640,8 +3312,20 @@ class SceneViewModel : ViewModel() {
         root.put("weighting", _weighting.value)
         root.put("signalBandwidthOct", _signalBandwidthOct.value)
         root.put("signalResolution", _signalResolution.value)
+        root.put("groundReflectionEnabled", _groundReflectionEnabled.value)
+        _groundReflectionPhase.value?.let {root.put("groundReflectionPhase",JSONObject(it.toJsonString()))}
+        root.put("bandLevelConvention", "fixed-total-drive-flat-psd")
+        root.put("driveLevelConvention", "gain-db-relative-to-model-reference")
+        root.put("speakerDataWarnings", JSONArray(predictionDataWarnings()))
+        root.put("speakerDataValidation", JSONArray(_speakers.value.mapNotNull { clfDataFor(it) }
+            .distinctBy { it.speakerId }.map { JSONObject(SpeakerDataChecks.reportJson(it)) }))
+        root.put("spectrumConvention", _broadbandDrive.value.convention)
+        root.put("broadbandDrive",_broadbandDrive.value.name)
         root.put("signalInterferenceEnabled", _signalInterferenceEnabled.value)
         root.put("aimRaysEnabled", _aimRaysEnabled.value)
+        root.put("receiverAngularOverlayEnabled",_receiverAngularOverlayEnabled.value)
+        if(_receiverAngularSelection.value!="listener") root.put("receiverAngularSelection",_receiverAngularSelection.value)
+        _receiverCameraFocus.value?.let {root.put("receiverCameraFocus",JSONObject(it.toJsonString()))}
         root.put("contourMode", _contourMode.value)
         root.put("signalAutoCalculate", _signalAutoCalculate.value)
         root.put("splScaleMode", _splScaleMode.value)
@@ -2654,7 +3338,7 @@ class SceneViewModel : ViewModel() {
         root.put("signalCoverageEnabled", _signalCoverageEnabled.value)
         root.put("temperatureC", _temperatureC.value)
         root.put("humidityPct", _humidityPct.value)
-        root.put("reflectionOrder", _reflectionOrder.value)
+        root.put("reflectionOrder", PredictionModelScope.maxReflectionOrder)
         root.put("analysisProfile", _analysisProfile.value)
         return root.toString()
     }
@@ -2689,17 +3373,42 @@ class SceneViewModel : ViewModel() {
     }
 
     private fun importSceneJsonInternal(json: String, recordHistory: Boolean): Boolean {
-        return runCatching {
-            val root = JSONObject(json)
-            val incomingVersion = if (root.has("version")) root.optInt("version", -1) else 1
-            if (incomingVersion < MIN_SUPPORTED_SCENE_VERSION) {
-                throw IllegalArgumentException("Snapshot version $incomingVersion is too old")
-            }
-            if (incomingVersion > SCENE_SCHEMA_VERSION) {
-                throw IllegalArgumentException("Snapshot version $incomingVersion is newer than supported v$SCENE_SCHEMA_VERSION")
-            }
+        val opened = runCatching {
+            ProjectArchive.open(json, if (recordHistory) ({ _: String -> null }) else projectAssets::resolve)
+        }.getOrElse {
+            _lastImportError.value = it.message ?: "Invalid scene JSON"
+            return false
+        }
+        return applyPreparedProject(opened, recordHistory)
+    }
 
-            if (recordHistory) pushUndoCheckpoint()
+    /** UI decodes/hashes large assets on a worker, then applies prepared state on Main. */
+    fun importPreparedProject(opened: OpenedProject): Boolean = applyPreparedProject(opened, true)
+
+    private fun applyPreparedProject(opened: OpenedProject, recordHistory: Boolean): Boolean {
+        return runCatching {
+            val root = JSONObject(opened.sceneJson)
+            val decodedGroundPhase=root.optJSONObject("groundReflectionPhase")?.let {ReflectionPhase.fromJsonString(it.toString())}
+            val decodedVariants=root.optJSONObject("designVariants")?.let {DesignVariants.fromJsonString(it.toString())} ?: DesignVariants.empty()
+            val decodedComparison=root.optJSONObject("coverageComparison")?.let {CoverageComparisonSelection.fromJsonString(it.toString())}
+                ?.takeIf {selection -> listOf(selection.baselineId,selection.candidateId).all {id -> decodedVariants.variants.any {it.id==id}}}
+            val decodedSpectrum=root.optJSONObject("comparisonSourceSpectrum")?.let {BroadbandSourceSpectrum.parseJson(it.toString())} ?: BroadbandSourceSpectrum.preset("PER_BAND_REFERENCE")
+            val decodedDrive=BroadbandDrive.fromStoredName(if(root.has("broadbandDrive")) root.getString("broadbandDrive") else null)
+            val decodedImportedComparison=root.optJSONObject("comparisonWorkspace")?.let {ComparisonWorkspace.parse(it.toString())} ?: ComparisonWorkspace.empty()
+            val decodedTraces=root.optJSONObject("savedTraces")?.let {SavedTraces.fromJsonString(it.toString())} ?: SavedTraces.empty()
+            val savedAlignment=root.optJSONObject("alignmentReferences")
+            val alignment=root.optJSONObject("alignmentReference")
+            val decodedAlignment=if(savedAlignment!=null) AlignmentReferences.fromJsonString(savedAlignment.toString())
+                else if(alignment!=null) AlignmentReferences.empty().add(AlignmentReceiver(alignment.getString("name"),
+                    BoundaryPoint(alignment.getDouble("x"),alignment.getDouble("y"),alignment.getDouble("z"))),
+                    alignment.takeIf {!it.isNull("sourceId")}?.getInt("sourceId"))
+                else AlignmentReferences.empty()
+            val decodedTraceSelection=(root.optJSONObject("referenceTraceSelection")?.let {ReferenceTraceSelection.fromJsonString(it.toString())}
+                ?: ReferenceTraceSelection()).reconcile(decodedAlignment)
+            val decodedReceiverFocus=root.optJSONObject("receiverCameraFocus")?.let {com.droidacoustic.pro.geometry.ReceiverCameraFocus.parse(it.toString())}
+                ?.reconcile(listOf("listener")+decodedAlignment.receivers.map {"reference:${it.id}"})
+            if (recordHistory) pushUndoCheckpoint() else touch()
+            clearAnalysisResults()
 
             _speakerSources.value = emptyList()
             _activeSpeakerSourceId.value = null
@@ -2787,8 +3496,11 @@ class SceneViewModel : ViewModel() {
             _weighting.value = root.optString("weighting", _weighting.value).takeIf { it in WEIGHTINGS } ?: WEIGHTING_Z
             _signalBandwidthOct.value = root.optDouble("signalBandwidthOct", _signalBandwidthOct.value.toDouble()).toFloat().coerceIn(1f / 12f, 1f)
             _signalResolution.value = root.optInt("signalResolution", _signalResolution.value).coerceIn(3, 96)
+            _groundReflectionEnabled.value = root.optBoolean("groundReflectionEnabled", false)
+            _groundReflectionPhase.value=decodedGroundPhase
             _signalInterferenceEnabled.value = root.optBoolean("signalInterferenceEnabled", _signalInterferenceEnabled.value)
             _aimRaysEnabled.value = root.optBoolean("aimRaysEnabled", _aimRaysEnabled.value)
+            _receiverAngularOverlayEnabled.value=root.optBoolean("receiverAngularOverlayEnabled",false)
             _contourMode.value = root.optString("contourMode", _contourMode.value)
                 .takeIf { it in CONTOUR_MODES } ?: CONTOUR_OFF
             _signalAutoCalculate.value = root.optBoolean("signalAutoCalculate", _signalAutoCalculate.value)
@@ -2834,7 +3546,9 @@ class SceneViewModel : ViewModel() {
                             blockHeightM = o.optDouble("blockHeightM", 1.0).toFloat().coerceIn(0.1f, 40f),
                             slopeDeg = o.optDouble("slopeDeg", 0.0).toFloat().coerceIn(-30f, 30f),
                                                         rotationDeg = o.optDouble("rotationDeg", 0.0).toFloat().coerceIn(0f, 360f),
-                            label = o.optString("label", "$type ${i + 1}")
+                            label = o.optString("label", "$type ${i + 1}"),
+                        boundaryRole = AcousticBoundaryRole.valueOf(o.optString("boundaryRole", "OCCLUDING")),
+                        boundaryMaterial = BoundaryMaterial.fromJsonString(o.opt("boundaryMaterial").let { if (it == null) "\"IDEAL_RIGID\"" else if (it is String) JSONObject.quote(it) else it.toString() })
                         )
                     }
                 }
@@ -2848,11 +3562,24 @@ class SceneViewModel : ViewModel() {
                     stageDepthM = vg.optDouble("stageDepthM", _venueGeometry.value.stageDepthM.toDouble()).toFloat().coerceIn(1f, 80f),
                     stageHeightM = vg.optDouble("stageHeightM", _venueGeometry.value.stageHeightM.toDouble()).toFloat().coerceIn(0f, 20f),
                     stageSlopeDeg = vg.optDouble("stageSlopeDeg", _venueGeometry.value.stageSlopeDeg.toDouble()).toFloat().coerceIn(-20f, 20f),
-                    blocks = loadedBlocks
+                    blocks = loadedBlocks,
+                stageBoundaryRole = AcousticBoundaryRole.valueOf(vg.optString("stageBoundaryRole", "OCCLUDING")),
+                stageBoundaryMaterial = BoundaryMaterial.fromJsonString(vg.opt("stageBoundaryMaterial").let { if (it == null) "\"IDEAL_RIGID\"" else if (it is String) JSONObject.quote(it) else it.toString() })
                 )
                 _roomMaterials.value = _roomMaterials.value.copy(roomHeightM = wallH)
             }
 
+            _designVariants.value=decodedVariants
+            _coverageComparisonSelection.value=decodedComparison
+            _comparisonSourceSpectrum.value=decodedSpectrum
+            _broadbandDrive.value=decodedDrive
+            _comparisonWorkspace.value=decodedImportedComparison
+            _savedTraces.value=decodedTraces
+            publishAlignment(decodedAlignment)
+            _receiverCameraFocus.value=decodedReceiverFocus
+            _receiverFrameMessage.value=null
+            _receiverAngularSelection.value=com.droidacoustic.pro.geometry.ReceiverMarkerSelection.reconcile(root.optString("receiverAngularSelection","listener"),angularReceiverIds()) ?: "listener"
+            _referenceTraceSelection.value=decodedTraceSelection
             root.optJSONObject("listener")?.let { l ->
                 _listener.value = ListenerPos(
                     x = l.optDouble("x", 0.0).toFloat(),
@@ -2897,6 +3624,8 @@ class SceneViewModel : ViewModel() {
                         arrayEdgeTaperDb = o.optDouble("arrayEdgeTaperDb", 0.0).toFloat().coerceIn(0f, 12f),
                         modelPackageId = o.optString("modelPackageId", "generic").let { if (isKnownModelPackage(it)) it else "generic" },
                         presetId = o.optString("presetId", ""),
+                        requiresMeasuredData = o.optBoolean("requiresMeasuredData", false) ||
+                            opened.references.containsKey(o.optString("presetId", "")),
                         sourceId = o.optInt("sourceId", -1).takeIf { it >= 0 },
                         label = o.optString("label", "SPK ${i + 1}")
                     )
@@ -2924,7 +3653,8 @@ class SceneViewModel : ViewModel() {
                         delayMs = o.optDouble("delayMs", 0.0).toFloat().coerceIn(0f, 200f),
                         gainDb = o.optDouble("gainDb", 0.0).toFloat().coerceIn(-12f, 12f),
                         polarity = o.optBoolean("polarity", false),
-                        eqBands = eq
+                        eqBands = eq,
+                        filters = o.optJSONObject("filters")?.let {com.droidacoustic.pro.acoustics.DspFilterChain.fromJsonString(it.toString())} ?: com.droidacoustic.pro.acoustics.DspFilterChain()
                     )
                 }
             }
@@ -2938,7 +3668,7 @@ class SceneViewModel : ViewModel() {
                         id = o.optInt("id", i),
                         x = o.optDouble("x", 0.0).toFloat(),
                         z = o.optDouble("z", 0.0).toFloat(),
-                        earHeightM = o.optDouble("earHeightM", 1.2).toFloat().coerceIn(0.5f, 30f),
+                        earHeightM = o.optDouble("earHeightM", 1.2).toFloat(),
                         sourceAreaId = if (o.has("sourceAreaId")) o.optInt("sourceAreaId", -1).takeIf { it >= 0 } else null,
                         name = o.optString("name", "AUD ${i + 1}")
                     )
@@ -2957,6 +3687,7 @@ class SceneViewModel : ViewModel() {
                             verts += vo.optDouble("x", 0.0).toFloat() to vo.optDouble("z", 0.0).toFloat()
                         }
                     }
+                    val importedMesh=o.optJSONObject("audienceMesh")?.let { AudienceMeshJson.decode(it.toString()) }
                     loadedAreas += AudienceArea(
                         id = o.optInt("id", i),
                         name = o.optString("name", "AREA ${i + 1}"),
@@ -2966,35 +3697,35 @@ class SceneViewModel : ViewModel() {
                         rakeDirectionDeg = o.optDouble("rakeDirectionDeg", 0.0).toFloat().let { ((it + 180f) % 360f + 360f) % 360f - 180f },
                         rotationDeg = o.optDouble("rotationDeg", 0.0).toFloat().let { ((it % 360f) + 360f) % 360f },
                         linkedZoneId = if (o.has("linkedZoneId")) o.optInt("linkedZoneId", -1).takeIf { it >= 0 } else null,
-                        vertices = verts
+                        vertices = importedMesh?.boundary()?.map { it.x.toFloat() to it.z.toFloat() } ?: verts,
+                        holes = audienceRingsFromJson(o.optJSONArray("holes")),
+                        exclusions = audienceRingsFromJson(o.optJSONArray("exclusions")),
+                        vertexOffsetsM = o.optJSONArray("vertexOffsetsM")?.let { a ->
+                            (0 until a.length()).map { a.getDouble(it).toFloat() } }.orEmpty(),
+                        elevationPoints = audienceElevationPointsFromJson(o.optJSONArray("elevationPoints")),
+                        breaklines = audienceBreaklinesFromJson(o.optJSONArray("breaklines")),
+                        importedMesh = importedMesh
                     )
                 }
             }
             _audienceAreas.value = loadedAreas
             _areaDraft.value = emptyList()
+            _cutoutTarget.value = null
+            _elevationTarget.value = null
+            _audienceGeometryError.value = null
+            _importedFaceSelection.value = null
 
             nextId = (_speakers.value.maxOfOrNull { it.id } ?: -1) + 1
             nextAudienceId = (_audience.value.maxOfOrNull { it.id } ?: -1) + 1
             nextAreaId = (_audienceAreas.value.maxOfOrNull { it.id } ?: -1) + 1
 
-            // Import CLF registry
-            root.optJSONObject("clfRegistry")?.let { clfObj ->
-                val importedClf = mutableMapOf<String, ClfData>()
-                clfObj.keys().forEach { speakerId ->
-                    try {
-                        val clfJson = clfObj.getJSONObject(speakerId).toString()
-                        val clfData = ClfParser.parseJson(clfJson)
-                        if (clfData != null) {
-                            importedClf[speakerId] = clfData
-                        }
-                    } catch (e: Exception) {
-                        // Skip invalid CLF data
-                    }
-                }
-                if (importedClf.isNotEmpty()) {
-                    _clfRegistry.value = importedClf
-                }
-            }
+            projectAssetReferences = opened.references
+            _assetRecoveryProblems.value = opened.problems
+            _clfRegistry.value = opened.speakers
+            opened.speakers.forEach { (id, data) -> projectAssets.seed(data, opened.assets.getValue(id)) }
+            _clfSourceStatus.value = opened.speakers.keys.associateWith { "PROJECT" }
+            // Imported presets are available now; selection must follow library restoration.
+            if (_speakerPresets.value.any { it.id == presetId }) _selectedPresetId.value = presetId
 
             recalculate(force = true)
             refreshHeatmap(force = true)
@@ -3006,7 +3737,7 @@ class SceneViewModel : ViewModel() {
 
     fun moveListener(x: Float, z: Float) {
         pushUndoCheckpoint()
-        _listener.value = ListenerPos(x, z)
+        _listener.value = _listener.value.copy(x=x, z=z)
         recalculate()
     }
 
@@ -3082,6 +3813,8 @@ class SceneViewModel : ViewModel() {
         // around the speaker instead of across the listening plane. The 95th
         // percentile is the same number for a smooth field and far steadier when
         // one cell happens to sit in the near field.
+        if (cells === _heatmap.value) return _coverageStatistics.value?.overall?.p95Db?.toFloat()
+        // Legacy standalone callers without surface topology retain sample-based scaling.
         val sorted = cells.map { it.splDb }.sorted()
         val idx = ((sorted.size - 1) * 0.95f).roundToInt().coerceIn(0, sorted.size - 1)
         return sorted[idx]
@@ -3092,6 +3825,20 @@ class SceneViewModel : ViewModel() {
         if (_aimRaysEnabled.value == enabled) return
         _aimRaysEnabled.value = enabled
         touch()
+    }
+
+    private val _groundReflectionPhase=MutableStateFlow<ReflectionPhase?>(null)
+    val groundReflectionPhase=_groundReflectionPhase.asStateFlow()
+    fun setGroundReflectionPhase(phase:ReflectionPhase?) {
+        if(phase==_groundReflectionPhase.value) return
+        pushUndoCheckpoint();_groundReflectionPhase.value=phase;recomputeSignalIfNeeded()
+    }
+
+    fun setGroundReflectionEnabled(enabled: Boolean) {
+        if (_groundReflectionEnabled.value == enabled) return
+        pushUndoCheckpoint()
+        _groundReflectionEnabled.value = enabled
+        recomputeSignalIfNeeded()
     }
 
     fun setSignalInterferenceEnabled(enabled: Boolean) {
@@ -3295,6 +4042,34 @@ class SceneViewModel : ViewModel() {
         refreshHeatmap()
     }
 
+    fun setVenueBlockMaterial(id: Int,material: BoundaryMaterial) {
+        val b=_venueGeometry.value.blocks.firstOrNull {it.id==id} ?: return
+        if(b.boundaryMaterial==material) return
+        pushUndoCheckpoint()
+        _venueGeometry.value=_venueGeometry.value.copy(blocks=_venueGeometry.value.blocks.map {if(it.id==id) it.copy(boundaryMaterial=material) else it})
+        refreshHeatmap()
+    }
+    fun setStageMaterial(material: BoundaryMaterial) {
+        if(_venueGeometry.value.stageBoundaryMaterial==material) return
+        pushUndoCheckpoint(); _venueGeometry.value=_venueGeometry.value.copy(stageBoundaryMaterial=material); refreshHeatmap()
+    }
+    fun setImportedMaterial(id: Int,faces: Collection<Int>,material: BoundaryMaterial)=
+        editImportedMesh(id) {it.assignBoundaryMaterial(faces,material)}
+
+    fun setVenueBlockBoundaryRole(blockId: Int,role: AcousticBoundaryRole) {
+        val block=_venueGeometry.value.blocks.firstOrNull {it.id==blockId} ?: return
+        if (block.boundaryRole==role) return
+        pushUndoCheckpoint()
+        _venueGeometry.value=_venueGeometry.value.copy(blocks=_venueGeometry.value.blocks.map {if (it.id==blockId) it.copy(boundaryRole=role) else it})
+        refreshHeatmap()
+    }
+    fun setStageBoundaryRole(role: AcousticBoundaryRole) {
+        if (_venueGeometry.value.stageBoundaryRole==role) return
+        pushUndoCheckpoint()
+        _venueGeometry.value=_venueGeometry.value.copy(stageBoundaryRole=role)
+        refreshHeatmap()
+    }
+
     fun addVenueBlock(type: String) {
         addVenueBlock(type, 0f, 0f)
     }
@@ -3341,6 +4116,61 @@ class SceneViewModel : ViewModel() {
             blocks = _venueGeometry.value.blocks.map { b -> if (b.id != blockId) b else b.copy(type = type) }
         )
         refreshHeatmap()
+    }
+
+    /** Pure render preview; y is the block elevation, not its thickness. */
+    fun previewVenueBlockManipulation(blockId: Int, x: Float, y: Float, z: Float,
+        rotationDeg: Float): VenueGeometry {
+        val current=_venueGeometry.value
+        val block=current.blocks.firstOrNull { it.id==blockId } ?: return current
+        val updated=runCatching { SceneGeometryTransforms.blockAt(block,x,y,z,rotationDeg) }.getOrNull() ?: return current
+        return current.copy(blocks=current.blocks.map { if(it.id==blockId) updated else it })
+    }
+
+    fun commitVenueBlockManipulation(blockId: Int, x: Float, y: Float, z: Float,
+        rotationDeg: Float): Boolean {
+        val updated=previewVenueBlockManipulation(blockId,x,y,z,rotationDeg)
+        if(updated==_venueGeometry.value) return false
+        pushUndoCheckpoint()
+        _venueGeometry.value=updated
+        recalculate(); refreshHeatmap()
+        return true
+    }
+
+    /** Absolute target centroid/base/yaw, with no state, history or prediction mutation. */
+    fun previewAudienceAreaManipulation(areaId: Int, x: Float, y: Float, z: Float,
+        rotationDeg: Float): List<AudienceArea> {
+        val current=_audienceAreas.value
+        if(listOf(x,y,z,rotationDeg).any { !it.isFinite() }) return current
+        val area=current.firstOrNull {it.id==areaId} ?: return current
+        val updated=runCatching {
+            val surface=area.sharedSurface()
+            val center=SceneGeometryTransforms.center(surface)
+            val yaw=SceneGeometryTransforms.normalizedYaw(rotationDeg)
+            val dx=x.coerceIn(-200f,200f)-center.x.toFloat()
+            val dz=z.coerceIn(-200f,200f)-center.z.toFloat()
+            val dy=y.coerceIn(0f,40f)-area.baseHeightM
+            if(dx==0f && dy==0f && dz==0f && yaw==area.rotationDeg) return current
+            val transformed=SceneGeometryTransforms.transform(surface,dx,dy,dz,yaw-area.rotationDeg)
+            area.copy(vertices=transformed.vertices().map {it.x.toFloat() to it.z.toFloat()},
+                baseHeightM=transformed.baseHeightM,rakeDirectionDeg=transformed.rakeDirectionDeg,
+                rotationDeg=yaw,holes=transformed.holes().map {ring -> ring.map {it.x.toFloat() to it.z.toFloat()}},
+                exclusions=transformed.exclusions().map {ring -> ring.map {it.x.toFloat() to it.z.toFloat()}},
+                elevationPoints=transformed.elevationPoints(),importedMesh=transformed.importedMesh
+            ).also {it.sharedSurface().validateGeometry()}
+        }.getOrNull() ?: return current
+        return current.map {if(it.id==areaId) updated else it}
+    }
+
+    fun commitAudienceAreaManipulation(areaId: Int, x: Float, y: Float, z: Float,
+        rotationDeg: Float): Boolean {
+        val updated=previewAudienceAreaManipulation(areaId,x,y,z,rotationDeg)
+        if(updated==_audienceAreas.value) return false
+        pushUndoCheckpoint()
+        _audienceAreas.value=updated
+        _audienceGeometryError.value=null
+        rebuildAudiencePointsForArea(areaId)
+        return true
     }
 
     fun setVenueBlockCenter(blockId: Int, x: Float, z: Float) {
@@ -3528,6 +4358,10 @@ class SceneViewModel : ViewModel() {
     }
 
     fun clearAudience() {
+        _cutoutTarget.value = null
+        _elevationTarget.value = null
+        _audienceGeometryError.value = null
+        _importedFaceSelection.value = null
         pushUndoCheckpoint()
         _audience.value = emptyList()
         _audienceAreas.value = emptyList()
@@ -3577,9 +4411,142 @@ class SceneViewModel : ViewModel() {
     fun clearAreaDraft() {
         pushUndoCheckpoint()
         _areaDraft.value = emptyList()
+        _cutoutTarget.value = null
+        _elevationTarget.value = null
+        _audienceGeometryError.value = null
+        _importedFaceSelection.value = null
+    }
+
+    fun beginAudienceCutout(areaId: Int, hole: Boolean) {
+        if (_audienceAreas.value.none { it.id == areaId }) return
+        _areaDraft.value = emptyList()
+        _audienceGeometryError.value = null
+        _elevationTarget.value = null
+        _cutoutTarget.value = AudienceCutoutTarget(areaId,hole)
+    }
+
+    fun beginAudienceElevationPoint(areaId: Int) {
+        if (_audienceAreas.value.none { it.id == areaId }) return
+        _areaDraft.value=emptyList(); _cutoutTarget.value=null
+        _audienceGeometryError.value=null; _elevationTarget.value=areaId
+    }
+
+    private fun updateAudienceElevation(area: AudienceArea): Boolean {
+        val validation=runCatching { area.sharedSurface().validateGeometry() }
+        if (validation.isFailure) {
+            _audienceGeometryError.value=validation.exceptionOrNull()?.message ?: "Invalid surface elevation"
+            return false
+        }
+        pushUndoCheckpoint()
+        _audienceAreas.value=_audienceAreas.value.map { if (it.id==area.id) area else it }
+        _audienceGeometryError.value=null
+        rebuildAudiencePointsForArea(area.id)
+        return true
+    }
+
+    fun setAudienceVertexOffset(areaId: Int,index: Int,offsetM: Float): Boolean {
+        val area=_audienceAreas.value.firstOrNull { it.id==areaId } ?: return false
+        if (index !in area.vertices.indices) return false
+        val offsets=area.vertices.indices.map { area.vertexOffsetsM.getOrElse(it) {0f} }.toMutableList()
+        offsets[index]=offsetM
+        return updateAudienceElevation(area.copy(vertexOffsetsM=offsets))
+    }
+
+    fun addAudienceElevationPoint(areaId: Int,x: Float,z: Float,offsetM: Float? = null): Boolean {
+        val area=_audienceAreas.value.firstOrNull { it.id==areaId } ?: return false
+        val offset=offsetM ?: area.sharedSurface().elevationOffsetAt(x,z)
+        val success=updateAudienceElevation(area.copy(elevationPoints=area.elevationPoints+
+            AudienceElevationPoint(x.toDouble(),z.toDouble(),offset)))
+        if (success) _elevationTarget.value=null
+        return success
+    }
+
+    fun setAudienceElevationPointOffset(areaId: Int,index: Int,offsetM: Float): Boolean {
+        val area=_audienceAreas.value.firstOrNull { it.id==areaId } ?: return false
+        if (index !in area.elevationPoints.indices) return false
+        return updateAudienceElevation(area.copy(elevationPoints=area.elevationPoints.mapIndexed { i,p ->
+            if (i==index) p.copy(offsetM=offsetM) else p }))
+    }
+
+    fun removeAudienceElevationPoint(areaId: Int,index: Int) {
+        val area=_audienceAreas.value.firstOrNull { it.id==areaId } ?: return
+        if (index !in area.elevationPoints.indices) return
+        updateAudienceElevation(area.copy(elevationPoints=area.elevationPoints.filterIndexed { i,_ -> i!=index },
+            breaklines=area.sharedSurface().breaklinesAfterRemovingInterior(index)))
+    }
+
+    fun addAudienceBreakline(areaId: Int,start: AudienceVertexRef,end: AudienceVertexRef): Boolean {
+        val area=_audienceAreas.value.find { it.id==areaId } ?: return false
+        if (area.breaklines.any { (it.start==start && it.end==end)||(it.start==end && it.end==start) }) return false
+        return updateAudienceElevation(area.copy(breaklines=area.breaklines+AudienceBreakline(start,end)))
+    }
+
+    fun removeAudienceBreakline(areaId: Int,index: Int) {
+        val area=_audienceAreas.value.find { it.id==areaId } ?: return
+        if (index !in area.breaklines.indices) return
+        updateAudienceElevation(area.copy(breaklines=area.breaklines.filterIndexed { i,_ -> i!=index }))
+    }
+
+    fun resetAudienceElevations(areaId: Int) {
+        val area=_audienceAreas.value.firstOrNull { it.id==areaId } ?: return
+        updateAudienceElevation(area.copy(vertexOffsetsM=emptyList(),elevationPoints=emptyList(),breaklines=emptyList()))
+    }
+
+    fun addAudienceCutout(areaId: Int, vertices: List<Pair<Float,Float>>, hole: Boolean): Boolean {
+        val area=_audienceAreas.value.firstOrNull { it.id == areaId } ?: return false
+        val updated=if (hole) area.copy(holes=area.holes+listOf(vertices.toList()))
+            else area.copy(exclusions=area.exclusions+listOf(vertices.toList()))
+        val validation=runCatching { updated.sharedSurface().validateGeometry() }
+        if (validation.isFailure) {
+            _audienceGeometryError.value=validation.exceptionOrNull()?.message ?: "Invalid audience cutout"
+            return false
+        }
+        pushUndoCheckpoint()
+        _audienceAreas.value=_audienceAreas.value.map { if (it.id == areaId) updated else it }
+        _audienceGeometryError.value=null
+        recalculate(); refreshHeatmap()
+        return true
+    }
+
+    fun removeAudienceCutout(areaId: Int, index: Int, hole: Boolean) {
+        val area=_audienceAreas.value.firstOrNull { it.id == areaId } ?: return
+        val rings=if (hole) area.holes else area.exclusions
+        if (index !in rings.indices) return
+        pushUndoCheckpoint()
+        val updated=if (hole) area.copy(holes=rings.filterIndexed { i,_ -> i != index })
+            else area.copy(exclusions=rings.filterIndexed { i,_ -> i != index })
+        _audienceAreas.value=_audienceAreas.value.map { if (it.id == areaId) updated else it }
+        _audienceGeometryError.value=null
+        recalculate(); refreshHeatmap()
+    }
+
+    /** Geometry is parsed and validated in shared code before publishing a new zone. */
+    fun addImportedAudienceMesh(mesh: AudienceMesh,name: String="Imported audience"): Int {
+        val id=nextAreaId
+        val area=AudienceArea(id=id,name=name.trim().ifEmpty { "Imported audience" },zoneType="AUDIENCE_SEATED",
+            vertices=mesh.boundary().map { it.x.toFloat() to it.z.toFloat() },importedMesh=mesh)
+        area.sharedSurface().validateGeometry()
+        pushUndoCheckpoint(); nextAreaId++
+        _audienceAreas.value=_audienceAreas.value+area
+        _audienceGeometryError.value=null
+        recalculate(); refreshHeatmap()
+        return id
+    }
+
+    fun importAudienceObj(text: String,options: AudienceMeshImportOptions=AudienceMeshImportOptions()): Boolean {
+        val parsed=runCatching { AudienceMeshObj.parse(text,options) }
+        if (parsed.isFailure) { _audienceGeometryError.value=parsed.exceptionOrNull()?.message; return false }
+        addImportedAudienceMesh(parsed.getOrThrow()); return true
     }
 
     fun closeAreaFromDraft() {
+        val target=_cutoutTarget.value
+        if (target != null) {
+            if (addAudienceCutout(target.areaId,_areaDraft.value,target.hole)) {
+                _areaDraft.value=emptyList(); _cutoutTarget.value=null
+            }
+            return
+        }
         val poly = _areaDraft.value
         if (poly.size < 3) return
         if (polygonAreaAbs(poly) < AREA_MIN_POLYGON_AREA_M2) return
@@ -3608,6 +4575,9 @@ class SceneViewModel : ViewModel() {
         val current = _audienceAreas.value
         if (current.none { it.id == areaId }) return
         pushUndoCheckpoint()
+        if (_elevationTarget.value == areaId) _elevationTarget.value=null
+        if (_importedFaceSelection.value?.areaId==areaId) _importedFaceSelection.value=null
+        if (_cutoutTarget.value?.areaId == areaId) { _cutoutTarget.value=null; _areaDraft.value=emptyList() }
         _audienceAreas.value = current
             .filter { it.id != areaId }
             .map { area -> if (area.linkedZoneId == areaId) area.copy(linkedZoneId = null) else area }
@@ -3688,23 +4658,20 @@ class SceneViewModel : ViewModel() {
         val c = cos(rad).toFloat()
         val s = sin(rad).toFloat()
 
-        val rotated = area.vertices.map { (x, z) ->
-            val dx = x - cx
-            val dz = z - cz
-            (cx + (dx * c - dz * s)) to (cz + (dx * s + dz * c))
+        fun rotate(p: Pair<Float,Float>): Pair<Float,Float> {
+            val dx=p.first-cx; val dz=p.second-cz
+            return (cx+dx*c-dz*s) to (cz+dx*s+dz*c)
         }
-
         _audienceAreas.value = _audienceAreas.value.map { a ->
-            if (a.id != areaId) a else a.copy(
-                vertices = rotated,
-                rotationDeg = normalizedTarget
-            )
+            if (a.id != areaId) a else a.mapAudienceCoordinates(::rotate).copy(rotationDeg=normalizedTarget,
+                rakeDirectionDeg=((a.rakeDirectionDeg-delta+180f)%360f+360f)%360f-180f)
         }
         rebuildAudiencePointsForArea(areaId)
     }
 
     fun setAudienceAreaEdgeLength(areaId: Int, edgeIndex: Int, lengthM: Float) {
         val area = _audienceAreas.value.firstOrNull { it.id == areaId } ?: return
+        if (area.importedMesh!=null) { _audienceGeometryError.value="Edit imported triangle geometry in its source file"; return }
         val verts = area.vertices
         if (verts.size < 3) return
         if (edgeIndex !in verts.indices) return
@@ -3718,14 +4685,18 @@ class SceneViewModel : ViewModel() {
         val mag = sqrt(vx * vx + vz * vz)
         if (mag < 0.0001f) return
 
-        pushUndoCheckpoint()
         val ux = vx / mag
         val uz = vz / mag
         val updated = verts.toMutableList()
         updated[endIndex] = (start.first + ux * clamped) to (start.second + uz * clamped)
 
+        val candidate=area.copy(vertices=updated)
+        val validation=runCatching { candidate.sharedSurface().validateGeometry() }
+        if (validation.isFailure) { _audienceGeometryError.value=validation.exceptionOrNull()?.message; return }
+        _audienceGeometryError.value=null
+        pushUndoCheckpoint()
         _audienceAreas.value = _audienceAreas.value.map { a ->
-            if (a.id != areaId) a else a.copy(vertices = updated)
+            if (a.id != areaId) a else candidate
         }
         rebuildAudiencePointsForArea(areaId)
     }
@@ -3735,11 +4706,10 @@ class SceneViewModel : ViewModel() {
         pushUndoCheckpoint()
         val id = nextAreaId++
         val offset = 1.0f
-        val clone = src.copy(
+        val clone = src.mapAudienceCoordinates { (x,z) -> (x+offset) to (z+offset) }.copy(
             id = id,
             name = "${src.name} Copy",
-            linkedZoneId = null,
-            vertices = src.vertices.map { (x, z) -> (x + offset) to (z + offset) }
+            linkedZoneId = null
         )
         _audienceAreas.value = _audienceAreas.value + clone
         rebuildAudiencePointsForArea(id)
@@ -3753,8 +4723,8 @@ class SceneViewModel : ViewModel() {
             ?: 0f
         pushUndoCheckpoint()
         _audienceAreas.value = _audienceAreas.value.map { area ->
-            if (area.id != areaId) area else area.copy(
-                vertices = src.vertices.map { (x, z) -> (2f * refX - x) to z },
+            if (area.id != areaId) area else area.mapAudienceCoordinates { (x,z) -> (2f*refX-x) to z }.copy(
+                rakeDirectionDeg = ((-src.rakeDirectionDeg+180f)%360f+360f)%360f-180f,
                 rotationDeg = ((360f - src.rotationDeg) % 360f + 360f) % 360f
             )
         }
@@ -3769,8 +4739,8 @@ class SceneViewModel : ViewModel() {
             ?: 0f
         pushUndoCheckpoint()
         _audienceAreas.value = _audienceAreas.value.map { area ->
-            if (area.id != areaId) area else area.copy(
-                vertices = src.vertices.map { (x, z) -> x to (2f * refZ - z) },
+            if (area.id != areaId) area else area.mapAudienceCoordinates { (x,z) -> x to (2f*refZ-z) }.copy(
+                rakeDirectionDeg = ((360f-src.rakeDirectionDeg)%360f+360f)%360f-180f,
                 rotationDeg = ((180f - src.rotationDeg) % 360f + 360f) % 360f
             )
         }
@@ -3837,28 +4807,12 @@ class SceneViewModel : ViewModel() {
         refreshHeatmap()
     }
 
-    private fun audienceHeadOffsetForZone(zoneType: String): Float {
-        return when (zoneType) {
-            "AUDIENCE_STANDING" -> 1.6f
-            else -> 1.2f
-        }
-    }
-
-    private fun audienceEarHeightForArea(x: Float, z: Float, area: AudienceArea): Float {
-        if (area.vertices.isEmpty()) return audienceHeadOffsetForZone(area.zoneType)
-        val cx = area.vertices.sumOf { it.first.toDouble() }.toFloat() / area.vertices.size
-        val cz = area.vertices.sumOf { it.second.toDouble() }.toFloat() / area.vertices.size
-        val rakeRad = Math.toRadians(area.rakeDeg.toDouble())
-        val dirRad = Math.toRadians(area.rakeDirectionDeg.toDouble())
-        val dx = kotlin.math.sin(dirRad).toFloat()
-        val dz = kotlin.math.cos(dirRad).toFloat()
-        val along = (x - cx) * dx + (z - cz) * dz
-        val planeY = area.baseHeightM + tan(rakeRad).toFloat() * along
-        return (planeY + audienceHeadOffsetForZone(area.zoneType)).coerceIn(0.5f, 30f)
-    }
+    private fun audienceEarHeightForArea(x: Float, z: Float, area: AudienceArea): Float =
+        area.sharedSurface().receiverY(x,z)
 
     private fun applyAreaGeometryToAudiencePoints(areaId: Int) {
         val area = _audienceAreas.value.firstOrNull { it.id == areaId } ?: return
+        if (area.importedMesh!=null) { rebuildAudiencePointsForArea(areaId); return }
         _audience.value = _audience.value.map { p ->
             if (p.sourceAreaId != areaId) p else p.copy(earHeightM = audienceEarHeightForArea(p.x, p.z, area))
         }
@@ -3902,329 +4856,14 @@ class SceneViewModel : ViewModel() {
         refreshHeatmap()
     }
 
-    private fun stageSurfaceYAt(x: Float, z: Float): Float? {
-        val vg = _venueGeometry.value
-        val halfW = vg.stageWidthM * 0.5f
-        val halfD = vg.stageDepthM * 0.5f
-        val lx = x - vg.stageCenterX
-        val lz = z - vg.stageCenterZ
-        if (kotlin.math.abs(lx) > halfW || kotlin.math.abs(lz) > halfD) return null
-        val slope = tan(Math.toRadians(vg.stageSlopeDeg.toDouble())).toFloat()
-        return (vg.stageHeightM + slope * lz).coerceAtLeast(0f)
-    }
+    /** Compatibility for the separate experimental room analysis: geometric visibility, no empirical loss. */
+    internal fun estimateObstructionAttenuationDb(sx: Float, sy: Float, sz: Float,
+        tx: Float, ty: Float, tz: Float, @Suppress("UNUSED_PARAMETER") bandHz: Int = _selectedBandHz.value): Float =
+        if (isLineOfSightBlocked(sx,sy,sz,tx,ty,tz)) Float.POSITIVE_INFINITY else 0f
 
-    private fun blockSurfaceYAt(x: Float, z: Float): Float? {
-        var best: Float? = null
-        _venueGeometry.value.blocks.forEach { b ->
-            val theta = Math.toRadians((-b.rotationDeg).toDouble())
-            val c = cos(theta).toFloat()
-            val s = sin(theta).toFloat()
-            val dx = x - b.centerX
-            val dz = z - b.centerZ
-            val lx = dx * c - dz * s
-            val lz = dx * s + dz * c
-
-            if (kotlin.math.abs(lx) <= b.widthM * 0.5f && kotlin.math.abs(lz) <= b.depthM * 0.5f) {
-                val slope = tan(Math.toRadians(b.slopeDeg.toDouble())).toFloat()
-                val y = (b.heightM + slope * lz).coerceAtLeast(0f)
-                best = if (best == null) y else max(best!!, y)
-            }
-        }
-        return best
-    }
-
-    internal fun isLineOfSightBlocked(
-        sx: Float,
-        sy: Float,
-        sz: Float,
-        tx: Float,
-        ty: Float,
-        tz: Float
-    ): Boolean {
-        return estimateObstructionAttenuationDb(sx, sy, sz, tx, ty, tz) >= 8f
-    }
-
-    private data class PathObstructionStats(
-        val blockedSamples: Int,
-        val sampleCount: Int,
-        val maxPenetrationM: Float,
-        val minClearanceToTopM: Float
-    ) {
-        val blockedFraction: Float
-            get() = if (sampleCount <= 0) 0f else blockedSamples.toFloat() / sampleCount.toFloat()
-    }
-
-    private data class VerticalProfile(
-        val inside: Boolean,
-        val penetrationToTopM: Float,
-        val clearanceToTopM: Float
-    )
-
-    internal fun estimateObstructionAttenuationDb(
-        sx: Float,
-        sy: Float,
-        sz: Float,
-        tx: Float,
-        ty: Float,
-        tz: Float,
-        bandHz: Int = _selectedBandHz.value
-    ): Float {
-        val stats = collectPathObstructionStats(sx, sy, sz, tx, ty, tz)
-        val distanceM = sqrt((tx - sx) * (tx - sx) + (ty - sy) * (ty - sy) + (tz - sz) * (tz - sz)).coerceAtLeast(0.1f)
-        val freqScale = (bandHz.toFloat() / 1000f).coerceAtLeast(0.063f)
-        val hfWeight = kotlin.math.sqrt(freqScale).coerceIn(0.25f, 2.2f)
-
-        // No hard block: keep a small grazing-edge diffraction shadow near top edges.
-        if (stats.blockedSamples == 0) {
-            val grazing = (0.45f - stats.minClearanceToTopM).coerceIn(0f, 0.45f) / 0.45f
-            val grazeLoss = 4.5f * grazing * hfWeight
-            return grazeLoss.coerceIn(0f, 8f)
-        }
-
-        // Hard block: attenuation increases with blocked fraction and penetration depth.
-        val blockedTerm = (6f + 24f * stats.blockedFraction).coerceAtLeast(0f)
-        val penetrationTerm = (stats.maxPenetrationM / 0.55f).coerceIn(0f, 2f) * 10f
-        val distanceTerm = (1f + 0.12f * log10((distanceM + 1f).toDouble()).toFloat()).coerceIn(0.9f, 1.5f)
-        var loss = (blockedTerm + penetrationTerm) * (0.58f + 0.52f * hfWeight) * distanceTerm
-
-        // Low frequencies bend around obstacles more (diffraction recovery).
-        val lowFreqRecovery = ((1000f / bandHz.toFloat()).coerceAtLeast(1f) - 1f).coerceIn(0f, 1.8f) * 6f
-        // Near-edge paths also recover more than deep-shadow paths.
-        val shallowShadowRecovery = (1f - (stats.maxPenetrationM / 0.25f).coerceIn(0f, 1f)) * 6f
-        val edgeRayRecovery = estimateEdgeDiffractionRecoveryDb(
-            sx = sx,
-            sy = sy,
-            sz = sz,
-            tx = tx,
-            ty = ty,
-            tz = tz,
-            stats = stats,
-            bandHz = bandHz
-        )
-        loss -= (lowFreqRecovery + shallowShadowRecovery + edgeRayRecovery)
-
-        return loss.coerceIn(0f, 55f)
-    }
-
-    private fun estimateEdgeDiffractionRecoveryDb(
-        sx: Float,
-        sy: Float,
-        sz: Float,
-        tx: Float,
-        ty: Float,
-        tz: Float,
-        stats: PathObstructionStats,
-        bandHz: Int = _selectedBandHz.value
-    ): Float {
-        if (stats.blockedSamples <= 0) return 0f
-
-        val steps = when (_analysisProfile.value) {
-            "Fast" -> 20
-            "Precision" -> 56
-            else -> 36
-        }
-
-        val edgeCandidates = mutableListOf<Triple<Float, Float, Float>>()
-        var prevInside = false
-        for (i in 1 until steps) {
-            val t = i.toFloat() / steps.toFloat()
-            val px = sx + (tx - sx) * t
-            val py = sy + (ty - sy) * t
-            val pz = sz + (tz - sz) * t
-            val inside = verticalObstructionProfile(px, py, pz).inside
-            if (inside != prevInside) {
-                val topY = obstructionTopSurfaceYAt(px, pz) ?: py
-                edgeCandidates += Triple(px, topY, pz)
-            }
-            prevInside = inside
-        }
-        if (edgeCandidates.isEmpty()) return 0f
-
-        val directDist = distance3d(sx, sy, sz, tx, ty, tz).coerceAtLeast(0.1f)
-        val freqK = (bandHz.toFloat() / 1000f).coerceAtLeast(0.063f)
-
-        var bestRecovery = 0f
-        edgeCandidates.forEach { (ex, ey, ez) ->
-            val pathDist = distance3d(sx, sy, sz, ex, ey, ez) + distance3d(ex, ey, ez, tx, ty, tz)
-            val excess = (pathDist - directDist).coerceAtLeast(0f)
-            val edgeOffset = pointToSegmentDistance3d(ex, ey, ez, sx, sy, sz, tx, ty, tz)
-
-            // Approximate knife-edge behavior:
-            // - stronger recovery at LF
-            // - weaker with larger excess path and larger edge offset
-            // - weaker when deep in shadow (large blocked fraction)
-            val lfBoost = (1.2f / kotlin.math.sqrt(freqK)).coerceIn(0.6f, 2.2f)
-            val shadowPenalty = stats.blockedFraction.coerceIn(0f, 1f) * 4f
-            val candidateRecovery =
-                15f * lfBoost -
-                    (22f * excess) -
-                    (2.8f * edgeOffset) -
-                    shadowPenalty
-
-            bestRecovery = max(bestRecovery, candidateRecovery)
-        }
-
-        return bestRecovery.coerceIn(0f, 14f)
-    }
-
-    private fun obstructionTopSurfaceYAt(x: Float, z: Float): Float? {
-        var best: Float? = null
-        stageVerticalBoundsAt(x, z)?.let { (_, top) ->
-            best = top
-        }
-        _venueGeometry.value.blocks.forEach { b ->
-            blockVerticalBoundsAt(b, x, z)?.let { (_, top) ->
-                best = if (best == null) top else max(best!!, top)
-            }
-        }
-        return best
-    }
-
-    private fun distance3d(ax: Float, ay: Float, az: Float, bx: Float, by: Float, bz: Float): Float {
-        val dx = bx - ax
-        val dy = by - ay
-        val dz = bz - az
-        return sqrt(dx * dx + dy * dy + dz * dz)
-    }
-
-    private fun pointToSegmentDistance3d(
-        px: Float,
-        py: Float,
-        pz: Float,
-        ax: Float,
-        ay: Float,
-        az: Float,
-        bx: Float,
-        by: Float,
-        bz: Float
-    ): Float {
-        val abx = bx - ax
-        val aby = by - ay
-        val abz = bz - az
-        val apx = px - ax
-        val apy = py - ay
-        val apz = pz - az
-        val ab2 = (abx * abx + aby * aby + abz * abz).coerceAtLeast(1e-6f)
-        val t = ((apx * abx + apy * aby + apz * abz) / ab2).coerceIn(0f, 1f)
-        val cx = ax + abx * t
-        val cy = ay + aby * t
-        val cz = az + abz * t
-        return distance3d(px, py, pz, cx, cy, cz)
-    }
-
-    private fun collectPathObstructionStats(
-        sx: Float,
-        sy: Float,
-        sz: Float,
-        tx: Float,
-        ty: Float,
-        tz: Float
-    ): PathObstructionStats {
-        val steps = when (_analysisProfile.value) {
-            "Fast" -> 24
-            "Precision" -> 72
-            else -> 48
-        }
-        val dx = tx - sx
-        val dy = ty - sy
-        val dz = tz - sz
-        var blockedCount = 0
-        var maxPenetration = 0f
-        var minClearance = Float.POSITIVE_INFINITY
-
-        for (i in 1 until steps) {
-            val t = i.toFloat() / steps.toFloat()
-            val px = sx + dx * t
-            val py = sy + dy * t
-            val pz = sz + dz * t
-            val sample = verticalObstructionProfile(px, py, pz)
-            minClearance = minOf(minClearance, sample.clearanceToTopM)
-            if (sample.inside) {
-                blockedCount += 1
-                maxPenetration = max(maxPenetration, sample.penetrationToTopM)
-            }
-        }
-
-        return PathObstructionStats(
-            blockedSamples = blockedCount,
-            sampleCount = (steps - 1).coerceAtLeast(1),
-            maxPenetrationM = maxPenetration,
-            minClearanceToTopM = if (minClearance.isFinite()) minClearance else Float.POSITIVE_INFINITY
-        )
-    }
-
-    private fun verticalObstructionProfile(x: Float, y: Float, z: Float): VerticalProfile {
-        var inside = false
-        var maxPenetration = 0f
-        var minClearance = Float.POSITIVE_INFINITY
-
-        val stage = stageVerticalBoundsAt(x, z)
-        if (stage != null) {
-            val (bottom, top) = stage
-            minClearance = minOf(minClearance, y - top)
-            if (y >= bottom && y <= top) {
-                inside = true
-                maxPenetration = max(maxPenetration, top - y)
-            }
-        }
-
-        _venueGeometry.value.blocks.forEach { b ->
-            val bounds = blockVerticalBoundsAt(b, x, z) ?: return@forEach
-            val (bottom, top) = bounds
-            minClearance = minOf(minClearance, y - top)
-            if (y >= bottom && y <= top) {
-                inside = true
-                maxPenetration = max(maxPenetration, top - y)
-            }
-        }
-
-        return VerticalProfile(
-            inside = inside,
-            penetrationToTopM = maxPenetration,
-            clearanceToTopM = if (minClearance.isFinite()) minClearance else Float.POSITIVE_INFINITY
-        )
-    }
-
-    private fun stageVerticalBoundsAt(x: Float, z: Float): Pair<Float, Float>? {
-        val vg = _venueGeometry.value
-        val lx = x - vg.stageCenterX
-        val lz = z - vg.stageCenterZ
-        val halfW = vg.stageWidthM * 0.5f
-        val halfD = vg.stageDepthM * 0.5f
-        if (kotlin.math.abs(lx) > halfW || kotlin.math.abs(lz) > halfD) return null
-        val slope = tan(Math.toRadians(vg.stageSlopeDeg.toDouble())).toFloat()
-        val topY = (vg.stageHeightM + slope * lz).coerceAtLeast(0f)
-        return 0f to topY
-    }
-
-    private fun blockVerticalBoundsAt(block: VenueBlock, x: Float, z: Float): Pair<Float, Float>? {
-        val theta = Math.toRadians((-block.rotationDeg).toDouble())
-        val c = cos(theta).toFloat()
-        val s = sin(theta).toFloat()
-        val dx = x - block.centerX
-        val dz = z - block.centerZ
-        val lx = dx * c - dz * s
-        val lz = dx * s + dz * c
-
-        if (kotlin.math.abs(lx) > block.widthM * 0.5f || kotlin.math.abs(lz) > block.depthM * 0.5f) return null
-
-        val slope = tan(Math.toRadians(block.slopeDeg.toDouble())).toFloat()
-        val topY = block.heightM + slope * lz
-        val bottomY = topY - block.blockHeightM
-        return bottomY to topY
-    }
-
-    private fun isInsideStageVolume(x: Float, y: Float, z: Float): Boolean {
-        val bounds = stageVerticalBoundsAt(x, z) ?: return false
-        return y >= bounds.first && y <= bounds.second
-    }
-
-    private fun isInsideAnyBlockVolume(x: Float, y: Float, z: Float): Boolean {
-        return _venueGeometry.value.blocks.any { b ->
-            val bounds = blockVerticalBoundsAt(b, x, z) ?: return@any false
-            y >= bounds.first && y <= bounds.second
-        }
-    }
+    internal fun isLineOfSightBlocked(sx: Float, sy: Float, sz: Float, tx: Float, ty: Float, tz: Float): Boolean =
+        BoundaryGeometry.prepare(_audienceAreas.value.map {it.sharedSurface()},venue=_venueGeometry.value)
+            .blocked(BoundaryPoint(sx.toDouble(),sy.toDouble(),sz.toDouble()),BoundaryPoint(tx.toDouble(),ty.toDouble(),tz.toDouble()))
 
     // ─── GPU distance test (Phase 0 regression) ──────────────────────────────
 
@@ -4343,9 +4982,21 @@ class SceneViewModel : ViewModel() {
      * Drops every derived analysis value. In-flight work is cancelled first so a
      * job that is already running cannot publish its results after the clear.
      */
-    private fun clearAnalysisResults() {
+    private fun clearAnalysisResults(state: PredictionState = PredictionState.EMPTY) {
+        listenerValidity=null;coverageValidity=null;_predictionValidity.value=null
+        autoRecomputeJob?.cancel()
+        predictionGate.invalidate(state)
+        _predictionState.value = state
+        _currentTrace.value=null
+        listenerResultTicket = null
+        coverageResultTicket = null
         recalcJob?.cancel()
-        earlyReflectionJob?.cancel()
+        heatmapJob?.cancel()
+        optimizerJob?.cancel()
+        _optimizerIsRunning.value = false
+        _heatmap.value = emptyList()
+        _coverageGeometry.value = null
+        _coverageStatistics.value = null
         _results.value = emptyList()
         _combinedSplDb.value = null
         _earlyReflections.value = emptyList()
@@ -4355,245 +5006,104 @@ class SceneViewModel : ViewModel() {
     }
 
     private fun recalculate(force: Boolean = false) {
-        // An empty scene is invalidated ahead of the auto-calculate gate. That gate
-        // defers *recomputation* until the user asks for it, but numbers describing
-        // sources that no longer exist are never worth keeping: removing the last
-        // speaker used to leave a full set of results sitting on screen.
-        val spks = _speakers.value
-        if (spks.isEmpty()) {
-            clearAnalysisResults()
-            return
-        }
+        if(snapshotOnly) return
+        val spks = _speakers.value.toList()
+        if (spks.isEmpty() || !_signalSplEnabled.value) { clearAnalysisResults(); return }
         if (!force && !_signalAutoCalculate.value) return
-        if (!_signalSplEnabled.value) {
-            clearAnalysisResults()
-            return
-        }
-
         recalcJob?.cancel()
+        val ticket = predictionGate.begin(PredictionChannel.LISTENER, _revision.value)
+        val lis = _listener.value
+        val selected = _selectedBandHz.value
+        val air = Atmosphere(_temperatureC.value, _humidityPct.value)
+        val request = capturePredictionRequest(ticket, spks,
+            listOf(HeatCell(lis.x, lis.z, Float.NaN, renderY = lis.earHeightM)), true)
+        val traceInputs=JSONObject(exportSceneJson(false,includeDesignLibrary=false)).apply {remove("savedTraces");remove("referenceTraceSelection");remove("receiverAngularOverlayEnabled");remove("receiverAngularSelection");remove("receiverCameraFocus")}.toString()
+        val traceMetadata=TraceMetadata(BoundaryPoint(lis.x.toDouble(),lis.earHeightM.toDouble(),lis.z.toDouble()),
+            if(_signalType.value=="SPECTRUM") 1f else _signalBandwidthOct.value,_temperatureC.value,_humidityPct.value,
+            TraceComparisons.fingerprint(traceInputs),System.currentTimeMillis(),predictionDataWarnings().joinToString("\n"))
+        refreshPredictionState()
         recalcJob = viewModelScope.launch {
-            val analysis = withContext(Dispatchers.Default) {
-                val positions = FloatArray(spks.size * 3) { i ->
-                    val spk = spks[i / 3]
-                    when (i % 3) { 0 -> spk.x; 1 -> spk.heightM; else -> spk.z }
-                }
-                val lis    = _listener.value
-                val lisArr = floatArrayOf(lis.x, lis.earHeightM, lis.z)
-                val dists  = computeDistancesSafe(positions, lisArr)
-                val bands = analysisBands()
-                val selected = _selectedBandHz.value
-
-                // Per-speaker figures stay on the band being looked at: they are
-                // a readout of this band, not a spectrum. Only the combined level
-                // is summed across bands.
+            try {
+                val output = withContext(predictionDispatcher) { predictionRunner.run(request) }
+                if (output.ticket != ticket || !predictionGate.complete(ticket, _revision.value)) return@launch
                 val results = spks.mapIndexed { i, spk ->
-                    val d = dists[i].coerceAtLeast(0.1f)
-                    val dsp = _dspMap.value[spk.id] ?: SpeakerDsp(spk.id)
-                    val spl = directPathSplDb(spk, dsp, lis.x, lis.earHeightM, lis.z, d, selected)
-                    val air = atmosphericLossDb(
-                        distanceM = d,
-                        bandHz = selected,
-                        temperatureC = _temperatureC.value,
-                        humidityPct = _humidityPct.value
-                    )
-                    SpeakerResult(spk, d, spl, air)
+                    val d = sqrt((lis.x-spk.x).pow(2) + (lis.z-spk.z).pow(2) + (lis.earHeightM-spk.heightM).pow(2)).coerceAtLeast(0.1f)
+                    SpeakerResult(spk, d, output.sourceLevelAt(0, i), (air.absorptionDbPerMetre(selected.toDouble()) * d).toFloat())
                 }
-
-                // Sources are phase-related within a band, so they sum coherently
-                // there; bands are not related to each other, so those add as
-                // power. Doing it the other way round would invent interference
-                // between frequencies.
-                val perBandCombined = bands.associateWith { band ->
-                    coherentSumDb(
-                        spks.mapIndexed { i, spk ->
-                            val d = dists[i].coerceAtLeast(0.1f)
-                            val dsp = _dspMap.value[spk.id] ?: SpeakerDsp(spk.id)
-                            CoherentContribution(
-                                splDb = directPathSplDb(spk, dsp, lis.x, lis.earHeightM, lis.z, d, band),
-                                distanceM = d,
-                                delayMs = dsp.delayMs,
-                                polarity = dsp.polarity
-                            )
-                        },
-                        band
-                    )
-                }
-                val coherent = combineAcrossBands(perBandCombined)
-                val room = estimateRoomBounds(spks, _listener.value, _audience.value, _audienceAreas.value)
-                AcousticAnalysis(
-                    speakerResults = results,
-                    combinedSplDb = coherent,
-                    roomBounds = room,
-                    rt60Estimate = room?.let { estimateRt60(it, _roomMaterials.value) }
-                )
-            }
-            _results.value = analysis.speakerResults
-            _combinedSplDb.value = analysis.combinedSplDb
-            _rt60Estimate.value = analysis.rt60Estimate
-            recomputeStiEstimate()
-            _highestSplDb.value = _results.value.maxOfOrNull { it.splDb }
-
-            val listenerSnapshot = _listener.value
-            earlyReflectionJob?.cancel()
-            earlyReflectionJob = viewModelScope.launch {
-                val reflections = withContext(Dispatchers.Default) {
-                    buildEarlyReflections(analysis.speakerResults, analysis.roomBounds, listenerSnapshot)
-                }
-                _earlyReflections.value = reflections
+                listenerResultTicket = ticket
+                listenerValidity=output.validity
+                val powers=output.bandPowersAt(0)
+                _currentTrace.value=if(powers.isEmpty()) null else SavedTrace(0,"Current listener",traceMetadata,powers,output.phasesAt(0),delayReferenceS=output.delayReferenceAt(0))
+                _results.value = results
+                _combinedSplDb.value = output.levelAt(0).takeIf { it.isFinite() }
+                // Direct/first-order predictions do not establish room decay or STI.
+                _rt60Estimate.value = null
+                _stiEstimate.value = null
+                _highestSplDb.value = _heatmap.value.map { it.splDb }.maxOrNull()
+                    ?: results.map { it.splDb }.filter { it.isFinite() }.maxOrNull()
+                refreshPredictionState()
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (failure: Exception) {
+                android.util.Log.e("Prediction", "Calculation failed", failure)
+                if (predictionGate.fail(ticket, _revision.value)) refreshPredictionState()
             }
         }
     }
 
     private fun refreshHeatmap(force: Boolean = false) {
-        // Same rule as recalculate(): an empty scene clears the map whether or not
-        // auto-calculate is on. A coverage map with no sources behind it is never
-        // a reading anyone should trust.
-        val spks = _speakers.value
-        if (spks.isEmpty()) {
+        if(snapshotOnly) return
+        if (_speakers.value.isEmpty() || !_signalSplEnabled.value) { clearAnalysisResults(); return }
+        if (!_signalCoverageEnabled.value) {
             heatmapJob?.cancel()
             _heatmap.value = emptyList()
-            _stiEstimate.value = null
-            _highestSplDb.value = null
+            _coverageGeometry.value = null
+            _coverageStatistics.value = null
+            coverageResultTicket = null
+            coverageValidity=null
+            refreshPredictionState()
             return
         }
         if (!force && !_signalAutoCalculate.value) return
-        if (!_signalCoverageEnabled.value || !_signalSplEnabled.value) {
-            _heatmap.value = emptyList()
-            _highestSplDb.value = _results.value.maxOfOrNull { it.splDb }
-            _stiEstimate.value = null
-            return
-        }
-
         heatmapJob?.cancel()
+        val ticket = predictionGate.begin(PredictionChannel.COVERAGE, _revision.value)
+        val request = capturePredictionRequest(ticket, _speakers.value.toList(), emptyList(),
+            coveragePlan = captureCoveragePlan())
+        refreshPredictionState()
         heatmapJob = viewModelScope.launch {
-            val cells = withContext(Dispatchers.Default) {
-                val positions = FloatArray(spks.size * 3) { i ->
-                    val spk = spks[i / 3]
-                    when (i % 3) { 0 -> spk.x; 1 -> spk.heightM; else -> spk.z }
-                }
-
-                val coords = mutableListOf<Pair<Float, Float>>()
-                val sampleHeights = mutableListOf<Float>()
-                val sampleRenderHeights = mutableListOf<Float>()
-                val sourceAreas = mutableListOf<Int?>()
-                val sourceAreaNames = mutableListOf<String?>()
-                val sourceZoneTypes = mutableListOf<String?>()
-                val sourceRakes = mutableListOf<Float>()
-                val sourceRakeDirections = mutableListOf<Float>()
-                val points = mutableListOf<Float>()
-                val aud = _audience.value
-                val areaById = _audienceAreas.value.associateBy { it.id }
-                if (aud.isNotEmpty()) {
-                    aud.forEach { a ->
-                        val area = a.sourceAreaId?.let { areaById[it] }
-                        coords += a.x to a.z
-                        sampleHeights += a.earHeightM
-                        sampleRenderHeights += (a.earHeightM - audienceHeadOffsetForZone(area?.zoneType ?: "AUDIENCE_SEATED")).coerceAtLeast(0f)
-                        sourceAreas += a.sourceAreaId
-                        sourceAreaNames += area?.name
-                        sourceZoneTypes += area?.zoneType
-                        sourceRakes += area?.rakeDeg ?: 0f
-                        sourceRakeDirections += area?.rakeDirectionDeg ?: 0f
-                        points += a.x
-                        points += a.earHeightM
-                        points += a.z
-                    }
-                } else {
-                    val min = -12f
-                    val max = 12f
-                    val step = when (_analysisProfile.value) {
-                        "Fast" -> 3f
-                        "Precision" -> 1f
-                        else -> 2f
-                    }
-                    var z = min
-                    while (z <= max + 0.001f) {
-                        var x = min
-                        while (x <= max + 0.001f) {
-                            val overlaps = _audienceAreas.value.filter { a ->
-                                (a.zoneType == "AUDIENCE_SEATED" || a.zoneType == "AUDIENCE_STANDING") &&
-                                    pointInPolygon(x, z, a.vertices)
-                            }
-
-                            if (overlaps.isEmpty()) {
-                                val blockY = blockSurfaceYAt(x, z)
-                                val stageY = stageSurfaceYAt(x, z)
-                                val renderY = max(blockY ?: 0f, stageY ?: 0f)
-                                coords += x to z
-                                sampleHeights += 1.2f
-                                sampleRenderHeights += renderY
-                                sourceAreas += null
-                                sourceAreaNames += null
-                                sourceZoneTypes += null
-                                sourceRakes += 0f
-                                sourceRakeDirections += 0f
-                                points += x
-                                points += 1.2f
-                                points += z
-                            } else {
-                                overlaps.forEach { area ->
-                                    val earHeight = audienceEarHeightForArea(x, z, area)
-                                    coords += x to z
-                                    sampleHeights += earHeight
-                                    sampleRenderHeights += (earHeight - audienceHeadOffsetForZone(area.zoneType)).coerceAtLeast(0f)
-                                    sourceAreas += area.id
-                                    sourceAreaNames += area.name
-                                    sourceZoneTypes += area.zoneType
-                                    sourceRakes += area.rakeDeg
-                                    sourceRakeDirections += area.rakeDirectionDeg
-                                    points += x
-                                    points += earHeight
-                                    points += z
-                                }
-                            }
-                            x += step
-                        }
-                        z += step
-                    }
-                }
-
-                val dists = computeDistancesSafe(positions, points.toFloatArray())
-                val speakerCount = spks.size
-                coords.mapIndexed { gi, (x, z) ->
-                    val listenerY = sampleHeights[gi]
-                    val renderY = sampleRenderHeights[gi]
-                    val areaId = sourceAreas[gi]
-                    val areaName = sourceAreaNames[gi]
-                    val zoneType = sourceZoneTypes[gi]
-                    val zoneRake = sourceRakes[gi]
-                    val zoneRakeDirection = sourceRakeDirections[gi]
-                    val cellBands = analysisBands()
-                    val perBand = cellBands.associateWith { band ->
-                        val contributions = ArrayList<CoherentContribution>(speakerCount)
-                        for (si in 0 until speakerCount) {
-                            val d = dists[gi * speakerCount + si].coerceAtLeast(0.1f)
-                            val dspH = _dspMap.value[spks[si].id] ?: SpeakerDsp(spks[si].id)
-                            contributions += CoherentContribution(
-                                splDb = directPathSplDb(spks[si], dspH, x, listenerY, z, d, band),
-                                distanceM = d,
-                                delayMs = dspH.delayMs,
-                                polarity = dspH.polarity
-                            )
-                        }
-                        coherentSumDb(contributions, band)
-                    }
-                    HeatCell(
-                        x = x,
-                        z = z,
-                        splDb = combineAcrossBands(perBand),
-                        sourceAreaId = areaId,
-                        sourceAreaName = areaName,
-                        sourceZoneType = zoneType,
-                        sourceRakeDeg = zoneRake,
-                        sourceRakeDirectionDeg = zoneRakeDirection,
-                        renderY = renderY
-                    )
-                }
+            try {
+                val output = withContext(predictionDispatcher) { predictionRunner.run(request) }
+                if (output.ticket != ticket || !predictionGate.isLatest(ticket, _revision.value)) return@launch
+                val geometry = output.geometry ?: error("Coverage result is missing its surface geometry")
+                val cells = geometry.receivers().mapIndexed { i, point -> HeatCell(
+                    point.x, point.z, output.levelAt(i), point.areaId, point.name, point.zoneType,
+                    point.rakeDeg, point.rakeDirectionDeg, point.surfaceY, i, point.y, point.surfaceKey)
+                }.filter { it.splDb.isFinite() }
+                if (!predictionGate.complete(ticket, _revision.value)) return@launch
+                coverageResultTicket = ticket
+                coverageValidity=output.validity
+                _coverageGeometry.value = geometry
+                _coverageStatistics.value = output.statistics
+                _heatmap.value = cells
+                _highestSplDb.value = _heatmap.value.map { it.splDb }.maxOrNull()
+                    ?: _results.value.map { it.splDb }.filter { it.isFinite() }.maxOrNull()
+                refreshPredictionState()
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (failure: Exception) {
+                android.util.Log.e("Prediction", "Calculation failed", failure)
+                if (predictionGate.fail(ticket, _revision.value)) refreshPredictionState()
             }
-            _heatmap.value = cells
-            recomputeStiEstimate()
-            _highestSplDb.value = cells.maxOfOrNull { it.splDb } ?: _results.value.maxOfOrNull { it.splDb }
         }
+    }
+
+    internal fun captureCoveragePlan(): CoveragePlan {
+        val areas = _audienceAreas.value.map { it.sharedSurface() }
+        // Older projects may contain generated area points; the new mesh replaces those samples.
+        val areaIds = areas.map { it.id }.toSet()
+        val probes = _audience.value.filter { it.sourceAreaId !in areaIds }.map { p -> SurfaceReceiver(p.x, p.earHeightM, p.z, p.earHeightM,
+            "probe:${p.id}", name = p.name) }
+        val venue = _venueGeometry.value
+        val step = PredictionModelScope.coverageGridSpacingM(_analysisProfile.value)
+        return CoveragePlan(areas, probes, venue.widthM, venue.depthM, step)
     }
 
     private suspend fun computeDistancesSafe(
@@ -4630,25 +5140,6 @@ class SceneViewModel : ViewModel() {
             }
         }
         return out
-    }
-
-    /**
-     * Phase 9 — lightweight STI estimate from level margin, coverage uniformity and RT60.
-     * Returns normalized STI in [0,1] and an ALcons approximation.
-     */
-    private fun recomputeStiEstimate() {
-        val heat = _heatmap.value
-        val rt = _rt60Estimate.value
-        val combined = _combinedSplDb.value
-        if (heat.isEmpty() || combined == null || rt == null) {
-            _stiEstimate.value = null
-            return
-        }
-
-        val avg = heat.map { it.splDb }.average().toFloat()
-        val dev = kotlin.math.sqrt(heat.map { (it.splDb - avg) * (it.splDb - avg) }.average().toFloat()).coerceAtLeast(0f)
-
-        _stiEstimate.value = intelligibilityScore(avg, dev, rt.rt60S)
     }
 
     /**
@@ -4689,7 +5180,8 @@ class SceneViewModel : ViewModel() {
         val splDb: Float,
         val distanceM: Float,
         val delayMs: Float,
-        val polarity: Boolean
+        val polarity: Boolean,
+        val pressure: ComplexPressure? = null
     )
 
     /**
@@ -4710,8 +5202,8 @@ class SceneViewModel : ViewModel() {
 
     /**
      * Phase 8 — vertical line-array coherent summation.
-     * N elements stacked along Y, centred at [spk.heightM].
-     * Each element contributes a complex phasor summed at the selected band.
+     * Compatibility level query using horizontal polar receiver coordinates.
+     * Physical element poses and complex summation live in the shared core.
      */
     internal fun lineArraySplDb(
         spk       : PlacedSpeaker,
@@ -4722,67 +5214,93 @@ class SceneViewModel : ViewModel() {
         clf       : ClfData? = null,   // measured balloon, applied per element
         bandHz    : Int = _selectedBandHz.value
     ): Float {
-        val n       = spk.arrayElements
-        val spacing = spk.arraySpacingM.toDouble()
-        val freq    = bandHz.toDouble()
-        val c       = (331.3 + 0.606 * _temperatureC.value).coerceAtLeast(300.0)
-        val centreY = spk.heightM.toDouble()
-        val globalSteerDeg = spk.arraySteerDeg + spk.arrayAimDeg
-        val edgeTaperDb = spk.arrayEdgeTaperDb.toDouble()
-        val elemAimDeg = spk.elementAimsDeg().map { it.toDouble() }.toDoubleArray()
+        val bearing = Math.toRadians((spk.panDeg + horizOffAxisDeg).toDouble())
+        return arrayPressure(spk, dsp,
+            spk.x + horizDistM * cos(bearing).toFloat(), listenerY,
+            spk.z + horizDistM * sin(bearing).toFloat(), bandHz, clf).levelDb
+    }
 
-        val edgeNormDen = ((n - 1) * 0.5).coerceAtLeast(1.0)
-        var real    = 0.0
-        var imag    = 0.0
+    internal fun arrayPressure(spk: PlacedSpeaker, dsp: SpeakerDsp,
+        x: Float, y: Float, z: Float, bandHz: Int, clf: ClfData? = clfDataFor(spk)): ComplexPressure {
+        val air = Atmosphere(_temperatureC.value, _humidityPct.value)
+        return tonePressure(predictionSources(spk, dsp, air, clf), x, y, z, bandHz, air)
+    }
 
-        fun directivityAttenuationDb(mismatchDeg: Double, elementCount: Int, frequencyHz: Double): Double {
-            // Broader beam at LF, narrower at HF and for larger arrays.
-            val freqK = (frequencyHz / 1000.0).coerceAtLeast(0.063)
-            val halfPowerDeg = (65.0 / (sqrt(elementCount.toDouble()) * Math.pow(freqK, 0.35))).coerceIn(4.0, 80.0)
-            val x = kotlin.math.abs(mismatchDeg) / halfPowerDeg
-            return (-12.0 * x * x).coerceAtLeast(-24.0)
+    private fun predictionSources(spk: PlacedSpeaker, dsp: SpeakerDsp, air: Atmosphere,
+        clf: ClfData? = clfDataFor(spk), extraGainDb: Float = 0f): List<SoundSource> {
+        val synthetic = SyntheticRadiator(0f, SyntheticRadiator.horizontalHalfDeg(spk.modelPackageId)) {
+            if (spk.arrayElements > 1) SyntheticRadiator.arrayElementVerticalHalfDeg(it)
+            else SyntheticRadiator.pointSourceVerticalHalfDeg(spk.modelPackageId)
         }
+        val radiator: Radiator = when {
+            clf != null -> clf.measuredRadiator(_signalDispersionEnabled.value)
+            requiresMeasuredData(spk) -> Radiator { _, _, _ -> Float.NaN }
+            else -> Radiator { hz, az, el -> spk.sensitivity -
+                if (_signalDispersionEnabled.value) synthetic.lossDb(hz, az, el) else 0f }
+        }
+        return ArrayGeometry.sources(spk.elementPoses(), spk.id, spk.x, spk.heightM, spk.z,
+            spk.panDeg, spk.arraySteerDeg, air.speedOfSound, radiator,
+            dsp.gainDb + extraGainDb, dsp.delayMs / 1000.0, dsp.polarity, spk.arrayEdgeTaperDb,
+            { hz -> DiscreteBandEq.gainDb(dsp.eqBands,hz) }, dsp.filters)
+    }
 
-        for (elem in 0 until n) {
-            val relIdx = elem - (n - 1) * 0.5
-            val ey  = centreY + relIdx * spacing
-            val dy  = ey - listenerY.toDouble()
-            val d   = sqrt(horizDistM.toDouble() * horizDistM.toDouble() + dy * dy).coerceAtLeast(0.1)
-            val relNorm = kotlin.math.abs(relIdx) / edgeNormDen
-            val taper = -edgeTaperDb * relNorm
-
-            val elemAim = elemAimDeg[elem]
-            val listenerAngleDeg = Math.toDegrees(atan2((listenerY.toDouble() - ey), horizDistM.toDouble().coerceAtLeast(0.05)))
-            // arrayAimDeg is down-positive, so this element's acoustic axis sits
-            // at elevation -elemAim. Subtracting the aim instead of the axis
-            // inverted the steering: aiming an array down at an audience below
-            // it moved the modelled beam further away from them.
-            val mismatchDeg = signedAngularDeltaDeg(
-                listenerAngleDeg.toFloat(),
-                (-elemAim).toFloat()
-            ).toDouble()
-            // Each box in an array is aimed differently, so each one is read off
-            // the balloon at its own angle. Looking the array up once at the
-            // centre would ignore the splay that shapes it.
-            val dirAttenDb = if (clf != null) {
-                (clf.splAtDirection(bandHz, horizOffAxisDeg, mismatchDeg.toFloat())
-                    ?: 0f).toDouble()
-            } else {
-                directivityAttenuationDb(mismatchDeg, n, freq)
+    /** Freeze every input before dispatch. Obstruction preparation retains its existing approximation. */
+    internal fun capturePredictionRequest(ticket: PredictionTicket, speakers: List<PlacedSpeaker>,
+        cells: List<HeatCell>, includeSourceLevels: Boolean = false,
+        heights: List<Float> = cells.map { it.renderY },
+        bands: List<Int> = analysisBands(), selected: Int = _selectedBandHz.value,
+        dsps: Map<Int, SpeakerDsp> = _dspMap.value,
+        coveragePlan: CoveragePlan? = null, retainBandPowers: Boolean = includeSourceLevels,
+        forComparison: Boolean = false): PredictionRequest {
+        val dispersion = _signalDispersionEnabled.value
+        val responses = mutableMapOf<String, FrozenResponse>()
+        val sources = speakers.map { spk ->
+            val data = clfDataFor(spk)
+            val response = when {
+                data != null -> responses.getOrPut(spk.presetId) { FrozenResponse.measured(data, dispersion) }
+                requiresMeasuredData(spk) -> FrozenResponse.missing()
+                else -> FrozenResponse.generic(spk.sensitivity, spk.modelPackageId, spk.arrayElements > 1, dispersion)
             }
-
-            val spl = elementSplDb(spk.sensitivity, dsp, d.toFloat(), bandHz) + taper.toFloat() + dirAttenDb.toFloat()
-            val amp = Math.pow(10.0, spl / 20.0)
-
-            val steerRad = Math.toRadians(elemAim)
-            // Steering term for a vertical linear array (far-field phase progression).
-            val steerPhase = -2.0 * PI * freq * (relIdx * spacing) * kotlin.math.sin(steerRad) / c
-            val phi = 2.0 * PI * freq * d / c + steerPhase + if (dsp.polarity) PI else 0.0
-            real   += amp * cos(phi)
-            imag   += amp * sin(phi)
+            val dsp = dsps[spk.id] ?: SpeakerDsp(spk.id)
+            SourceSnapshot(spk.id, spk.x, spk.heightM, spk.z, spk.panDeg, spk.elementPoses(),
+                spk.arraySteerDeg, spk.arrayEdgeTaperDb, response, dsp.gainDb + _signalLevelDbu.value,
+                dsp.delayMs / 1000.0, dsp.polarity, dsp.eqBands, dsp.filters,
+                if(!forComparison) null else if(data!=null) ComparisonSourceData(
+                    projectAssets.capture(data).reference.hash!!,data.calibration,data.provenance.origin==SpeakerDataOrigin.GENERIC_ESTIMATE,dispersion)
+                else if(requiresMeasuredData(spk)) ComparisonSourceData("missing:"+spk.presetId,null,false,dispersion)
+                else ComparisonSourceData.generic(spk.presetId,spk.sensitivity,spk.modelPackageId,spk.arrayElements>1,dispersion))
         }
-        val mag = sqrt(real * real + imag * imag).coerceAtLeast(1e-9)
-        return (20.0 * log10(mag)).toFloat()
+        val receivers = cells.mapIndexed { i, cell -> ReceiverSnapshot(cell.x, heights[i], cell.z) }
+        val floor = if (_groundReflectionEnabled.value)
+            Bands.THIRD_OCTAVE_HZ.associateWith { _roomMaterials.value.floor.alphaAt(it) } else null
+        return PredictionRequest(ticket, sources, receivers, selected, bands,
+            if (_signalType.value == "SPECTRUM") 1f else _signalBandwidthOct.value,
+            WEIGHTING_DB[_weighting.value].orEmpty(), _signalInterferenceEnabled.value,
+            Atmosphere(_temperatureC.value, _humidityPct.value), floor, includeSourceLevels, coveragePlan,
+            _venueGeometry.value, geometryCache,
+            if (_splScaleMode.value == SPL_SCALE_TARGET)
+                CoverageTarget(_splTargetDb.value.toDouble()-3.0,_splTargetDb.value.toDouble()+3.0) else null,
+            boundarySurfaces=_audienceAreas.value.map {it.sharedSurface()},retainBandPowers=retainBandPowers,groundPhase=_groundReflectionPhase.value,
+            comparisonWeighting=if(forComparison) _weighting.value else null,
+            comparisonSpectrum=if(forComparison) _comparisonSourceSpectrum.value else null,
+            broadbandDrive=if(!forComparison && bands.size>1 && _signalType.value=="SPECTRUM") _broadbandDrive.value else null)
+    }
+
+    internal fun predictBandDb(speakers: List<PlacedSpeaker>, x: Float, y: Float, z: Float,
+        band: Int, dspOverride: Map<Int, SpeakerDsp>? = null): Float = capturePredictionRequest(
+            PredictionTicket(_revision.value, 0, PredictionChannel.LISTENER), speakers,
+            listOf(HeatCell(x, z, Float.NaN, renderY = y)), bands = listOf(band), selected = band,
+            dsps = dspOverride ?: _dspMap.value).calculate().levelAt(0)
+
+    internal fun directContribution(spk: PlacedSpeaker, dsp: SpeakerDsp,
+        x: Float, y: Float, z: Float, distance: Float, band: Int): CoherentContribution {
+        val level = directPathSplDb(spk, dsp, x, y, z, distance, band)
+        val pressure = if (spk.arrayElements > 1) {
+            val raw = arrayPressure(spk, dsp, x, y, z, band)
+            raw.gain((level - raw.levelDb).toDouble())
+        } else ComplexPressure.arrival(level, distance / Atmosphere(_temperatureC.value).speedOfSound +
+            dsp.delayMs / 1000.0, band.toDouble(), dsp.polarity)
+        return CoherentContribution(level, distance, dsp.delayMs, dsp.polarity, pressure)
     }
 
     /**
@@ -4799,9 +5317,9 @@ class SceneViewModel : ViewModel() {
         bandHz: Int = _selectedBandHz.value
     ): Float {
         val base = if (spk.arrayElements > 1) {
-            lineArraySplDb(spk, dsp, distanceM, listenerY, horizOffAxisDeg, clf, bandHz)
+            lineArraySplDb(spk, dsp, sqrt((distanceM * distanceM - (spk.heightM - listenerY) * (spk.heightM - listenerY)).coerceAtLeast(0f)), listenerY, horizOffAxisDeg, clf, bandHz)
         } else {
-            elementSplDb(spk.sensitivity, dsp, distanceM, bandHz)
+            elementSplDb(referenceLevelDb(spk, bandHz), dsp, distanceM, bandHz)
         }
         return base + _signalLevelDbu.value
     }
@@ -4814,8 +5332,44 @@ class SceneViewModel : ViewModel() {
      * is applied exactly once - [perElementClfActive] is what keeps the callers
      * from adding it a second time.
      */
+    internal fun referenceLevelDb(spk: PlacedSpeaker, bandHz: Int): Float =
+        clfDataFor(spk)?.measuredRadiator()?.referenceLevelDb(bandHz)
+            ?: if (requiresMeasuredData(spk)) Float.NaN else spk.sensitivity
+
     private fun clfDataFor(spk: PlacedSpeaker): ClfData? =
-        _clfRegistry.value[spk.presetId]?.takeIf { it.patterns.isNotEmpty() }
+        _clfRegistry.value[spk.presetId]
+
+    private fun validateAssetRecovery(data: ClfData) {
+        if (_assetRecoveryProblems.value.any { it.speakerId == data.speakerId })
+            ProjectArchive.requireRecoveryMatch(projectAssetReferences[data.speakerId], data)
+    }
+
+    private fun requiresMeasuredData(spk: PlacedSpeaker): Boolean =
+        spk.requiresMeasuredData || _clfRegistry.value.containsKey(spk.presetId) ||
+            _clfSourceStatus.value.containsKey(spk.presetId) ||
+            _speakerPresets.value.any { it.id == spk.presetId && it.series == "CLF" }
+
+    /** Presentation adapter; calibration and supported-band decisions stay in shared-core. */
+    fun predictionDataWarnings(): List<String> = _assetRecoveryProblems.value.map {
+        "${it.speakerId}: ${it.reason}. Reimport the exact speaker data to recover."
+    } + _speakers.value.flatMap { spk ->
+        val data = clfDataFor(spk)
+        if (data == null) listOf(if (requiresMeasuredData(spk))
+            "${spk.label}: measured speaker data unavailable. Reimport the model."
+            else "${spk.label}: generic approximation; electrical reference unverified.")
+        else buildList {
+            addAll(SpeakerDataChecks.warnings(data).map { "${spk.label}: $it" })
+            val radiator = data.measuredRadiator(_signalDispersionEnabled.value)
+            val width = if (_signalType.value == "SPECTRUM") 1f else _signalBandwidthOct.value
+            if(data.complexResponse!=null) add(if(radiator.hasComplexBands())
+                "${spk.label}: measured complex band response (declared Cartesian interpolation). Requires complete frequency/direction data, compatible coherent drives and specular material phase. Mixed data requires Energy mode; compatible measured emitters interfere at scattering surfaces; outgoing diffuse sound remains energy-only, without a coherent phase trace."
+                else "${spk.label}: exact-tone complex samples only; coverage uses magnitude data until band interpolation is explicitly declared.")
+            val missing = analysisBands().flatMap { Bands.segments(it, width) }
+                .filter {seg -> if(radiator.hasComplexBands()) listOf(seg.f1,seg.centreHz,seg.f2).any {radiator.complexBandAt(it,0f,0f)==null}
+                    else !radiator.levelDb(seg.dataHz,0f,0f).isFinite()}.map {it.dataHz}.distinct()
+            if (missing.isNotEmpty()) add("${spk.label}: missing or invalid response/directivity at ${missing.joinToString()} Hz. Combined prediction unavailable.")
+        }
+    }
 
     private fun perElementClfActive(spk: PlacedSpeaker): Boolean =
         spk.arrayElements > 1 && clfDataFor(spk) != null
@@ -4846,8 +5400,8 @@ class SceneViewModel : ViewModel() {
         // Measured directivity is applied exactly once. An array reads the
         // balloon per element inside directSplDb, so the box-level penalty is
         // zero for it; a single box reads it here.
-        val perElementClf = perElementClfActive(spk)
-        val clfPenalty = if (perElementClf) 0f else clfDirectivityAttenuationDb(
+        val isArray = spk.arrayElements > 1
+        val clfPenalty = if (isArray) 0f else clfDirectivityAttenuationDb(
             speakerId = spk.presetId,
             fromX = spk.x, fromY = spk.heightM, fromZ = spk.z,
             toX = tx, toY = ty, toZ = tz,
@@ -4863,11 +5417,8 @@ class SceneViewModel : ViewModel() {
             toX = tx, toY = ty, toZ = tz,
             pathOrder = 0
         )
-        val boundaryDelta = floorBoundaryInterferenceDb(
-            srcX = spk.x, srcY = spk.heightM, srcZ = spk.z,
-            dstX = tx, dstY = ty, dstZ = tz,
-            bandHz = bandHz
-        )
+        val boundaryDelta = 0f // Ground is summed as image arrivals by predictBandDb.
+
         // A flat 12 dB step once the synthetic model runs out of shape - a crude
         // stand-in for rear radiation. It must not touch a measured balloon: a
         // CLF file already describes what happens behind the box, and stacking a
@@ -4878,12 +5429,10 @@ class SceneViewModel : ViewModel() {
             (directivityPenalty + verticalAimPenalty) > 14f
         ) 12f else 0f
 
-        return directSplDb(
-            spk, dsp, distanceM, ty,
-            horizOffAxisDeg = horizontalOffAxisDeg(spk, spk.x, spk.z, tx, tz),
-            clf = if (perElementClf) clfDataFor(spk) else null,
-            bandHz = bandHz
-        ) - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta
+        val direct = if (isArray) {
+            arrayPressure(spk, dsp, tx, ty, tz, bandHz).levelDb + _signalLevelDbu.value
+        } else directSplDb(spk, dsp, distanceM, ty, bandHz = bandHz)
+        return direct - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta
     }
 
     /**
@@ -4899,6 +5448,7 @@ class SceneViewModel : ViewModel() {
     /** Combined level at a point: one band, or every band weighted and summed. */
     private fun combineAcrossBands(perBand: Map<Int, Float>): Float =
         if (perBand.size == 1) perBand.values.first()
+        else if (perBand.values.any { !it.isFinite() }) Float.NaN
         else broadbandSplDb(perBand, _weighting.value) ?: perBand.values.first()
 
     internal fun coherentSumDb(
@@ -4907,16 +5457,14 @@ class SceneViewModel : ViewModel() {
     ): Float {
         if (contributions.isEmpty()) return 0f
         val frequencyHz = bandHz.toDouble().coerceAtLeast(1.0)
-        val speedOfSound = (331.3 + 0.606 * _temperatureC.value.toDouble()).coerceAtLeast(300.0)
         var real = 0.0
         var imag = 0.0
         contributions.forEach { c ->
-            val amplitude = Math.pow(10.0, c.splDb.toDouble() / 20.0)
-            val propagationS = c.distanceM.toDouble() / speedOfSound
-            val delayS = c.delayMs.toDouble() / 1000.0
-            val phase = 2.0 * PI * frequencyHz * (propagationS + delayS) + if (c.polarity) PI else 0.0
-            real += amplitude * cos(phase)
-            imag += amplitude * sin(phase)
+            val pressure = c.pressure ?: ComplexPressure.arrival(c.splDb,
+                c.distanceM / Atmosphere(_temperatureC.value).speedOfSound + c.delayMs / 1000.0,
+                frequencyHz, c.polarity)
+            real += pressure.real
+            imag += pressure.imaginary
         }
         val mag = sqrt(real * real + imag * imag).coerceAtLeast(1e-9)
         val coherentDb = (20.0 * log10(mag)).toFloat()
@@ -4927,17 +5475,8 @@ class SceneViewModel : ViewModel() {
         val lowFreqForceIncoherent = !_signalInterferenceEnabled.value && bandHz <= 163
         if (lowFreqForceIncoherent) return incoherentDb
 
-        val coherentWeight = if (_signalType.value == "BAND") {
-            val detail = ((1f / 3f) / _signalBandwidthOct.value.coerceAtLeast(1f / 12f)).coerceIn(0f, 1f)
-            (0.25f + detail * 0.75f).coerceIn(0f, 1f)
-        } else {
-            val resNorm = ((_signalResolution.value - 3).toFloat() / 93f).coerceIn(0f, 1f)
-            (0.05f + 0.35f * resNorm).coerceIn(0f, 0.45f)
-        }
+        return coherentDb
 
-        val blendedPower = coherentWeight * Math.pow(10.0, coherentDb.toDouble() / 10.0) +
-            (1f - coherentWeight) * Math.pow(10.0, incoherentDb.toDouble() / 10.0)
-        return (10.0 * log10(blendedPower.coerceAtLeast(1e-12))).toFloat()
     }
 
     /**
@@ -5179,27 +5718,15 @@ class SceneViewModel : ViewModel() {
         dstZ: Float,
         bandHz: Int = _selectedBandHz.value
     ): Float {
-        // Simple two-ray model against floor plane (y = 0).
-        val c = (331.3f + 0.606f * _temperatureC.value).coerceAtLeast(300f)
-        val f = bandHz.toFloat().coerceAtLeast(1f)
+        val air = Atmosphere(_temperatureC.value, _humidityPct.value)
+        val source = SoundSource(0, srcX, srcY, srcZ, 0f, 0f, Radiator { _, _, _ -> 100f })
+        val bands = Bands.segments(bandHz, _signalBandwidthOct.value)
+        val field = DirectField(air)
+        val free = field.bandPower(listOf(source), dstX, dstY, dstZ, bands)
+        val reflected = field.bandPower(listOf(source), dstX, dstY, dstZ, bands,
+            floor = FloorReflection(_groundReflectionPhase.value) { _roomMaterials.value.floorAlphaAt(it) })
+        return (10.0 * log10((reflected / free).coerceAtLeast(1e-18))).toFloat()
 
-        val direct = distance3d(srcX, srcY, srcZ, dstX, dstY, dstZ).coerceAtLeast(0.1f)
-        val imgY = -srcY
-        val reflected = distance3d(srcX, imgY, srcZ, dstX, dstY, dstZ).coerceAtLeast(0.1f)
-        val delta = (reflected - direct).coerceAtLeast(0f)
-
-        // Reflection magnitude derived from floor absorption coefficient.
-        val floorAlpha = _roomMaterials.value.floorAlphaAt(bandHz).coerceIn(0.01f, 0.99f)
-        val r = kotlin.math.sqrt((1f - floorAlpha).coerceIn(0.01f, 0.99f)).toDouble()
-
-        val phi = 2.0 * PI * f.toDouble() * delta.toDouble() / c.toDouble()
-        val real = 1.0 + r * cos(phi)
-        val imag = r * sin(phi)
-        val mag = kotlin.math.sqrt(real * real + imag * imag).coerceAtLeast(1e-6)
-        val db = (20.0 * kotlin.math.log10(mag)).toFloat()
-
-        // Keep contribution conservative to avoid unstable combing in coarse grids.
-        return db.coerceIn(-9f, 3f)
     }
 
     internal fun estimateRoomBounds(
@@ -5391,7 +5918,7 @@ class SceneViewModel : ViewModel() {
                         )
                         val spl = directSplDb(spk, dsp, d, listener.earHeightM) - st.lossDb - occlusionLoss - incidenceLoss - diffuseLoss - directivityPenalty - verticalAimPenalty - reflectionAirLoss
                         val dt = ((d - result.distanceM).coerceAtLeast(0f) / speedOfSound) * 1000f
-                        all += EarlyReflection(spk.label, st.pathName, dt, d, spl)
+                        if (spl.isFinite()) all += EarlyReflection(spk.label, st.pathName, dt, d, spl)
                     }
 
                     if (st.order >= maxOrder) return@forEach
@@ -5453,24 +5980,9 @@ class SceneViewModel : ViewModel() {
         temperatureC: Float,
         humidityPct: Float
     ): Float {
-        // Coarse one-band approximation at ~20°C / 50% RH (dB per metre).
-        val alphaBase = when (bandHz) {
-            63   -> 0.0002f
-            125  -> 0.0004f
-            250  -> 0.0007f
-            500  -> 0.0012f
-            1000 -> 0.0020f
-            2000 -> 0.0045f
-            4000 -> 0.0120f
-            8000 -> 0.0350f
-            else -> 0.0020f
-        }
-
-        val tempFactor = 1f + (20f - temperatureC) * 0.01f
-        val humFactor  = 1f + (50f - humidityPct) * 0.008f
-        val scale = (tempFactor * humFactor).coerceIn(0.5f, 2.0f)
-
-        return alphaBase * scale * distanceM.coerceAtLeast(0f)
+        return (com.droidacoustic.pro.acoustics.Atmosphere.iso9613(
+            bandHz.toDouble(), temperatureC.toDouble(), humidityPct.toDouble()
+        ) * distanceM.coerceAtLeast(0f)).toFloat()
     }
 
     /**
@@ -5509,21 +6021,6 @@ class SceneViewModel : ViewModel() {
         return alphaBase * baseScale * orderBoost * reflectionDistanceM.coerceAtLeast(0f)
     }
 
-    private fun pointInPolygon(px: Float, pz: Float, poly: List<Pair<Float, Float>>): Boolean {
-        var inside = false
-        var j = poly.lastIndex
-        for (i in poly.indices) {
-            val xi = poly[i].first; val zi = poly[i].second
-            val xj = poly[j].first; val zj = poly[j].second
-            val denom = (zj - zi).let { if (kotlin.math.abs(it) < 1e-6f) 1e-6f else it }
-            val intersect = ((zi > pz) != (zj > pz)) &&
-                (px < (xj - xi) * (pz - zi) / denom + xi)
-            if (intersect) inside = !inside
-            j = i
-        }
-        return inside
-    }
-
     // ─────────────────────────────────────────────────────────────────────
     // Phase 9: ArrayCalc Optimizer public API
     // ─────────────────────────────────────────────────────────────────────
@@ -5532,6 +6029,7 @@ class SceneViewModel : ViewModel() {
      * Enable/disable optimizer. When enabled, optimization parameters are applied to DSP map.
      */
     fun setOptimizerEnabled(enabled: Boolean) {
+        if (enabled && !PredictionModelScope.automaticOptimizationAvailable) return
         _optimizerEnabled.value = enabled
         if (enabled && _optimizerParams.value.isNotEmpty()) {
             // Apply optimizer params to DSP map
@@ -5546,6 +6044,8 @@ class SceneViewModel : ViewModel() {
      */
     fun setOptimizerMode(mode: String) {
         if (mode != "MINIMIZE_VARIANCE" && mode != "MAXIMIZE_COVERAGE") return
+        if (_optimizerMode.value == mode) return
+        touch()
         _optimizerMode.value = mode
     }
 
@@ -5554,11 +6054,14 @@ class SceneViewModel : ViewModel() {
      * Uses MINIMIZE_VARIANCE mode to optimize uniformity across audience area.
      */
     fun runOptimization() {
+        // Legacy objective ignores delay and does not use the shared prediction model.
+        if (!PredictionModelScope.automaticOptimizationAvailable) return
         val spks = _speakers.value
         if (spks.size < 2) return  // Optimization only makes sense for multiple speakers
 
         _optimizerIsRunning.value = true
         optimizerJob?.cancel()
+        val optimizerTicket = predictionGate.begin(PredictionChannel.OPTIMIZER, _revision.value)
         optimizerJob = viewModelScope.launch {
             val result = withContext(Dispatchers.Default) {
                 val mode = _optimizerMode.value
@@ -5590,6 +6093,7 @@ class SceneViewModel : ViewModel() {
                 }
             }
 
+            if (!predictionGate.complete(optimizerTicket, _revision.value)) return@launch
             _optimizerResult.value = result
             _optimizerParams.value = result.params
             _optimizerIsRunning.value = false
@@ -5636,6 +6140,7 @@ class SceneViewModel : ViewModel() {
      * Apply optimizer parameters to DSP map.
      */
     private fun applyOptimizerParams(params: List<OptimizerParam>) {
+        pushUndoCheckpoint()
         val newDspMap = _dspMap.value.toMutableMap()
         for (param in params) {
             val existing = newDspMap[param.speakerId] ?: SpeakerDsp(param.speakerId)
@@ -5651,6 +6156,7 @@ class SceneViewModel : ViewModel() {
      * Clear/reset optimizer parameters and disable optimizer.
      */
     fun clearOptimizer() {
+        pushUndoCheckpoint()
         _optimizerEnabled.value = false
         _optimizerParams.value = emptyList()
         _optimizerResult.value = null

@@ -1,0 +1,397 @@
+{
+    "synthetic-residuals": {
+        "schema": "droidacoustic.validation-report",
+        "version": 1,
+        "summary": {
+            "comparison": {
+                "status": "NOT_COMPARABLE",
+                "reasons": [
+                    "Synthetic fixture; cannot qualify an external comparison",
+                    "Synthetic fixture; cannot qualify an external comparison"
+                ]
+            },
+            "snapshotNotice": "Frozen reference/engine snapshots; independent origin and conditions are declared, not authenticated. Current scene edits do not update these results.",
+            "synthetic": true,
+            "referenceDocumentSha256": "25ce9ae221ab8af7556cf7a4b34ef0b4c90a1457f30b769e1156e3e74e1230b1",
+            "referenceProducer": "SYNTHETIC TEST FIXTURE — not a vendor export",
+            "engineDocumentSha256": "39b223f2b54a477e7617e3765809a560c956ae9b5c424d288a10c38934b6ac75",
+            "engineProducer": "SYNTHETIC TEST FIXTURE — not a vendor export"
+        },
+        "declaredToleranceDb": 0.1,
+        "scope": "DIAGNOSTIC_ONLY_NOT_QUALIFIED",
+        "residualConvention": "engine minus reference, dB; only identical sample ID/frequency/position pairs; no offset fitting",
+        "protocol": [
+            {
+                "field": "modelRevision",
+                "label": "Speaker data and calibration",
+                "status": "MATCHED"
+            },
+            {
+                "field": "preset",
+                "label": "DSP and source summation",
+                "status": "MATCHED"
+            },
+            {
+                "field": "geometry",
+                "label": "Source geometry and boundaries",
+                "status": "MATCHED"
+            },
+            {
+                "field": "frequencyConvention",
+                "label": "Frequency cells and level integration",
+                "status": "MATCHED"
+            },
+            {
+                "field": "levelConvention",
+                "label": "Level metric",
+                "status": "MATCHED"
+            },
+            {
+                "field": "atmosphere",
+                "label": "Atmosphere",
+                "status": "MATCHED"
+            },
+            {
+                "field": "ground",
+                "label": "Ground model",
+                "status": "MATCHED"
+            },
+            {
+                "field": "driveUnit",
+                "label": "Electrical drive unit",
+                "status": "MATCHED"
+            },
+            {
+                "field": "driveValue",
+                "label": "Electrical drive value",
+                "status": "MATCHED"
+            },
+            {
+                "field": "normalization",
+                "label": "Normalization receiver and safety floor",
+                "status": "MATCHED"
+            },
+            {
+                "field": "broadband",
+                "label": "Bands, weighting and excitation",
+                "status": "MATCHED"
+            }
+        ],
+        "protocolDifferences": [],
+        "protocolDifferenceCount": 0,
+        "protocolDifferencesTruncated": false,
+        "samples": [
+            {
+                "sampleId": "r:1000.0",
+                "sampleOrder": 1,
+                "frequencyHz": 1000.0,
+                "xM": 10.0,
+                "yM": 1.0,
+                "zM": 0.0,
+                "referenceLevelDb": 80.0,
+                "engineLevelDb": 81.0,
+                "residualDb": 1.0,
+                "status": "PAIRED",
+                "engineFrequencyHz": 1000.0,
+                "enginePositionM": [
+                    10.0,
+                    1.0,
+                    0.0
+                ]
+            },
+            {
+                "sampleId": "r:2000.0",
+                "sampleOrder": 2,
+                "frequencyHz": 2000.0,
+                "xM": 10.0,
+                "yM": 1.0,
+                "zM": 0.0,
+                "referenceLevelDb": 81.0,
+                "engineLevelDb": 79.0,
+                "residualDb": -2.0,
+                "status": "PAIRED",
+                "engineFrequencyHz": 2000.0,
+                "enginePositionM": [
+                    10.0,
+                    1.0,
+                    0.0
+                ]
+            }
+        ],
+        "plots": [
+            {
+                "name": "All paired samples",
+                "xScale": "sample-order",
+                "residualScaleDb": 2.0,
+                "toleranceNormalized": 0.022727272727272728,
+                "points": [
+                    {
+                        "sampleId": "r:1000.0",
+                        "sampleOrder": 1,
+                        "frequencyHz": 1000.0,
+                        "residualDb": 1.0,
+                        "xNormalized": 0.0,
+                        "yNormalized": 0.2727272727272727
+                    },
+                    {
+                        "sampleId": "r:2000.0",
+                        "sampleOrder": 2,
+                        "frequencyHz": 2000.0,
+                        "residualDb": -2.0,
+                        "xNormalized": 1.0,
+                        "yNormalized": 0.9545454545454546
+                    }
+                ]
+            },
+            {
+                "name": "Receiver (10.0, 1.0, 0.0) m",
+                "xScale": "log2-frequency",
+                "residualScaleDb": 2.0,
+                "toleranceNormalized": 0.022727272727272728,
+                "points": [
+                    {
+                        "sampleId": "r:1000.0",
+                        "sampleOrder": 1,
+                        "frequencyHz": 1000.0,
+                        "residualDb": 1.0,
+                        "xNormalized": 0.0,
+                        "yNormalized": 0.2727272727272727
+                    },
+                    {
+                        "sampleId": "r:2000.0",
+                        "sampleOrder": 2,
+                        "frequencyHz": 2000.0,
+                        "residualDb": -2.0,
+                        "xNormalized": 1.0,
+                        "yNormalized": 0.9545454545454546
+                    }
+                ]
+            }
+        ],
+        "metrics": {
+            "qualified": false,
+            "pairedCount": 2,
+            "unpairedOrUnavailableCount": 0,
+            "maximumAbsoluteErrorDb": 2.0,
+            "biasDb": -0.5,
+            "rmsErrorDb": 1.5811388300841898
+        },
+        "assumptions": [
+            "Geometric blocking only: no edge diffraction or sound transmission. Shadows are approximate.",
+            "Finite reflectors use clipped image paths; no edge transition is modelled.",
+            "Venue walls and ceiling are visual context. Only assigned stage, Blocks and imported faces act as boundaries; the optional ground model is separate.",
+            "No reverberant tail, RT60 or STI prediction. No maximum-output or headroom prediction.",
+            "A 0 dB display value is a reporting floor, not proof of silence. Unavailable data is shown separately.",
+            "Not externally validated against manufacturer predictions or controlled measurements.",
+            "Imported origin/calibration/conditions are declarations, not authenticated.",
+            "Diagnostic residuals can be shown for incompatible datasets; they never change qualification.",
+            "Reordered rows may be paired by ID for inspection; strict comparison still rejects reordered datasets."
+        ],
+        "inputs": {
+            "referenceDocument": "{\n  \"schema\": \"droidacoustic.comparison-import\",\n  \"version\": 1,\n  \"evidence\": \"MANUFACTURER_SOFTWARE_EXPORT\",\n  \"synthetic\": true,\n  \"source\": {\n    \"producer\": \"SYNTHETIC TEST FIXTURE — not a vendor export\",\n    \"version\": \"fixture-1\",\n    \"fileName\": \"fixture.csv\"\n  },\n  \"conditions\": {\n    \"modelRevision\": \"synthetic-revision-1\",\n    \"preset\": \"synthetic-flat\",\n    \"geometry\": \"source 0,0,0; receiver r at 10,1,0; +X axis; Y up\",\n    \"frequencyConvention\": \"exact tone Hz\",\n    \"levelConvention\": \"ABSOLUTE_SPL\",\n    \"atmosphere\": \"20C/50%/101.325kPa\",\n    \"ground\": \"off\",\n    \"driveUnit\": \"WATTS\",\n    \"driveValue\": 1\n  },\n  \"units\": {\n    \"frequency\": \"Hz\",\n    \"position\": \"m\",\n    \"level\": \"dB_SPL\"\n  },\n  \"toleranceDb\": 0.1,\n  \"format\": \"CSV\",\n  \"delimiter\": \",\",\n  \"columns\": {\n    \"frequencyHz\": \"Frequency\",\n    \"levelDb\": \"Level\"\n  },\n  \"receiver\": {\n    \"id\": \"r\",\n    \"xM\": 10,\n    \"yM\": 1,\n    \"zM\": 0\n  },\n  \"payload\": \"Frequency,Level\\r\\n1000,80\\r\\n2000,81\\r\\n\",\n  \"sourceSha256\": \"216589c193ac166a83e91ed9726528b80c78aac9cbe0e28bc6bb2d5029b86490\"\n}\n",
+            "engineDocument": "{\"schema\":\"droidacoustic.comparison-import\",\"version\":1,\"evidence\":\"ENGINE\",\"synthetic\":true,\"source\":{\"producer\":\"SYNTHETIC TEST FIXTURE — not a vendor export\",\"version\":\"fixture-1\",\"fileName\":\"fixture.csv\"},\"conditions\":{\"modelRevision\":\"synthetic-revision-1\",\"preset\":\"synthetic-flat\",\"geometry\":\"source 0,0,0; receiver r at 10,1,0; +X axis; Y up\",\"frequencyConvention\":\"exact tone Hz\",\"levelConvention\":\"ABSOLUTE_SPL\",\"atmosphere\":\"20C/50%/101.325kPa\",\"ground\":\"off\",\"driveUnit\":\"WATTS\",\"driveValue\":1},\"units\":{\"frequency\":\"Hz\",\"position\":\"m\",\"level\":\"dB_SPL\"},\"toleranceDb\":0.1,\"format\":\"CSV\",\"delimiter\":\",\",\"columns\":{\"frequencyHz\":\"Frequency\",\"levelDb\":\"Level\"},\"receiver\":{\"id\":\"r\",\"xM\":10,\"yM\":1,\"zM\":0},\"payload\":\"Frequency,Level\\r\\n1000,81\\r\\n2000,79\\r\\n\"}"
+        }
+    },
+    "protocol-mismatch": {
+        "schema": "droidacoustic.validation-report",
+        "version": 1,
+        "summary": {
+            "comparison": {
+                "status": "NOT_COMPARABLE",
+                "reasons": [
+                    "Synthetic fixture; cannot qualify an external comparison",
+                    "Synthetic fixture; cannot qualify an external comparison"
+                ]
+            },
+            "snapshotNotice": "Frozen reference/engine snapshots; independent origin and conditions are declared, not authenticated. Current scene edits do not update these results.",
+            "synthetic": true,
+            "referenceDocumentSha256": "25ce9ae221ab8af7556cf7a4b34ef0b4c90a1457f30b769e1156e3e74e1230b1",
+            "referenceProducer": "SYNTHETIC TEST FIXTURE — not a vendor export",
+            "engineDocumentSha256": "5e6cc7cc5255f8af8b3d74805858b91e547ee182bc48dd256946f60ddf9faab9",
+            "engineProducer": "SYNTHETIC TEST FIXTURE — not a vendor export"
+        },
+        "declaredToleranceDb": 0.1,
+        "scope": "DIAGNOSTIC_ONLY_NOT_QUALIFIED",
+        "residualConvention": "engine minus reference, dB; only identical sample ID/frequency/position pairs; no offset fitting",
+        "protocol": [
+            {
+                "field": "modelRevision",
+                "label": "Speaker data and calibration",
+                "status": "MATCHED"
+            },
+            {
+                "field": "preset",
+                "label": "DSP and source summation",
+                "status": "MATCHED"
+            },
+            {
+                "field": "geometry",
+                "label": "Source geometry and boundaries",
+                "status": "MATCHED"
+            },
+            {
+                "field": "frequencyConvention",
+                "label": "Frequency cells and level integration",
+                "status": "MATCHED"
+            },
+            {
+                "field": "levelConvention",
+                "label": "Level metric",
+                "status": "MATCHED"
+            },
+            {
+                "field": "atmosphere",
+                "label": "Atmosphere",
+                "status": "MATCHED"
+            },
+            {
+                "field": "ground",
+                "label": "Ground model",
+                "status": "MISMATCHED"
+            },
+            {
+                "field": "driveUnit",
+                "label": "Electrical drive unit",
+                "status": "MATCHED"
+            },
+            {
+                "field": "driveValue",
+                "label": "Electrical drive value",
+                "status": "MATCHED"
+            },
+            {
+                "field": "normalization",
+                "label": "Normalization receiver and safety floor",
+                "status": "MATCHED"
+            },
+            {
+                "field": "broadband",
+                "label": "Bands, weighting and excitation",
+                "status": "MATCHED"
+            }
+        ],
+        "protocolDifferences": [
+            {
+                "path": "ground",
+                "kind": "VALUE",
+                "reference": "off",
+                "engine": "ideal-rigid ground ON - synthetic mismatch",
+                "referencePresent": true,
+                "enginePresent": true
+            }
+        ],
+        "protocolDifferenceCount": 1,
+        "protocolDifferencesTruncated": false,
+        "samples": [
+            {
+                "sampleId": "r:1000.0",
+                "sampleOrder": 1,
+                "frequencyHz": 1000.0,
+                "xM": 10.0,
+                "yM": 1.0,
+                "zM": 0.0,
+                "referenceLevelDb": 80.0,
+                "engineLevelDb": 81.0,
+                "residualDb": 1.0,
+                "status": "PAIRED",
+                "engineFrequencyHz": 1000.0,
+                "enginePositionM": [
+                    10.0,
+                    1.0,
+                    0.0
+                ]
+            },
+            {
+                "sampleId": "r:2000.0",
+                "sampleOrder": 2,
+                "frequencyHz": 2000.0,
+                "xM": 10.0,
+                "yM": 1.0,
+                "zM": 0.0,
+                "referenceLevelDb": 81.0,
+                "engineLevelDb": 79.0,
+                "residualDb": -2.0,
+                "status": "PAIRED",
+                "engineFrequencyHz": 2000.0,
+                "enginePositionM": [
+                    10.0,
+                    1.0,
+                    0.0
+                ]
+            }
+        ],
+        "plots": [
+            {
+                "name": "All paired samples",
+                "xScale": "sample-order",
+                "residualScaleDb": 2.0,
+                "toleranceNormalized": 0.022727272727272728,
+                "points": [
+                    {
+                        "sampleId": "r:1000.0",
+                        "sampleOrder": 1,
+                        "frequencyHz": 1000.0,
+                        "residualDb": 1.0,
+                        "xNormalized": 0.0,
+                        "yNormalized": 0.2727272727272727
+                    },
+                    {
+                        "sampleId": "r:2000.0",
+                        "sampleOrder": 2,
+                        "frequencyHz": 2000.0,
+                        "residualDb": -2.0,
+                        "xNormalized": 1.0,
+                        "yNormalized": 0.9545454545454546
+                    }
+                ]
+            },
+            {
+                "name": "Receiver (10.0, 1.0, 0.0) m",
+                "xScale": "log2-frequency",
+                "residualScaleDb": 2.0,
+                "toleranceNormalized": 0.022727272727272728,
+                "points": [
+                    {
+                        "sampleId": "r:1000.0",
+                        "sampleOrder": 1,
+                        "frequencyHz": 1000.0,
+                        "residualDb": 1.0,
+                        "xNormalized": 0.0,
+                        "yNormalized": 0.2727272727272727
+                    },
+                    {
+                        "sampleId": "r:2000.0",
+                        "sampleOrder": 2,
+                        "frequencyHz": 2000.0,
+                        "residualDb": -2.0,
+                        "xNormalized": 1.0,
+                        "yNormalized": 0.9545454545454546
+                    }
+                ]
+            }
+        ],
+        "metrics": {
+            "qualified": false,
+            "pairedCount": 2,
+            "unpairedOrUnavailableCount": 0,
+            "maximumAbsoluteErrorDb": 2.0,
+            "biasDb": -0.5,
+            "rmsErrorDb": 1.5811388300841898
+        },
+        "assumptions": [
+            "Geometric blocking only: no edge diffraction or sound transmission. Shadows are approximate.",
+            "Finite reflectors use clipped image paths; no edge transition is modelled.",
+            "Venue walls and ceiling are visual context. Only assigned stage, Blocks and imported faces act as boundaries; the optional ground model is separate.",
+            "No reverberant tail, RT60 or STI prediction. No maximum-output or headroom prediction.",
+            "A 0 dB display value is a reporting floor, not proof of silence. Unavailable data is shown separately.",
+            "Not externally validated against manufacturer predictions or controlled measurements.",
+            "Imported origin/calibration/conditions are declarations, not authenticated.",
+            "Diagnostic residuals can be shown for incompatible datasets; they never change qualification.",
+            "Reordered rows may be paired by ID for inspection; strict comparison still rejects reordered datasets."
+        ],
+        "inputs": {
+            "referenceDocument": "{\n  \"schema\": \"droidacoustic.comparison-import\",\n  \"version\": 1,\n  \"evidence\": \"MANUFACTURER_SOFTWARE_EXPORT\",\n  \"synthetic\": true,\n  \"source\": {\n    \"producer\": \"SYNTHETIC TEST FIXTURE — not a vendor export\",\n    \"version\": \"fixture-1\",\n    \"fileName\": \"fixture.csv\"\n  },\n  \"conditions\": {\n    \"modelRevision\": \"synthetic-revision-1\",\n    \"preset\": \"synthetic-flat\",\n    \"geometry\": \"source 0,0,0; receiver r at 10,1,0; +X axis; Y up\",\n    \"frequencyConvention\": \"exact tone Hz\",\n    \"levelConvention\": \"ABSOLUTE_SPL\",\n    \"atmosphere\": \"20C/50%/101.325kPa\",\n    \"ground\": \"off\",\n    \"driveUnit\": \"WATTS\",\n    \"driveValue\": 1\n  },\n  \"units\": {\n    \"frequency\": \"Hz\",\n    \"position\": \"m\",\n    \"level\": \"dB_SPL\"\n  },\n  \"toleranceDb\": 0.1,\n  \"format\": \"CSV\",\n  \"delimiter\": \",\",\n  \"columns\": {\n    \"frequencyHz\": \"Frequency\",\n    \"levelDb\": \"Level\"\n  },\n  \"receiver\": {\n    \"id\": \"r\",\n    \"xM\": 10,\n    \"yM\": 1,\n    \"zM\": 0\n  },\n  \"payload\": \"Frequency,Level\\r\\n1000,80\\r\\n2000,81\\r\\n\",\n  \"sourceSha256\": \"216589c193ac166a83e91ed9726528b80c78aac9cbe0e28bc6bb2d5029b86490\"\n}\n",
+            "engineDocument": "{\"schema\":\"droidacoustic.comparison-import\",\"version\":1,\"evidence\":\"ENGINE\",\"synthetic\":true,\"source\":{\"producer\":\"SYNTHETIC TEST FIXTURE — not a vendor export\",\"version\":\"fixture-1\",\"fileName\":\"fixture.csv\"},\"conditions\":{\"modelRevision\":\"synthetic-revision-1\",\"preset\":\"synthetic-flat\",\"geometry\":\"source 0,0,0; receiver r at 10,1,0; +X axis; Y up\",\"frequencyConvention\":\"exact tone Hz\",\"levelConvention\":\"ABSOLUTE_SPL\",\"atmosphere\":\"20C/50%/101.325kPa\",\"ground\":\"ideal-rigid ground ON - synthetic mismatch\",\"driveUnit\":\"WATTS\",\"driveValue\":1},\"units\":{\"frequency\":\"Hz\",\"position\":\"m\",\"level\":\"dB_SPL\"},\"toleranceDb\":0.1,\"format\":\"CSV\",\"delimiter\":\",\",\"columns\":{\"frequencyHz\":\"Frequency\",\"levelDb\":\"Level\"},\"receiver\":{\"id\":\"r\",\"xM\":10,\"yM\":1,\"zM\":0},\"payload\":\"Frequency,Level\\r\\n1000,81\\r\\n2000,79\\r\\n\"}"
+        }
+    }
+}

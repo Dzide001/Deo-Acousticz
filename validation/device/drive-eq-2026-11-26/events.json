@@ -1,0 +1,30 @@
+[
+  {
+    "check": "Sparse legacy EQ isolates its band",
+    "neutral125": 80.2,
+    "eq125": 80.2,
+    "neutral1000": 80.1,
+    "eq1000": 86.1
+  },
+  {
+    "check": "Legacy EQ survives save/reopen"
+  },
+  {
+    "check": "Fixed total removes eight-band gain",
+    "legacyMeanDb": 89.0,
+    "fixedMeanDb": 80.0,
+    "differenceDb": 9.0
+  },
+  {
+    "check": "Fixed total survives save/reopen"
+  },
+  {
+    "check": "Drive change supports Undo/Redo"
+  },
+  {
+    "check": "Legacy drive survives save/reopen"
+  },
+  {
+    "check": "Explicit fixed-total project opens with normalized levels"
+  }
+]

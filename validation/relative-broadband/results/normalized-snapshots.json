@@ -1,0 +1,1315 @@
+{
+    "scope": "SYNTHETIC_RELATIVE_WEIGHTED_TOTALS_ONLY",
+    "referenceSha256": "6fd693738dc46c60d54c14d4a3460fda866e13346bb271844d0ebaef63d2396a",
+    "cases": [
+        {
+            "weighting": "A",
+            "distanceM": 10.0,
+            "gainDb": 0.0,
+            "residualDb": 0.0,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "15a46d0078feab411592057a8ed28d7fd6de78bd136637b07fc3af4e20f29c4d",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 86.69308537568025,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "A",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": -26.2,
+                        "125": -16.1,
+                        "250": -8.6,
+                        "500": -3.2,
+                        "1000": 0.0,
+                        "2000": 1.2,
+                        "4000": 1.0,
+                        "8000": -1.1
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 9.996806190169726E7,
+                            "125": 9.988620168053026E7,
+                            "250": 9.967703032953233E7,
+                            "500": 9.934949073874421E7,
+                            "1000": 9.886880755860876E7,
+                            "2000": 9.751081140094516E7,
+                            "4000": 9.253469596793897E7,
+                            "8000": 7.61110964761214E7
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 9.996806190169726E7,
+                    "125": 9.988620168053026E7,
+                    "250": 9.967703032953233E7,
+                    "500": 9.934949073874421E7,
+                    "1000": 9.886880755860876E7,
+                    "2000": 9.751081140094516E7,
+                    "4000": 9.253469596793897E7,
+                    "8000": 7.61110964761214E7
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":0.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"A\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":-26.2,\"125\":-16.1,\"250\":-8.6,\"500\":-3.2,\"1000\":0.0,\"2000\":1.2,\"4000\":1.0,\"8000\":-1.1},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_A"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":0.0}]",
+                "sourceSha256": "d47a6109a933aa3da22740ac83191cd49cde3231009eb23942fcd3fa4c897aed",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "A",
+            "distanceM": 10.0,
+            "gainDb": 12.0,
+            "residualDb": 0.0,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "0ab4b7c6733bfc9216def87f489ab2e62e2650c577c047788bbbe79d46d745fe",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 98.69308537568024,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "A",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": -26.2,
+                        "125": -16.1,
+                        "250": -8.6,
+                        "500": -3.2,
+                        "1000": 0.0,
+                        "2000": 1.2,
+                        "4000": 1.0,
+                        "8000": -1.1
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 1.5843870077153113E9,
+                            "125": 1.583089610642701E9,
+                            "250": 1.5797744681401603E9,
+                            "500": 1.5745833154631412E9,
+                            "1000": 1.5669650004638674E9,
+                            "2000": 1.5454422118071718E9,
+                            "4000": 1.466576097060453E9,
+                            "8000": 1.2062795867575564E9
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 1.5843870077153113E9,
+                    "125": 1.583089610642701E9,
+                    "250": 1.5797744681401603E9,
+                    "500": 1.5745833154631412E9,
+                    "1000": 1.5669650004638674E9,
+                    "2000": 1.5454422118071718E9,
+                    "4000": 1.466576097060453E9,
+                    "8000": 1.2062795867575564E9
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":12.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"A\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":-26.2,\"125\":-16.1,\"250\":-8.6,\"500\":-3.2,\"1000\":0.0,\"2000\":1.2,\"4000\":1.0,\"8000\":-1.1},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_A"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":0.0}]",
+                "sourceSha256": "d47a6109a933aa3da22740ac83191cd49cde3231009eb23942fcd3fa4c897aed",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "A",
+            "distanceM": 20.0,
+            "gainDb": 0.0,
+            "residualDb": 5.272227099339943E-10,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "15a46d0078feab411592057a8ed28d7fd6de78bd136637b07fc3af4e20f29c4d",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 86.69308537568025,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "A",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": -26.2,
+                        "125": -16.1,
+                        "250": -8.6,
+                        "500": -3.2,
+                        "1000": 0.0,
+                        "2000": 1.2,
+                        "4000": 1.0,
+                        "8000": -1.1
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 2.498403378524843E7,
+                            "125": 2.4943136221519522E7,
+                            "250": 2.4838789985418163E7,
+                            "500": 2.4675826717311446E7,
+                            "1000": 2.4437680602968074E7,
+                            "2000": 2.3771805801085223E7,
+                            "4000": 2.1419005856614675E7,
+                            "8000": 1.4596690116591156E7
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 9.996806190169726E7,
+                    "125": 9.988620168053026E7,
+                    "250": 9.967703032953233E7,
+                    "500": 9.934949073874421E7,
+                    "1000": 9.886880755860876E7,
+                    "2000": 9.751081140094516E7,
+                    "4000": 9.253469596793897E7,
+                    "8000": 7.61110964761214E7
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":0.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"A\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":-26.2,\"125\":-16.1,\"250\":-8.6,\"500\":-3.2,\"1000\":0.0,\"2000\":1.2,\"4000\":1.0,\"8000\":-1.1},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_A"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":20.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":-6.279864998083525}]",
+                "sourceSha256": "eb7495fd09026acbde13ba2050bf4b6982a9eb277d80b45f5581b06179743d27",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "A",
+            "distanceM": 20.0,
+            "gainDb": 12.0,
+            "residualDb": 5.272511316434247E-10,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "0ab4b7c6733bfc9216def87f489ab2e62e2650c577c047788bbbe79d46d745fe",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 98.69308537568024,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "A",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": -26.2,
+                        "125": -16.1,
+                        "250": -8.6,
+                        "500": -3.2,
+                        "1000": 0.0,
+                        "2000": 1.2,
+                        "4000": 1.0,
+                        "8000": -1.1
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 3.959702506645878E8,
+                            "125": 3.953220679611647E8,
+                            "250": 3.936682915686054E8,
+                            "500": 3.9108549782617015E8,
+                            "1000": 3.8731113627183074E8,
+                            "2000": 3.76757731866476E8,
+                            "4000": 3.394683657143339E8,
+                            "8000": 2.3134194798249754E8
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 1.5843870077153113E9,
+                    "125": 1.583089610642701E9,
+                    "250": 1.5797744681401603E9,
+                    "500": 1.5745833154631412E9,
+                    "1000": 1.5669650004638674E9,
+                    "2000": 1.5454422118071718E9,
+                    "4000": 1.466576097060453E9,
+                    "8000": 1.2062795867575564E9
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":12.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"A\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":-26.2,\"125\":-16.1,\"250\":-8.6,\"500\":-3.2,\"1000\":0.0,\"2000\":1.2,\"4000\":1.0,\"8000\":-1.1},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_A"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":20.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":-6.279864998083497}]",
+                "sourceSha256": "12294aa457c68369ad089a3afa2749ba68418065bd36102fc3f67934482a4509",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "C",
+            "distanceM": 10.0,
+            "gainDb": 0.0,
+            "residualDb": 0.0,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "b46b0588ebef1fa381f7514de158e718dff8e131b711b856020d370fd3c1fcce",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 88.35481769439093,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "C",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": -0.8,
+                        "125": -0.2,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "1000": 0.0,
+                        "2000": -0.2,
+                        "4000": -0.8,
+                        "8000": -3.0
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 9.996806190169726E7,
+                            "125": 9.988620168053026E7,
+                            "250": 9.967703032953233E7,
+                            "500": 9.934949073874421E7,
+                            "1000": 9.886880755860876E7,
+                            "2000": 9.751081140094516E7,
+                            "4000": 9.253469596793897E7,
+                            "8000": 7.61110964761214E7
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 9.996806190169726E7,
+                    "125": 9.988620168053026E7,
+                    "250": 9.967703032953233E7,
+                    "500": 9.934949073874421E7,
+                    "1000": 9.886880755860876E7,
+                    "2000": 9.751081140094516E7,
+                    "4000": 9.253469596793897E7,
+                    "8000": 7.61110964761214E7
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":0.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"C\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":-0.8,\"125\":-0.2,\"250\":0.0,\"500\":0.0,\"1000\":0.0,\"2000\":-0.2,\"4000\":-0.8,\"8000\":-3.0},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_C"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":0.0}]",
+                "sourceSha256": "d47a6109a933aa3da22740ac83191cd49cde3231009eb23942fcd3fa4c897aed",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "C",
+            "distanceM": 10.0,
+            "gainDb": 12.0,
+            "residualDb": 0.0,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "7f371ebef043c7b6803a296f76de4dc1bfa92f35a4f74fc22a2dfe83320990ee",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 100.35481769439093,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "C",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": -0.8,
+                        "125": -0.2,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "1000": 0.0,
+                        "2000": -0.2,
+                        "4000": -0.8,
+                        "8000": -3.0
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 1.5843870077153113E9,
+                            "125": 1.583089610642701E9,
+                            "250": 1.5797744681401603E9,
+                            "500": 1.5745833154631412E9,
+                            "1000": 1.5669650004638674E9,
+                            "2000": 1.5454422118071718E9,
+                            "4000": 1.466576097060453E9,
+                            "8000": 1.2062795867575564E9
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 1.5843870077153113E9,
+                    "125": 1.583089610642701E9,
+                    "250": 1.5797744681401603E9,
+                    "500": 1.5745833154631412E9,
+                    "1000": 1.5669650004638674E9,
+                    "2000": 1.5454422118071718E9,
+                    "4000": 1.466576097060453E9,
+                    "8000": 1.2062795867575564E9
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":12.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"C\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":-0.8,\"125\":-0.2,\"250\":0.0,\"500\":0.0,\"1000\":0.0,\"2000\":-0.2,\"4000\":-0.8,\"8000\":-3.0},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_C"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":0.0}]",
+                "sourceSha256": "d47a6109a933aa3da22740ac83191cd49cde3231009eb23942fcd3fa4c897aed",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "C",
+            "distanceM": 20.0,
+            "gainDb": 0.0,
+            "residualDb": 2.566196144471178E-10,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "b46b0588ebef1fa381f7514de158e718dff8e131b711b856020d370fd3c1fcce",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 88.35481769439093,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "C",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": -0.8,
+                        "125": -0.2,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "1000": 0.0,
+                        "2000": -0.2,
+                        "4000": -0.8,
+                        "8000": -3.0
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 2.498403378524843E7,
+                            "125": 2.4943136221519522E7,
+                            "250": 2.4838789985418163E7,
+                            "500": 2.4675826717311446E7,
+                            "1000": 2.4437680602968074E7,
+                            "2000": 2.3771805801085223E7,
+                            "4000": 2.1419005856614675E7,
+                            "8000": 1.4596690116591156E7
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 9.996806190169726E7,
+                    "125": 9.988620168053026E7,
+                    "250": 9.967703032953233E7,
+                    "500": 9.934949073874421E7,
+                    "1000": 9.886880755860876E7,
+                    "2000": 9.751081140094516E7,
+                    "4000": 9.253469596793897E7,
+                    "8000": 7.61110964761214E7
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":0.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"C\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":-0.8,\"125\":-0.2,\"250\":0.0,\"500\":0.0,\"1000\":0.0,\"2000\":-0.2,\"4000\":-0.8,\"8000\":-3.0},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_C"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":20.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":-6.143630368398902}]",
+                "sourceSha256": "fdbc135c38339ec09d338b708eb69df7cd889064ced28ffa25ed7f71a3b5c2af",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "C",
+            "distanceM": 20.0,
+            "gainDb": 12.0,
+            "residualDb": 2.56633825301833E-10,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "7f371ebef043c7b6803a296f76de4dc1bfa92f35a4f74fc22a2dfe83320990ee",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 100.35481769439093,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "C",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": -0.8,
+                        "125": -0.2,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "1000": 0.0,
+                        "2000": -0.2,
+                        "4000": -0.8,
+                        "8000": -3.0
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 3.959702506645878E8,
+                            "125": 3.953220679611647E8,
+                            "250": 3.936682915686054E8,
+                            "500": 3.9108549782617015E8,
+                            "1000": 3.8731113627183074E8,
+                            "2000": 3.76757731866476E8,
+                            "4000": 3.394683657143339E8,
+                            "8000": 2.3134194798249754E8
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 1.5843870077153113E9,
+                    "125": 1.583089610642701E9,
+                    "250": 1.5797744681401603E9,
+                    "500": 1.5745833154631412E9,
+                    "1000": 1.5669650004638674E9,
+                    "2000": 1.5454422118071718E9,
+                    "4000": 1.466576097060453E9,
+                    "8000": 1.2062795867575564E9
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":12.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"C\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":-0.8,\"125\":-0.2,\"250\":0.0,\"500\":0.0,\"1000\":0.0,\"2000\":-0.2,\"4000\":-0.8,\"8000\":-3.0},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_C"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":20.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":-6.143630368398888}]",
+                "sourceSha256": "2cdaf6383066062134fe07eb9a6dc41010db04ca935640e88547bd5bad34525d",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "Z",
+            "distanceM": 10.0,
+            "gainDb": 0.0,
+            "residualDb": 0.0,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "fdd73628c62d6497c113b1976193e1ed2e1c6eb1c4eb7a0e8bdcfdfd1da9b2d8",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 88.8304003261074,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "Z",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": 0.0,
+                        "125": 0.0,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "1000": 0.0,
+                        "2000": 0.0,
+                        "4000": 0.0,
+                        "8000": 0.0
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 9.996806190169726E7,
+                            "125": 9.988620168053026E7,
+                            "250": 9.967703032953233E7,
+                            "500": 9.934949073874421E7,
+                            "1000": 9.886880755860876E7,
+                            "2000": 9.751081140094516E7,
+                            "4000": 9.253469596793897E7,
+                            "8000": 7.61110964761214E7
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 9.996806190169726E7,
+                    "125": 9.988620168053026E7,
+                    "250": 9.967703032953233E7,
+                    "500": 9.934949073874421E7,
+                    "1000": 9.886880755860876E7,
+                    "2000": 9.751081140094516E7,
+                    "4000": 9.253469596793897E7,
+                    "8000": 7.61110964761214E7
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":0.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"Z\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":0.0,\"125\":0.0,\"250\":0.0,\"500\":0.0,\"1000\":0.0,\"2000\":0.0,\"4000\":0.0,\"8000\":0.0},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_Z"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":0.0}]",
+                "sourceSha256": "d47a6109a933aa3da22740ac83191cd49cde3231009eb23942fcd3fa4c897aed",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "Z",
+            "distanceM": 10.0,
+            "gainDb": 12.0,
+            "residualDb": 0.0,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "b3b7f2a44c1047d10ffb2d9cb6d19c7d8f2f26de669852155cae4d56ffd8c46c",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 100.83040032610741,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "Z",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": 0.0,
+                        "125": 0.0,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "1000": 0.0,
+                        "2000": 0.0,
+                        "4000": 0.0,
+                        "8000": 0.0
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 1.5843870077153113E9,
+                            "125": 1.583089610642701E9,
+                            "250": 1.5797744681401603E9,
+                            "500": 1.5745833154631412E9,
+                            "1000": 1.5669650004638674E9,
+                            "2000": 1.5454422118071718E9,
+                            "4000": 1.466576097060453E9,
+                            "8000": 1.2062795867575564E9
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 1.5843870077153113E9,
+                    "125": 1.583089610642701E9,
+                    "250": 1.5797744681401603E9,
+                    "500": 1.5745833154631412E9,
+                    "1000": 1.5669650004638674E9,
+                    "2000": 1.5454422118071718E9,
+                    "4000": 1.466576097060453E9,
+                    "8000": 1.2062795867575564E9
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":12.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"Z\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":0.0,\"125\":0.0,\"250\":0.0,\"500\":0.0,\"1000\":0.0,\"2000\":0.0,\"4000\":0.0,\"8000\":0.0},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_Z"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":0.0}]",
+                "sourceSha256": "d47a6109a933aa3da22740ac83191cd49cde3231009eb23942fcd3fa4c897aed",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "Z",
+            "distanceM": 20.0,
+            "gainDb": 0.0,
+            "residualDb": 3.289244432380656E-10,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "fdd73628c62d6497c113b1976193e1ed2e1c6eb1c4eb7a0e8bdcfdfd1da9b2d8",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 88.8304003261074,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "Z",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": 0.0,
+                        "125": 0.0,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "1000": 0.0,
+                        "2000": 0.0,
+                        "4000": 0.0,
+                        "8000": 0.0
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 2.498403378524843E7,
+                            "125": 2.4943136221519522E7,
+                            "250": 2.4838789985418163E7,
+                            "500": 2.4675826717311446E7,
+                            "1000": 2.4437680602968074E7,
+                            "2000": 2.3771805801085223E7,
+                            "4000": 2.1419005856614675E7,
+                            "8000": 1.4596690116591156E7
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 9.996806190169726E7,
+                    "125": 9.988620168053026E7,
+                    "250": 9.967703032953233E7,
+                    "500": 9.934949073874421E7,
+                    "1000": 9.886880755860876E7,
+                    "2000": 9.751081140094516E7,
+                    "4000": 9.253469596793897E7,
+                    "8000": 7.61110964761214E7
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":0.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"Z\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":0.0,\"125\":0.0,\"250\":0.0,\"500\":0.0,\"1000\":0.0,\"2000\":0.0,\"4000\":0.0,\"8000\":0.0},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_Z"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":20.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":-6.1900897338278185}]",
+                "sourceSha256": "340de1b2cd33ba3d0da780d59dd1c26ec411ae367bf4f9970148e974ec987fdd",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        },
+        {
+            "weighting": "Z",
+            "distanceM": 20.0,
+            "gainDb": 12.0,
+            "residualDb": 3.2889602152863517E-10,
+            "snapshot": {
+                "schema": "droidacoustic.comparison-import",
+                "version": 4,
+                "evidence": "ENGINE",
+                "synthetic": true,
+                "source": {
+                    "producer": "DroidAcoustic shared core",
+                    "version": "scene-capture-v1",
+                    "fileName": "engine-scene-snapshot.json",
+                    "sceneRevision": 1,
+                    "sceneConditionsSha256": "b3b7f2a44c1047d10ffb2d9cb6d19c7d8f2f26de669852155cae4d56ffd8c46c",
+                    "coordinateNumerics": "Requested metres; calculation uses Float coordinates with at most 1e-5 m conversion error",
+                    "comparisonScope": "Difference of weighted broadband total levels; same weights/bands for numerator and reference; no per-band dB averaging or fitted offset",
+                    "normalizationReferences": [
+                        {
+                            "frequencyHz": 0,
+                            "metric": "weighted-broadband-aggregate",
+                            "rawReferenceLevelDb": 100.83040032610741,
+                            "status": "VALID"
+                        }
+                    ]
+                },
+                "broadband": {
+                    "weighting": "Z",
+                    "bandwidthOct": 1.0,
+                    "bandCentersHz": [
+                        63,
+                        125,
+                        250,
+                        500,
+                        1000,
+                        2000,
+                        4000,
+                        8000
+                    ],
+                    "weightingDb": {
+                        "63": 0.0,
+                        "125": 0.0,
+                        "250": 0.0,
+                        "500": 0.0,
+                        "1000": 0.0,
+                        "2000": 0.0,
+                        "4000": 0.0,
+                        "8000": 0.0
+                    },
+                    "summation": "independent-band-powers",
+                    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+                },
+                "bandDiagnostics": [
+                    {
+                        "sampleId": "r",
+                        "bands": {
+                            "63": 3.959702506645878E8,
+                            "125": 3.953220679611647E8,
+                            "250": 3.936682915686054E8,
+                            "500": 3.9108549782617015E8,
+                            "1000": 3.8731113627183074E8,
+                            "2000": 3.76757731866476E8,
+                            "4000": 3.394683657143339E8,
+                            "8000": 2.3134194798249754E8
+                        }
+                    }
+                ],
+                "referenceBandDiagnostics": {
+                    "63": 1.5843870077153113E9,
+                    "125": 1.583089610642701E9,
+                    "250": 1.5797744681401603E9,
+                    "500": 1.5745833154631412E9,
+                    "1000": 1.5669650004638674E9,
+                    "2000": 1.5454422118071718E9,
+                    "4000": 1.466576097060453E9,
+                    "8000": 1.2062795867575564E9
+                },
+                "normalization": {
+                    "method": "weighted-broadband-level-difference",
+                    "xM": 10.0,
+                    "yM": 1.0,
+                    "zM": 0.0,
+                    "minimumReferenceLevelDb": -120.0
+                },
+                "conditions": {
+                    "modelRevision": "[{\"assetIdentity\":\"SYNTHETIC 100dB omni\",\"synthetic\":true,\"directivityEnabled\":false}]",
+                    "preset": "{\"sources\":[{\"gainDbRelativeToModelReference\":12.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+                    "geometry": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":1.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+                    "frequencyConvention": "{\"mode\":\"weighted-sum-independent-band-powers\",\"widthOct\":1.0,\"bands\":[{\"hz\":63,\"segments\":[[50,44.19417382415923,55.681169883771226],[63,55.681169883771204,70.15387801933582],[80,70.15387801933582,88.38834764831844]]},{\"hz\":125,\"segments\":[[100,88.38834764831843,111.36233976754241],[125,111.36233976754241,140.30775603867164],[160,140.30775603867164,176.7766952966369]]},{\"hz\":250,\"segments\":[[200,176.77669529663686,222.72467953508482],[250,222.72467953508482,280.6155120773433],[315,280.6155120773432,353.5533905932737]]},{\"hz\":500,\"segments\":[[400,353.5533905932738,445.44935907016975],[500,445.44935907016963,561.2310241546866],[630,561.2310241546866,707.1067811865476]]},{\"hz\":1000,\"segments\":[[800,707.1067811865476,890.8987181403395],[1000,890.8987181403393,1122.4620483093731],[1250,1122.4620483093731,1414.213562373095]]},{\"hz\":2000,\"segments\":[[1600,1414.2135623730949,1781.7974362806785],[2000,1781.7974362806785,2244.9240966187463],[2500,2244.924096618746,2828.4271247461897]]},{\"hz\":4000,\"segments\":[[3150,2828.42712474619,3563.594872561358],[4000,3563.594872561357,4489.8481932374925],[5000,4489.8481932374925,5656.85424949238]]},{\"hz\":8000,\"segments\":[[6300,5656.8542494923795,7127.189745122714],[8000,7127.189745122714,8979.696386474985],[10000,8979.696386474985,11313.70849898476]]}]}",
+                    "levelConvention": "RELATIVE_BROADBAND_TO_REFERENCE",
+                    "atmosphere": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+                    "ground": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+                    "driveUnit": "UNKNOWN",
+                    "normalization": "{\"method\":\"weighted-broadband-level-difference\",\"xM\":10.0,\"yM\":1.0,\"zM\":0.0,\"minimumReferenceLevelDb\":-120.0}",
+                    "broadband": "{\"weighting\":\"Z\",\"bandwidthOct\":1.0,\"bandCentersHz\":[63,125,250,500,1000,2000,4000,8000],\"weightingDb\":{\"63\":0.0,\"125\":0.0,\"250\":0.0,\"500\":0.0,\"1000\":0.0,\"2000\":0.0,\"4000\":0.0,\"8000\":0.0},\"summation\":\"independent-band-powers\",\"driveConvention\":\"fixed-total-drive-per-band; sum-independent-band-powers\"}"
+                },
+                "units": {
+                    "frequency": "aggregate",
+                    "position": "m",
+                    "level": "dB_relative_Z"
+                },
+                "format": "JSON_SAMPLES",
+                "payload": "[{\"id\":\"r\",\"frequencyHz\":0.0,\"xM\":20.0,\"yM\":1.0,\"zM\":0.0,\"levelDb\":-6.190089733827847}]",
+                "sourceSha256": "c8c2444b1db13404204a0ec121f7f084614c7441f9497334d056adb72c7dd228",
+                "toleranceDb": 0.1
+            },
+            "roundTripPassed": true
+        }
+    ],
+    "allPassed": true
+}

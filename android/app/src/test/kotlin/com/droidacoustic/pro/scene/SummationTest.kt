@@ -28,7 +28,7 @@ class SummationTest {
     @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
     @After fun tearDown() = Dispatchers.resetMain()
 
-    private fun vm() = SceneViewModel().apply {
+    private fun vm() = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply {
         setBandHz(1000)
         setSignalType("BAND")
         setSignalInterferenceEnabled(true)
@@ -72,7 +72,7 @@ class SummationTest {
     @Test
     fun `below 163 Hz with interference disabled the result is pure power summation`() {
         // The documented escape hatch: no phase modelling in the low end.
-        val v = SceneViewModel().apply {
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply {
             setBandHz(63)
             setSignalInterferenceEnabled(false)
         }

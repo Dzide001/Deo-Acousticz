@@ -1,0 +1,214 @@
+{
+  "schema": 1,
+  "date": "2026-11-18",
+  "scope": "Angular sampling diagnostics only; no new interpolation or physical accuracy claim",
+  "tests": 64,
+  "failures": 0,
+  "suites": [
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.AngularSupportTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "magnitudeAndComplexCoverageAreAssessedSeparatelyAndRoundTripIsStable[jvm]",
+        "fineAndNonuniformAxesReportActualLocalSpacingWithoutAccuracyCertification[jvm]",
+        "singleColumnsAndUnsupportedElevationsAreNotConfusedWithMeasuredDirections[jvm]",
+        "seamWrapUsesLocalBracketAndLargeGapIsOnlyAHeuristicWarning[jvm]",
+        "equivalentEndpointsCollapseAndMalformedGridsRemainInvalid[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.PolarGridPerformanceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "componentBoundsMatchKnotAndEdgeReference[jvm]",
+        "primitiveLookupMatchesIndependentBilinearReferenceAcrossKnotsAndSeam[jvm]",
+        "constantOptimizationPreservesMissingAngularCoverageAndFrozenInput[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.SpeakerDataTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "missingSensitivityAndDirectivityRemainDistinctFromZero[jvm]",
+        "voltageAndPowerReferencesHaveDifferentScaling[jvm]",
+        "incompleteSourceInvalidatesTotalIncludingMixedBandsAndFloor[jvm]",
+        "trueCancellationHasPowerButMissingDataDoesNot[jvm]",
+        "interpolationIsLogFrequencyWithinDeclaredAdjacentBands[jvm]",
+        "invalidCalibrationIsRejected[jvm]",
+        "fullyAbsorbedImageDoesNotRequireUnmeasuredDepartureDirection[jvm]",
+        "holesAreNotInterpolatedOrFilledWithGenericLevels[jvm]",
+        "angularGridWrapsAndRejectsMalformedOrUnmeasuredDirections[jvm]",
+        "referenceDistanceNormalizesOnce[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.SpeakerProvenanceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "declaredNormalizationIsAppliedOnceWithoutInferringVoltagePowerConversion[jvm]",
+        "matchingCannotHideOffsetsMissingDataOrMismatchedConditions[jvm]",
+        "metadataPersistsAndChangesAssetIdentityWithoutPromotingTrust[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.persistence.ProjectPersistenceTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "absentAssetsRemainPinnedAndUnavailableOnResave[jvm]",
+        "legacyEmbeddedDataMigratesAndUnknownVersionsFailBeforeApply[jvm]",
+        "missingAssetKeepsLatestSceneRatherThanRollingBackGeometry[jvm]",
+        "portableProjectRestoresIdenticalDataWithoutExternalState[jvm]",
+        "newerCheckpointIsNotSilentlyRolledBackToOlderBackup[jvm]",
+        "corruptPrimaryFallsBackWithoutOverwritingLastValidBackup[jvm]",
+        "freshStoreReopensCompactSnapshotAndDeduplicatesAssets[jvm]",
+        "incompletePrimaryDoesNotReplaceCompleteBackupDuringSave[jvm]",
+        "interruptedSnapshotWritePreservesPreviousSceneAndData[jvm]",
+        "hashesAreStableAcrossJsonObjectOrderAndCalibrationIsCovered[jvm]",
+        "futureAssetFormatRemainsUnavailableAndIsPreservedOnResave[jvm]",
+        "assetWriteFailureCannotPublishSnapshot[jvm]",
+        "wrongRevisionAndIdentityNeverResolveByModelName[jvm]",
+        "corruptEmbeddedDataCanRecoverOnlyFromExactExternalAsset[jvm]",
+        "migrationKeysIncludeOlderSchemaSlotsInNewestFirstOrder[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.validation.AngularSupportPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "measuredHoldoutsRemainSparseAndUnsupportedDirectionsAreExplicit[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.validation.NumericalValidationPackageTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "sharedEngineMatchesIndependentReferencesAndRefinementConverges[jvm]",
+        "fixturesMatchRetainedReferencesAndQuadratureConverges[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.validation.PublicMeasurementComparisonTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "realCalibratedPaMeasurementsAreHeldOutAndReplayedThroughProductionCapture[jvm]"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.AngularSupportRecoveryTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "realSparseDataWarningsAndDerivedReportsSurviveDiskReopenWithoutChangingAssetOrLevels"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.ProjectRecoveryTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "tamperedEmbeddedAssetIsNotReplacedByPreviousRegistry",
+        "malformedLoadLeavesSceneDataAndHistoryUnchanged",
+        "missingDiskAssetPreservesSceneAndReportsUnavailable",
+        "undoAndRedoRetainExactMeasuredRevisions",
+        "diskCorruptionUsesPreviousCheckpoint",
+        "diskSaveAndFreshReopenRecoverCalibrationAndPrediction"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.PublicMeasurementRecoveryTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "realMeasurementReportsAndReviewLineageSurviveUndoRedoDiskSaveAndFreshReopen"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "the document converges after one round trip",
+        "the SPL colour scale survives",
+        "a populated scene survives export and import",
+        "malformed JSON is rejected rather than half-applied",
+        "speaker positions survive exactly",
+        "an empty scene round trips without inventing content"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.SpeakerCalibrationTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "wideBandWithPartialDataIsUnavailableRatherThanUnderestimated",
+        "losingDataClearsPreviouslyCalculatedResultsEvenInManualMode",
+        "unavailableListenerDoesNotPublishANumberOrBreakJsonExport",
+        "lostEmbeddedDataDoesNotBecomeGenericEvenWhenRegistryWasPreviouslyLoaded",
+        "responseAndDirectivityHolesDoNotBorrowOrUseScalarSensitivity",
+        "calibrationAndMeasurementGridSurviveProjectRoundTrip",
+        "provenanceAndDeclaredCalibrationSurviveReopenAndAreVisibleInReports",
+        "calibratedReferenceAndRelativeGainReachAndroidSolver",
+        "clearingMeasuredDataInvalidatesExistingSources",
+        "legacyMetadataIsUnverifiedAndInvalidCalibrationIsRejected"
+      ]
+    }
+  ],
+  "androidDebugBuild": "PASSED",
+  "iosSimulatorSharedTestCompilation": "PASSED",
+  "onDeviceVisualAcceptance": "NOT_RUN",
+  "reportsSha256": "f539b00a684e0c306f1725c5524b3444310b408fdc2a90369bafbf5921066a47",
+  "publicMeasurementReportSha256": "c391bf1ba0c8d068b8db23330ea17e923a0879b231202ce1c458ac2b8e94a365",
+  "publicMeasurementReportUnchanged": true,
+  "originalMeasuredAccuracyScreens": "FAILED, unchanged",
+  "sharedCoreKotlinSha256": "0bbe9a4d5b328b2c92cc8d78bffab1ebb9483222664888c5cf87a1e37d0f8af4",
+  "numericalAndConvergenceChecks": "PASSED",
+  "assetIdentityAndPredictionAfterAndroidDiskReopen": "UNCHANGED",
+  "sourceFixtureSha256": "89517da136d56ac2483413e2d5f65dc96f23227c658fb86b1697a92e8e7d6f6f"
+}

@@ -1,12 +1,14 @@
 package com.droidacoustic.pro.ui
 
+import com.droidacoustic.pro.geometry.AcousticBoundaryRole
+import com.droidacoustic.pro.geometry.MeshFaceAssignment
+import com.droidacoustic.pro.geometry.PlanPoint
+import com.droidacoustic.pro.geometry.AudienceLineSegment
 import com.droidacoustic.pro.scene.AudienceArea
+import com.droidacoustic.pro.scene.sharedSurface
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.Locale
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.tan
 
 /** Renders audience area outlines (including current draft polygon). */
 object AudienceAreasGlb {
@@ -17,7 +19,9 @@ object AudienceAreasGlb {
         draftZoneType: String = "AUDIENCE_SEATED",
         draftBaseHeightM: Float = 0f,
         draftRakeDeg: Float = 0f,
-        draftRakeDirectionDeg: Float = 0f
+        draftRakeDirectionDeg: Float = 0f,
+        draftSurface: AudienceArea? = null,
+        selectedAreaId: Int? = null, selectedFaces: Set<Int> = emptySet()
     ): ByteArray? {
         val all = if (draft.size >= 2) {
             areas + AudienceArea(
@@ -34,36 +38,22 @@ object AudienceAreasGlb {
         }
         if (all.isEmpty()) return null
 
-        var totalVerts = 0
-        all.forEach { a ->
-            val n = a.vertices.size
-            if (n >= 2) totalVerts += if (a.id == -1 || n < 3) (n - 1) * 2 else n * 2
-        }
-        if (totalVerts == 0) return null
-
-        val positions = FloatArray(totalVerts * 3)
-        val colors = FloatArray(totalVerts * 4)
-        var cursor = 0
-
+        val positionList=mutableListOf<Float>()
+        val colorList=mutableListOf<Float>()
         all.forEach { area ->
             val v = area.vertices
             if (v.size < 2) return@forEach
 
             val pairs = mutableListOf<Pair<Pair<Float, Float>, Pair<Float, Float>>>()
-            for (i in 0 until v.lastIndex) pairs += v[i] to v[i + 1]
-            if (area.id != -1 && v.size >= 3) pairs += v.last() to v.first()
-
-            val cx = v.sumOf { it.first.toDouble() }.toFloat() / v.size
-            val cz = v.sumOf { it.second.toDouble() }.toFloat() / v.size
-            val rakeSlope = tan(Math.toRadians(area.rakeDeg.toDouble())).toFloat()
-            val rakeDirRad = Math.toRadians(area.rakeDirectionDeg.toDouble())
-            val rakeDx = sin(rakeDirRad).toFloat()
-            val rakeDz = cos(rakeDirRad).toFloat()
-
-            fun yForPoint(x: Float, z: Float): Float {
-                val d = (x - cx) * rakeDx + (z - cz) * rakeDz
-                return area.baseHeightM + rakeSlope * d + 0.06f
+            if (area.importedMesh==null) {
+                for (i in 0 until v.lastIndex) pairs += v[i] to v[i + 1]
+                if (area.id != -1 && v.size >= 3) pairs += v.last() to v.first()
             }
+
+            (area.holes+area.exclusions).filter { it.size>=3 }.forEach { ring ->
+                for (i in ring.indices) pairs+=ring[i] to ring[(i+1)%ring.size]
+            }
+            val plane = (if (area.id == -1) draftSurface ?: area else area).sharedSurface()
 
             val color = when {
                 area.id == -1 -> Triple(0.2f, 0.9f, 1f)
@@ -74,16 +64,51 @@ object AudienceAreasGlb {
                 area.zoneType == "WALL" -> Triple(0.45f, 0.75f, 0.95f)
                 else -> Triple(0.9f, 0.35f, 0.15f)
             }
+            fun addSegments(segments: List<AudienceLineSegment>,rgb: Triple<Float,Float,Float>,offset: Float=0.07f) {
+                for (segment in segments) {
+                    positionList.addAll(listOf(segment.x0,segment.y0+offset,segment.z0,segment.x1,segment.y1+offset,segment.z1))
+                    repeat(2) {colorList.addAll(listOf(rgb.first,rgb.second,rgb.third,1f))}
+                }
+            }
+            if (area.id!=-1) {
+                addSegments(plane.breaklineSegments(),Triple(0.2f,0.9f,1f))
+                area.importedMesh?.let {mesh ->
+                    val assignments=mesh.faceAssignments()
+                    for (role in MeshFaceAssignment.entries) {
+                        val rgb=when(role) {
+                            MeshFaceAssignment.FOLLOW_ZONE -> Triple(0.2f,0.9f,1f)
+                            MeshFaceAssignment.SEATED -> Triple(0.3f,0.8f,0.35f)
+                            MeshFaceAssignment.STANDING -> Triple(0.8f,0.45f,1f)
+                            MeshFaceAssignment.EXCLUDED -> Triple(0.45f,0.45f,0.45f)
+                        }
+                        addSegments(plane.importedEdgeSegments(assignments.indices.filter {assignments[it]==role},
+                            clipCutouts=role!=MeshFaceAssignment.EXCLUDED),rgb)
+                    }
+                    for (role in listOf(AcousticBoundaryRole.OCCLUDING,AcousticBoundaryRole.RIGID_REFLECTOR)) {
+                        val rgb=if (role==AcousticBoundaryRole.OCCLUDING) Triple(1f,0.25f,0.2f) else Triple(0.25f,0.55f,1f)
+                        addSegments(plane.importedEdgeSegments(assignments.indices.filter {mesh.boundaryRole(it)==role},clipCutouts=false),rgb,0.08f)
+                    }
+                    if (area.id==selectedAreaId) addSegments(plane.importedEdgeSegments(selectedFaces.filter {it in assignments.indices},
+                        clipCutouts=false),Triple(1f,0.95f,0.1f),0.09f)
+                }
+            }
             for ((a, b) in pairs) {
-                positions[cursor * 3 + 0] = a.first; positions[cursor * 3 + 1] = yForPoint(a.first, a.second); positions[cursor * 3 + 2] = a.second
-                colors[cursor * 4 + 0] = color.first; colors[cursor * 4 + 1] = color.second; colors[cursor * 4 + 2] = color.third; colors[cursor * 4 + 3] = 1f
-                cursor++
-
-                positions[cursor * 3 + 0] = b.first; positions[cursor * 3 + 1] = yForPoint(b.first, b.second); positions[cursor * 3 + 2] = b.second
-                colors[cursor * 4 + 0] = color.first; colors[cursor * 4 + 1] = color.second; colors[cursor * 4 + 2] = color.third; colors[cursor * 4 + 3] = 1f
-                cursor++
+                val segments = if (plane.isNonPlanar) runCatching {
+                    plane.traceSegment(PlanPoint(a.first.toDouble(),a.second.toDouble()),
+                        PlanPoint(b.first.toDouble(),b.second.toDouble()))
+                }.getOrDefault(emptyList()) else listOf(AudienceLineSegment(a.first,plane.surfaceY(a.first,a.second),a.second,
+                    b.first,plane.surfaceY(b.first,b.second),b.second))
+                for (segment in segments) {
+                    positionList.addAll(listOf(segment.x0,segment.y0+0.06f,segment.z0,
+                        segment.x1,segment.y1+0.06f,segment.z1))
+                    repeat(2) { colorList.addAll(listOf(color.first,color.second,color.third,1f)) }
+                }
             }
         }
+        val totalVerts=positionList.size/3
+        if (totalVerts == 0) return null
+        val positions=positionList.toFloatArray()
+        val colors=colorList.toFloatArray()
 
         var minX = Float.MAX_VALUE; var maxX = -Float.MAX_VALUE
         var minY = Float.MAX_VALUE; var maxY = -Float.MAX_VALUE

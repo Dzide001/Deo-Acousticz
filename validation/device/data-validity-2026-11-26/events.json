@@ -1,0 +1,30 @@
+[
+  {
+    "check": "available warning",
+    "status": "Results available"
+  },
+  {
+    "check": "available survives save/reopen"
+  },
+  {
+    "check": "partial warning",
+    "status": "Results partial \u2022 missing 1000 Hz (S0)"
+  },
+  {
+    "check": "partial survives save/reopen"
+  },
+  {
+    "check": "unavailable warning",
+    "status": "Results unavailable \u2022 missing 50, 63, 80, \u2026 Hz (S0)"
+  },
+  {
+    "check": "unavailable survives save/reopen"
+  },
+  {
+    "check": "Warning clears after a supported band is calculated"
+  },
+  {
+    "check": "Missing asset stays unavailable after reopen",
+    "status": "Results unavailable \u2022 missing 1000 Hz (S0)"
+  }
+]

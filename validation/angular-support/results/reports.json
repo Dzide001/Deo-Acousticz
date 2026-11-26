@@ -1,0 +1,995 @@
+{
+    "schema": 1,
+    "sourceFixtureSha256": "89517da136d56ac2483413e2d5f65dc96f23227c658fb86b1697a92e8e7d6f6f",
+    "scope": "Sampling diagnostics; source values and original accuracy thresholds unchanged",
+    "cases": [
+        {
+            "id": "prx635-20deg",
+            "support": {
+                "schema": 1,
+                "scope": "Sampling coverage only; no accuracy guarantee, including at measured knots or at 5° or finer spacing",
+                "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration.",
+                "bands": [
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 500,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 1000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 2000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 4000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 8000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 16000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "warnings": [
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): one measured elevation only; other elevations are unsupported.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): limited measured elevation range; directions outside it are unavailable.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): azimuth gaps exceed the 5° sampling advisory; interpolation can miss narrow lobes/nulls."
+            ],
+            "samples": [
+                {
+                    "sampleId": "h-55:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-55:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-55:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-55:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-55:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-55:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-45:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-45:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-45:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-45:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-45:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-45:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-35:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-35:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-35:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-35:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-35:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-35:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-25:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-25:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-25:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-25:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-25:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-25:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-15:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-15:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-15:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-15:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-15:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-15:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-5:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-5:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-5:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-5:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-5:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h-5:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+5:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+5:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+5:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+5:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+5:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+5:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+15:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+15:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+15:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+15:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+15:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+15:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+25:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+25:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+25:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+25:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+25:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+25:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+35:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+35:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+35:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+35:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+35:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+35:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+45:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+45:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+45:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+45:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+45:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+45:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+55:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+55:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+55:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+55:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+55:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                },
+                {
+                    "sampleId": "h+55:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 20.0
+                }
+            ],
+            "retainedMeasuredAccuracyRmsDb": 0.6150633458654704,
+            "retainedMeasuredAccuracyMaxDb": 2.6159882779748607,
+            "measuredAccuracyScreen": "FAILED; warnings do not correct interpolation error"
+        },
+        {
+            "id": "prx635-10deg",
+            "support": {
+                "schema": 1,
+                "scope": "Sampling coverage only; no accuracy guarantee, including at measured knots or at 5° or finer spacing",
+                "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration.",
+                "bands": [
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 500,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 1000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 2000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 4000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 8000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 16000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "warnings": [
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): one measured elevation only; other elevations are unsupported.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): limited measured elevation range; directions outside it are unavailable.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): azimuth gaps exceed the 5° sampling advisory; interpolation can miss narrow lobes/nulls."
+            ],
+            "samples": [
+                {
+                    "sampleId": "h-55:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-55:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-55:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-55:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-55:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-55:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-45:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-45:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-45:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-45:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-45:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-45:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-35:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-35:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-35:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-35:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-35:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-35:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-25:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-25:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-25:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-25:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-25:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-25:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-15:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-15:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-15:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-15:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-15:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-15:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-5:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-5:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-5:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-5:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-5:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h-5:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+5:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+5:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+5:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+5:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+5:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+5:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+15:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+15:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+15:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+15:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+15:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+15:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+25:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+25:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+25:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+25:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+25:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+25:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+35:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+35:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+35:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+35:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+35:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+35:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+45:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+45:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+45:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+45:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+45:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+45:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+55:500",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+55:1000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+55:2000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+55:4000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+55:8000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                },
+                {
+                    "sampleId": "h+55:16000",
+                    "status": "SPARSE_INTERPOLATION",
+                    "azimuthBracketDeg": 10.0
+                }
+            ],
+            "retainedMeasuredAccuracyRmsDb": 0.5000839068837357,
+            "retainedMeasuredAccuracyMaxDb": 2.6557635496778076,
+            "measuredAccuracyScreen": "FAILED; warnings do not correct interpolation error"
+        }
+    ]
+}

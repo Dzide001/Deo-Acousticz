@@ -2,6 +2,7 @@ package com.droidacoustic.pro.ui
 
 import com.droidacoustic.pro.scene.CoverageEdges
 import com.droidacoustic.pro.scene.elementAimsDeg
+import com.droidacoustic.pro.scene.elementPoses
 import com.droidacoustic.pro.scene.PlacedSpeaker
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -103,9 +104,9 @@ object AimRaysGlb {
         venueHeightM: Float
     ): List<Ray> {
         val n = spk.arrayElements.coerceAtLeast(1)
-        val spacing = spk.arraySpacingM
-        val globalAim = spk.arraySteerDeg + spk.arrayAimDeg
+        val globalAim = spk.arrayAimDeg
         val aims = spk.elementAimsDeg()
+        val poses = spk.elementPoses()
 
         val up = edges.upDeg.coerceIn(1f, 90f)
         val down = edges.downDeg.coerceIn(1f, 90f)
@@ -115,14 +116,17 @@ object AimRaysGlb {
         val edgeG = if (edges.measured) 0.75f else 0.55f
         val out = mutableListOf<Ray>()
         for (elem in 0 until n) {
-            val relIdx = elem - (n - 1) * 0.5f
-            val ey = spk.heightM + relIdx * spacing
+            val pose = poses[elem]
+            val ey = spk.heightM + pose.upM
+            val yaw = Math.toRadians(spk.panDeg.toDouble())
+            val element = spk.copy(x = spk.x + pose.forwardM * cos(yaw).toFloat(),
+                z = spk.z + pose.forwardM * sin(yaw).toFloat())
             // arrayAimDeg is down-positive, so the axis elevation is its negation.
             val axisElevation = -aims[elem]
             val room = Room(venueWidthM, venueDepthM, venueHeightM)
-            out += ray(spk, ey, axisElevation, 0f, room, 0.10f, 0.95f, 1.00f, 0.95f)
-            out += ray(spk, ey, axisElevation + up, 0f, room, 0.10f, edgeG, 0.75f, edgeAlpha)
-            out += ray(spk, ey, axisElevation - down, 0f, room, 0.10f, edgeG, 0.75f, edgeAlpha)
+            out += ray(element, ey, axisElevation, 0f, room, 0.10f, 0.95f, 1.00f, 0.95f)
+            out += ray(element, ey, axisElevation + up, 0f, room, 0.10f, edgeG, 0.75f, edgeAlpha)
+            out += ray(element, ey, axisElevation - down, 0f, room, 0.10f, edgeG, 0.75f, edgeAlpha)
         }
 
         // Horizontal edges: one pair for the whole box, from its acoustic
@@ -179,7 +183,7 @@ object AimRaysGlb {
         )
     }
 
-    private fun assemble(positions: FloatArray, colours: FloatArray, vertCount: Int): ByteArray {
+    internal fun assemble(positions: FloatArray, colours: FloatArray, vertCount: Int): ByteArray {
         val posBytes = positions.size * 4
         val colBytes = colours.size * 4
         val colOffset = align4(posBytes)

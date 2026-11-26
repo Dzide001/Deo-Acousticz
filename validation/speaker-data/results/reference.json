@@ -1,0 +1,407 @@
+{
+  "schema": 1,
+  "scope": "MANUFACTURER_DATA_CONSISTENCY_NOT_SOFTWARE_VALIDATION",
+  "publisher": "Martin Audio",
+  "model": "XD12",
+  "sourceUrl": "https://martin-audio.com/downloads/ease/GLL-XD.zip",
+  "sourceSha256": {
+    "CLF2_XD12.tab": "4aecc3ca0c420b48b7a7b522535fb44097d738394faa9dc4f1568ebd96b31ce4",
+    "Martin Audio-XD12.CF2": "a0d26c8fbfb23d944a94a8b51a9dcbd1bcbf240fe49c48eb53976d8f9020f65e"
+  },
+  "referenceScriptSha256": "b646f38f24127be2a5bfd24f9f69ab7fd2ab8444fc067034b070585302952f11",
+  "relativeToleranceDb": 0.001,
+  "referenceRowToleranceDb": 0.0001,
+  "sourceRows": [
+    {
+      "hz": 50,
+      "tabSensitivityDb": 87.0,
+      "cf2AxialDb": 87.2
+    },
+    {
+      "hz": 63,
+      "tabSensitivityDb": 91.3,
+      "cf2AxialDb": 91.3
+    },
+    {
+      "hz": 80,
+      "tabSensitivityDb": 92.8,
+      "cf2AxialDb": 92.8
+    },
+    {
+      "hz": 100,
+      "tabSensitivityDb": 94.0,
+      "cf2AxialDb": 94.1
+    },
+    {
+      "hz": 125,
+      "tabSensitivityDb": 94.9,
+      "cf2AxialDb": 94.9
+    },
+    {
+      "hz": 160,
+      "tabSensitivityDb": 96.6,
+      "cf2AxialDb": 96.7
+    },
+    {
+      "hz": 200,
+      "tabSensitivityDb": 97.9,
+      "cf2AxialDb": 98.0
+    },
+    {
+      "hz": 250,
+      "tabSensitivityDb": 97.8,
+      "cf2AxialDb": 97.7
+    },
+    {
+      "hz": 315,
+      "tabSensitivityDb": 95.8,
+      "cf2AxialDb": 95.8
+    },
+    {
+      "hz": 400,
+      "tabSensitivityDb": 96.2,
+      "cf2AxialDb": 96.2
+    },
+    {
+      "hz": 500,
+      "tabSensitivityDb": 96.3,
+      "cf2AxialDb": 96.2
+    },
+    {
+      "hz": 630,
+      "tabSensitivityDb": 95.9,
+      "cf2AxialDb": 96.0
+    },
+    {
+      "hz": 800,
+      "tabSensitivityDb": 96.9,
+      "cf2AxialDb": 96.9
+    },
+    {
+      "hz": 1000,
+      "tabSensitivityDb": 96.3,
+      "cf2AxialDb": 96.3
+    },
+    {
+      "hz": 1250,
+      "tabSensitivityDb": 96.7,
+      "cf2AxialDb": 96.6
+    },
+    {
+      "hz": 1600,
+      "tabSensitivityDb": 95.9,
+      "cf2AxialDb": 95.8
+    },
+    {
+      "hz": 2000,
+      "tabSensitivityDb": 95.0,
+      "cf2AxialDb": 95.2
+    },
+    {
+      "hz": 2500,
+      "tabSensitivityDb": 97.2,
+      "cf2AxialDb": 97.2
+    },
+    {
+      "hz": 3150,
+      "tabSensitivityDb": 95.7,
+      "cf2AxialDb": 95.6
+    },
+    {
+      "hz": 4000,
+      "tabSensitivityDb": 95.3,
+      "cf2AxialDb": 95.4
+    },
+    {
+      "hz": 5000,
+      "tabSensitivityDb": 96.0,
+      "cf2AxialDb": 96.0
+    },
+    {
+      "hz": 6300,
+      "tabSensitivityDb": 97.0,
+      "cf2AxialDb": 97.0
+    },
+    {
+      "hz": 8000,
+      "tabSensitivityDb": 98.1,
+      "cf2AxialDb": 98.2
+    },
+    {
+      "hz": 10000,
+      "tabSensitivityDb": 97.5,
+      "cf2AxialDb": 97.4
+    },
+    {
+      "hz": 12500,
+      "tabSensitivityDb": 96.8,
+      "cf2AxialDb": 96.9
+    },
+    {
+      "hz": 16000,
+      "tabSensitivityDb": 95.7,
+      "cf2AxialDb": 95.4
+    },
+    {
+      "hz": 20000,
+      "tabSensitivityDb": 81.0,
+      "cf2AxialDb": 79.9
+    }
+  ],
+  "relativeSamples": [
+    {
+      "id": "125:0:0",
+      "hz": 125,
+      "az": 0,
+      "el": 0,
+      "relativeDb": 0.0
+    },
+    {
+      "id": "125:30:0",
+      "hz": 125,
+      "az": 30,
+      "el": 0,
+      "relativeDb": -0.19999999999999996
+    },
+    {
+      "id": "125:-45:0",
+      "hz": 125,
+      "az": -45,
+      "el": 0,
+      "relativeDb": -0.44
+    },
+    {
+      "id": "125:0:20",
+      "hz": 125,
+      "az": 0,
+      "el": 20,
+      "relativeDb": -0.08999999999999997
+    },
+    {
+      "id": "125:0:-20",
+      "hz": 125,
+      "az": 0,
+      "el": -20,
+      "relativeDb": 0.06999999999999999
+    },
+    {
+      "id": "125:90:0",
+      "hz": 125,
+      "az": 90,
+      "el": 0,
+      "relativeDb": -1.24
+    },
+    {
+      "id": "500:0:0",
+      "hz": 500,
+      "az": 0,
+      "el": 0,
+      "relativeDb": 0.0
+    },
+    {
+      "id": "500:30:0",
+      "hz": 500,
+      "az": 30,
+      "el": 0,
+      "relativeDb": -1.3699999999999999
+    },
+    {
+      "id": "500:-45:0",
+      "hz": 500,
+      "az": -45,
+      "el": 0,
+      "relativeDb": -2.78
+    },
+    {
+      "id": "500:0:20",
+      "hz": 500,
+      "az": 0,
+      "el": 20,
+      "relativeDb": 0.3200000000000002
+    },
+    {
+      "id": "500:0:-20",
+      "hz": 500,
+      "az": 0,
+      "el": -20,
+      "relativeDb": -2.2399999999999993
+    },
+    {
+      "id": "500:90:0",
+      "hz": 500,
+      "az": 90,
+      "el": 0,
+      "relativeDb": -6.59
+    },
+    {
+      "id": "1000:0:0",
+      "hz": 1000,
+      "az": 0,
+      "el": 0,
+      "relativeDb": 0.0
+    },
+    {
+      "id": "1000:30:0",
+      "hz": 1000,
+      "az": 30,
+      "el": 0,
+      "relativeDb": -2.879999999999999
+    },
+    {
+      "id": "1000:-45:0",
+      "hz": 1000,
+      "az": -45,
+      "el": 0,
+      "relativeDb": -6.02
+    },
+    {
+      "id": "1000:0:20",
+      "hz": 1000,
+      "az": 0,
+      "el": 20,
+      "relativeDb": -0.8899999999999996
+    },
+    {
+      "id": "1000:0:-20",
+      "hz": 1000,
+      "az": 0,
+      "el": -20,
+      "relativeDb": -0.029999999999999666
+    },
+    {
+      "id": "1000:90:0",
+      "hz": 1000,
+      "az": 90,
+      "el": 0,
+      "relativeDb": -14.09
+    },
+    {
+      "id": "2000:0:0",
+      "hz": 2000,
+      "az": 0,
+      "el": 0,
+      "relativeDb": 0.0
+    },
+    {
+      "id": "2000:30:0",
+      "hz": 2000,
+      "az": 30,
+      "el": 0,
+      "relativeDb": -2.259999999999999
+    },
+    {
+      "id": "2000:-45:0",
+      "hz": 2000,
+      "az": -45,
+      "el": 0,
+      "relativeDb": -5.73
+    },
+    {
+      "id": "2000:0:20",
+      "hz": 2000,
+      "az": 0,
+      "el": 20,
+      "relativeDb": -3.6400000000000063
+    },
+    {
+      "id": "2000:0:-20",
+      "hz": 2000,
+      "az": 0,
+      "el": -20,
+      "relativeDb": -4.909999999999996
+    },
+    {
+      "id": "2000:90:0",
+      "hz": 2000,
+      "az": 90,
+      "el": 0,
+      "relativeDb": -15.12
+    },
+    {
+      "id": "8000:0:0",
+      "hz": 8000,
+      "az": 0,
+      "el": 0,
+      "relativeDb": 0.0
+    },
+    {
+      "id": "8000:30:0",
+      "hz": 8000,
+      "az": 30,
+      "el": 0,
+      "relativeDb": -4.429999999999999
+    },
+    {
+      "id": "8000:-45:0",
+      "hz": 8000,
+      "az": -45,
+      "el": 0,
+      "relativeDb": -9.56
+    },
+    {
+      "id": "8000:0:20",
+      "hz": 8000,
+      "az": 0,
+      "el": 20,
+      "relativeDb": -4.959999999999998
+    },
+    {
+      "id": "8000:0:-20",
+      "hz": 8000,
+      "az": 0,
+      "el": -20,
+      "relativeDb": -4.929999999999998
+    },
+    {
+      "id": "8000:90:0",
+      "hz": 8000,
+      "az": 90,
+      "el": 0,
+      "relativeDb": -22.98
+    },
+    {
+      "id": "16000:0:0",
+      "hz": 16000,
+      "az": 0,
+      "el": 0,
+      "relativeDb": 0.0
+    },
+    {
+      "id": "16000:30:0",
+      "hz": 16000,
+      "az": 30,
+      "el": 0,
+      "relativeDb": -1.9799999999999989
+    },
+    {
+      "id": "16000:-45:0",
+      "hz": 16000,
+      "az": -45,
+      "el": 0,
+      "relativeDb": -7.37
+    },
+    {
+      "id": "16000:0:20",
+      "hz": 16000,
+      "az": 0,
+      "el": 20,
+      "relativeDb": -3.7399999999999975
+    },
+    {
+      "id": "16000:0:-20",
+      "hz": 16000,
+      "az": 0,
+      "el": -20,
+      "relativeDb": -4.939999999999998
+    },
+    {
+      "id": "16000:90:0",
+      "hz": 16000,
+      "az": 90,
+      "el": 0,
+      "relativeDb": -23.94
+    }
+  ],
+  "externalSoftwareComparison": "PENDING_MATCHED_EXPORT",
+  "absoluteCalibration": "TAB_DECLARED_1W_1M; CF2_NORMALIZATION_UNVERIFIED"
+}

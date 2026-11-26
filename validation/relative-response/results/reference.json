@@ -1,0 +1,47 @@
+{
+  "scope": "SYNTHETIC_RELATIVE_RESPONSE_NUMERICAL_CHECK_ONLY",
+  "toleranceDb": 1e-07,
+  "normalization": {
+    "method": "per-frequency-level-difference",
+    "xM": 10,
+    "yM": 1,
+    "zM": 0,
+    "minimumReferenceLevelDb": -120
+  },
+  "referenceScriptSha256": "65ca5b3d8a7a8d9bc4b4cbc6d1d01dbcec5c05c79ceb4c79be98f13e91482a52",
+  "equationScriptSha256": "e63955ebd8a227013dde83665cc220df0bb4f6770f2ddee447f19f2eb5a5a393",
+  "samples": [
+    {
+      "id": "1000:10",
+      "frequencyHz": 1000,
+      "xM": 10,
+      "yM": 1,
+      "zM": 0,
+      "relativeDb": -0.0
+    },
+    {
+      "id": "1000:20",
+      "frequencyHz": 1000,
+      "xM": 20,
+      "yM": 1,
+      "zM": 0,
+      "relativeDb": -6.067509705552909
+    },
+    {
+      "id": "2000:10",
+      "frequencyHz": 2000,
+      "xM": 10,
+      "yM": 1,
+      "zM": 0,
+      "relativeDb": -0.0
+    },
+    {
+      "id": "2000:20",
+      "frequencyHz": 2000,
+      "xM": 20,
+      "yM": 1,
+      "zM": 0,
+      "relativeDb": -6.120369934859961
+    }
+  ]
+}

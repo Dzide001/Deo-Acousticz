@@ -1,0 +1,655 @@
+{
+  "sharedJvmTests": 609,
+  "focusedAndroidTests": 15,
+  "iosSimulatorTestCompilation": "passed",
+  "suites": [
+    {
+      "suite": "com.droidacoustic.pro.acoustics.AngularDomainTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.AngularSupportTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.ArrayGeometryTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.ArrayPressureTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.ArrivalBandSumTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.AtmosphereTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.BandGroundTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.BandsTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.ComparisonImportsTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.ComparisonProtocolReviewTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.ComparisonValidationTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.ComplexBandFilterTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.CustomDirectivityTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.DirectFieldTest",
+      "tests": 29,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.IncidentBandSumTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.IncidentToneBatchTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.LargeVenueMeasuredArrayTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest",
+      "tests": 22,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.NominalFrequencyAliasTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.PolarGridPerformanceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.PortableCoreTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.SpeakerDataTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.SpeakerProvenanceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.SpecularReflectionReferenceTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.acoustics.ValidationWorkflowPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.alignment.AlignmentReferencesTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.alignment.SystemAdjustmentTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.alignment.SystemAlignmentTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.AcousticBoundaryTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.AdaptiveDiffuseTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.AngularMaterialTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.AudienceCutoutsTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.AudienceGeometryTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.BoundaryMaterialTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.DiffuseReflectionTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.GeometryCacheConcurrencyTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.GeometryCacheTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.ImportedMesh3DTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.MaterialScatteringTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.MeshFaceGroupTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.ReceiverCameraFramingTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.ReceiverMarkerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.ReflectionPhaseTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.SceneGeometryTransformsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.SpeakerGizmoTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.persistence.BreaklinePersistenceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.persistence.DesignVariantsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.persistence.ProjectPersistenceTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.BroadbandSnapshotTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.CoverageComparisonsTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.CoveragePresentationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.EngineSceneSnapshotTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.PredictionModelScopeTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.PredictionRequestTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.PredictionValidityTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.ReceiverAngularSupportTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.RelativeBroadbandTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.RelativeResponseCaptureTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.prediction.SourceSpectrumTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.statistics.CoverageStatisticsTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.AdjustableReferenceTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.DensePhaseCaptureTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.ExclusionEditDescriptionTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.ExclusionHistoryNavigationTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.ExclusionHistoryPreviewTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.ExclusionHistoryTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.FitOverlayComparisonTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.GroundPhaseTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.ManualMatchingExclusionsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.MatchingFitDiagnosticsTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.MatchingFrequencyRangeTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.MatchingRangeExclusionsTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.MatchRangeEditingTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.MatchRangeMovementTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.MatchRangeSelectionTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.MatchSampleInspectionTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.OverlayInspectionBatchTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.PhaseDerivedTracesTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.PhaseTracesTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.ReferenceTraceCaptureTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.ReflectedPhaseTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.RobustReferenceMatchingTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.SavedTracesTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.traces.TraceReferenceMatchingTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.AngularDomainPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.AngularSupportPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.BroadbandCapturePackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.ComparisonImportPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.EngineSceneCapturePackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.NumericalValidationPackageTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.PublicMeasurementComparisonTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.ReceiverAngularPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.ReceiverFramingPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.ReceiverMarkerPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.RelativeBroadbandPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.RelativeResponsePackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.validation.SourceSpectrumPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.scene.CoverageModeControlsTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.scene.PredictionConcurrencyTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "com.droidacoustic.pro.scene.PredictionValidityRecoveryTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0
+    }
+  ]
+}

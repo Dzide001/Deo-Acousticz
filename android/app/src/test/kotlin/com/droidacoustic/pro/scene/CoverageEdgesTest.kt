@@ -56,7 +56,7 @@ class CoverageEdgesTest {
     }
 
     private fun vmWith(doc: String, band: Int = 1000): SceneViewModel =
-        SceneViewModel().apply {
+        SceneViewModel(predictionDispatcher = Dispatchers.Main).apply {
             setBandHz(band)
             importClfTabText(doc)
         }
@@ -147,7 +147,7 @@ class CoverageEdgesTest {
         // The synthetic vertical model puts a point source's -6 dB point at 35
         // degrees. Drawing anything else would show a coverage the calculation
         // does not believe in.
-        val v = SceneViewModel().apply { setBandHz(1000) }
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply { setBandHz(1000) }
         val spk = placedFrom(v).copy(modelPackageId = "point_source", arrayElements = 1)
         val e = v.coverageEdgesFor(spk)
         assertFalse("nothing was imported, so this is not measured", e.measured)
@@ -162,7 +162,7 @@ class CoverageEdgesTest {
 
     @Test
     fun `an unmeasured array narrows with frequency and with element count`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         fun edge(elements: Int, band: Int): Float {
             v.setBandHz(band)
             return v.coverageEdgesFor(
@@ -175,7 +175,7 @@ class CoverageEdgesTest {
 
     @Test
     fun `importing measured data changes the edge from the synthetic guess`() {
-        val bare = SceneViewModel().apply { setBandHz(1000) }
+        val bare = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply { setBandHz(1000) }
         val guess = bare.coverageEdgesFor(placedFrom(bare).copy(modelPackageId = "point_source"))
         val v = vmWith(coneTab("Twelve", edgeDeg = 12))
         val measured = v.coverageEdgesFor(placedFrom(v))
@@ -193,7 +193,7 @@ class CoverageEdgesTest {
         ).map(::File).firstOrNull { it.exists() }
         assumeTrue("corpus not present - third-party data, not in the repo", f != null)
 
-        val v = SceneViewModel().apply { setBandHz(2000) }
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply { setBandHz(2000) }
         v.importClfTabText(f!!.readText(Charsets.ISO_8859_1))
         val e = v.coverageEdgesFor(placedFrom(v))
         assertTrue("should come from the file", e.measured)
@@ -252,7 +252,7 @@ class CoverageEdgesTest {
 
     @Test
     fun `an unmeasured array is narrower across than a point source`() {
-        val v = SceneViewModel().apply { setBandHz(1000) }
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply { setBandHz(1000) }
         val spk = placedFrom(v)
         val point = v.coverageEdgesFor(spk.copy(modelPackageId = "point_source", arrayElements = 1))
         val array = v.coverageEdgesFor(spk.copy(modelPackageId = "line_array", arrayElements = 1))
@@ -268,7 +268,7 @@ class CoverageEdgesTest {
         ).map(::File).firstOrNull { it.exists() }
         assumeTrue("corpus not present - third-party data, not in the repo", f != null)
 
-        val v = SceneViewModel().apply { setBandHz(4000) }
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply { setBandHz(4000) }
         v.importClfTabText(f!!.readText(Charsets.ISO_8859_1))
         val e = v.coverageEdgesFor(placedFrom(v))
         // Martin Audio publish the XD12 as 90 degrees horizontal, so the two

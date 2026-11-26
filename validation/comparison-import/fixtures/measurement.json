@@ -1,0 +1,47 @@
+{
+  "schema": "droidacoustic.comparison-import",
+  "version": 1,
+  "evidence": "CONTROLLED_MEASUREMENT",
+  "synthetic": true,
+  "source": {
+    "producer": "SYNTHETIC TEST FIXTURE — not a vendor export",
+    "version": "fixture-1",
+    "fileName": "fixture.csv",
+    "instrument": "Synthetic mic",
+    "method": "Synthetic level test",
+    "smoothing": "none",
+    "timeWindow": "synthetic",
+    "calibrationStatus": "UNKNOWN"
+  },
+  "conditions": {
+    "modelRevision": "synthetic-revision-1",
+    "preset": "synthetic-flat",
+    "geometry": "source 0,0,0; receiver r at 10,1,0; +X axis; Y up",
+    "frequencyConvention": "exact tone Hz",
+    "levelConvention": "ABSOLUTE_SPL",
+    "atmosphere": "20C/50%/101.325kPa",
+    "ground": "off",
+    "driveUnit": "WATTS",
+    "driveValue": 1
+  },
+  "units": {
+    "frequency": "Hz",
+    "position": "m",
+    "level": "dB_SPL"
+  },
+  "toleranceDb": 0.1,
+  "format": "CSV",
+  "delimiter": ",",
+  "columns": {
+    "frequencyHz": "Frequency",
+    "levelDb": "Level"
+  },
+  "receiver": {
+    "id": "r",
+    "xM": 10,
+    "yM": 1,
+    "zM": 0
+  },
+  "payload": "Frequency,Level\r\n1000,80\r\n2000,81\r\n",
+  "sourceSha256": "216589c193ac166a83e91ed9726528b80c78aac9cbe0e28bc6bb2d5029b86490"
+}

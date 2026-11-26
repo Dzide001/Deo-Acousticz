@@ -22,9 +22,7 @@ import kotlin.math.log10
  *
  * The rest of the model is less firm. The steering phase term is a far-field
  * linear-array approximation, the edge taper is a shading control rather than a
- * measurement, and electronic steering and mechanical tilt are modelled as the
- * same thing - which is not true of a real system and is pinned here as the
- * documented limitation it is.
+ * measurement, and mechanical poses and electronic delays are tested separately.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 class LineArraySummationTest {
@@ -32,7 +30,7 @@ class LineArraySummationTest {
     @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
     @After fun tearDown() = Dispatchers.resetMain()
 
-    private fun vm(bandHz: Int = 63) = SceneViewModel().apply {
+    private fun vm(bandHz: Int = 63) = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply {
         setBandHz(bandHz)
         setTemperatureC(20f)
     }
@@ -132,19 +130,26 @@ class LineArraySummationTest {
     // ── Steering ─────────────────────────────────────────────────────────────
 
     @Test
-    fun `electronic steering and mechanical tilt are modelled as the same thing`() {
-        // globalSteerDeg is just their sum, so 6 degrees of either, or three of
-        // each, all land in the same place. A real system does not behave that
-        // way - electronic steering costs level and changes the lobing - and
-        // this test exists to make that assumption visible rather than true.
-        val v = vm(bandHz = 1000)
+    fun `electronic steering leaves poses unchanged while mechanical tilt moves them`() {
         val spk = array()
-        val listenerY = 1.2f
-        val electronic = v.lineArraySplDb(spk.copy(arraySteerDeg = 6f), dsp, 40f, listenerY)
-        val mechanical = v.lineArraySplDb(spk.copy(arrayAimDeg = 6f), dsp, 40f, listenerY)
-        val split = v.lineArraySplDb(spk.copy(arraySteerDeg = 3f, arrayAimDeg = 3f), dsp, 40f, listenerY)
-        assertEquals(electronic, mechanical, 1e-2f)
-        assertEquals(electronic, split, 1e-2f)
+        assertEquals(spk.elementPoses(), spk.copy(arraySteerDeg = 15f).elementPoses())
+        assertTrue(spk.elementPoses() != spk.copy(arrayAimDeg = 15f).elementPoses())
+        val v = vm(1000)
+        val electronic = v.arrayPressure(spk.copy(arraySteerDeg = 15f), dsp, 40f, 1.2f, 0f, 1000)
+        val mechanical = v.arrayPressure(spk.copy(arrayAimDeg = 15f), dsp, 40f, 1.2f, 0f, 1000)
+        assertTrue(kotlin.math.abs(electronic.levelDb - mechanical.levelDb) > 0.1f)
+    }
+
+    @Test
+    fun `production contribution preserves array phase and delay`() {
+        val v = vm(1000)
+        val spk = array(aimDeg = 12f, splayDeg = 4f)
+        val d = kotlin.math.sqrt(40f * 40f + 4.8f * 4.8f)
+        val raw = v.arrayPressure(spk, dsp, 40f, 1.2f, 0f, 1000)
+        val normal = v.directContribution(spk, dsp, 40f, 1.2f, 0f, d, 1000).pressure!!
+        val delayed = v.directContribution(spk, dsp.copy(delayMs = 0.5f), 40f, 1.2f, 0f, d, 1000).pressure!!
+        assertEquals(kotlin.math.atan2(raw.imaginary, raw.real), kotlin.math.atan2(normal.imaginary, normal.real), 1e-5)
+        assertTrue((normal + delayed).power < normal.power * 1e-8)
     }
 
     @Test

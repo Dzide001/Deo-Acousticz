@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.prediction.DriveAndEqTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-26T13:14:48.216Z" hostname="Dzide.local" time="0.12">
+  <properties/>
+  <testcase name="singleBandAndPerBandCompatibilityAreUnchanged[jvm]" classname="com.droidacoustic.pro.prediction.DriveAndEqTest" time="0.037"/>
+  <testcase name="absentPolicyAlwaysMeansLegacyAndBadPolicyIsRejected[jvm]" classname="com.droidacoustic.pro.prediction.DriveAndEqTest" time="0.005"/>
+  <testcase name="missingBroadbandResponseIsNotRenormalizedAway[jvm]" classname="com.droidacoustic.pro.prediction.DriveAndEqTest" time="0.009"/>
+  <testcase name="normalizedDrivePreservesComplexAndValidatedFilterPhase[jvm]" classname="com.droidacoustic.pro.prediction.DriveAndEqTest" time="0.064"/>
+  <testcase name="fixedTotalRemovesExactlyEightBandDriveGainForEveryWeighting[jvm]" classname="com.droidacoustic.pro.prediction.DriveAndEqTest" time="0.003"/>
+  <testcase name="sparseLegacyEqOnlyChangesItsStoredBand[jvm]" classname="com.droidacoustic.pro.prediction.DriveAndEqTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

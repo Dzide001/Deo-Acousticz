@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.CoverageModeControlsTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-26T12:27:20.160Z" hostname="Dzide.local" time="0.306">
+  <properties/>
+  <testcase name="switchingBackToManualStopsAutomaticUpdatesAndBothChoicesSurviveReopen" classname="com.droidacoustic.pro.scene.CoverageModeControlsTest" time="0.2"/>
+  <testcase name="bandSelectsCoverageWhileSpectrumInspectionKeepsBroadbandLevel" classname="com.droidacoustic.pro.scene.CoverageModeControlsTest" time="0.01"/>
+  <testcase name="manualModeAndBandEditsClearOldCoverageAndRequireRecalculation" classname="com.droidacoustic.pro.scene.CoverageModeControlsTest" time="0.034"/>
+  <testcase name="diskReopenRestoresModeFrequencyAndShowsItsStartupCalculation" classname="com.droidacoustic.pro.scene.CoverageModeControlsTest" time="0.046"/>
+  <testcase name="automaticModeChangesReturnToCurrent" classname="com.droidacoustic.pro.scene.CoverageModeControlsTest" time="0.016"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

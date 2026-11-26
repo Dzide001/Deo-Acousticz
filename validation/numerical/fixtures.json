@@ -1,0 +1,589 @@
+{
+  "schema": 1,
+  "environment": {
+    "temperatureC": 20,
+    "humidityPct": 50,
+    "pressureKPa": 101.325
+  },
+  "cases": [
+    {
+      "id": "direct-1m",
+      "kind": "band",
+      "classification": "numerical-verification",
+      "receiver": [
+        1,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ]
+    },
+    {
+      "id": "direct-2m",
+      "kind": "band",
+      "classification": "numerical-verification",
+      "receiver": [
+        2,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ]
+    },
+    {
+      "id": "direct-10m",
+      "kind": "band",
+      "classification": "numerical-verification",
+      "receiver": [
+        10,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ]
+    },
+    {
+      "id": "air-and-distance-8khz-60m",
+      "kind": "band",
+      "classification": "numerical-verification",
+      "receiver": [
+        60,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "hz": 8000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        7900,
+        8100
+      ]
+    },
+    {
+      "id": "quarter-period-delay",
+      "kind": "tone",
+      "classification": "numerical-verification",
+      "receiver": [
+        10,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "delayS": 0.00025
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06
+    },
+    {
+      "id": "half-period-null",
+      "kind": "tone",
+      "classification": "numerical-verification",
+      "receiver": [
+        10,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "delayS": 0.0005
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 1e-12
+    },
+    {
+      "id": "polarity-null",
+      "kind": "tone",
+      "classification": "numerical-verification",
+      "receiver": [
+        10,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "inverted": true
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 1e-12
+    },
+    {
+      "id": "eight-emitter-asymmetric",
+      "kind": "tone",
+      "classification": "numerical-verification",
+      "receiver": [
+        17,
+        2,
+        3
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            0.0,
+            0
+          ],
+          "delayS": 0.0,
+          "gainDb": 0.0,
+          "inverted": false
+        },
+        {
+          "position": [
+            0,
+            0.25,
+            0
+          ],
+          "delayS": 7e-05,
+          "gainDb": -0.5,
+          "inverted": false
+        },
+        {
+          "position": [
+            0,
+            0.5,
+            0
+          ],
+          "delayS": 0.00014,
+          "gainDb": -1.0,
+          "inverted": false
+        },
+        {
+          "position": [
+            0,
+            0.75,
+            0
+          ],
+          "delayS": 0.00020999999999999998,
+          "gainDb": -1.5,
+          "inverted": true
+        },
+        {
+          "position": [
+            0,
+            1.0,
+            0
+          ],
+          "delayS": 0.00028,
+          "gainDb": -2.0,
+          "inverted": false
+        },
+        {
+          "position": [
+            0,
+            1.25,
+            0
+          ],
+          "delayS": 0.00034999999999999994,
+          "gainDb": -2.5,
+          "inverted": false
+        },
+        {
+          "position": [
+            0,
+            1.5,
+            0
+          ],
+          "delayS": 0.00041999999999999996,
+          "gainDb": -3.0,
+          "inverted": false
+        },
+        {
+          "position": [
+            0,
+            1.75,
+            0
+          ],
+          "delayS": 0.00049,
+          "gainDb": -3.5,
+          "inverted": false
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06
+    },
+    {
+      "id": "band-comb-short-delay",
+      "kind": "band",
+      "classification": "numerical-verification",
+      "receiver": [
+        10,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "delayS": 0.0023
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ]
+    },
+    {
+      "id": "band-comb-long-delay",
+      "kind": "band",
+      "classification": "numerical-verification",
+      "receiver": [
+        10,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "delayS": 0.0403
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ]
+    },
+    {
+      "id": "hard-ground-double-pressure",
+      "kind": "band",
+      "classification": "numerical-verification",
+      "receiver": [
+        10,
+        0,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ],
+      "groundAbsorption": 0
+    },
+    {
+      "id": "absorbing-ground-free-field",
+      "kind": "band",
+      "classification": "numerical-verification",
+      "receiver": [
+        10,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            1,
+            0
+          ]
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ],
+      "groundAbsorption": 1
+    },
+    {
+      "id": "ground-destructive-interference",
+      "kind": "band",
+      "classification": "numerical-verification",
+      "receiver": [
+        8,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            2,
+            0
+          ]
+        }
+      ],
+      "hz": 315,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        280,
+        350
+      ],
+      "groundAbsorption": 0
+    },
+    {
+      "id": "finite-edge-inside",
+      "kind": "band",
+      "classification": "known-model-limitation",
+      "receiver": [
+        1,
+        1,
+        2.19
+      ],
+      "sources": [
+        {
+          "position": [
+            10,
+            1,
+            0
+          ]
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ],
+      "wall": {
+        "height": 4,
+        "halfWidth": 2,
+        "role": "RIGID_REFLECTOR"
+      }
+    },
+    {
+      "id": "finite-edge-outside",
+      "kind": "band",
+      "classification": "known-model-limitation",
+      "receiver": [
+        1,
+        1,
+        2.21
+      ],
+      "sources": [
+        {
+          "position": [
+            10,
+            1,
+            0
+          ]
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ],
+      "wall": {
+        "height": 4,
+        "halfWidth": 2,
+        "role": "RIGID_REFLECTOR"
+      }
+    },
+    {
+      "id": "barrier-shadow",
+      "kind": "band",
+      "classification": "known-model-limitation",
+      "receiver": [
+        3,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            -2,
+            1,
+            0
+          ]
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ],
+      "wall": {
+        "height": 3,
+        "halfWidth": 2,
+        "role": "OCCLUDING"
+      }
+    },
+    {
+      "id": "barrier-above",
+      "kind": "band",
+      "classification": "known-model-limitation",
+      "receiver": [
+        3,
+        4,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            -2,
+            4,
+            0
+          ]
+        }
+      ],
+      "hz": 1000,
+      "normalizedTolerance": 3e-06,
+      "band": [
+        800,
+        1200
+      ],
+      "wall": {
+        "height": 3,
+        "halfWidth": 2,
+        "role": "OCCLUDING"
+      }
+    },
+    {
+      "id": "wideband-frequency-refinement",
+      "kind": "band-refinement",
+      "classification": "numerical-verification",
+      "receiver": [
+        40,
+        1,
+        0
+      ],
+      "sources": [
+        {
+          "position": [
+            0,
+            2,
+            0
+          ]
+        },
+        {
+          "position": [
+            -1,
+            3,
+            0
+          ],
+          "delayS": 0.00037,
+          "gainDb": -3
+        }
+      ],
+      "hz": 6000,
+      "band": [
+        4000,
+        8000
+      ],
+      "normalizedTolerance": 3e-06
+    }
+  ]
+}

@@ -1,0 +1,314 @@
+{
+  "schema": 1,
+  "date": "2026-11-18",
+  "scope": "REAL_MEASURED_HORIZONTAL_ANGLE_HOLDOUT_NOT_INDEPENDENT_SESSION",
+  "testCount": 59,
+  "testFailures": 0,
+  "suites": [
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.ComparisonImportsTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "malformedAmbiguousAndUnsupportedInputsAreRejected[jvm]",
+        "quotedCsvSupportsDelimitersNewlinesBomAndExplicitCoordinateColumns[jvm]",
+        "workspaceMatchesSnapshotsPreservesUnavailableAndBlocksSyntheticOrUncalibratedEvidence[jvm]",
+        "csvAndJsonPreserveMissingLevelsCoordinatesRawPayloadAndIdentity[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.ComparisonProtocolReviewTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "annotationsPreserveOriginalArtifactLevelsCalibrationAndAuditAcrossReopen[jvm]",
+        "reviewNeverCertifiesUnknownMeasurementCalibration[jvm]",
+        "staleUnsafeDuplicateUndocumentedAndRepeatedMappingsAreRejected[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.ComparisonValidationTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "residualMetricsPlotsAndOriginalDocumentsAreReproducible[jvm]",
+        "reorderMissingAndExtraSamplesNeverRelaxStrictMatching[jvm]",
+        "sameIdAtDifferentFrequencyCannotProduceResidual[jvm]",
+        "nestedProtocolDifferencesRemainDiagnosticAndEncodingDifferencesAreExplained[jvm]",
+        "unknownMeasurementCalibrationStillBlocksQualificationWithZeroResidual[jvm]",
+        "broadbandAggregatesNeverGenerateLogFrequencyPlots[jvm]",
+        "syntheticAndAbsentDataStayUnqualifiedAndExtremeLevelsStayFinite[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.SpeakerProvenanceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "declaredNormalizationIsAppliedOnceWithoutInferringVoltagePowerConversion[jvm]",
+        "matchingCannotHideOffsetsMissingDataOrMismatchedConditions[jvm]",
+        "metadataPersistsAndChangesAssetIdentityWithoutPromotingTrust[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.ValidationWorkflowPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "retainedSyntheticWorkflowReportsRecomputeAfterReopen[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.persistence.ProjectPersistenceTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "absentAssetsRemainPinnedAndUnavailableOnResave[jvm]",
+        "legacyEmbeddedDataMigratesAndUnknownVersionsFailBeforeApply[jvm]",
+        "missingAssetKeepsLatestSceneRatherThanRollingBackGeometry[jvm]",
+        "portableProjectRestoresIdenticalDataWithoutExternalState[jvm]",
+        "newerCheckpointIsNotSilentlyRolledBackToOlderBackup[jvm]",
+        "corruptPrimaryFallsBackWithoutOverwritingLastValidBackup[jvm]",
+        "freshStoreReopensCompactSnapshotAndDeduplicatesAssets[jvm]",
+        "incompletePrimaryDoesNotReplaceCompleteBackupDuringSave[jvm]",
+        "interruptedSnapshotWritePreservesPreviousSceneAndData[jvm]",
+        "hashesAreStableAcrossJsonObjectOrderAndCalibrationIsCovered[jvm]",
+        "futureAssetFormatRemainsUnavailableAndIsPreservedOnResave[jvm]",
+        "assetWriteFailureCannotPublishSnapshot[jvm]",
+        "wrongRevisionAndIdentityNeverResolveByModelName[jvm]",
+        "corruptEmbeddedDataCanRecoverOnlyFromExactExternalAsset[jvm]",
+        "migrationKeysIncludeOlderSchemaSlotsInNewestFirstOrder[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.validation.NumericalValidationPackageTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "sharedEngineMatchesIndependentReferencesAndRefinementConverges[jvm]",
+        "fixturesMatchRetainedReferencesAndQuadratureConverges[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.validation.PublicMeasurementComparisonTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "realCalibratedPaMeasurementsAreHeldOutAndReplayedThroughProductionCapture[jvm]"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.ComparisonImportIntegrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "sceneChangesLeaveImportedSnapshotIdentityUnchangedAndClearIsUndoable",
+        "importsSurviveUndoRedoDiskSaveAndFreshReopen",
+        "rejectedImportsAndTamperedProjectsAreAtomicAndLegacyScenesClearSnapshots"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.EngineComparisonCaptureTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "explicitTotalDriveSpectrumIsIndependentOfReferenceAndSurvivesUndoAndReopen",
+        "relativeCapturePersistsNormalizationDiagnosticsAndRejectsStaleChanges",
+        "frozenRequestsAndLateCapturesCannotOverwriteSceneEditsOrNewerCaptures",
+        "captureDerivesSceneProtocolAndSurvivesUndoRedoAndDiskReopen",
+        "missingDataStaysUnavailableAndQueuedCaptureIsCancelledByEdits",
+        "broadbandCaptureUsesSceneWeightingAndPersistsRawBandsThroughReopen",
+        "relativeBroadbandCaptureKeepsBasisDiagnosticsAndSurvivesDiskRecovery"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.ProjectRecoveryTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "tamperedEmbeddedAssetIsNotReplacedByPreviousRegistry",
+        "malformedLoadLeavesSceneDataAndHistoryUnchanged",
+        "missingDiskAssetPreservesSceneAndReportsUnavailable",
+        "undoAndRedoRetainExactMeasuredRevisions",
+        "diskCorruptionUsesPreviousCheckpoint",
+        "diskSaveAndFreshReopenRecoverCalibrationAndPrediction"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.PublicMeasurementRecoveryTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "realMeasurementReportsAndReviewLineageSurviveUndoRedoDiskSaveAndFreshReopen"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "the document converges after one round trip",
+        "the SPL colour scale survives",
+        "a populated scene survives export and import",
+        "malformed JSON is rejected rather than half-applied",
+        "speaker positions survive exactly",
+        "an empty scene round trips without inventing content"
+      ]
+    }
+  ],
+  "androidDebugBuild": "PASSED",
+  "iosSimulatorSharedTestCompilation": "PASSED",
+  "onDeviceAcceptance": "NOT_RUN",
+  "preparationCheck": "PASSED: independent numpy/scipy pipeline; exact hashes, 1e-10 numeric tolerance",
+  "independentPythonReportChecks": "PASSED: residual RMS/max, original-input hashes, review lineage, explicit retained failures",
+  "reportsSha256": "c391bf1ba0c8d068b8db23330ea17e923a0879b231202ce1c458ac2b8e94a365",
+  "artifactSha256": {
+    "fixtures.json": "89517da136d56ac2483413e2d5f65dc96f23227c658fb86b1697a92e8e7d6f6f",
+    "imports/prx635-10deg-engine.json": "c4a95221298dd26c4b5855db3b43a7e3f43952faca194def872d72845a82a570",
+    "imports/prx635-10deg-reference.json": "79d22427bcc72d0f0c553af53ad39e183c2adbdc62bc081d7b1b13718f8523b7",
+    "imports/prx635-20deg-engine.json": "68a32122a749244e222bb3c809721cd79022124156556eb2278a5d7273bdc167",
+    "imports/prx635-20deg-reference.json": "cf7a20c8577551f36e2336aa7aa643c71a68d949298b9d25b9589970df36f438",
+    "prepare.py": "312178f0462c13623468c42864f4af0033c01401588bfb6f2d73d55d8d44f591",
+    "protocol.json": "9182ef24bac74a7964015c75a8154deea460ee404f6907b0185d4915cede9e47",
+    "requirements.txt": "b51468281a81743a4edc6e42d37cf1d807a70f4bc1321f9b7da3dd7c13c44e37",
+    "reviewed-protocols.json": "75e81c06f4ffdf793be768f9744f151f11490985d39971e974d0a804f6b13e30",
+    "source/JBLPro_PRX635_H_IR.mat.zip": "f19ea08ede9d400585ed946c6a73c9ea4a97fc7d188b7c283c11ba2bd57a85cf",
+    "source/NOTICE.md": "28cc67a9a3c977e1164e352a5f6538c805f08efba96a27c973990e1810519855"
+  },
+  "measurementAccuracyCases": [
+    {
+      "id": "prx635-20deg",
+      "rmsDb": 0.6150633422056833,
+      "maximumAbsoluteErrorDb": 2.61598889915237,
+      "worstSample": "h+55:16000",
+      "accuracyScreen": "FAILED",
+      "numericalReplayMaxErrorDb": 8.412223131415431e-07,
+      "bands": [
+        {
+          "frequencyHz": 500.0,
+          "count": 12,
+          "rmsDb": 0.11033923582739157,
+          "maximumAbsoluteErrorDb": 0.1489648554173016
+        },
+        {
+          "frequencyHz": 1000.0,
+          "count": 12,
+          "rmsDb": 0.1475927638449889,
+          "maximumAbsoluteErrorDb": 0.2604428461100471
+        },
+        {
+          "frequencyHz": 2000.0,
+          "count": 12,
+          "rmsDb": 0.2540330364552651,
+          "maximumAbsoluteErrorDb": 0.45678100982384295
+        },
+        {
+          "frequencyHz": 4000.0,
+          "count": 12,
+          "rmsDb": 0.3014722071239758,
+          "maximumAbsoluteErrorDb": 0.5129136581255573
+        },
+        {
+          "frequencyHz": 8000.0,
+          "count": 12,
+          "rmsDb": 0.6191356667865062,
+          "maximumAbsoluteErrorDb": 1.2871511368662523
+        },
+        {
+          "frequencyHz": 16000.0,
+          "count": 12,
+          "rmsDb": 1.302732462742417,
+          "maximumAbsoluteErrorDb": 2.61598889915237
+        }
+      ]
+    },
+    {
+      "id": "prx635-10deg",
+      "rmsDb": 0.5000839001642019,
+      "maximumAbsoluteErrorDb": 2.655763793866729,
+      "worstSample": "h+55:16000",
+      "accuracyScreen": "FAILED",
+      "numericalReplayMaxErrorDb": 6.743057845426392e-07,
+      "bands": [
+        {
+          "frequencyHz": 500.0,
+          "count": 12,
+          "rmsDb": 0.0380448363049002,
+          "maximumAbsoluteErrorDb": 0.05422460620074503
+        },
+        {
+          "frequencyHz": 1000.0,
+          "count": 12,
+          "rmsDb": 0.05040666016035568,
+          "maximumAbsoluteErrorDb": 0.09231237380761112
+        },
+        {
+          "frequencyHz": 2000.0,
+          "count": 12,
+          "rmsDb": 0.09856326463591564,
+          "maximumAbsoluteErrorDb": 0.18075464168266864
+        },
+        {
+          "frequencyHz": 4000.0,
+          "count": 12,
+          "rmsDb": 0.17160665176083703,
+          "maximumAbsoluteErrorDb": 0.2954706091715456
+        },
+        {
+          "frequencyHz": 8000.0,
+          "count": 12,
+          "rmsDb": 0.2393809472454548,
+          "maximumAbsoluteErrorDb": 0.5893819718271933
+        },
+        {
+          "frequencyHz": 16000.0,
+          "count": 12,
+          "rmsDb": 1.1832364109907463,
+          "maximumAbsoluteErrorDb": 2.655763793866729
+        }
+      ]
+    }
+  ],
+  "manufacturerSoftwareComparison": "PENDING_MATCHED_EXPORT",
+  "independentSessionValidation": "PENDING",
+  "sharedCoreKotlinSha256": "543a030b41609353ab33e919f3a4e7dad1b17ff5e76b16b55c534d1c9455682f"
+}

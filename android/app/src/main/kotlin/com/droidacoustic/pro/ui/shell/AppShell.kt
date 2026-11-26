@@ -1,6 +1,10 @@
 package com.droidacoustic.pro.ui.shell
 
 import android.content.Context
+import com.droidacoustic.pro.geometry.SpeakerGizmoTransform
+import com.droidacoustic.pro.ui.SceneTransformTarget
+import com.droidacoustic.pro.ui.SceneTransformPreview
+import com.droidacoustic.pro.scene.sharedSurface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +27,7 @@ import androidx.compose.material.icons.filled.CenterFocusStrong
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.automirrored.filled.Redo
 import androidx.compose.material.icons.filled.Speaker
+import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material3.Icon
@@ -47,9 +52,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
+import com.droidacoustic.pro.geometry.ReceiverLabelRect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.droidacoustic.pro.MainActivity
+import com.droidacoustic.pro.persistence.ProjectArchive
+import com.droidacoustic.pro.persistence.ProjectStore
+import com.droidacoustic.pro.scene.LocalProjectStore
+import java.io.File
 import com.droidacoustic.pro.scene.SceneViewModel
+import com.droidacoustic.pro.prediction.CoveragePresentation
 import com.droidacoustic.pro.ui.ContoursGlb
 import com.droidacoustic.pro.ui.FilamentSurface
 import com.droidacoustic.pro.ui.PickTarget
@@ -83,9 +96,10 @@ import kotlin.math.abs
 //   └──────┴──────────────────────────────────┴──────────────┘
 // =============================================================================
 
-/** What a tap on the floor does. */
+/** Active viewport editing tool. */
 enum class Tool(val label: String, val icon: ImageVector, val hint: String) {
     SELECT("Select", Icons.Default.CenterFocusStrong, "Tap an object to select it"),
+    FACES("Faces", Icons.Default.SelectAll, "Tap an imported face; choose Single, Add/remove, Flat patch or Group in Face assignments"),
     SPEAKER("Speaker", Icons.Default.Speaker, "Tap the floor to place a speaker"),
     ZONE("Zone", Icons.Default.Groups, "Tap to add zone corners, then close the shape"),
     BLOCK("Block", Icons.Default.Architecture, "Tap the floor to place a block"),
@@ -95,7 +109,7 @@ enum class Tool(val label: String, val icon: ImageVector, val hint: String) {
 private val BANDS = listOf(63, 125, 250, 500, 1000, 2000, 4000, 8000)
 
 private const val PREFS_NAME = "droidacoustic_project"
-private val RECOVERY_KEY = "scene_recovery_latest_v${SceneViewModel.SCENE_SCHEMA_VERSION}"
+
 
 @Composable
 fun AppShell(activity: MainActivity) {
@@ -109,6 +123,8 @@ fun AppShell(activity: MainActivity) {
     var selection by remember { mutableStateOf<Selection>(Selection.None) }
     var viewPreset by remember { mutableStateOf(ViewPreset.PERSPECTIVE) }
     var frameToken by remember { mutableIntStateOf(0) }
+    var viewportOrigin by remember {mutableStateOf(androidx.compose.ui.geometry.Offset.Zero)}
+    var receiverPanelRect by remember {mutableStateOf<ReceiverLabelRect?>(null)}
     var analysisExpanded by remember { mutableStateOf(false) }
     var showSettings by remember { mutableStateOf(false) }
     var blockType by remember { mutableStateOf("OBSTACLE") }
@@ -116,17 +132,32 @@ fun AppShell(activity: MainActivity) {
     // ── Scene state ──────────────────────────────────────────────────────────
     val speakers by vm.speakers.collectAsState()
     val zones by vm.audienceAreas.collectAsState()
+    val selectedMeshFaces by vm.importedFaceSelection.collectAsState()
     val areaDraft by vm.areaDraft.collectAsState()
+    val cutoutTarget by vm.cutoutTarget.collectAsState()
+    val elevationTarget by vm.elevationTarget.collectAsState()
+    val audienceGeometryError by vm.audienceGeometryError.collectAsState()
+    LaunchedEffect(cutoutTarget,elevationTarget) { if (cutoutTarget != null || elevationTarget != null) tool = Tool.ZONE }
     val audience by vm.audience.collectAsState()
     val venue by vm.venueGeometry.collectAsState()
     val heatmap by vm.heatmap.collectAsState()
+    val coverageGeometry by vm.coverageGeometry.collectAsState()
+    val coverageStatistics by vm.coverageStatistics.collectAsState()
     val listener by vm.listener.collectAsState()
+    val receiverAngular=rememberReceiverAngularOverlay(vm)
+    val receiverAngularEnabled by vm.receiverAngularOverlayEnabled.collectAsState()
+    val receiverAngularSelection by vm.receiverAngularSelection.collectAsState()
+    val receiverFocus by vm.receiverCameraFocus.collectAsState()
+    val receiverFrameToken by vm.receiverFrameToken.collectAsState()
+    val receiverReferences by vm.alignmentReferences.collectAsState()
+    val receiverFrameTarget=remember(receiverFocus,listener,receiverReferences) {vm.receiverFrameTarget()}
+    val receiverFrameObstructions=receiverPanelRect?.let {listOf(it.copy(x=it.x-viewportOrigin.x,y=it.y-viewportOrigin.y))}.orEmpty()
+    val effectiveViewPreset=receiverFocus?.view?.name?.let {ViewPreset.valueOf(it)} ?: viewPreset
+    LaunchedEffect(receiverFocus?.view) {receiverFocus?.view?.let {viewPreset=ViewPreset.valueOf(it.name)}}
     val aimRays by vm.aimRaysEnabled.collectAsState()
     val clfRegistryForRays by vm.clfRegistry.collectAsState()
     val dspMap by vm.dspMap.collectAsState()
     val combined by vm.combinedSplDb.collectAsState()
-    val rt60 by vm.rt60Estimate.collectAsState()
-    val sti by vm.stiEstimate.collectAsState()
     val band by vm.selectedBandHz.collectAsState()
     // Measured coverage edges are per band, so they follow the band selector.
     // Skipped entirely when the overlay is off - it is the only consumer.
@@ -139,6 +170,7 @@ fun AppShell(activity: MainActivity) {
     val temperatureC by vm.temperatureC.collectAsState()
     val humidityPct by vm.humidityPct.collectAsState()
     val signalType by vm.signalType.collectAsState()
+    val broadbandDrive by vm.broadbandDrive.collectAsState()
     val bandwidthOct by vm.signalBandwidthOct.collectAsState()
     val interference by vm.signalInterferenceEnabled.collectAsState()
     val autoCalc by vm.signalAutoCalculate.collectAsState()
@@ -153,50 +185,39 @@ fun AppShell(activity: MainActivity) {
     val splFixedMin by vm.splFixedMinDb.collectAsState()
     val splFixedMax by vm.splFixedMaxDb.collectAsState()
 
-    // ── Autosave and recovery ────────────────────────────────────────────────
-    //
-    // The old shell wrote a recovery snapshot after every change; dropping it
-    // in the rewrite would have meant losing the scene whenever the process
-    // was killed. Restore once on launch, then write debounced.
-    // The autosave must not run until the restore has finished. Both effects
-    // start at first composition, so on a slow launch - fresh install, dexopt, a
-    // large scene to parse - the debounced write would fire while the view model
-    // still held the empty default scene and persist THAT over the saved one,
-    // destroying it. Gate the writer on the reader.
+    // Assets commit first; a small checksum-protected checkpoint follows atomically.
+    // Do not overwrite a failed recovery with the empty startup scene.
+    val projectStore = remember(activity) { LocalProjectStore(File(activity.filesDir, "projects")) }
     var restored by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        val json = withContext(Dispatchers.IO) {
-            activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                .getString(RECOVERY_KEY, null)
+        runCatching {
+            val saved = withContext(Dispatchers.IO) { projectStore.loadPrepared("recovery") }
+            val legacy = if (saved == null) withContext(Dispatchers.IO) {
+                val prefs = activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                ProjectStore.legacyKeys("recovery").firstNotNullOfOrNull {
+                    prefs.getString(it, null)?.takeIf(String::isNotBlank)
+                }
+            } else null
+            val prepared = saved?.project ?: legacy?.let { withContext(Dispatchers.Default) { ProjectArchive.open(it) } }
+            if (prepared != null) check(vm.importPreparedProject(prepared)) { vm.lastImportError.value ?: "Recovery failed" }
+            restored = true
+            if (saved?.usedBackup == true) snackbar.showSnackbar("Recovered the previous valid checkpoint.")
+        }.onFailure {
+            snackbar.showSnackbar("Recovery failed; autosave paused. Existing files preserved. ${it.message}")
         }
-        json?.takeIf { it.isNotBlank() }?.let {
-            withContext(Dispatchers.Default) { vm.importSceneJson(it) }
-        }
-        restored = true
     }
-    // Keyed on the view model's revision rather than on a list of the things
-    // worth saving. The list version silently fell behind every setting added
-    // after it was written - analysis type, weighting, contour mode, aim rays
-    // were all in the JSON and none of them triggered a write - so they reset on
-    // every restart. A counter cannot fall behind, because it names nothing.
+    val predictionState by vm.predictionState.collectAsState()
+    val predictionValidity by vm.predictionValidity.collectAsState()
+    val coveragePresentation=CoveragePresentation.describe(signalType,band,predictionState,autoCalc,predictionValidity)
     val revision by vm.revision.collectAsState()
-    LaunchedEffect(restored, revision) {
+    LaunchedEffect(restored, revision, receiverAngularEnabled, receiverAngularSelection, receiverFocus, autoCalc) {
         if (!restored) return@LaunchedEffect
         delay(1200)
-        // includeClfRegistry MUST stay false here. The registry holds the
-        // decoded polar data for every speaker in the library; serialising it
-        // on every edit — and parsing it back at launch — blocks the main
-        // thread long enough for the system to kill the app for not
-        // responding. Recovery only needs the scene.
-        val json = withContext(Dispatchers.Default) {
-            vm.exportSceneJson(includeClfRegistry = false)
-        }
-        withContext(Dispatchers.IO) {
-            activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-                .edit()
-                .putString(RECOVERY_KEY, json)
-                .apply()
-        }
+        val json = vm.exportSceneJson(includeClfRegistry = false)
+        val assetPayloads = vm.projectAssetPayloads()
+        runCatching {
+            withContext(Dispatchers.IO) { projectStore.save("recovery", json, assetPayloads::get) }
+        }.onFailure { snackbar.showSnackbar("Autosave failed; previous checkpoint preserved. ${it.message}") }
     }
 
     val (splMin, splMax) = SceneViewModel.splScaleWindow(
@@ -228,11 +249,11 @@ fun AppShell(activity: MainActivity) {
                 canRedo = canRedo,
                 speakerCount = speakers.size,
                 zoneCount = zones.size,
-                autoCalc = autoCalc,
-                hasResult = heatmap.isNotEmpty(),
+                presentation = coveragePresentation,
+                autoCalculate=autoCalc,
+                onAutoCalculate=vm::setSignalAutoCalculate,
                 onCalculate = {
                     vm.recalculateSignal()
-                    scope.launch { snackbar.showSnackbar("Calculating coverage…") }
                 },
                 onUndo = {
                     if (!vm.undoScene()) scope.launch { snackbar.showSnackbar("Nothing to undo") }
@@ -249,8 +270,10 @@ fun AppShell(activity: MainActivity) {
                 ToolRail(
                     tool = tool,
                     onTool = {
+                        if (it != Tool.ZONE && (cutoutTarget != null || elevationTarget != null)) vm.clearAreaDraft()
                         tool = it
-                        if (it != Tool.SELECT) selection = Selection.None
+                        if (it == Tool.LISTENER) selection = Selection.Listener
+                        else if (it != Tool.SELECT && it != Tool.FACES) selection = Selection.None
                     }
                 )
                 VerticalDivider(color = MaterialTheme.colorScheme.outline)
@@ -259,20 +282,52 @@ fun AppShell(activity: MainActivity) {
                 Column(Modifier.weight(1f)) {
                     Box(Modifier.weight(1f)) {
 
+                        val objectTarget = if(tool != Tool.SELECT) null else when(val picked=selection) {
+                            is Selection.Block -> venue.blocks.firstOrNull {it.id==picked.id}?.let { b ->
+                                SceneTransformTarget("BLOCK",b.id,SpeakerGizmoTransform(b.centerX,b.heightM,b.centerZ,b.rotationDeg,0f),b)
+                            }
+                            is Selection.Zone -> zones.firstOrNull {it.id==picked.id && it.vertices.isNotEmpty()}?.let { a ->
+                                SceneTransformTarget("ZONE",a.id,SpeakerGizmoTransform(a.vertices.map {it.first}.average().toFloat(),a.baseHeightM,a.vertices.map {it.second}.average().toFloat(),a.rotationDeg,0f),a)
+                            }
+                            else -> null
+                        }
                         FilamentSurface(
-                            modifier = Modifier.fillMaxSize(),
-                            viewPreset = viewPreset,
+                            modifier = Modifier.fillMaxSize().onGloballyPositioned {viewportOrigin=it.positionInRoot()},
+                            viewPreset = effectiveViewPreset,
+                            receiverCameraFocus=receiverFocus,receiverFrameTarget=receiverFrameTarget,receiverFrameToken=receiverFrameToken,
+                            receiverFrameObstructions=receiverFrameObstructions,onReceiverFrameMessage=vm::receiverFrameMessage,
                             frameAllToken = frameToken,
                             venueGeometry = venue,
                             audienceAreas = zones,
+                            selectedMeshAreaId = selectedMeshFaces?.areaId?.takeIf { selection==Selection.Zone(it) },
+                            selectedMeshFaces = selectedMeshFaces?.faceIndices.orEmpty(),
                             areaDraft = areaDraft,
+                            draftSurface = zones.firstOrNull { it.id == cutoutTarget?.areaId },
                             audience = audience,
                             speakers = speakers,
+                            selectedObject = objectTarget,
+                            previewObject = { obj,t -> if(obj.kind=="BLOCK")
+                                SceneTransformPreview(venue=vm.previewVenueBlockManipulation(obj.id,t.x,t.y,t.z,t.panDeg))
+                                else SceneTransformPreview(areas=vm.previewAudienceAreaManipulation(obj.id,t.x,t.y,t.z,t.panDeg))
+                            },
+                            commitObject = {obj,t -> if(obj.kind=="BLOCK") vm.commitVenueBlockManipulation(obj.id,t.x,t.y,t.z,t.panDeg)
+                                else vm.commitAudienceAreaManipulation(obj.id,t.x,t.y,t.z,t.panDeg)
+                            },
+                            selectedSpeaker = if (tool == Tool.SELECT) speakers.firstOrNull { it.id == (selection as? Selection.Speaker)?.id } else null,
+                            previewSpeaker = { sp -> vm.previewSpeakerManipulation(sp.id,sp.x,sp.heightM,sp.z,sp.panDeg,sp.arrayAimDeg) },
+                            onMoveSpeaker = { id, x, y, z -> vm.setSpeakerPosition(id, x, y, z) },
+                            onRotateSpeaker = { id, pan -> vm.setSpeakerPan(id, pan) },
+                            onTiltSpeaker = { id, tilt -> vm.setSpeakerArrayAim(id, tilt) },
                             speakerModelPackages = modelPackages,
                             heatmap = heatmap,
+                            coverageGeometry = coverageGeometry,
                             splScaleMinDb = splMin,
                             splScaleMaxDb = splMax,
                             listener = listener,
+                            receiverAngularReport=receiverAngular.report,
+                            selectedReceiverMarkerId=receiverAngularSelection,
+                            receiverMarkerPickingEnabled=tool==Tool.SELECT,
+                            onReceiverMarkerSelected=vm::selectAngularReceiver,
                             aimRaysEnabled = aimRays,
                             coverageEdges = coverageEdges,
                             contourThresholds = contourThresholds,
@@ -286,17 +341,38 @@ fun AppShell(activity: MainActivity) {
                                     PickTarget(it.id, it.x, it.heightM, it.z, radius = 0.7f)
                                 }
                             } else emptyList(),
-                            onPickTarget = { id -> selection = Selection.Speaker(id) },
+                            onPickTarget = { id -> vm.clearImportedFaceSelection(); selection = Selection.Speaker(id) },
+                            onSceneRayTap = { ray ->
+                                if (tool!=Tool.FACES) false else {
+                                    val hit=vm.pickImportedFace(ray)
+                                    if (hit!=null) selection=Selection.Zone(hit.areaId)
+                                    true // A miss clears the face highlight and never becomes a floor action.
+                                }
+                            },
                             onFloorTap = { x, z ->
                                 when (tool) {
-                                    Tool.SELECT -> selection = nearestSelection(x, z, vm, speakers, zones, venue)
+                                    Tool.SELECT -> {
+                                        vm.clearImportedFaceSelection()
+                                        selection = nearestSelection(x, z, vm, speakers, zones, venue)
+                                    }
+                                    Tool.FACES -> Unit
                                     Tool.SPEAKER -> vm.addSpeaker(x, z)
-                                    Tool.ZONE -> vm.addAreaVertex(x, z)
+                                    Tool.ZONE -> {
+                                        val target=elevationTarget
+                                        if (target == null) vm.addAreaVertex(x,z)
+                                        else if (vm.addAudienceElevationPoint(target,x,z)) {
+                                            tool=Tool.SELECT; selection=Selection.Zone(target)
+                                        }
+                                    }
                                     Tool.BLOCK -> vm.addVenueBlock(blockType, x, z)
                                     Tool.LISTENER -> vm.moveListener(x, z)
                                 }
                             }
                         )
+
+                        if(receiverFocus==null) ReceiverAngularOverlay(vm,receiverAngular,Modifier.align(Alignment.CenterEnd).padding(10.dp),
+                            onFrame={vm.frameAngularReceiver(effectiveViewPreset.name)},
+                            onBounds={receiverPanelRect=it})
 
                         // ── Floating controls ────────────────────────────────
                         ToolHintOverlay(
@@ -306,9 +382,9 @@ fun AppShell(activity: MainActivity) {
                                 .padding(12.dp)
                         )
                         ViewControlsOverlay(
-                            preset = viewPreset,
-                            onPreset = { viewPreset = it },
-                            onFrameAll = { frameToken++ },
+                            preset = effectiveViewPreset,
+                            onPreset = { viewPreset = it;vm.setReceiverFrameView(it.name) },
+                            onFrameAll = { viewPreset=effectiveViewPreset;vm.clearReceiverFrame();frameToken++ },
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
                                 .padding(12.dp)
@@ -317,6 +393,9 @@ fun AppShell(activity: MainActivity) {
                             bands = BANDS,
                             selected = band,
                             onSelect = { vm.setBandHz(it) },
+                            signalType=signalType,
+                            onSignalType=vm::setSignalType,
+                            presentation=coveragePresentation,
                             modifier = Modifier
                                 .align(Alignment.BottomStart)
                                 .padding(12.dp)
@@ -328,10 +407,13 @@ fun AppShell(activity: MainActivity) {
                                 .align(Alignment.BottomEnd)
                                 .padding(12.dp)
                         ) {
+                            if(receiverFocus!=null) ReceiverAngularOverlay(vm,receiverAngular,
+                                onFrame={vm.frameAngularReceiver(effectiveViewPreset.name)},
+                                onBounds={receiverPanelRect=it})
                             ConventionsOverlay(
                                 summation = if (interference) "complex sum" else "energy sum",
                                 bandwidth = if (signalType == "BAND") {
-                                    "1/${(1f / bandwidthOct).toInt().coerceAtLeast(1)} oct"
+                                    "$band Hz • 1/${(1f / bandwidthOct).toInt().coerceAtLeast(1)} oct"
                                 } else {
                                     // The weighting has to travel with the number.
                                     // A dB(A) map that does not say it is A-weighted
@@ -341,7 +423,7 @@ fun AppShell(activity: MainActivity) {
                                         SceneViewModel.WEIGHTING_A -> "broadband dB(A)"
                                         SceneViewModel.WEIGHTING_C -> "broadband dB(C)"
                                         else -> "broadband"
-                                    }
+                                    }+" • ${broadbandDrive.shortLabel}"
                                 },
                                 temperatureC = temperatureC,
                                 humidityPct = humidityPct
@@ -352,19 +434,30 @@ fun AppShell(activity: MainActivity) {
                         }
 
                         // Zone drawing needs an explicit finish action.
-                        if (tool == Tool.ZONE && areaDraft.isNotEmpty()) {
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                modifier = Modifier
-                                    .align(Alignment.TopCenter)
-                                    .padding(12.dp)
-                            ) {
-                                SmallAction("Undo point") { vm.undoAreaVertex() }
-                                SmallAction("Close zone", tint = Instrument.Accent) {
-                                    vm.closeAreaFromDraft()
+                        if (tool == Tool.ZONE && elevationTarget != null) {
+                            Column(Modifier.align(Alignment.TopCenter).padding(12.dp)
+                                .background(MaterialTheme.colorScheme.surface)) {
+                                Text("Tap inside the zone to add a height point",style=MaterialTheme.typography.bodySmall)
+                                audienceGeometryError?.let { Text(it,color=Instrument.Critical,style=MaterialTheme.typography.bodySmall) }
+                                SmallAction("Cancel") { vm.clearAreaDraft(); tool=Tool.SELECT }
+                            }
+                        }
+                        if (tool == Tool.ZONE && (areaDraft.isNotEmpty() || cutoutTarget != null)) {
+                            Column(Modifier.align(Alignment.TopCenter).padding(12.dp)
+                                .background(MaterialTheme.colorScheme.surface)) {
+                                cutoutTarget?.let { target ->
+                                    val name=zones.firstOrNull { it.id == target.areaId }?.name ?: "Zone"
+                                    Text("Draw ${if (target.hole) "hole" else "exclusion"} for $name",
+                                        style=MaterialTheme.typography.bodySmall)
                                 }
-                                SmallAction("Discard", tint = Instrument.Critical) {
-                                    vm.clearAreaDraft()
+                                audienceGeometryError?.let { Text(it,color=Instrument.Critical,
+                                    style=MaterialTheme.typography.bodySmall) }
+                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    SmallAction("Undo point") { vm.undoAreaVertex() }
+                                    SmallAction(if (cutoutTarget == null) "Close zone" else "Apply cutout", tint = Instrument.Accent) {
+                                        vm.closeAreaFromDraft()
+                                    }
+                                    SmallAction("Discard", tint = Instrument.Critical) { vm.clearAreaDraft() }
                                 }
                             }
                         }
@@ -372,9 +465,10 @@ fun AppShell(activity: MainActivity) {
 
                     AnalysisStrip(
                         heatmap = heatmap,
+                        coverageStatistics = coverageStatistics,
                         combinedSplDb = combined,
-                        rt60 = rt60,
-                        sti = sti,
+                        predictionState = predictionState,
+                        statusLabel = coveragePresentation.status,
                         expanded = analysisExpanded,
                         onToggle = { analysisExpanded = !analysisExpanded }
                     )
@@ -419,8 +513,9 @@ private fun TopBar(
     canRedo: Boolean,
     speakerCount: Int,
     zoneCount: Int,
-    autoCalc: Boolean,
-    hasResult: Boolean,
+    presentation: CoveragePresentation,
+    autoCalculate: Boolean,
+    onAutoCalculate: (Boolean) -> Unit,
     onCalculate: () -> Unit,
     onUndo: () -> Unit,
     onRedo: () -> Unit,
@@ -449,24 +544,26 @@ private fun TopBar(
 
         Spacer(Modifier.weight(1f))
 
-        if (!autoCalc) {
+        SmallAction(if(autoCalculate) "Auto" else "Manual") {onAutoCalculate(!autoCalculate)}
+        Spacer(Modifier.width(8.dp))
+        if (presentation.showAction) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .heightIn(min = 36.dp)
                     .background(
-                        if (hasResult) MaterialTheme.colorScheme.surfaceVariant
-                        else MaterialTheme.colorScheme.primary,
+                        if (presentation.needsCalculation) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.surfaceVariant,
                         RoundedCornerShape(4.dp)
                     )
-                    .clickable(onClick = onCalculate)
+                    .clickable(enabled=presentation.actionEnabled,onClick = onCalculate)
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 Text(
-                    if (hasResult) "Recalculate" else "Calculate",
+                    presentation.action,
                     style = MaterialTheme.typography.titleSmall,
-                    color = if (hasResult) MaterialTheme.colorScheme.onSurfaceVariant
-                    else MaterialTheme.colorScheme.onPrimary,
+                    color = if (presentation.needsCalculation) MaterialTheme.colorScheme.onPrimary
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
                     softWrap = false
                 )
             }
@@ -584,23 +681,8 @@ private fun nearestSelection(
         abs(x - b.centerX) <= b.widthM * 0.5f && abs(z - b.centerZ) <= b.depthM * 0.5f
     }?.let { return Selection.Block(it.id) }
 
-    zones.firstOrNull { zone -> pointInPolygon(x, z, zone.vertices) }
+    zones.firstOrNull { zone -> zone.sharedSurface().containsOutlinePoint(x,z) }
         ?.let { return Selection.Zone(it.id) }
 
     return Selection.None
-}
-
-private fun pointInPolygon(x: Float, z: Float, poly: List<Pair<Float, Float>>): Boolean {
-    if (poly.size < 3) return false
-    var inside = false
-    var j = poly.size - 1
-    for (i in poly.indices) {
-        val (xi, zi) = poly[i]
-        val (xj, zj) = poly[j]
-        if ((zi > z) != (zj > z) &&
-            x < (xj - xi) * (z - zi) / ((zj - zi).takeIf { it != 0f } ?: 1e-6f) + xi
-        ) inside = !inside
-        j = i
-    }
-    return inside
 }

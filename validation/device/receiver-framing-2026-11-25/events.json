@@ -1,0 +1,58 @@
+[
+  {
+    "action": "Plan"
+  },
+  {
+    "action": "Frame"
+  },
+  {
+    "action": "Frame"
+  },
+  {
+    "action": "Section"
+  },
+  {
+    "action": "Frame"
+  },
+  {
+    "action": "Frame"
+  },
+  {
+    "action": "3D"
+  },
+  {
+    "action": "Frame"
+  },
+  {
+    "action": "Frame"
+  },
+  {
+    "action": "Details"
+  },
+  {
+    "action": "Wider"
+  },
+  {
+    "action": "Wider"
+  },
+  {
+    "saved": {
+      "receiverAngularSelection": "reference:1",
+      "receiverCameraFocus": {
+        "version": 1,
+        "receiverId": "reference:1",
+        "view": "PERSPECTIVE",
+        "spanM": 32
+      }
+    }
+  },
+  {
+    "saveReopen": "passed"
+  },
+  {
+    "action": "Fit to venue"
+  },
+  {
+    "frameAll": "cleared focus"
+  }
+]

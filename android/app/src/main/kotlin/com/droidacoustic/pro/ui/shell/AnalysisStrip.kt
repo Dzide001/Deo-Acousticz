@@ -21,12 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.droidacoustic.pro.prediction.PredictionState
+import com.droidacoustic.pro.prediction.PredictionModelScope
 import com.droidacoustic.pro.scene.HeatCell
-import com.droidacoustic.pro.scene.Rt60Estimate
-import com.droidacoustic.pro.scene.StiEstimate
 import com.droidacoustic.pro.ui.components.StatusChip
 import com.droidacoustic.pro.ui.theme.Instrument
-import kotlin.math.sqrt
+import com.droidacoustic.pro.statistics.CoverageStatistics
 
 // =============================================================================
 // Analysis strip
@@ -41,28 +41,19 @@ import kotlin.math.sqrt
 fun AnalysisStrip(
     heatmap: List<HeatCell>,
     combinedSplDb: Float?,
-    rt60: Rt60Estimate?,
-    sti: StiEstimate?,
     expanded: Boolean,
     onToggle: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    predictionState: PredictionState = PredictionState.EMPTY,
+    statusLabel: String? = null,
+    coverageStatistics: CoverageStatistics? = null
 ) {
-    // "Avg audience" must mean the audience. When zones exist the engine also
-    // samples a default grid across the whole floor, and including those cells
-    // drags the average below the worst zone's own average — which reads as a
-    // contradiction on screen. Score the zones when there are any.
-    val zoneCells = heatmap.filter { it.sourceAreaId != null }
-    val scored = if (zoneCells.isNotEmpty()) zoneCells else heatmap
-
-    val levels = scored.map { it.splDb }
-    val avg = levels.average().takeIf { levels.isNotEmpty() }?.toFloat()
-    val dev = if (levels.size > 1 && avg != null) {
-        sqrt(levels.map { (it - avg) * (it - avg) }.average()).toFloat()
-    } else null
-    val worst = scored
-        .filter { it.sourceAreaName != null }
-        .groupBy { it.sourceAreaName!! }
-        .minByOrNull { (_, cells) -> cells.map { it.splDb }.average() }
+    val overall = coverageStatistics?.overall
+    val avg = overall?.meanDb
+    val dev = overall?.standardDeviationDb
+    val zones = coverageStatistics?.surfaces().orEmpty()
+    val worst = zones.filter { it.areaId != null && it.statistics.meanDb != null }
+        .minByOrNull { it.statistics.meanDb!! }
 
     Column(
         modifier
@@ -70,6 +61,8 @@ fun AnalysisStrip(
             .background(MaterialTheme.colorScheme.surface)
     ) {
         HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+        Text(statusLabel ?: predictionStateLabel(predictionState), style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 4.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -79,19 +72,13 @@ fun AnalysisStrip(
                 .padding(horizontal = 14.dp, vertical = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(26.dp)
         ) {
-            Metric("Avg audience", avg?.let { "%.1f".format(it) } ?: "—", "dB")
-            Metric("Uniformity", dev?.let { "±%.1f".format(it) } ?: "—", "dB")
-            Metric("RT60", rt60?.let { "%.2f".format(it.rt60S) } ?: "—", "s")
-            Metric(
-                "Intelligibility",
-                sti?.let { "%.2f".format(it.sti) } ?: "—",
-                sti?.quality ?: ""
-            )
+            Metric("Area avg", avg?.let { "%.1f".format(it) } ?: "—", "dB")
+            Metric("Area std dev", dev?.let { "±%.1f".format(it) } ?: "—", "dB")
             if (worst != null) {
                 Metric(
                     "Worst zone",
-                    worst.key,
-                    "%.1f dB".format(worst.value.map { it.splDb }.average())
+                    worst.name ?: worst.surfaceKey,
+                    "%.1f dB".format(worst.statistics.meanDb)
                 )
             }
             Box(Modifier.weight(1f))
@@ -110,7 +97,12 @@ fun AnalysisStrip(
                     .background(MaterialTheme.colorScheme.background)
                     .padding(horizontal = 14.dp, vertical = 12.dp)
             ) {
-                if (heatmap.isEmpty()) {
+                Text(PredictionModelScope.summary,
+                    style = MaterialTheme.typography.bodySmall)
+                PredictionModelScope.limitations.forEach {
+                    Text(it, style = MaterialTheme.typography.bodySmall, color = Instrument.Caution)
+                }
+                if (coverageStatistics == null) {
                     Text(
                         "No coverage data yet. Place a speaker and draw an audience zone.",
                         style = MaterialTheme.typography.bodySmall,
@@ -123,9 +115,22 @@ fun AnalysisStrip(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-                    val zones = heatmap
-                        .filter { it.sourceAreaName != null }
-                        .groupBy { it.sourceAreaName!! }
+                    Text(
+                        "Area weighted over each audience surface; probes excluded.",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    if (overall != null) {
+                        Text("Valid area %.1f / %.1f m² • Unavailable %.1f m²".format(
+                            overall.validAreaM2, overall.totalAreaM2, overall.missingAreaM2),
+                            style = MaterialTheme.typography.bodySmall)
+                        if (overall.p10Db != null && overall.p90Db != null)
+                            Text("P10–P90: %.1f–%.1f dB".format(overall.p10Db,overall.p90Db),
+                                style = MaterialTheme.typography.bodySmall)
+                        overall.withinTargetPercent?.let { percent ->
+                            Text("Within ±3 dB of target: %.1f%% of total area".format(percent),
+                                style = MaterialTheme.typography.bodySmall)
+                        }
+                    }
                     if (zones.isEmpty()) {
                         Text(
                             "Coverage is being sampled on the default grid. " +
@@ -134,16 +139,19 @@ fun AnalysisStrip(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     } else {
-                        val globalMin = levels.minOrNull() ?: 0f
-                        val globalMax = levels.maxOrNull() ?: 1f
-                        zones.forEach { (name, cells) ->
-                            ZoneBar(
-                                name = name,
-                                avgDb = cells.map { it.splDb }.average().toFloat(),
-                                spreadDb = (cells.maxOf { it.splDb } - cells.minOf { it.splDb }),
+                        val globalMin = overall?.minDb?.toFloat() ?: 0f
+                        val globalMax = overall?.maxDb?.toFloat() ?: 1f
+                        zones.forEach { zone ->
+                            val stats = zone.statistics
+                            val zoneMean = stats.meanDb
+                            if (zoneMean != null) ZoneBar(
+                                name = zone.name ?: zone.surfaceKey,
+                                avgDb = zoneMean.toFloat(),
+                                spreadDb = ((stats.p90Db ?: 0.0) - (stats.p10Db ?: 0.0)).toFloat(),
                                 min = globalMin,
                                 max = globalMax
-                            )
+                            ) else Text("${zone.name ?: zone.surfaceKey}: ${if (stats.totalAreaM2 == 0.0) "no audience area" else "unavailable"}",
+                                style = MaterialTheme.typography.bodySmall)
                         }
                     }
                 }
@@ -217,7 +225,7 @@ private fun ZoneBar(name: String, avgDb: Float, spreadDb: Float, min: Float, max
             softWrap = false
         )
         StatusChip(
-            text = "±%.1f".format(spreadDb / 2f),
+            text = "P90−P10 %.1f dB".format(spreadDb),
             color = when {
                 spreadDb <= 6f -> Instrument.Good
                 spreadDb <= 12f -> Instrument.Caution
@@ -242,4 +250,12 @@ fun splRampColour(t: Float): Color {
         blue = a.blue + (b.blue - a.blue) * f,
         alpha = 1f
     )
+}
+
+internal fun predictionStateLabel(state: PredictionState): String = when (state) {
+    PredictionState.EMPTY -> "Not calculated"
+    PredictionState.STALE -> "Scene changed — recalculate to update results"
+    PredictionState.RUNNING -> "Calculating…"
+    PredictionState.CURRENT -> "Results up to date"
+    PredictionState.FAILED -> "Calculation failed — recalculate to retry"
 }

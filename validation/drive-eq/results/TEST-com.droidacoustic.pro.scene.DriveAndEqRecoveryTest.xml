@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.DriveAndEqRecoveryTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-26T13:11:41.711Z" hostname="Dzide.local" time="0.086">
+  <properties/>
+  <testcase name="newDefaultAndLegacyMigrationHaveExplicitDifferentDrive" classname="com.droidacoustic.pro.scene.DriveAndEqRecoveryTest" time="0.012"/>
+  <testcase name="legacyEqProjectKeepsOffsetsButUnsetBandsAreNeutral" classname="com.droidacoustic.pro.scene.DriveAndEqRecoveryTest" time="0.01"/>
+  <testcase name="changingDriveInvalidatesResultsAndSupportsUndoRedo" classname="com.droidacoustic.pro.scene.DriveAndEqRecoveryTest" time="0.042"/>
+  <testcase name="bothPoliciesAndSparseEqSurviveDiskReopen" classname="com.droidacoustic.pro.scene.DriveAndEqRecoveryTest" time="0.021"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

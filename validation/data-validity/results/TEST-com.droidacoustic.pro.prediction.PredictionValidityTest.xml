@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.prediction.PredictionValidityTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-26T12:31:14.208Z" hostname="Dzide.local" time="0.002">
+  <properties/>
+  <testcase name="zeroPowerIsAvailableButEmptyRequestsAreUnavailable[jvm]" classname="com.droidacoustic.pro.prediction.PredictionValidityTest" time="0.0"/>
+  <testcase name="unexcitedBandsDoNotCreateMissingDataWarnings[jvm]" classname="com.droidacoustic.pro.prediction.PredictionValidityTest" time="0.001"/>
+  <testcase name="absentAssetIsUnavailableAndFreshBandResultIsAvailable[jvm]" classname="com.droidacoustic.pro.prediction.PredictionValidityTest" time="0.0"/>
+  <testcase name="missingIntegrationCellsNameActualSourceAndDataFrequencies[jvm]" classname="com.droidacoustic.pro.prediction.PredictionValidityTest" time="0.001"/>
+  <testcase name="availableProbesDoNotHideUnavailableOrPartiallyAvailableAudienceArea[jvm]" classname="com.droidacoustic.pro.prediction.PredictionValidityTest" time="0.0"/>
+  <testcase name="directionalMissingDataMakesOnlySomeReceiversAvailable[jvm]" classname="com.droidacoustic.pro.prediction.PredictionValidityTest" time="0.0"/>
+  <testcase name="warningsCannotOutliveTheRevisionOrAffectRetryInstructions[jvm]" classname="com.droidacoustic.pro.prediction.PredictionValidityTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

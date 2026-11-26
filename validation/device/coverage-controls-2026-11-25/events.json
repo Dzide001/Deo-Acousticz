@@ -1,0 +1,25 @@
+[
+  {
+    "check": "initial manual calculation"
+  },
+  {
+    "check": "Band coverage changes with synthetic band sensitivity",
+    "lowHz": 125,
+    "lowMeanDb": 63.2,
+    "highHz": 8000,
+    "highMeanDb": 80.0
+  },
+  {
+    "check": "Broadband hides frequency buttons",
+    "meanDb": 83.6
+  },
+  {
+    "check": "Auto setting survives restart without scene edit"
+  },
+  {
+    "check": "Auto updates after mode and frequency edits"
+  },
+  {
+    "check": "Manual setting survives restart without scene edit"
+  }
+]

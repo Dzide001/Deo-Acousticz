@@ -1,0 +1,26 @@
+{
+  "scope": "SYNTHETIC_SCENE_CAPTURE_NUMERICAL_CHECK_ONLY",
+  "referenceScriptSha256": "cde2b1f922307ce522d68fd38c8b8a44d457554d9b386bf6fabf3d0cd8e98734",
+  "independentEquationScriptSha256": "e63955ebd8a227013dde83665cc220df0bb4f6770f2ddee447f19f2eb5a5a393",
+  "toleranceDb": 1e-05,
+  "samples": [
+    {
+      "id": "r1",
+      "hz": 1000,
+      "x": 10,
+      "y": 1,
+      "z": 0,
+      "levelDb": 79.95309020772672,
+      "levelDbWithSixDbGain": 85.95309020772672
+    },
+    {
+      "id": "r2",
+      "hz": 2000,
+      "x": 20,
+      "y": 1,
+      "z": 0,
+      "levelDb": 73.77986004355971,
+      "levelDbWithSixDbGain": 79.77986004355971
+    }
+  ]
+}

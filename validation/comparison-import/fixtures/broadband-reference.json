@@ -1,0 +1,68 @@
+{
+  "schema": "droidacoustic.comparison-import",
+  "version": 3,
+  "evidence": "MANUFACTURER_SOFTWARE_EXPORT",
+  "synthetic": true,
+  "source": {
+    "producer": "SYNTHETIC TEST FIXTURE — not a vendor export",
+    "version": "fixture-1",
+    "fileName": "synthetic-broadband-reference.csv"
+  },
+  "conditions": {
+    "modelRevision": "synthetic-revision-1",
+    "preset": "synthetic-flat",
+    "geometry": "source 0,0,0; receiver r at 10,1,0; +X axis; Y up",
+    "frequencyConvention": "exact tone Hz",
+    "levelConvention": "BROADBAND_SPL",
+    "atmosphere": "20C/50%/101.325kPa",
+    "ground": "off",
+    "driveUnit": "WATTS",
+    "driveValue": 1
+  },
+  "units": {
+    "frequency": "aggregate",
+    "position": "m",
+    "level": "dB_A"
+  },
+  "toleranceDb": 0.1,
+  "format": "CSV",
+  "delimiter": ",",
+  "columns": {
+    "frequencyHz": "Frequency",
+    "levelDb": "Level"
+  },
+  "receiver": {
+    "id": "r",
+    "xM": 10,
+    "yM": 1,
+    "zM": 0
+  },
+  "payload": "Frequency,Level\r\n0,80\r\n",
+  "sourceSha256": "3c43351d2287a4939179dd001f4632131302949936f3eba4191d4e1f51201ed7",
+  "broadband": {
+    "weighting": "A",
+    "bandwidthOct": 1.0,
+    "bandCentersHz": [
+      63,
+      125,
+      250,
+      500,
+      1000,
+      2000,
+      4000,
+      8000
+    ],
+    "weightingDb": {
+      "63": -26.2,
+      "125": -16.1,
+      "250": -8.6,
+      "500": -3.2,
+      "1000": 0,
+      "2000": 1.2,
+      "4000": 1,
+      "8000": -1.1
+    },
+    "summation": "independent-band-powers",
+    "driveConvention": "fixed-total-drive-per-band; sum-independent-band-powers"
+  }
+}

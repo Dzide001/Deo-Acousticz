@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "batch": "validation-workflow",
+  "date": "2026-11-18",
+  "classification": "synthetic workflow verification; not manufacturer/field accuracy",
+  "tests": 54,
+  "failures": 0,
+  "suites": [
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.ComparisonImportsTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "malformedAmbiguousAndUnsupportedInputsAreRejected[jvm]",
+        "quotedCsvSupportsDelimitersNewlinesBomAndExplicitCoordinateColumns[jvm]",
+        "workspaceMatchesSnapshotsPreservesUnavailableAndBlocksSyntheticOrUncalibratedEvidence[jvm]",
+        "csvAndJsonPreserveMissingLevelsCoordinatesRawPayloadAndIdentity[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.ComparisonValidationTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "residualMetricsPlotsAndOriginalDocumentsAreReproducible[jvm]",
+        "reorderMissingAndExtraSamplesNeverRelaxStrictMatching[jvm]",
+        "sameIdAtDifferentFrequencyCannotProduceResidual[jvm]",
+        "nestedProtocolDifferencesRemainDiagnosticAndEncodingDifferencesAreExplained[jvm]",
+        "unknownMeasurementCalibrationStillBlocksQualificationWithZeroResidual[jvm]",
+        "broadbandAggregatesNeverGenerateLogFrequencyPlots[jvm]",
+        "syntheticAndAbsentDataStayUnqualifiedAndExtremeLevelsStayFinite[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.SpeakerProvenanceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "declaredNormalizationIsAppliedOnceWithoutInferringVoltagePowerConversion[jvm]",
+        "matchingCannotHideOffsetsMissingDataOrMismatchedConditions[jvm]",
+        "metadataPersistsAndChangesAssetIdentityWithoutPromotingTrust[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.acoustics.ValidationWorkflowPackageTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "retainedSyntheticWorkflowReportsRecomputeAfterReopen[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.persistence.ProjectPersistenceTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "absentAssetsRemainPinnedAndUnavailableOnResave[jvm]",
+        "legacyEmbeddedDataMigratesAndUnknownVersionsFailBeforeApply[jvm]",
+        "missingAssetKeepsLatestSceneRatherThanRollingBackGeometry[jvm]",
+        "portableProjectRestoresIdenticalDataWithoutExternalState[jvm]",
+        "newerCheckpointIsNotSilentlyRolledBackToOlderBackup[jvm]",
+        "corruptPrimaryFallsBackWithoutOverwritingLastValidBackup[jvm]",
+        "freshStoreReopensCompactSnapshotAndDeduplicatesAssets[jvm]",
+        "incompletePrimaryDoesNotReplaceCompleteBackupDuringSave[jvm]",
+        "interruptedSnapshotWritePreservesPreviousSceneAndData[jvm]",
+        "hashesAreStableAcrossJsonObjectOrderAndCalibrationIsCovered[jvm]",
+        "futureAssetFormatRemainsUnavailableAndIsPreservedOnResave[jvm]",
+        "assetWriteFailureCannotPublishSnapshot[jvm]",
+        "wrongRevisionAndIdentityNeverResolveByModelName[jvm]",
+        "corruptEmbeddedDataCanRecoverOnlyFromExactExternalAsset[jvm]",
+        "migrationKeysIncludeOlderSchemaSlotsInNewestFirstOrder[jvm]"
+      ]
+    },
+    {
+      "platform": "shared",
+      "name": "com.droidacoustic.pro.validation.NumericalValidationPackageTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "sharedEngineMatchesIndependentReferencesAndRefinementConverges[jvm]",
+        "fixturesMatchRetainedReferencesAndQuadratureConverges[jvm]"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.ComparisonImportIntegrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "sceneChangesLeaveImportedSnapshotIdentityUnchangedAndClearIsUndoable",
+        "importsSurviveUndoRedoDiskSaveAndFreshReopen",
+        "rejectedImportsAndTamperedProjectsAreAtomicAndLegacyScenesClearSnapshots"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.EngineComparisonCaptureTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "explicitTotalDriveSpectrumIsIndependentOfReferenceAndSurvivesUndoAndReopen",
+        "relativeCapturePersistsNormalizationDiagnosticsAndRejectsStaleChanges",
+        "frozenRequestsAndLateCapturesCannotOverwriteSceneEditsOrNewerCaptures",
+        "captureDerivesSceneProtocolAndSurvivesUndoRedoAndDiskReopen",
+        "missingDataStaysUnavailableAndQueuedCaptureIsCancelledByEdits",
+        "broadbandCaptureUsesSceneWeightingAndPersistsRawBandsThroughReopen",
+        "relativeBroadbandCaptureKeepsBasisDiagnosticsAndSurvivesDiskRecovery"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.ProjectRecoveryTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "tamperedEmbeddedAssetIsNotReplacedByPreviousRegistry",
+        "malformedLoadLeavesSceneDataAndHistoryUnchanged",
+        "missingDiskAssetPreservesSceneAndReportsUnavailable",
+        "undoAndRedoRetainExactMeasuredRevisions",
+        "diskCorruptionUsesPreviousCheckpoint",
+        "diskSaveAndFreshReopenRecoverCalibrationAndPrediction"
+      ]
+    },
+    {
+      "platform": "android",
+      "name": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "cases": [
+        "the document converges after one round trip",
+        "the SPL colour scale survives",
+        "a populated scene survives export and import",
+        "malformed JSON is rejected rather than half-applied",
+        "speaker positions survive exactly",
+        "an empty scene round trips without inventing content"
+      ]
+    }
+  ],
+  "androidDebugBuild": "PASSED",
+  "iosSimulatorSharedTestCompilation": "PASSED",
+  "onDeviceAcceptance": "NOT_RUN",
+  "independentPythonReportChecks": "PASSED: residuals, RMS, bias, tolerance, hashes and synthetic qualification",
+  "reportsSha256": "49e9abb561b48335118f0d7e90220bd18232fae4aa8f538e7702ca1377750565"
+}

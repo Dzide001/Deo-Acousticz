@@ -1,0 +1,49 @@
+{
+    "scope": "SYNTHETIC_IMPORT_AND_RESTORE_TESTS_ONLY",
+    "cases": [
+        {
+            "case": "manufacturer",
+            "sampleCount": 2,
+            "sourcePayloadSha256": "216589c193ac166a83e91ed9726528b80c78aac9cbe0e28bc6bb2d5029b86490",
+            "referenceDocumentSha256": "25ce9ae221ab8af7556cf7a4b34ef0b4c90a1457f30b769e1156e3e74e1230b1",
+            "report": {
+                "comparison": {
+                    "status": "NOT_COMPARABLE",
+                    "reasons": [
+                        "Synthetic fixture; cannot qualify an external comparison",
+                        "Synthetic fixture; cannot qualify an external comparison"
+                    ]
+                },
+                "snapshotNotice": "Frozen reference/engine snapshots; independent origin and conditions are declared, not authenticated. Current scene edits do not update these results.",
+                "synthetic": true,
+                "referenceDocumentSha256": "25ce9ae221ab8af7556cf7a4b34ef0b4c90a1457f30b769e1156e3e74e1230b1",
+                "referenceProducer": "SYNTHETIC TEST FIXTURE — not a vendor export",
+                "engineDocumentSha256": "2e03352ec4321c552250c608caf264bed5e9edb54701ce2e6e4f88f62522037d",
+                "engineProducer": "SYNTHETIC TEST FIXTURE — not a vendor export"
+            },
+            "testPassed": true
+        },
+        {
+            "case": "measurement",
+            "sampleCount": 2,
+            "sourcePayloadSha256": "216589c193ac166a83e91ed9726528b80c78aac9cbe0e28bc6bb2d5029b86490",
+            "referenceDocumentSha256": "04db469c0ff79d7c31c25150f672704a253b7d1ffeb730c1507b6291a51d4a26",
+            "report": {
+                "comparison": {
+                    "status": "NOT_COMPARABLE",
+                    "reasons": [
+                        "Synthetic fixture; cannot qualify an external comparison",
+                        "Synthetic fixture; cannot qualify an external comparison"
+                    ]
+                },
+                "snapshotNotice": "Frozen reference/engine snapshots; independent origin and conditions are declared, not authenticated. Current scene edits do not update these results.",
+                "synthetic": true,
+                "referenceDocumentSha256": "04db469c0ff79d7c31c25150f672704a253b7d1ffeb730c1507b6291a51d4a26",
+                "referenceProducer": "SYNTHETIC TEST FIXTURE — not a vendor export",
+                "engineDocumentSha256": "2e03352ec4321c552250c608caf264bed5e9edb54701ce2e6e4f88f62522037d",
+                "engineProducer": "SYNTHETIC TEST FIXTURE — not a vendor export"
+            },
+            "testPassed": true
+        }
+    ]
+}

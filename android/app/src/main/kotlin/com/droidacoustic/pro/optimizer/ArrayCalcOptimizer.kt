@@ -3,6 +3,7 @@ package com.droidacoustic.pro.optimizer
 import com.droidacoustic.pro.scene.PlacedSpeaker
 import com.droidacoustic.pro.scene.ListenerPos
 import com.droidacoustic.pro.scene.AudiencePoint
+import com.droidacoustic.pro.scene.sharedSurface
 import com.droidacoustic.pro.scene.AudienceArea
 import kotlin.math.abs
 import kotlin.math.min
@@ -298,7 +299,16 @@ object CoverageGridBuilder {
         // Add grid points within areas
         for (area in areas) {
             if (area.vertices.isEmpty()) continue
+            val surface=area.sharedSurface()
+            if (!surface.isAudience) continue
 
+            if (area.importedMesh!=null) {
+                val mesh=com.droidacoustic.pro.geometry.CoveragePlan(listOf(surface),emptyList(),28f,28f,gridSpacingM).prepare()
+                mesh.receivers().filter { surface.containsAudiencePoint(it.x,it.z) }.forEach {
+                    grid.add(CoveragePoint(it.x,it.z,it.y,weight=1f))
+                }
+                continue
+            }
             val bbox = computeBoundingBox(area.vertices)
             val (minX, minZ, maxX, maxZ) = bbox
 
@@ -310,8 +320,8 @@ object CoverageGridBuilder {
                     val x = minX + col * gridSpacingM
                     val z = minZ + row * gridSpacingM
 
-                    if (pointInPolygon(x, z, area.vertices)) {
-                        grid.add(CoveragePoint(x, z, area.baseHeightM, weight = 1f))
+                    if (surface.containsAudiencePoint(x,z)) {
+                        grid.add(CoveragePoint(x, z, surface.receiverY(x,z), weight = 1f))
                     }
                 }
             }
@@ -336,25 +346,7 @@ object CoverageGridBuilder {
         return Quadruple(minX, minZ, maxX, maxZ)
     }
 
-    /**
-     * Point-in-polygon test (ray casting algorithm).
-     */
-    private fun pointInPolygon(x: Float, z: Float, polygon: List<Pair<Float, Float>>): Boolean {
-        var inside = false
-        var j = polygon.size - 1
-        for (i in polygon.indices) {
-            val xi = polygon[i].first
-            val zi = polygon[i].second
-            val xj = polygon[j].first
-            val zj = polygon[j].second
 
-            if ((zi > z) != (zj > z) && x < (xj - xi) * (z - zi) / (zj - zi) + xi) {
-                inside = !inside
-            }
-            j = i
-        }
-        return inside
-    }
 }
 
 /**

@@ -1,5 +1,6 @@
 package com.droidacoustic.pro.ui
 
+import com.droidacoustic.pro.geometry.PreparedAudienceGeometry
 import com.droidacoustic.pro.scene.HeatCell
 import com.droidacoustic.pro.ui.theme.Instrument
 import java.nio.ByteBuffer
@@ -13,8 +14,8 @@ import kotlin.math.roundToInt
 import kotlin.math.sin
 
 /**
- * Builds a GLB containing smooth directional contour blobs for SPL heatmap cells.
- * One cell = triangle fan rendered as TRIANGLES.
+ * Builds an unlit coverage GLB from the shared solver mesh.
+ * Legacy callers without topology retain lattice/blob rendering.
  */
 object HeatmapGlb {
 
@@ -35,8 +36,8 @@ object HeatmapGlb {
      * rather than derived from the cells so the mesh and the legend agree, and so
      * an absolute scale can be held steady across separate calculations.
      *
-     * Samples that sit on a regular lattice - which is how both the default floor
-     * grid and the zone grids are generated - are drawn as one continuous surface,
+     * When supplied, geometry defines exact clipped surface triangles and separate layers.
+     * Legacy samples that sit on a regular lattice are drawn as one continuous surface,
      * letting the GPU interpolate colour across each quad. That is what makes the
      * field read as a smooth gradient rather than a raft of overlapping ovals.
      * Anything that is not a lattice falls back to the original blob renderer.
@@ -53,7 +54,8 @@ object HeatmapGlb {
         minDb: Float,
         maxDb: Float,
         bandStepDb: Float? = null,
-        bandReferenceDb: Float? = null
+        bandReferenceDb: Float? = null,
+        geometry: PreparedAudienceGeometry? = null
     ): ByteArray? {
         if (cells.isEmpty()) return null
         val shaped = if (bandStepDb != null && bandStepDb > 0f && bandReferenceDb != null) {
@@ -64,7 +66,38 @@ object HeatmapGlb {
         } else {
             cells
         }
+        if (geometry != null) return buildSurface(shaped, minDb, maxDb, geometry)
         return buildField(shaped, minDb, maxDb) ?: buildBlobs(shaped, minDb, maxDb)
+    }
+
+    /** Use the solver's clipped topology; never join coincident floor/balcony vertices. */
+    private fun buildSurface(cells: List<HeatCell>, minDb: Float, maxDb: Float,
+        geometry: PreparedAudienceGeometry): ByteArray? {
+        val byIndex = cells.filter { it.sampleIndex != null && it.splDb.isFinite() }.associateBy { it.sampleIndex!! }
+        val vertices = mutableListOf<HeatCell>()
+        val attached = mutableSetOf<Int>()
+        for (face in geometry.triangles()) {
+            val indices = listOf(face.a,face.b,face.c)
+            attached.addAll(indices)
+            val triangle = indices.mapNotNull { byIndex[it] }
+            if (triangle.size == 3) vertices.addAll(triangle)
+        }
+        // Independent probes are small markers, not interpolated parts of an audience surface.
+        byIndex.filterKeys { it !in attached }.values.forEach { c ->
+            val a=c.copy(x=c.x-0.12f,z=c.z-0.12f); val b=c.copy(x=c.x+0.12f,z=c.z-0.12f)
+            val d=c.copy(x=c.x-0.12f,z=c.z+0.12f); val e=c.copy(x=c.x+0.12f,z=c.z+0.12f)
+            vertices.addAll(listOf(a,b,e,a,e,d))
+        }
+        if (vertices.isEmpty()) return null
+        val positions = FloatArray(vertices.size*3)
+        val colors = FloatArray(vertices.size*4)
+        val span = (maxDb-minDb).coerceAtLeast(0.1f)
+        vertices.forEachIndexed { i,c ->
+            positions[i*3]=c.x; positions[i*3+1]=c.renderY+0.03f; positions[i*3+2]=c.z
+            val (r,g,b)=heatRgb(((c.splDb-minDb)/span).coerceIn(0f,1f))
+            colors[i*4]=r; colors[i*4+1]=g; colors[i*4+2]=b; colors[i*4+3]=FIELD_ALPHA
+        }
+        return assembleGlb(positions,colors,vertices.size)
     }
 
     /**

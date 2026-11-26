@@ -269,7 +269,7 @@ class ClfTabImportTest {
 
     @Test
     fun `a TAB document imports and registers real directivity`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         assertTrue("import should succeed", v.importClfTabText(doc()))
         val id = v.selectedPresetId.value
         assertTrue("CLF data should be registered for $id", v.hasParsedClfData(id))
@@ -281,21 +281,21 @@ class ClfTabImportTest {
     fun `importClfText routes a TAB document to the TAB reader`() {
         // The older key=value sketch would have silently produced a preset with
         // no directivity at all, which is the failure mode worth preventing.
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         assertTrue(v.importClfText(doc()))
         assertTrue(v.hasParsedClfData(v.selectedPresetId.value))
     }
 
     @Test
     fun `the legacy key-value sketch still works for non-TAB text`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         assertTrue(v.importClfText("modelname = Simple Box\nsensitivity = 101"))
         assertTrue(v.speakerPresets.value.any { it.name == "Simple Box" })
     }
 
     @Test
     fun `a rejected file reports why and registers nothing`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         val before = v.speakerPresets.value.size
         assertFalse(v.importClfTabText("<CLF2>\n<MODELNAME>\tBroken\n<BAND>\t1000\n0.0\t-1.0"))
         assertNotNull("the user needs to know what was wrong", v.lastImportError.value)
@@ -304,7 +304,7 @@ class ClfTabImportTest {
 
     @Test
     fun `a CF2 binary handed to the text importer fails cleanly`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         assertFalse(v.importClfTabText(String(byteArrayOf(0x41, 0xBD.toByte(), 0x0A, 0x00))))
         assertNotNull(v.lastImportError.value)
     }

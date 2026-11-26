@@ -24,7 +24,7 @@ class SceneJsonRoundTripTest {
     @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
     @After fun tearDown() = Dispatchers.resetMain()
 
-    private fun populated() = SceneViewModel().apply {
+    private fun populated() = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply {
         addSpeaker(3f, -4f)
         addSpeaker(-6f, 8f)
         setVenueSize(30f, 22f)
@@ -41,7 +41,7 @@ class SceneJsonRoundTripTest {
         val original = populated()
         val json = original.exportSceneJson(includeClfRegistry = false)
 
-        val restored = SceneViewModel()
+        val restored = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         assertTrue("import rejected the JSON we just exported", restored.importSceneJson(json))
 
         assertEquals(2, restored.speakers.value.size)
@@ -54,7 +54,7 @@ class SceneJsonRoundTripTest {
     @Test
     fun `speaker positions survive exactly`() {
         val original = populated()
-        val restored = SceneViewModel()
+        val restored = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         restored.importSceneJson(original.exportSceneJson(includeClfRegistry = false))
 
         val before = original.speakers.value.map { it.x to it.z }.sortedBy { it.first }
@@ -67,7 +67,7 @@ class SceneJsonRoundTripTest {
         // This is what made the scale silently reset to Auto on every restart
         // until the settings were added to the autosave key.
         val original = populated()
-        val restored = SceneViewModel()
+        val restored = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         restored.importSceneJson(original.exportSceneJson(includeClfRegistry = false))
 
         assertEquals(SceneViewModel.SPL_SCALE_TARGET, restored.splScaleMode.value)
@@ -84,9 +84,9 @@ class SceneJsonRoundTripTest {
         // reproduces it exactly. Anything else means values drift on every save.
         val first = populated().exportSceneJson(includeClfRegistry = false)
 
-        val second = SceneViewModel().apply { importSceneJson(first) }
+        val second = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply { importSceneJson(first) }
             .exportSceneJson(includeClfRegistry = false)
-        val third = SceneViewModel().apply { importSceneJson(second) }
+        val third = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply { importSceneJson(second) }
             .exportSceneJson(includeClfRegistry = false)
 
         assertEquals("scene JSON does not converge; values drift on every save", second, third)
@@ -94,9 +94,9 @@ class SceneJsonRoundTripTest {
 
     @Test
     fun `an empty scene round trips without inventing content`() {
-        val empty = SceneViewModel()
+        val empty = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         val json = empty.exportSceneJson(includeClfRegistry = false)
-        val restored = SceneViewModel()
+        val restored = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         assertTrue(restored.importSceneJson(json))
         assertTrue(restored.speakers.value.isEmpty())
         assertTrue(restored.audienceAreas.value.isEmpty())

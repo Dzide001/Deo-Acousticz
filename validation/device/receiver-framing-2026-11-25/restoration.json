@@ -1,0 +1,8 @@
+{
+  "restoration": "byte-for-byte verified before launch",
+  "files": 9,
+  "extraFiles": 0,
+  "originalArchiveSha256": "99cada36db2aa950da171b987ec4f0e6002f318c46286037cbab3ba34800a3f2",
+  "reopenedOriginalFields": "identical except schema version upgrade",
+  "reopenedOriginalAssets": "identical"
+}

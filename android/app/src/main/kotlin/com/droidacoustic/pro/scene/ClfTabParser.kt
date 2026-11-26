@@ -106,9 +106,12 @@ object ClfTabParser {
         val description: String,
         val resolutionDeg: Int,
         val sensitivityDb: Float?,
+        /** On-axis level at 1 m per band, from the file's own sensitivity row. */
+        val sensitivityByBand: Map<Int, Float> = emptyMap(),
         val maxInputW: Float?,
         val bands: List<Band>,
-        val tags: Map<String, List<String>>
+        val tags: Map<String, List<String>>,
+        val sourceSha256: String? = null
     ) {
         fun bandNearest(frequencyHz: Int): Band? =
             bands.minByOrNull { abs(it.frequencyHz - frequencyHz) }
@@ -182,6 +185,19 @@ object ClfTabParser {
             Band(hz, orderArcs(full, reversedArcs), resolution)
         }
 
+        // <SENSITIVITY> lists one value per band the file carries, in order.
+        // <AXIAL-SPECTRUM> lists every slot of the table and is the fallback.
+        val table = if (fmt == "<CLF2>") THIRD_OCTAVE_HZ else OCTAVE_HZ
+        val rowed = tags["<SENSITIVITY>"]?.mapNotNull { it.toFloatOrNull() }.orEmpty()
+        val axial = tags["<AXIAL-SPECTRUM>"]?.mapNotNull { it.toFloatOrNull() }.orEmpty()
+        val sensitivityByBand: Map<Int, Float> = when {
+            rowed.size == bands.size ->
+                bands.map { it.frequencyHz }.zip(rowed).toMap()
+            axial.size == table.size ->
+                table.zip(axial).toMap().filterKeys { hz -> bands.any { it.frequencyHz == hz } }
+            else -> emptyMap()
+        }.filterValues { it.isFinite() && it in 30f..150f }
+
         return Speaker(
             speakerId = speakerId.ifBlank { slug(tags.value("<MODELNAME>") ?: "clf_import") },
             manufacturer = tags.value("<MANUFACTURER>").orEmpty(),
@@ -190,9 +206,11 @@ object ClfTabParser {
             resolutionDeg = resolution,
             sensitivityDb = tags["<SENSITIVITY>"]?.mapNotNull { it.toFloatOrNull() }
                 ?.takeIf { it.isNotEmpty() }?.average()?.toFloat(),
+            sensitivityByBand = sensitivityByBand,
             maxInputW = tags["<TOTMAXINPUT>"]?.firstNotNullOfOrNull { it.toFloatOrNull() },
             bands = bands,
-            tags = tags
+            tags = tags,
+            sourceSha256 = com.droidacoustic.pro.acoustics.SpeakerProvenance.hash(text.encodeToByteArray())
         )
     }
 
@@ -320,7 +338,25 @@ object ClfTabParser {
             speakerId = speaker.speakerId,
             manufacturerName = speaker.manufacturer,
             modelName = speaker.model,
-            patterns = patterns
+            patterns = patterns,
+            sensitivityDbByBand = speaker.sensitivityByBand,
+            measurementGrid = if (speaker.resolutionDeg == 10)
+                com.droidacoustic.pro.acoustics.MeasurementGrid.OCTAVE
+                else com.droidacoustic.pro.acoustics.MeasurementGrid.THIRD_OCTAVE,
+            // The sensitivity row is carried at its existing 1 m reference. Raw
+            // measurement distance/input voltage must not be applied again without
+            // a verified contract for the exporter and normalization of this row.
+            calibration = com.droidacoustic.pro.acoustics.SpeakerDataChecks.declaredClfCalibration(
+                speaker.tags["<SENSITIVITY-INFO>"]?.joinToString(" ").orEmpty()),
+            provenance = com.droidacoustic.pro.acoustics.SpeakerProvenance(
+                origin = com.droidacoustic.pro.acoustics.SpeakerDataOrigin.USER_SUPPLIED,
+                sourceName = speaker.model,
+                sourceUrl = speaker.tags["<WEB-SITE>"]?.firstOrNull().orEmpty(),
+                sourceSha256 = speaker.sourceSha256,
+                importer = "clf-subset-v1:" + (speaker.tags["<FORMAT>"]?.firstOrNull() ?: "TAB"),
+                normalizationNotes = speaker.tags["<SENSITIVITY-INFO>"]?.joinToString(" ")
+                    ?: if(speaker.tags["<FORMAT>"]?.firstOrNull() in listOf("CF1","CF2"))
+                        "Binary axial-spectrum row; electrical normalization not decoded" else "")
         )
     }
 

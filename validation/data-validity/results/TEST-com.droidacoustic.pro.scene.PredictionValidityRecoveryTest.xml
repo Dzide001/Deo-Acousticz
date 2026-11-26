@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.PredictionValidityRecoveryTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-26T12:27:20.657Z" hostname="Dzide.local" time="0.127">
+  <properties/>
+  <testcase name="listenerAvailabilityIsUsedWhenCoverageIsDisabled" classname="com.droidacoustic.pro.scene.PredictionValidityRecoveryTest" time="0.024"/>
+  <testcase name="availablePartialAndUnavailableAreRecomputedOnDiskReopen" classname="com.droidacoustic.pro.scene.PredictionValidityRecoveryTest" time="0.069"/>
+  <testcase name="missingAssetIsUnavailableAndWarningsClearOnEditAndRecovery" classname="com.droidacoustic.pro.scene.PredictionValidityRecoveryTest" time="0.034"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

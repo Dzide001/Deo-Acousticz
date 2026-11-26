@@ -1,0 +1,49 @@
+{
+  "schema": "droidacoustic.comparison-import",
+  "version": 2,
+  "evidence": "MANUFACTURER_SOFTWARE_EXPORT",
+  "synthetic": true,
+  "source": {
+    "producer": "SYNTHETIC TEST FIXTURE — not a vendor export",
+    "version": "fixture-1",
+    "fileName": "synthetic-relative-reference.csv"
+  },
+  "conditions": {
+    "modelRevision": "synthetic-revision-1",
+    "preset": "synthetic-flat",
+    "geometry": "source 0,0,0; receiver r at 10,1,0; +X axis; Y up",
+    "frequencyConvention": "exact tone Hz",
+    "levelConvention": "RELATIVE_TO_REFERENCE",
+    "atmosphere": "20C/50%/101.325kPa",
+    "ground": "off",
+    "driveUnit": "WATTS",
+    "driveValue": 1
+  },
+  "units": {
+    "frequency": "Hz",
+    "position": "m",
+    "level": "dB_relative"
+  },
+  "toleranceDb": 0.1,
+  "format": "CSV",
+  "delimiter": ",",
+  "columns": {
+    "frequencyHz": "Frequency",
+    "levelDb": "Level"
+  },
+  "receiver": {
+    "id": "r",
+    "xM": 10,
+    "yM": 1,
+    "zM": 0
+  },
+  "payload": "Frequency,Level\r\n1000,0\r\n2000,0\r\n",
+  "sourceSha256": "61e414d4b3b6f522aedb774650700d4a60f78b4bf7b95195fab7a7091ddc3c55",
+  "normalization": {
+    "method": "per-frequency-level-difference",
+    "xM": 10,
+    "yM": 1,
+    "zM": 0,
+    "minimumReferenceLevelDb": -120
+  }
+}

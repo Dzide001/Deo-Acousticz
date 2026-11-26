@@ -1,8 +1,15 @@
 # CLF reader tooling — access request
 
-Phase 2 (real measured directivity) is blocked on this. The CLF Group states
-that the binary format definition is freely available and that creation/reading
-tools are provided on request: <http://www.clfgroup.org/faq.htm>.
+**Planning update, 2026-11-12:** this is an unsent historical request draft.
+TAB import and experimental CF1/CF2 readers now exist, so this request does not
+block all measured-directivity work. It remains useful for authoritative format
+support and unresolved variants. See the current
+[implementation plan](implementation_plan.md) for data and validation gates.
+
+The [CLF FAQ](https://www.clfgroup.org/faq.htm) describes the format resolutions
+and optional CLF2 v2 phase, filter and multipart data. Confirm current access
+arrangements directly; the old statements about freely available specifications
+and reader tooling should not be treated as a verified current offer.
 
 **Status: not yet sent.** Draft below for you to send — I have not contacted
 anyone on your behalf.
@@ -12,7 +19,9 @@ current site; historically `info@clfgroup.org`).
 
 ---
 
-## Draft
+## Historical draft
+
+Update the description of the existing readers before sending this draft.
 
 > Subject: Request for CLF reader tooling / CF1–CF2 format definition
 >
@@ -55,21 +64,22 @@ These all affect the design, and guessing at them is how projects end up
 shipping something they have to tear out later:
 
 1. **`<BALLOON-SYMMETRY>`** — how are quarter/half symmetric balloons stored?
-   This is the most likely reason ~480 of the 679 bundled files do not decode
-   with what has been worked out so far.
+   Confirm the representation of every supported symmetry and arc-order variant;
+   the early corpus failure counts are superseded by later decoding work.
 2. **Balloon offset** — is it computed from the metadata layout, or is there a
    directory structure that was missed? No header field holds it.
 3. **Multipart files, phase data, filter blocks** — CLF2 v2 features, entirely
    unexplored here.
-4. **Redistribution** — may decoded directivity be bundled inside an application,
-   and in a converted/compressed form? This decides whether the 430 MB corpus
-   can be pre-converted to something shippable, which it has to be either way:
-   the debug APK is currently 317 MB against Google Play's 150 MB base limit.
+4. **Redistribution** — what permissions apply to bundling original or converted
+   measurements, including portable user project packages? The development
+   corpus has already been removed from app assets; the old APK size concern
+   is historical, not a reason to bundle it again.
 5. **Attribution** — what credit do the manufacturer and the measuring party
    require in-app?
 
 ## If they decline or do not reply
 
-The reverse-engineering in `docs/clf_format_notes.md` is verified against
-published ground truth and would be enough to proceed, with the symmetry and
-offset questions still to solve. That is a fallback, not the plan of record.
+Continue with documented TAB support and the explicitly tested subset of binary
+files. One matching TAB/binary pair does not validate every manufacturer or
+optional feature. Preserve unresolved capability flags and reject unsupported
+variants rather than labeling a guessed model as measured data.

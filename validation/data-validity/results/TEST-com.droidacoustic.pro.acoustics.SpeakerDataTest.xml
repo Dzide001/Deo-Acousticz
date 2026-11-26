@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.acoustics.SpeakerDataTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-11-26T12:31:11.041Z" hostname="Dzide.local" time="0.004">
+  <properties/>
+  <testcase name="missingSensitivityAndDirectivityRemainDistinctFromZero[jvm]" classname="com.droidacoustic.pro.acoustics.SpeakerDataTest" time="0.0"/>
+  <testcase name="voltageAndPowerReferencesHaveDifferentScaling[jvm]" classname="com.droidacoustic.pro.acoustics.SpeakerDataTest" time="0.0"/>
+  <testcase name="incompleteSourceInvalidatesTotalIncludingMixedBandsAndFloor[jvm]" classname="com.droidacoustic.pro.acoustics.SpeakerDataTest" time="0.001"/>
+  <testcase name="trueCancellationHasPowerButMissingDataDoesNot[jvm]" classname="com.droidacoustic.pro.acoustics.SpeakerDataTest" time="0.0"/>
+  <testcase name="interpolationIsLogFrequencyWithinDeclaredAdjacentBands[jvm]" classname="com.droidacoustic.pro.acoustics.SpeakerDataTest" time="0.0"/>
+  <testcase name="invalidCalibrationIsRejected[jvm]" classname="com.droidacoustic.pro.acoustics.SpeakerDataTest" time="0.001"/>
+  <testcase name="fullyAbsorbedImageDoesNotRequireUnmeasuredDepartureDirection[jvm]" classname="com.droidacoustic.pro.acoustics.SpeakerDataTest" time="0.001"/>
+  <testcase name="holesAreNotInterpolatedOrFilledWithGenericLevels[jvm]" classname="com.droidacoustic.pro.acoustics.SpeakerDataTest" time="0.0"/>
+  <testcase name="angularGridWrapsAndRejectsMalformedOrUnmeasuredDirections[jvm]" classname="com.droidacoustic.pro.acoustics.SpeakerDataTest" time="0.0"/>
+  <testcase name="referenceDistanceNormalizesOnce[jvm]" classname="com.droidacoustic.pro.acoustics.SpeakerDataTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

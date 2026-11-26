@@ -1,5 +1,22 @@
 # CLF CF1/CF2 container — reverse-engineering notes
 
+**Review update, 2026-11-12:** the decoding results below are historical corpus
+research, not a general CF1/CF2 conformance claim. The current project still needs
+reference-drive calibration, persistent imported assets, and integration of its
+per-band response work. See the [project review](project_review.md) and
+[implementation plan](implementation_plan.md). The reader capability is a tested
+subset; optional phase/filter/multipart support and unresolved variants remain
+separate work.
+
+**Calibration/provenance update, 2026-11-17:** see the retained
+[speaker-data validation package](../validation/speaker-data/README.md). The official XD12 TAB/CF2
+pair is hash-matched. TAB sensitivity and CF2 axial spectrum are **different reference rows**, with
+up to 1.1 dB difference in this pair. The reader's binary row is not independently established as an
+absolute electrical normalization contract. A narrowly recognized explicit text normalization may
+be labelled file-declared 1 W/1 m; raw measurement distance is not applied again. Neither decoded
+origin nor a manufacturer label implies verified calibration. Historical descriptions below are
+format research, not certification of absolute acoustic output or manufacturer-software accuracy.
+
 Status: **implemented.** `ClfCf2Reader` reads CF2 and decodes all 669 CF2 files
 in the corpus. The SDK request in `docs/clf_sdk_request.md` was never sent and is
 no longer blocking; it remains worth doing if the format is to be relied on
@@ -204,14 +221,16 @@ against Google Play's 150 MB base limit. It has been moved to `corpus/clf/`,
 outside the Android module, as a development and test fixture. The debug APK is
 now 62 MB. All 714 files were verified against `inventory.json` after the move.
 
-This also settles the licensing question that the binary format raised. The app
-no longer redistributes anyone's measurement data. Users supply their own files,
-which is how every other tool in this category works.
+Keeping the corpus outside app assets avoids bundling those measurements with
+the app. It does not by itself establish permissions for future libraries or
+portable project packages. Record provenance, attribution and sharing permissions
+for each imported dataset; keep user-supplied data separate from app assets.
 
 ## The supported route: TAB, not CF2
 
-`ClfTabParser` reads the **published** TAB text format. Nothing in that path is
-reverse engineered and there is nothing to license. It is wired into
+`ClfTabParser` reads the **published** TAB text format. That documented route
+avoids relying on inferred binary layout; the measurements themselves still
+need provenance and appropriate permissions. It is wired into
 `SceneViewModel.importClfText`, which now detects a `<CLF…>` header and routes
 to the TAB reader instead of the old `key=value` sketch.
 

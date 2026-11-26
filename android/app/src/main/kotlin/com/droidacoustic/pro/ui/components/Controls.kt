@@ -5,6 +5,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.ime
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,7 +79,7 @@ private val TouchMin = 40.dp
 /**
  * A typed numeric field with a unit suffix.
  *
- * Commits on Done or on focus loss; reverts to [value] if the text will not
+ * Commits on Apply, Done, keyboard dismissal or focus loss; reverts to [value] if the text will not
  * parse, so a half-typed entry can never write a garbage value into the scene.
  * Horizontal drag adjusts by [dragStep] per 12dp travelled.
  */
@@ -89,16 +98,33 @@ fun NumericField(
     val focus = LocalFocusManager.current
     val fmt = remember(decimals) { "%.${decimals}f" }
 
-    var text by remember(value) { mutableStateOf(String.format(fmt, value)) }
+    var text by remember(value, decimals) { mutableStateOf(String.format(fmt, value)) }
+    var dirty by remember(value) { mutableStateOf(false) }
     var focused by remember { mutableStateOf(false) }
+    val currentValue by rememberUpdatedState(value)
+    val currentChange by rememberUpdatedState(onValueChange)
 
     fun commit() {
-        val parsed = text.trim().replace(',', '.').toFloatOrNull()
-        if (parsed != null) {
-            onValueChange(parsed.coerceIn(range.start, range.endInclusive))
-        } else {
-            text = String.format(fmt, value)
+        if (!dirty) return
+        dirty = false
+        val parsed = text.trim().replace(',', '.').toFloatOrNull()?.takeIf { it.isFinite() }
+        val next = parsed?.coerceIn(range.start, range.endInclusive) ?: currentValue
+        text = String.format(fmt, next)
+        if (next != currentValue) currentChange(next)
+    }
+
+    // Back/keyboard dismissal does not necessarily remove a BasicTextField's focus.
+    val keyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+    var keyboardWasVisible by remember { mutableStateOf(false) }
+    LaunchedEffect(keyboardVisible, focused) {
+        if (focused && keyboardWasVisible && !keyboardVisible) {
+            commit()
+            focus.clearFocus()
         }
+        keyboardWasVisible = focused && keyboardVisible
+    }
+    LaunchedEffect(value, focused, decimals) {
+        if (!focused) { text = String.format(fmt, value); dirty = false }
     }
 
     Column(modifier = modifier) {
@@ -127,7 +153,7 @@ fun NumericField(
                     FieldShape
                 )
                 .then(
-                    if (enabled) Modifier.pointerInput(value, dragStep) {
+                    if (enabled && !focused) Modifier.pointerInput(dragStep, range) {
                         var acc = 0f
                         detectHorizontalDragGestures(
                             onDragEnd = { acc = 0f }
@@ -137,9 +163,9 @@ fun NumericField(
                             val steps = (acc / 12f).toInt()
                             if (steps != 0) {
                                 acc -= steps * 12f
-                                val next = (value + steps * dragStep)
+                                val next = (currentValue + steps * dragStep)
                                     .coerceIn(range.start, range.endInclusive)
-                                onValueChange(next)
+                                currentChange(next)
                             }
                         }
                     } else Modifier
@@ -148,7 +174,7 @@ fun NumericField(
         ) {
             BasicTextField(
                 value = text,
-                onValueChange = { text = it },
+                onValueChange = { text = it; dirty = true },
                 enabled = enabled,
                 singleLine = true,
                 textStyle = MaterialTheme.typography.labelLarge.copy(
@@ -157,7 +183,7 @@ fun NumericField(
                 ),
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(onDone = {
@@ -171,6 +197,11 @@ fun NumericField(
                         focused = st.isFocused
                     }
             )
+            if (focused && dirty) {
+                IconButton(onClick = { commit(); focus.clearFocus() }) {
+                    Icon(Icons.Default.Check, contentDescription = "Apply $label")
+                }
+            }
             if (unit.isNotEmpty()) {
                 Text(
                     unit,

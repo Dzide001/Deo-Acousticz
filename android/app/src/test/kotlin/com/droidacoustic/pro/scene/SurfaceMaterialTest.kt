@@ -99,7 +99,7 @@ class SurfaceMaterialTest {
 
     @Test
     fun `RT60 now varies with frequency, which is the point of all this`() {
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         val carpeted = RoomMaterials(
             floor = SurfaceMaterial.CARPET,
             ceiling = SurfaceMaterial.ACOUSTIC_TILE,
@@ -113,7 +113,7 @@ class SurfaceMaterialTest {
 
     @Test
     fun `a hard room rings longer than a soft one at every band`() {
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         val hard = RoomMaterials(SurfaceMaterial.CONCRETE, SurfaceMaterial.CONCRETE, SurfaceMaterial.BRICK)
         val soft = RoomMaterials(SurfaceMaterial.CARPET, SurfaceMaterial.ACOUSTIC_PANEL, SurfaceMaterial.CURTAIN)
         SceneViewModel.SUPPORTED_BANDS_HZ.forEach { band ->
@@ -136,7 +136,7 @@ class SurfaceMaterialTest {
         // good reason: over a 10 m run the geometry cannot produce enough excess
         // path to reach a null at 125 Hz at all, so the sweep was comparing a
         // null against a non-null rather than two reflection strengths.
-        val v = track(SceneViewModel()).apply { setTemperatureC(20f) }
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main)).apply { setTemperatureC(20f) }
         v.setSurfaceMaterial("FLOOR", SurfaceMaterial.ACOUSTIC_PANEL.id)
         fun inPhaseBoost(band: Int) =
             v.floorBoundaryInterferenceDb(0f, 0f, 0f, 0f, 0f, 10f, band)
@@ -154,7 +154,7 @@ class SurfaceMaterialTest {
 
     @Test
     fun `a reflection off carpet loses more at the top than at the bottom`() {
-        val v = track(SceneViewModel()).apply {
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main)).apply {
             setVenueSize(30f, 30f)
             moveListener(10f, 0f)
             addSpeaker(0f, 0f)
@@ -176,11 +176,11 @@ class SurfaceMaterialTest {
 
     @Test
     fun `materials survive a scene round trip`() {
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         v.setSurfaceMaterial("FLOOR", SurfaceMaterial.WOOD_FLOOR.id)
         v.setSurfaceMaterial("CEILING", SurfaceMaterial.OPEN_TRUSS.id)
         v.setSurfaceMaterial("WALL", SurfaceMaterial.CURTAIN.id)
-        val restored = track(SceneViewModel())
+        val restored = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         restored.importSceneJson(v.exportSceneJson(includeClfRegistry = false))
         assertEquals(SurfaceMaterial.WOOD_FLOOR.id, restored.roomMaterials.value.floor.id)
         assertEquals(SurfaceMaterial.OPEN_TRUSS.id, restored.roomMaterials.value.ceiling.id)
@@ -191,7 +191,7 @@ class SurfaceMaterialTest {
     fun `a scene from before per-band absorption still opens`() {
         // Older scenes carry one number per surface. It becomes a flat curve,
         // which is exactly the answer that version of the app would have given.
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         v.addSpeaker(0f, 0f)
         // A real older scene has neither the id nor the curve - only the one
         // number. Editing the JSON as text got this wrong twice: stripping just
@@ -204,7 +204,7 @@ class SurfaceMaterialTest {
         rm.remove("floorAlphaByBand")
         rm.put("floorAlpha", 0.33)
         val legacy = doc.toString()
-        val restored = track(SceneViewModel())
+        val restored = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         assertTrue("an older scene must still load", restored.importSceneJson(legacy))
         assertEquals(0.33f, restored.roomMaterials.value.floor.alphaAt(1000), 1e-3f)
         assertEquals("and be flat, as it was then",
@@ -214,16 +214,16 @@ class SurfaceMaterialTest {
 
     @Test
     fun `a custom surface keeps its curve, not just its name`() {
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         v.setFloorAbsorption(0.5f)
-        val restored = track(SceneViewModel())
+        val restored = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         restored.importSceneJson(v.exportSceneJson(includeClfRegistry = false))
         assertEquals(0.5f, restored.roomMaterials.value.floor.alphaAt(2000), 1e-3f)
     }
 
     @Test
     fun `choosing a material marks the scene for saving`() {
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         val before = v.revision.value
         v.setSurfaceMaterial("WALL", SurfaceMaterial.BRICK.id)
         assertNotEquals(before, v.revision.value)

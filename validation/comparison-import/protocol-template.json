@@ -1,0 +1,39 @@
+{
+  "schema": "droidacoustic.comparison-import",
+  "version": 1,
+  "evidence": "MANUFACTURER_SOFTWARE_EXPORT",
+  "synthetic": false,
+  "source": {
+    "producer": "REPLACE_WITH_TOOL_OR_INSTRUMENT",
+    "version": "REPLACE_WITH_VERSION",
+    "fileName": "set_by_packager.csv"
+  },
+  "conditions": {
+    "modelRevision": "",
+    "preset": "",
+    "geometry": "",
+    "frequencyConvention": "",
+    "levelConvention": "ABSOLUTE_SPL",
+    "atmosphere": "",
+    "ground": "",
+    "driveUnit": "UNKNOWN"
+  },
+  "units": {
+    "frequency": "Hz",
+    "position": "m",
+    "level": "dB_SPL"
+  },
+  "toleranceDb": 0.1,
+  "format": "CSV",
+  "delimiter": ",",
+  "columns": {
+    "frequencyHz": "Frequency",
+    "levelDb": "Level"
+  },
+  "receiver": {
+    "id": "r",
+    "xM": 10,
+    "yM": 1,
+    "zM": 0
+  }
+}

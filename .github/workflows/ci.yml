@@ -85,8 +85,29 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
+      - name: Check independent numerical references
+        run: |
+          python3 validation/numerical/reference.py --check
+          python3 validation/engine-capture/reference.py --check
+          python3 validation/relative-response/reference.py --check
+          python3 validation/broadband-capture/reference.py --check
+          python3 validation/relative-broadband/reference.py --check
+          python3 validation/source-spectrum/reference.py --check
+        working-directory: ${{ github.workspace }}
+
+      - name: Check public calibrated-measurement reference preparation
+        run: |
+          python3 -m venv /tmp/acoustic-measurement-tools
+          /tmp/acoustic-measurement-tools/bin/python -m pip install -r validation/public-measurements/requirements.txt
+          /tmp/acoustic-measurement-tools/bin/python validation/public-measurements/prepare.py --check
+        working-directory: ${{ github.workspace }}
+
+      - name: Test comparison CSV packaging
+        run: python3 validation/comparison-import/test_package_csv.py
+        working-directory: ${{ github.workspace }}
+
       - name: Run Kotlin unit tests
-        run: ./gradlew testDebugUnitTest --stacktrace
+        run: ./gradlew :shared-core:jvmTest :app:testDebugUnitTest --stacktrace
         working-directory: ${{ github.workspace }}/android
 
       - name: Upload Kotlin test results
@@ -94,7 +115,24 @@ jobs:
         if: always()
         with:
           name: kotlin-test-results
-          path: android/app/build/test-results/testDebugUnitTest/*.xml
+          path: |
+            android/app/build/test-results/testDebugUnitTest/*.xml
+            android/shared-core/build/test-results/jvmTest/*.xml
+            android/shared-core/build/reports/numerical-validation/engine-jvm.json
+            android/shared-core/build/reports/comparison-import/results.json
+            android/shared-core/build/reports/engine-capture/results.json
+            android/shared-core/build/reports/relative-response/results.json
+            android/shared-core/build/reports/broadband-capture/results.json
+            android/shared-core/build/reports/relative-broadband/results.json
+            android/shared-core/build/reports/source-spectrum/results.json
+            android/shared-core/build/reports/validation-workflow/results.json
+            android/shared-core/build/reports/public-measurements/results.json
+            android/shared-core/build/reports/angular-support/results.json
+            android/shared-core/build/reports/angular-domains/results.json
+            android/shared-core/build/reports/receiver-angular-support/results.json
+            android/shared-core/build/reports/receiver-markers/results.json
+            android/shared-core/build/reports/receiver-framing/results.json
+            android/app/build/reports/speaker-data/*.json
 
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace

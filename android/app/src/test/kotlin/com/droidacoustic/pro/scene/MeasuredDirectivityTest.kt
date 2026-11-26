@@ -32,12 +32,12 @@ class MeasuredDirectivityTest {
 
     private val live = mutableListOf<SceneViewModel>()
 
-    @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
+    private val dispatcher = UnconfinedTestDispatcher()
+    @Before fun setUp() = Dispatchers.setMain(dispatcher)
 
     @After fun tearDown() {
-        // These tests drive real recalculation, which runs on Dispatchers.Default
-        // and resumes on Main. Leaving that in flight breaks the *next* test
-        // class's setMain, so every view model created here is stopped first.
+        // Numerical fixtures use one controlled dispatcher; no real worker can resume
+        // through Main while the next test replaces it. Concurrency has separate tests.
         live.forEach { it.cancelAnalysisJobs() }
         live.clear()
         Dispatchers.resetMain()
@@ -54,7 +54,7 @@ class MeasuredDirectivityTest {
         appendLine("<CLF2>")
         appendLine("<MODELNAME>\t$model")
         appendLine("<MANUFACTURER>\tSynthetic Audio")
-        appendLine("<SENSITIVITY>\t100.0")
+        appendLine("<SENSITIVITY>\t" + List(8) { "100.0" }.joinToString("\t"))
         appendLine("<BALLOON-SYMMETRY>\t<none>")
         appendLine("<BALLOON-ARC-ORDER>\t<normal>")
         SceneViewModel.SUPPORTED_BANDS_HZ.forEach { hz ->
@@ -67,9 +67,18 @@ class MeasuredDirectivityTest {
         }
     }
 
+    @Test fun importedBandSensitivityReachesProductionLevel() {
+        val vm = track(SceneViewModel(predictionDispatcher = dispatcher))
+        val text = cliffPatternTab().replace("<SENSITIVITY>\t" + List(8) { "100.0" }.joinToString("\t"), "<SENSITIVITY>\t80\t82\t84\t86\t88\t90\t92\t94")
+        assertTrue(vm.importClfTabText(text, "band_response"))
+        val speaker = PlacedSpeaker(id = 0, x = 0f, z = 0f, sensitivity = 100f, presetId = "band_response")
+        assertEquals(88f, vm.referenceLevelDb(speaker, 1000), 0.001f)
+        assertEquals(94f, vm.referenceLevelDb(speaker, 8000), 0.001f)
+    }
+
     /** A speaker at the origin facing +X, listener [d] metres away, [offAxis] degrees round. */
     private fun vmWithGeometry(offAxisDeg: Float, d: Float = 10f): SceneViewModel =
-        track(SceneViewModel()).apply {
+        track(SceneViewModel(predictionDispatcher = dispatcher)).apply {
             setBandHz(1000)
             val rad = Math.toRadians(offAxisDeg.toDouble())
             moveListener((d * kotlin.math.cos(rad)).toFloat(), (d * kotlin.math.sin(rad)).toFloat())
@@ -99,7 +108,7 @@ class MeasuredDirectivityTest {
     @Test
     fun `a placed speaker remembers which preset it came from`() {
         // Without this the registry lookup has nothing to match on.
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = dispatcher))
         v.importClfTabText(cliffPatternTab())
         v.addSpeaker(0f, 0f)
         assertEquals("cliff_box", v.speakers.value.single().presetId)
@@ -160,23 +169,23 @@ class MeasuredDirectivityTest {
     fun `preset identity survives a scene round trip`() {
         // A saved scene that forgets which box it held would quietly downgrade
         // to synthetic directivity on reload.
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = dispatcher))
         v.importClfTabText(cliffPatternTab())
         v.addSpeaker(3f, 4f)
         val json = v.exportSceneJson()
 
-        val restored = track(SceneViewModel())
+        val restored = track(SceneViewModel(predictionDispatcher = dispatcher))
         assertTrue(restored.importSceneJson(json))
         assertEquals("cliff_box", restored.speakers.value.single().presetId)
     }
 
     @Test
     fun `a scene saved before preset identity existed still loads`() {
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = dispatcher))
         v.addSpeaker(1f, 2f)
         val legacy = v.exportSceneJson().replace(Regex("\"presetId\":\"[^\"]*\","), "")
 
-        val restored = track(SceneViewModel())
+        val restored = track(SceneViewModel(predictionDispatcher = dispatcher))
         assertTrue("older scenes must still open", restored.importSceneJson(legacy))
         assertEquals("", restored.speakers.value.single().presetId)
     }

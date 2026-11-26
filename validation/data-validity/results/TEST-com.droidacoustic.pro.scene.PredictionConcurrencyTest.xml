@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.PredictionConcurrencyTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-26T12:27:20.536Z" hostname="Dzide.local" time="0.119">
+  <properties/>
+  <testcase name="sameRevisionRecalculationAndDisableRejectPendingWork" classname="com.droidacoustic.pro.scene.PredictionConcurrencyTest" time="0.03"/>
+  <testcase name="manualEditClearsPublishedValuesAndOldCompletionCannotReviveThem" classname="com.droidacoustic.pro.scene.PredictionConcurrencyTest" time="0.012"/>
+  <testcase name="importingSceneRejectsJobsFromPreviousScene" classname="com.droidacoustic.pro.scene.PredictionConcurrencyTest" time="0.026"/>
+  <testcase name="requestRemainsStableAfterBandDriveAtmosphereAndGroundChanges" classname="com.droidacoustic.pro.scene.PredictionConcurrencyTest" time="0.015"/>
+  <testcase name="lateListenerAndCoverageCannotOverwriteNewSceneResults" classname="com.droidacoustic.pro.scene.PredictionConcurrencyTest" time="0.015"/>
+  <testcase name="automaticModeRecomputesBothChannelsAfterListenerOnlyEdit" classname="com.droidacoustic.pro.scene.PredictionConcurrencyTest" time="0.013"/>
+  <testcase name="failedRunLeavesRetryableStateAndCannotPublishOldFailure" classname="com.droidacoustic.pro.scene.PredictionConcurrencyTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,206 @@
+{
+    "schema": 1,
+    "scope": "Synthetic camera/selection geometry verification; no acoustic accuracy claim",
+    "cases": [
+        {
+            "view": "PLAN",
+            "labelPicks": [
+                "listener",
+                "reference:1",
+                "reference:0"
+            ],
+            "coincidentNextPick": "reference:0",
+            "markers": [
+                {
+                    "id": "listener",
+                    "text": "L: Listener",
+                    "screenX": 400.0,
+                    "screenY": 300.0,
+                    "depth": 20.0,
+                    "labelRect": [
+                        425.0,
+                        288.0,
+                        152.0,
+                        24.0
+                    ]
+                },
+                {
+                    "id": "reference:1",
+                    "text": "R1: Balcony",
+                    "screenX": 440.2369,
+                    "screenY": 340.2369,
+                    "depth": 18.0,
+                    "labelRect": [
+                        465.2369,
+                        328.2369,
+                        152.0,
+                        24.0
+                    ]
+                },
+                {
+                    "id": "reference:0",
+                    "text": "R0: Same position",
+                    "screenX": 400.0,
+                    "screenY": 300.0,
+                    "depth": 20.0,
+                    "labelRect": [
+                        223.0,
+                        288.0,
+                        152.0,
+                        24.0
+                    ]
+                }
+            ]
+        },
+        {
+            "view": "FRONT",
+            "labelPicks": [
+                "listener",
+                "reference:1",
+                "reference:0"
+            ],
+            "coincidentNextPick": "reference:0",
+            "markers": [
+                {
+                    "id": "listener",
+                    "text": "L: Listener",
+                    "screenX": 400.0,
+                    "screenY": 300.0,
+                    "depth": 20.0,
+                    "labelRect": [
+                        425.0,
+                        288.0,
+                        152.0,
+                        24.0
+                    ]
+                },
+                {
+                    "id": "reference:1",
+                    "text": "R1: Balcony",
+                    "screenX": 438.11917,
+                    "screenY": 223.76167,
+                    "depth": 19.0,
+                    "labelRect": [
+                        463.11917,
+                        211.76167,
+                        152.0,
+                        24.0
+                    ]
+                },
+                {
+                    "id": "reference:0",
+                    "text": "R0: Same position",
+                    "screenX": 400.0,
+                    "screenY": 300.0,
+                    "depth": 20.0,
+                    "labelRect": [
+                        223.0,
+                        288.0,
+                        152.0,
+                        24.0
+                    ]
+                }
+            ]
+        },
+        {
+            "view": "SIDE",
+            "labelPicks": [
+                "listener",
+                "reference:1",
+                "reference:0"
+            ],
+            "coincidentNextPick": "reference:0",
+            "markers": [
+                {
+                    "id": "listener",
+                    "text": "L: Listener",
+                    "screenX": 400.0,
+                    "screenY": 300.0,
+                    "depth": 20.0,
+                    "labelRect": [
+                        425.0,
+                        288.0,
+                        152.0,
+                        24.0
+                    ]
+                },
+                {
+                    "id": "reference:1",
+                    "text": "R1: Balcony",
+                    "screenX": 361.88083,
+                    "screenY": 223.76167,
+                    "depth": 19.0,
+                    "labelRect": [
+                        386.88083,
+                        211.76167,
+                        152.0,
+                        24.0
+                    ]
+                },
+                {
+                    "id": "reference:0",
+                    "text": "R0: Same position",
+                    "screenX": 400.0,
+                    "screenY": 300.0,
+                    "depth": 20.0,
+                    "labelRect": [
+                        223.0,
+                        288.0,
+                        152.0,
+                        24.0
+                    ]
+                }
+            ]
+        },
+        {
+            "view": "PERSPECTIVE",
+            "labelPicks": [
+                "listener",
+                "reference:1",
+                "reference:0"
+            ],
+            "coincidentNextPick": "reference:0",
+            "markers": [
+                {
+                    "id": "listener",
+                    "text": "L: Listener",
+                    "screenX": 400.0,
+                    "screenY": 300.0,
+                    "depth": 17.54992877478424,
+                    "labelRect": [
+                        425.0,
+                        288.0,
+                        152.0,
+                        24.0
+                    ]
+                },
+                {
+                    "id": "reference:1",
+                    "text": "R1: Balcony",
+                    "screenX": 406.0276,
+                    "screenY": 246.42122,
+                    "depth": 15.384677822051122,
+                    "labelRect": [
+                        431.0276,
+                        234.42122,
+                        152.0,
+                        24.0
+                    ]
+                },
+                {
+                    "id": "reference:0",
+                    "text": "R0: Same position",
+                    "screenX": 400.0,
+                    "screenY": 300.0,
+                    "depth": 17.54992877478424,
+                    "labelRect": [
+                        223.0,
+                        288.0,
+                        152.0,
+                        24.0
+                    ]
+                }
+            ]
+        }
+    ]
+}

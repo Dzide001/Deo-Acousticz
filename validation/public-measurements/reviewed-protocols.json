@@ -1,0 +1,98 @@
+{
+  "prx635-20deg": {
+    "reviewer": "DroidAcoustic explicit protocol review, 2026-11-18; declared mapping, not third-party approval",
+    "originalDocumentSha256": "c20c5d5af24189667ced38e1332757d59e8a461b380260c90fb078f781acadc7",
+    "fields": [
+      {
+        "field": "modelRevision",
+        "originalValue": "Princeton PRX635 2015-03-31; raw IR 24529ef12d7db62e2502052aaf00f9b8a5623ef07b3c5df9c5dce0f18daeb2c2",
+        "reviewedValue": "[{\"assetIdentity\":\"21500a4ab6e547cea5c0da325ee93010f7260d0578a934a8b9171d39053878a3\",\"synthetic\":false,\"directivityEnabled\":true,\"referenceDistanceM\":1.0,\"driveUnit\":\"UNKNOWN\",\"calibrationProvenance\":\"Relative-only computational 0 dB on-axis normalization; not absolute SPL or electrical calibration\"}]",
+        "rationale": "Model is derived only from the pinned MAT training angles at the declared resolution. Held-out angular rows are excluded. Identity is the exact portable decoded training asset, with arbitrary 0 dB on-axis normalization and unknown electrical reference; this is not an independent-session or manufacturer-source-model comparison.",
+        "evidenceUrl": "https://3d3a.princeton.edu/sites/g/files/toruqf931/files/documents/3D3A_Directivity_Database_0.pdf"
+      },
+      {
+        "field": "preset",
+        "originalValue": "Observed measured system; original operating preset undocumented; training 20deg",
+        "reviewedValue": "{\"sources\":[{\"gainDbRelativeToModelReference\":0.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+        "rationale": "The measured directivity includes the original complete system response. Its original preset is undocumented. The replay adds no gain, delay, polarity inversion, EQ, filters, taper or extra sources; this maps an observed-system response, not a claim to reproduce a named manufacturer preset.",
+        "evidenceUrl": "https://3d3a.princeton.edu/sites/g/files/toruqf931/files/documents/3D3A_Directivity_Database_0.pdf"
+      },
+      {
+        "field": "geometry",
+        "originalValue": "Horizontal orbit 1.7 m; microphone at tweeter; rotation through cabinet centre; no boundaries",
+        "reviewedValue": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+        "rationale": "One fixed-radius 1.7 m horizontal orbit is encoded as source at origin, yaw zero and receiver x=r*cos(angle), z=-r*sin(angle), y=0. Speaker-left sign follows the source page. No vertical response or distance extrapolation is asserted; empty boundary SHA is SHA256 of [].",
+        "evidenceUrl": "https://3d3a.princeton.edu/jbl-professional-prx635"
+      },
+      {
+        "field": "frequencyConvention",
+        "originalValue": "Windowed IR; independent clipped FFT-bin integration over one-third-octave bands",
+        "reviewedValue": "{\"mode\":\"unweighted-band-mean-square; fixed-total-drive-flat-PSD\",\"widthOct\":0.33333334,\"bands\":[{\"hz\":500,\"segments\":[[500,445.44935907016963,561.2310241546866]]},{\"hz\":1000,\"segments\":[[1000,890.8987181403393,1122.4620483093731]]},{\"hz\":2000,\"segments\":[[2000,1781.7974362806785,2244.9240966187463]]},{\"hz\":4000,\"segments\":[[4000,3563.594872561357,4489.8481932374925]]},{\"hz\":8000,\"segments\":[[8000,7127.189745122714,8979.696386474985]]},{\"hz\":16000,\"segments\":[[16000,14254.379490245428,17959.39277294997]]}]}",
+        "rationale": "Independent Python processing integrates squared FFT magnitudes over exactly matching clipped frequency cells with width float32(1/3), after documented 0.5/3/0.5 ms time window. The measured cell mean supplies each model band. This does not use published smoothed plots or claim finer physical resolution than the time window.",
+        "evidenceUrl": "https://3d3a.princeton.edu/sites/g/files/toruqf931/files/documents/3D3A_Directivity_Database_0.pdf"
+      },
+      {
+        "field": "atmosphere",
+        "originalValue": "Not recorded; equal-radius direct/on-axis ratios cancel path air loss",
+        "reviewedValue": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+        "rationale": "Actual measurement atmosphere is undocumented. ONLY equal-radius on-axis-normalized magnitudes are compared. A point-source path air factor and spreading factor cancel between numerator and denominator at 1.7 m; default atmosphere is a computational value, not an asserted measured condition. Float radius error is checked against independent replay tolerance.",
+        "evidenceUrl": "https://3d3a.princeton.edu/sites/g/files/toruqf931/files/documents/3D3A_Directivity_Database_0.pdf"
+      },
+      {
+        "field": "ground",
+        "originalValue": "Anechoic time-windowed direct sound",
+        "reviewedValue": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+        "rationale": "The original IR is windowed to isolate direct sound in the anechoic chamber above the documented low-frequency limit. Replay disables global ground and all explicit boundaries. This tests direct-response interpolation; it does not validate physical ground/reflection modelling.",
+        "evidenceUrl": "https://3d3a.princeton.edu/sites/g/files/toruqf931/files/documents/3D3A_Directivity_Database_0.pdf"
+      }
+    ]
+  },
+  "prx635-10deg": {
+    "reviewer": "DroidAcoustic explicit protocol review, 2026-11-18; declared mapping, not third-party approval",
+    "originalDocumentSha256": "aed7c39fb3c1322dc4b236beecd0642c1b9711f015d1363e0ebd2f79f55526c8",
+    "fields": [
+      {
+        "field": "modelRevision",
+        "originalValue": "Princeton PRX635 2015-03-31; raw IR 24529ef12d7db62e2502052aaf00f9b8a5623ef07b3c5df9c5dce0f18daeb2c2",
+        "reviewedValue": "[{\"assetIdentity\":\"4146c452e281288764da0ab3b74e0a2afb2f25e1b394f9e1612df017a5161cc7\",\"synthetic\":false,\"directivityEnabled\":true,\"referenceDistanceM\":1.0,\"driveUnit\":\"UNKNOWN\",\"calibrationProvenance\":\"Relative-only computational 0 dB on-axis normalization; not absolute SPL or electrical calibration\"}]",
+        "rationale": "Model is derived only from the pinned MAT training angles at the declared resolution. Held-out angular rows are excluded. Identity is the exact portable decoded training asset, with arbitrary 0 dB on-axis normalization and unknown electrical reference; this is not an independent-session or manufacturer-source-model comparison.",
+        "evidenceUrl": "https://3d3a.princeton.edu/sites/g/files/toruqf931/files/documents/3D3A_Directivity_Database_0.pdf"
+      },
+      {
+        "field": "preset",
+        "originalValue": "Observed measured system; original operating preset undocumented; training 10deg",
+        "reviewedValue": "{\"sources\":[{\"gainDbRelativeToModelReference\":0.0,\"delayS\":0.0,\"inverted\":false,\"taperDb\":0.0,\"eqDb\":{},\"filters\":{\"version\":1,\"filters\":[]}}],\"coherentBetweenGroups\":true,\"arrayAndSelfPathsCoherent\":true,\"driveBasis\":\"effective flat gain; EQ and filters recorded separately\"}",
+        "rationale": "The measured directivity includes the original complete system response. Its original preset is undocumented. The replay adds no gain, delay, polarity inversion, EQ, filters, taper or extra sources; this maps an observed-system response, not a claim to reproduce a named manufacturer preset.",
+        "evidenceUrl": "https://3d3a.princeton.edu/sites/g/files/toruqf931/files/documents/3D3A_Directivity_Database_0.pdf"
+      },
+      {
+        "field": "geometry",
+        "originalValue": "Horizontal orbit 1.7 m; microphone at tweeter; rotation through cabinet centre; no boundaries",
+        "reviewedValue": "{\"frame\":\"world metres; X/Z plan, Y up; source yaw 0 along +X toward +Z\",\"sources\":[{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"yawDeg\":0.0,\"steeringDeg\":0.0,\"poses\":[[0.0,0.0,0.0,0.0]]}],\"boundarySha256\":\"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\"}",
+        "rationale": "One fixed-radius 1.7 m horizontal orbit is encoded as source at origin, yaw zero and receiver x=r*cos(angle), z=-r*sin(angle), y=0. Speaker-left sign follows the source page. No vertical response or distance extrapolation is asserted; empty boundary SHA is SHA256 of [].",
+        "evidenceUrl": "https://3d3a.princeton.edu/jbl-professional-prx635"
+      },
+      {
+        "field": "frequencyConvention",
+        "originalValue": "Windowed IR; independent clipped FFT-bin integration over one-third-octave bands",
+        "reviewedValue": "{\"mode\":\"unweighted-band-mean-square; fixed-total-drive-flat-PSD\",\"widthOct\":0.33333334,\"bands\":[{\"hz\":500,\"segments\":[[500,445.44935907016963,561.2310241546866]]},{\"hz\":1000,\"segments\":[[1000,890.8987181403393,1122.4620483093731]]},{\"hz\":2000,\"segments\":[[2000,1781.7974362806785,2244.9240966187463]]},{\"hz\":4000,\"segments\":[[4000,3563.594872561357,4489.8481932374925]]},{\"hz\":8000,\"segments\":[[8000,7127.189745122714,8979.696386474985]]},{\"hz\":16000,\"segments\":[[16000,14254.379490245428,17959.39277294997]]}]}",
+        "rationale": "Independent Python processing integrates squared FFT magnitudes over exactly matching clipped frequency cells with width float32(1/3), after documented 0.5/3/0.5 ms time window. The measured cell mean supplies each model band. This does not use published smoothed plots or claim finer physical resolution than the time window.",
+        "evidenceUrl": "https://3d3a.princeton.edu/sites/g/files/toruqf931/files/documents/3D3A_Directivity_Database_0.pdf"
+      },
+      {
+        "field": "atmosphere",
+        "originalValue": "Not recorded; equal-radius direct/on-axis ratios cancel path air loss",
+        "reviewedValue": "{\"temperatureC\":20.0,\"humidityPct\":50.0,\"pressureKPa\":101.325}",
+        "rationale": "Actual measurement atmosphere is undocumented. ONLY equal-radius on-axis-normalized magnitudes are compared. A point-source path air factor and spreading factor cancel between numerator and denominator at 1.7 m; default atmosphere is a computational value, not an asserted measured condition. Float radius error is checked against independent replay tolerance.",
+        "evidenceUrl": "https://3d3a.princeton.edu/sites/g/files/toruqf931/files/documents/3D3A_Directivity_Database_0.pdf"
+      },
+      {
+        "field": "ground",
+        "originalValue": "Anechoic time-windowed direct sound",
+        "reviewedValue": "{\"enabled\":false,\"model\":\"first-order; no diffraction/transmission; invalid below-ground geometry disables global image per receiver\"}",
+        "rationale": "The original IR is windowed to isolate direct sound in the anechoic chamber above the documented low-frequency limit. Replay disables global ground and all explicit boundaries. This tests direct-response interpolation; it does not validate physical ground/reflection modelling.",
+        "evidenceUrl": "https://3d3a.princeton.edu/sites/g/files/toruqf931/files/documents/3D3A_Directivity_Database_0.pdf"
+      }
+    ]
+  }
+}

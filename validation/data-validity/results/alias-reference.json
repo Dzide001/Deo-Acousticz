@@ -1,0 +1,66 @@
+[
+  {
+    "storedLowHz": 31,
+    "storedHighHz": 63,
+    "queryHz": 40,
+    "baseTwoLowHz": 31.25,
+    "baseTwoHighHz": 62.5,
+    "expectedDb": 83.56143810225275
+  },
+  {
+    "storedLowHz": 31,
+    "storedHighHz": 63,
+    "queryHz": 50,
+    "baseTwoLowHz": 31.25,
+    "baseTwoHighHz": 62.5,
+    "expectedDb": 86.78071905112638
+  },
+  {
+    "storedLowHz": 31,
+    "storedHighHz": 64,
+    "queryHz": 40,
+    "baseTwoLowHz": 31.25,
+    "baseTwoHighHz": 62.5,
+    "expectedDb": 83.56143810225275
+  },
+  {
+    "storedLowHz": 31,
+    "storedHighHz": 64,
+    "queryHz": 50,
+    "baseTwoLowHz": 31.25,
+    "baseTwoHighHz": 62.5,
+    "expectedDb": 86.78071905112638
+  },
+  {
+    "storedLowHz": 32,
+    "storedHighHz": 63,
+    "queryHz": 40,
+    "baseTwoLowHz": 31.25,
+    "baseTwoHighHz": 62.5,
+    "expectedDb": 83.56143810225275
+  },
+  {
+    "storedLowHz": 32,
+    "storedHighHz": 63,
+    "queryHz": 50,
+    "baseTwoLowHz": 31.25,
+    "baseTwoHighHz": 62.5,
+    "expectedDb": 86.78071905112638
+  },
+  {
+    "storedLowHz": 32,
+    "storedHighHz": 64,
+    "queryHz": 40,
+    "baseTwoLowHz": 31.25,
+    "baseTwoHighHz": 62.5,
+    "expectedDb": 83.56143810225275
+  },
+  {
+    "storedLowHz": 32,
+    "storedHighHz": 64,
+    "queryHz": 50,
+    "baseTwoLowHz": 31.25,
+    "baseTwoHighHz": 62.5,
+    "expectedDb": 86.78071905112638
+  }
+]

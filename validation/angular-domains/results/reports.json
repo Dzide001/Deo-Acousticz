@@ -1,0 +1,2608 @@
+{
+    "schema": 1,
+    "sourceFixtureSha256": "89517da136d56ac2483413e2d5f65dc96f23227c658fb86b1697a92e8e7d6f6f",
+    "cases": [
+        {
+            "id": "prx635-20deg",
+            "storage": "original-training-knots",
+            "angularSupport": {
+                "schema": 2,
+                "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+                "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration.",
+                "bands": [
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 500,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 1000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 2000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 4000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 8000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 16000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 18,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 20.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "sampleCount": 72,
+            "runtimeInterpolation": true,
+            "heldoutOrigin": "INTERPOLATED",
+            "heldoutContributors": [
+                "MEASURED"
+            ],
+            "rmsErrorDb": 0.6150633422056834,
+            "maximumAbsoluteErrorDb": 2.61598889915237,
+            "maximumNumericalReplayErrorDb": 8.412223131415431E-7,
+            "originalAccuracyScreen": "FAILED",
+            "warnings": [
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): one stored elevation only; other elevations are unsupported.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): limited stored elevation range; directions outside it are unavailable.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): azimuth gaps exceed the 5° sampling advisory; interpolation can miss narrow lobes/nulls."
+            ]
+        },
+        {
+            "id": "prx635-20deg",
+            "storage": "5deg-upsampled-from-training-only",
+            "angularSupport": {
+                "schema": 2,
+                "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+                "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration.",
+                "bands": [
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 500,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 54
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            10.0,
+                                            15.0,
+                                            25.0,
+                                            30.0,
+                                            35.0,
+                                            45.0,
+                                            50.0,
+                                            55.0,
+                                            65.0,
+                                            70.0,
+                                            75.0,
+                                            85.0,
+                                            90.0,
+                                            95.0,
+                                            105.0,
+                                            110.0,
+                                            115.0,
+                                            125.0,
+                                            130.0,
+                                            135.0,
+                                            145.0,
+                                            150.0,
+                                            155.0,
+                                            165.0,
+                                            170.0,
+                                            175.0,
+                                            185.0,
+                                            190.0,
+                                            195.0,
+                                            205.0,
+                                            210.0,
+                                            215.0,
+                                            225.0,
+                                            230.0,
+                                            235.0,
+                                            245.0,
+                                            250.0,
+                                            255.0,
+                                            265.0,
+                                            270.0,
+                                            275.0,
+                                            285.0,
+                                            290.0,
+                                            295.0,
+                                            305.0,
+                                            310.0,
+                                            315.0,
+                                            325.0,
+                                            330.0,
+                                            335.0,
+                                            345.0,
+                                            350.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 1000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 54
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            10.0,
+                                            15.0,
+                                            25.0,
+                                            30.0,
+                                            35.0,
+                                            45.0,
+                                            50.0,
+                                            55.0,
+                                            65.0,
+                                            70.0,
+                                            75.0,
+                                            85.0,
+                                            90.0,
+                                            95.0,
+                                            105.0,
+                                            110.0,
+                                            115.0,
+                                            125.0,
+                                            130.0,
+                                            135.0,
+                                            145.0,
+                                            150.0,
+                                            155.0,
+                                            165.0,
+                                            170.0,
+                                            175.0,
+                                            185.0,
+                                            190.0,
+                                            195.0,
+                                            205.0,
+                                            210.0,
+                                            215.0,
+                                            225.0,
+                                            230.0,
+                                            235.0,
+                                            245.0,
+                                            250.0,
+                                            255.0,
+                                            265.0,
+                                            270.0,
+                                            275.0,
+                                            285.0,
+                                            290.0,
+                                            295.0,
+                                            305.0,
+                                            310.0,
+                                            315.0,
+                                            325.0,
+                                            330.0,
+                                            335.0,
+                                            345.0,
+                                            350.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 2000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 54
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            10.0,
+                                            15.0,
+                                            25.0,
+                                            30.0,
+                                            35.0,
+                                            45.0,
+                                            50.0,
+                                            55.0,
+                                            65.0,
+                                            70.0,
+                                            75.0,
+                                            85.0,
+                                            90.0,
+                                            95.0,
+                                            105.0,
+                                            110.0,
+                                            115.0,
+                                            125.0,
+                                            130.0,
+                                            135.0,
+                                            145.0,
+                                            150.0,
+                                            155.0,
+                                            165.0,
+                                            170.0,
+                                            175.0,
+                                            185.0,
+                                            190.0,
+                                            195.0,
+                                            205.0,
+                                            210.0,
+                                            215.0,
+                                            225.0,
+                                            230.0,
+                                            235.0,
+                                            245.0,
+                                            250.0,
+                                            255.0,
+                                            265.0,
+                                            270.0,
+                                            275.0,
+                                            285.0,
+                                            290.0,
+                                            295.0,
+                                            305.0,
+                                            310.0,
+                                            315.0,
+                                            325.0,
+                                            330.0,
+                                            335.0,
+                                            345.0,
+                                            350.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 4000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 54
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            10.0,
+                                            15.0,
+                                            25.0,
+                                            30.0,
+                                            35.0,
+                                            45.0,
+                                            50.0,
+                                            55.0,
+                                            65.0,
+                                            70.0,
+                                            75.0,
+                                            85.0,
+                                            90.0,
+                                            95.0,
+                                            105.0,
+                                            110.0,
+                                            115.0,
+                                            125.0,
+                                            130.0,
+                                            135.0,
+                                            145.0,
+                                            150.0,
+                                            155.0,
+                                            165.0,
+                                            170.0,
+                                            175.0,
+                                            185.0,
+                                            190.0,
+                                            195.0,
+                                            205.0,
+                                            210.0,
+                                            215.0,
+                                            225.0,
+                                            230.0,
+                                            235.0,
+                                            245.0,
+                                            250.0,
+                                            255.0,
+                                            265.0,
+                                            270.0,
+                                            275.0,
+                                            285.0,
+                                            290.0,
+                                            295.0,
+                                            305.0,
+                                            310.0,
+                                            315.0,
+                                            325.0,
+                                            330.0,
+                                            335.0,
+                                            345.0,
+                                            350.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 8000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 54
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            10.0,
+                                            15.0,
+                                            25.0,
+                                            30.0,
+                                            35.0,
+                                            45.0,
+                                            50.0,
+                                            55.0,
+                                            65.0,
+                                            70.0,
+                                            75.0,
+                                            85.0,
+                                            90.0,
+                                            95.0,
+                                            105.0,
+                                            110.0,
+                                            115.0,
+                                            125.0,
+                                            130.0,
+                                            135.0,
+                                            145.0,
+                                            150.0,
+                                            155.0,
+                                            165.0,
+                                            170.0,
+                                            175.0,
+                                            185.0,
+                                            190.0,
+                                            195.0,
+                                            205.0,
+                                            210.0,
+                                            215.0,
+                                            225.0,
+                                            230.0,
+                                            235.0,
+                                            245.0,
+                                            250.0,
+                                            255.0,
+                                            265.0,
+                                            270.0,
+                                            275.0,
+                                            285.0,
+                                            290.0,
+                                            295.0,
+                                            305.0,
+                                            310.0,
+                                            315.0,
+                                            325.0,
+                                            330.0,
+                                            335.0,
+                                            345.0,
+                                            350.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 16000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 18,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 54
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            20.0,
+                                            40.0,
+                                            60.0,
+                                            80.0,
+                                            100.0,
+                                            120.0,
+                                            140.0,
+                                            160.0,
+                                            180.0,
+                                            200.0,
+                                            220.0,
+                                            240.0,
+                                            260.0,
+                                            280.0,
+                                            300.0,
+                                            320.0,
+                                            340.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            10.0,
+                                            15.0,
+                                            25.0,
+                                            30.0,
+                                            35.0,
+                                            45.0,
+                                            50.0,
+                                            55.0,
+                                            65.0,
+                                            70.0,
+                                            75.0,
+                                            85.0,
+                                            90.0,
+                                            95.0,
+                                            105.0,
+                                            110.0,
+                                            115.0,
+                                            125.0,
+                                            130.0,
+                                            135.0,
+                                            145.0,
+                                            150.0,
+                                            155.0,
+                                            165.0,
+                                            170.0,
+                                            175.0,
+                                            185.0,
+                                            190.0,
+                                            195.0,
+                                            205.0,
+                                            210.0,
+                                            215.0,
+                                            225.0,
+                                            230.0,
+                                            235.0,
+                                            245.0,
+                                            250.0,
+                                            255.0,
+                                            265.0,
+                                            270.0,
+                                            275.0,
+                                            285.0,
+                                            290.0,
+                                            295.0,
+                                            305.0,
+                                            310.0,
+                                            315.0,
+                                            325.0,
+                                            330.0,
+                                            335.0,
+                                            345.0,
+                                            350.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "sampleCount": 72,
+            "runtimeInterpolation": false,
+            "heldoutOrigin": "INTERPOLATED",
+            "heldoutContributors": [
+                "INTERPOLATED"
+            ],
+            "rmsErrorDb": 0.6150633422056834,
+            "maximumAbsoluteErrorDb": 2.61598889915237,
+            "maximumNumericalReplayErrorDb": 8.412223131415431E-7,
+            "originalAccuracyScreen": "FAILED",
+            "warnings": [
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): one stored elevation only; other elevations are unsupported.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): limited stored elevation range; directions outside it are unavailable.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): includes pre-interpolated stored samples; denser storage does not add measured angular resolution."
+            ]
+        },
+        {
+            "id": "prx635-10deg",
+            "storage": "original-training-knots",
+            "angularSupport": {
+                "schema": 2,
+                "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+                "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration.",
+                "bands": [
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 500,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 1000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 2000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 4000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 8000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 16000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 36,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 10.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION",
+                                "SPARSE_AZIMUTH"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 0
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "sampleCount": 72,
+            "runtimeInterpolation": true,
+            "heldoutOrigin": "INTERPOLATED",
+            "heldoutContributors": [
+                "MEASURED"
+            ],
+            "rmsErrorDb": 0.5000839001642019,
+            "maximumAbsoluteErrorDb": 2.655763793866729,
+            "maximumNumericalReplayErrorDb": 6.743057845426392E-7,
+            "originalAccuracyScreen": "FAILED",
+            "warnings": [
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): one stored elevation only; other elevations are unsupported.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): limited stored elevation range; directions outside it are unavailable.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): azimuth gaps exceed the 5° sampling advisory; interpolation can miss narrow lobes/nulls."
+            ]
+        },
+        {
+            "id": "prx635-10deg",
+            "storage": "5deg-upsampled-from-training-only",
+            "angularSupport": {
+                "schema": 2,
+                "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+                "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration.",
+                "bands": [
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 500,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 36
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            15.0,
+                                            25.0,
+                                            35.0,
+                                            45.0,
+                                            55.0,
+                                            65.0,
+                                            75.0,
+                                            85.0,
+                                            95.0,
+                                            105.0,
+                                            115.0,
+                                            125.0,
+                                            135.0,
+                                            145.0,
+                                            155.0,
+                                            165.0,
+                                            175.0,
+                                            185.0,
+                                            195.0,
+                                            205.0,
+                                            215.0,
+                                            225.0,
+                                            235.0,
+                                            245.0,
+                                            255.0,
+                                            265.0,
+                                            275.0,
+                                            285.0,
+                                            295.0,
+                                            305.0,
+                                            315.0,
+                                            325.0,
+                                            335.0,
+                                            345.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 1000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 36
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            15.0,
+                                            25.0,
+                                            35.0,
+                                            45.0,
+                                            55.0,
+                                            65.0,
+                                            75.0,
+                                            85.0,
+                                            95.0,
+                                            105.0,
+                                            115.0,
+                                            125.0,
+                                            135.0,
+                                            145.0,
+                                            155.0,
+                                            165.0,
+                                            175.0,
+                                            185.0,
+                                            195.0,
+                                            205.0,
+                                            215.0,
+                                            225.0,
+                                            235.0,
+                                            245.0,
+                                            255.0,
+                                            265.0,
+                                            275.0,
+                                            285.0,
+                                            295.0,
+                                            305.0,
+                                            315.0,
+                                            325.0,
+                                            335.0,
+                                            345.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 2000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 36
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            15.0,
+                                            25.0,
+                                            35.0,
+                                            45.0,
+                                            55.0,
+                                            65.0,
+                                            75.0,
+                                            85.0,
+                                            95.0,
+                                            105.0,
+                                            115.0,
+                                            125.0,
+                                            135.0,
+                                            145.0,
+                                            155.0,
+                                            165.0,
+                                            175.0,
+                                            185.0,
+                                            195.0,
+                                            205.0,
+                                            215.0,
+                                            225.0,
+                                            235.0,
+                                            245.0,
+                                            255.0,
+                                            265.0,
+                                            275.0,
+                                            285.0,
+                                            295.0,
+                                            305.0,
+                                            315.0,
+                                            325.0,
+                                            335.0,
+                                            345.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 4000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 36
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            15.0,
+                                            25.0,
+                                            35.0,
+                                            45.0,
+                                            55.0,
+                                            65.0,
+                                            75.0,
+                                            85.0,
+                                            95.0,
+                                            105.0,
+                                            115.0,
+                                            125.0,
+                                            135.0,
+                                            145.0,
+                                            155.0,
+                                            165.0,
+                                            175.0,
+                                            185.0,
+                                            195.0,
+                                            205.0,
+                                            215.0,
+                                            225.0,
+                                            235.0,
+                                            245.0,
+                                            255.0,
+                                            265.0,
+                                            275.0,
+                                            285.0,
+                                            295.0,
+                                            305.0,
+                                            315.0,
+                                            325.0,
+                                            335.0,
+                                            345.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 8000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 36
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            15.0,
+                                            25.0,
+                                            35.0,
+                                            45.0,
+                                            55.0,
+                                            65.0,
+                                            75.0,
+                                            85.0,
+                                            95.0,
+                                            105.0,
+                                            115.0,
+                                            125.0,
+                                            135.0,
+                                            145.0,
+                                            155.0,
+                                            165.0,
+                                            175.0,
+                                            185.0,
+                                            195.0,
+                                            205.0,
+                                            215.0,
+                                            225.0,
+                                            235.0,
+                                            245.0,
+                                            255.0,
+                                            265.0,
+                                            275.0,
+                                            285.0,
+                                            295.0,
+                                            305.0,
+                                            315.0,
+                                            325.0,
+                                            335.0,
+                                            345.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "response": "magnitude",
+                        "frequencyHz": 16000,
+                        "support": {
+                            "valid": true,
+                            "azimuthCount": 72,
+                            "elevationCount": 1,
+                            "minimumElevationDeg": 0.0,
+                            "maximumElevationDeg": 0.0,
+                            "maximumAzimuthGapDeg": 5.0,
+                            "maximumElevationGapDeg": null,
+                            "advisorySpacingDeg": 5.0,
+                            "issues": [
+                                "SINGLE_ELEVATION",
+                                "LIMITED_ELEVATION"
+                            ]
+                        },
+                        "domain": {
+                            "state": "DECLARED",
+                            "authenticated": false,
+                            "counts": {
+                                "UNDECLARED": 0,
+                                "MEASURED": 36,
+                                "SYMMETRY": 0,
+                                "INTERPOLATED": 36
+                            },
+                            "declaration": {
+                                "version": 1,
+                                "provenance": "Princeton PRX635 pinned horizontal IR dataset: angular acquisition only; windowed/normalized band processing is not raw spectral data",
+                                "regions": [
+                                    {
+                                        "origin": "MEASURED",
+                                        "azimuths": [
+                                            0.0,
+                                            10.0,
+                                            20.0,
+                                            30.0,
+                                            40.0,
+                                            50.0,
+                                            60.0,
+                                            70.0,
+                                            80.0,
+                                            90.0,
+                                            100.0,
+                                            110.0,
+                                            120.0,
+                                            130.0,
+                                            140.0,
+                                            150.0,
+                                            160.0,
+                                            170.0,
+                                            180.0,
+                                            190.0,
+                                            200.0,
+                                            210.0,
+                                            220.0,
+                                            230.0,
+                                            240.0,
+                                            250.0,
+                                            260.0,
+                                            270.0,
+                                            280.0,
+                                            290.0,
+                                            300.0,
+                                            310.0,
+                                            320.0,
+                                            330.0,
+                                            340.0,
+                                            350.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Directions present in the pinned original IR; training angular rows only"
+                                    },
+                                    {
+                                        "origin": "INTERPOLATED",
+                                        "azimuths": [
+                                            5.0,
+                                            15.0,
+                                            25.0,
+                                            35.0,
+                                            45.0,
+                                            55.0,
+                                            65.0,
+                                            75.0,
+                                            85.0,
+                                            95.0,
+                                            105.0,
+                                            115.0,
+                                            125.0,
+                                            135.0,
+                                            145.0,
+                                            155.0,
+                                            165.0,
+                                            175.0,
+                                            185.0,
+                                            195.0,
+                                            205.0,
+                                            215.0,
+                                            225.0,
+                                            235.0,
+                                            245.0,
+                                            255.0,
+                                            265.0,
+                                            275.0,
+                                            285.0,
+                                            295.0,
+                                            305.0,
+                                            315.0,
+                                            325.0,
+                                            335.0,
+                                            345.0,
+                                            355.0
+                                        ],
+                                        "elevations": [
+                                            0.0
+                                        ],
+                                        "basis": "Computed only from retained training directions by dB-linear angular interpolation; no held-out measured levels used",
+                                        "method": "DB_LINEAR_ANGULAR"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "sampleCount": 72,
+            "runtimeInterpolation": false,
+            "heldoutOrigin": "INTERPOLATED",
+            "heldoutContributors": [
+                "INTERPOLATED"
+            ],
+            "rmsErrorDb": 0.5000839001642019,
+            "maximumAbsoluteErrorDb": 2.655763793866729,
+            "maximumNumericalReplayErrorDb": 6.743057845426392E-7,
+            "originalAccuracyScreen": "FAILED",
+            "warnings": [
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): one stored elevation only; other elevations are unsupported.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): limited stored elevation range; directions outside it are unavailable.",
+                "magnitude angular support (500, 1000, 2000, 4000, 8000, 16000 Hz): includes pre-interpolated stored samples; denser storage does not add measured angular resolution."
+            ]
+        }
+    ],
+    "syntheticRecoveryFixture": {
+        "schema": 2,
+        "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+        "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration.",
+        "bands": [
+            {
+                "response": "complex",
+                "frequencyHz": 1000,
+                "support": {
+                    "valid": true,
+                    "azimuthCount": 4,
+                    "elevationCount": 1,
+                    "minimumElevationDeg": 0.0,
+                    "maximumElevationDeg": 0.0,
+                    "maximumAzimuthGapDeg": 340.0,
+                    "maximumElevationGapDeg": null,
+                    "advisorySpacingDeg": 5.0,
+                    "issues": [
+                        "SINGLE_ELEVATION",
+                        "LIMITED_ELEVATION",
+                        "SPARSE_AZIMUTH",
+                        "POSSIBLE_MISSING_SECTOR"
+                    ]
+                },
+                "domain": {
+                    "state": "DECLARED",
+                    "authenticated": false,
+                    "counts": {
+                        "UNDECLARED": 0,
+                        "MEASURED": 2,
+                        "SYMMETRY": 1,
+                        "INTERPOLATED": 1
+                    },
+                    "declaration": {
+                        "version": 1,
+                        "provenance": "SYNTHETIC TEST ONLY: stored angular provenance and recovery; not physical measurement evidence",
+                        "regions": [
+                            {
+                                "origin": "MEASURED",
+                                "azimuths": [
+                                    0.0,
+                                    10.0
+                                ],
+                                "elevations": [
+                                    0.0
+                                ],
+                                "basis": "TEST ONLY measured-node declaration"
+                            },
+                            {
+                                "origin": "SYMMETRY",
+                                "azimuths": [
+                                    350.0
+                                ],
+                                "elevations": [
+                                    0.0
+                                ],
+                                "basis": "TEST ONLY assumed mirror, not an independent measurement",
+                                "operation": "MIRROR_AZIMUTH_ZERO"
+                            },
+                            {
+                                "origin": "INTERPOLATED",
+                                "azimuths": [
+                                    5.0
+                                ],
+                                "elevations": [
+                                    0.0
+                                ],
+                                "basis": "TEST ONLY interpolation between stored 0 and 10 degree nodes",
+                                "method": "CARTESIAN_LINEAR_ANGULAR"
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "response": "magnitude",
+                "frequencyHz": 1000,
+                "support": {
+                    "valid": true,
+                    "azimuthCount": 4,
+                    "elevationCount": 1,
+                    "minimumElevationDeg": 0.0,
+                    "maximumElevationDeg": 0.0,
+                    "maximumAzimuthGapDeg": 340.0,
+                    "maximumElevationGapDeg": null,
+                    "advisorySpacingDeg": 5.0,
+                    "issues": [
+                        "SINGLE_ELEVATION",
+                        "LIMITED_ELEVATION",
+                        "SPARSE_AZIMUTH",
+                        "POSSIBLE_MISSING_SECTOR"
+                    ]
+                },
+                "domain": {
+                    "state": "DECLARED",
+                    "authenticated": false,
+                    "counts": {
+                        "UNDECLARED": 0,
+                        "MEASURED": 2,
+                        "SYMMETRY": 1,
+                        "INTERPOLATED": 1
+                    },
+                    "declaration": {
+                        "version": 1,
+                        "provenance": "SYNTHETIC TEST ONLY: stored angular provenance and recovery; not physical measurement evidence",
+                        "regions": [
+                            {
+                                "origin": "MEASURED",
+                                "azimuths": [
+                                    0.0,
+                                    10.0
+                                ],
+                                "elevations": [
+                                    0.0
+                                ],
+                                "basis": "TEST ONLY measured-node declaration"
+                            },
+                            {
+                                "origin": "SYMMETRY",
+                                "azimuths": [
+                                    350.0
+                                ],
+                                "elevations": [
+                                    0.0
+                                ],
+                                "basis": "TEST ONLY assumed mirror, not an independent measurement",
+                                "operation": "MIRROR_AZIMUTH_ZERO"
+                            },
+                            {
+                                "origin": "INTERPOLATED",
+                                "azimuths": [
+                                    5.0
+                                ],
+                                "elevations": [
+                                    0.0
+                                ],
+                                "basis": "TEST ONLY interpolation between stored 0 and 10 degree nodes",
+                                "method": "DB_LINEAR_ANGULAR"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "scope": "Declared angular provenance does not certify accuracy; denser storage does not add measured resolution"
+}

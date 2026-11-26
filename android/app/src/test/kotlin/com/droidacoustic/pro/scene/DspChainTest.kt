@@ -31,7 +31,7 @@ class DspChainTest {
     @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
     @After fun tearDown() = Dispatchers.resetMain()
 
-    private fun vm(bandHz: Int = 1000) = SceneViewModel().apply {
+    private fun vm(bandHz: Int = 1000) = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply {
         setBandHz(bandHz)
         setTemperatureC(20f)
         setHumidityPct(50f)

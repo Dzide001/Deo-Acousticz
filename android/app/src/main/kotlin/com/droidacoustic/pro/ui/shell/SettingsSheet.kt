@@ -27,13 +27,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import com.droidacoustic.pro.geometry.*
+import com.droidacoustic.pro.prediction.PredictionModelScope
+import com.droidacoustic.pro.acoustics.BroadbandDrive
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.droidacoustic.pro.MainActivity
+import com.droidacoustic.pro.persistence.ProjectArchive
+import com.droidacoustic.pro.persistence.ProjectStore
+import com.droidacoustic.pro.scene.LocalProjectStore
+import java.io.File
 import com.droidacoustic.pro.scene.ClfBinaryReader
+import com.droidacoustic.pro.scene.elementPoses
 import com.droidacoustic.pro.scene.SceneViewModel
 import com.droidacoustic.pro.scene.SurfaceMaterial
 import com.droidacoustic.pro.ui.components.InspectorSection
@@ -73,6 +83,8 @@ fun SettingsSheet(
     // file. TAB is the published text half of the format, so this path needs no
     // reverse engineering and redistributes nothing.
     val scope = rememberCoroutineScope()
+    val projectStore = remember(activity) { LocalProjectStore(File(activity.filesDir, "projects")) }
+    var projectBusy by remember { mutableStateOf(false) }
     var importing by remember { mutableStateOf(false) }
     val clfPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument()
@@ -114,12 +126,46 @@ fun SettingsSheet(
         }
     }
 
+    var meshBusy by remember { mutableStateOf(false) }
+    var meshUnits by remember { mutableStateOf(1.0) }
+    var meshUp by remember { mutableStateOf(AudienceMeshUpAxis.Y) }
+    var meshOptions by remember { mutableStateOf(AudienceMeshImportOptions()) }
+    val meshPicker=rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri!=null) {
+            meshBusy=true
+            scope.launch {
+                try {
+                    val mesh=withContext(Dispatchers.IO) {
+                        val text=activity.contentResolver.openInputStream(uri)?.bufferedReader(Charsets.UTF_8)?.use { reader ->
+                            val result=StringBuilder(); val buffer=CharArray(8192)
+                            while (true) {
+                                coroutineContext.ensureActive()
+                                val count=reader.read(buffer); if (count<0) break
+                                require(result.length+count<=AudienceMeshObj.MAX_CHARS) { "Audience OBJ exceeds 8 MiB text limit" }
+                                result.append(buffer,0,count)
+                            }
+                            result.toString()
+                        } ?: error("Could not open the selected mesh")
+                        AudienceMeshObj.parse(text,meshOptions) { coroutineContext.ensureActive() }
+                    }
+                    vm.addImportedAudienceMesh(mesh)
+                    onMessage("Imported audience mesh: ${mesh.triangles().size} triangles, ${mesh.faceGroups().size} named groups")
+                } catch (cancelled: CancellationException) { throw cancelled }
+                catch (failure: Exception) { onMessage(failure.message ?: "Could not import audience mesh") }
+                finally { meshBusy=false }
+            }
+        }
+    }
+
     val signalLevel by vm.signalLevelDbu.collectAsState()
     val signalType by vm.signalType.collectAsState()
     val weighting by vm.weighting.collectAsState()
     val selectedBand by vm.selectedBandHz.collectAsState()
+    val broadbandDrive by vm.broadbandDrive.collectAsState()
     val bandwidthOct by vm.signalBandwidthOct.collectAsState()
     val resolution by vm.signalResolution.collectAsState()
+    val groundSources by vm.speakers.collectAsState()
+    val groundReflection by vm.groundReflectionEnabled.collectAsState()
     val interference by vm.signalInterferenceEnabled.collectAsState()
     val autoCalc by vm.signalAutoCalculate.collectAsState()
     val splEnabled by vm.signalSplEnabled.collectAsState()
@@ -134,7 +180,6 @@ fun SettingsSheet(
     val humidityPct by vm.humidityPct.collectAsState()
     val materials by vm.roomMaterials.collectAsState()
     val profile by vm.analysisProfile.collectAsState()
-    val reflectionOrder by vm.reflectionOrder.collectAsState()
     val clfStats by vm.clfIngestionStats.collectAsState()
     val clfRegistry by vm.clfRegistry.collectAsState()
     val aimRays by vm.aimRaysEnabled.collectAsState()
@@ -164,19 +209,45 @@ fun SettingsSheet(
                 modifier = Modifier.padding(bottom = 18.dp)
             )
 
+            ComparisonImportControls(vm,activity,onMessage)
+
+            InspectorSection("Import audience mesh") {
+                Text("Triangulated OBJ: one connected 3D surface, including vertical faces, overhangs and holes. Choose the file's units and upward axis. OBJ groups become named face groups; multiple names on a group line form one combined group. Faces initially follow the zone type. Assign or exclude faces or groups in the zone inspector; listening points are offset vertically.",
+                    style=MaterialTheme.typography.bodySmall)
+                SectionLabel("File units")
+                SegmentedControl(options=listOf(1.0,0.01,0.001,0.3048),selected=meshUnits,onSelect={meshUnits=it},
+                    label={ when(it) { 1.0 -> "m"; 0.01 -> "cm"; 0.001 -> "mm"; else -> "ft" } })
+                SectionLabel("Upward axis")
+                SegmentedControl(options=AudienceMeshUpAxis.entries.toList(),selected=meshUp,onSelect={meshUp=it},label={"${it.name} up"})
+                SmallAction(if (meshBusy) "Importing mesh…" else "Choose audience OBJ") {
+                    if (!meshBusy) {
+                        meshOptions=AudienceMeshImportOptions(meshUnits,meshUp)
+                        meshPicker.launch(arrayOf("*/*"))
+                    }
+                }
+            }
+
             // ── Signal ───────────────────────────────────────────────────────
             InspectorSection("Signal") {
                 NumericField(
-                    "Drive level", signalLevel, { vm.setSignalLevelDbu(it) },
+                    "Relative drive gain", signalLevel, { vm.setSignalLevelDbu(it) },
                     unit = "dB", range = -20f..20f, dragStep = 0.5f
                 )
-                SectionLabel("Analysis type")
+                Text("Gain relative to the model reference, not electrical input dBu. Unverified references do not establish absolute calibration.",
+                    style = MaterialTheme.typography.bodySmall)
+                SpeakerDataStatus(vm)
+                SectionLabel("Coverage mode")
                 SegmentedControl(
                     options = listOf("BAND", "SPECTRUM"),
                     selected = signalType,
                     onSelect = { vm.setSignalType(it) },
-                    label = { if (it == "BAND") "Frequency band" else "Broadband" }
+                    label = { if (it == "BAND") "Band" else "Broadband SPL" }
                 )
+                if(signalType=="SPECTRUM") {
+                    SectionLabel("Inspection frequency — rays/support (Hz)")
+                    SegmentedControl(options=SceneViewModel.SUPPORTED_BANDS_HZ,selected=selectedBand,
+                        onSelect=vm::setBandHz,label={if(it>=1000) "${it/1000}k" else "$it"})
+                }
                 if (signalType == "BAND") {
                     SectionLabel("Bandwidth")
                     SegmentedControl(
@@ -227,7 +298,7 @@ fun SettingsSheet(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        "Broadband sums all eight bands - coherently within each band, " +
+                        "Broadband sums all eight bands using the selected source summation mode within each band, " +
                             "as power between them. The range stops at 8 kHz, so a " +
                             "figure here is not directly comparable with a meter that " +
                             "reaches 20 kHz.",
@@ -239,13 +310,34 @@ fun SettingsSheet(
                         { vm.setSignalResolution(it) }, 3..96
                     )
                 }
-                SectionLabel("Low-frequency summation")
+                if(signalType=="SPECTRUM") {
+                    SectionLabel("Broadband relative drive")
+                    SegmentedControl(options=BroadbandDrive.entries,selected=broadbandDrive,
+                        onSelect=vm::setBroadbandDrive,label={it.label})
+                }
+                SectionLabel("Ground model")
+                SegmentedControl(
+                    options = listOf(false, true), selected = groundReflection,
+                    onSelect = { vm.setGroundReflectionEnabled(it) },
+                    label = { if (it) "Ground on" else "Ground off" }
+                )
+                Text("Reflecting floor: flat y=0 surface, amplitude from absorption and optional measured phase; no impedance or diffraction model.",
+                    style = MaterialTheme.typography.bodySmall)
+                if(groundReflection) GroundPhaseEditor(vm)
+                if (groundReflection && groundSources.any { speaker ->
+                    speaker.elementPoses().any { speaker.heightM + it.upM < 0f }
+                }) {
+                    Text("Ground reflection is unavailable while a cabinet centre is below y=0. Predictions use free field until the array is raised.",
+                        style = MaterialTheme.typography.bodySmall, color = Instrument.Caution)
+                }
+                SectionLabel("Source summation · all frequencies")
                 SegmentedControl(
                     options = listOf(true, false),
                     selected = interference,
                     onSelect = { vm.setSignalInterferenceEnabled(it) },
                     label = { if (it) "Complex (phase)" else "Energy (incoherent)" }
                 )
+                Text("Energy mode sums independent speaker groups at every frequency and supports mixed magnitude/complex data. Array elements and each source's reflected paths remain correlated. Complex mode requires compatible phase data when any band-capable complex source contributes. Diffuse sound contributes energy, not a phase trace.",style=MaterialTheme.typography.bodySmall)
             }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outline)
@@ -266,11 +358,9 @@ fun SettingsSheet(
             }
 
             // ── Surfaces ─────────────────────────────────────────────────────
-            InspectorSection("Surface absorption") {
+            InspectorSection("Ground absorption") {
                 listOf(
-                    Triple("Floor", "FLOOR", materials.floor),
-                    Triple("Ceiling", "CEILING", materials.ceiling),
-                    Triple("Walls", "WALL", materials.wall)
+                    Triple("Ground floor", "FLOOR", materials.floor)
                 ).forEach { (label, key, current) ->
                     SectionLabel("$label — ${current.name}")
                     SegmentedControl(
@@ -285,11 +375,9 @@ fun SettingsSheet(
                     )
                 }
                 Text(
-                    "Absorption is per octave band, from the published values for " +
-                        "each construction type - heavy carpet is 0.02 at 125 Hz and " +
-                        "0.65 at 4 kHz, so one broadband number was wrong at both " +
-                        "ends. RT60, the loss at each reflection and the floor bounce " +
-                        "all read the curve.",
+                    "This curve affects the optional global ground reflection only, when Ground is on. " +
+                        "Assign materials to Blocks and imported faces in their inspectors. " +
+                        "Saved wall and ceiling settings are retained but do not affect coverage.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -305,28 +393,22 @@ fun SettingsSheet(
 
             // ── Analysis ─────────────────────────────────────────────────────
             InspectorSection("Analysis") {
-                SectionLabel("Profile")
+                SectionLabel(PredictionModelScope.profileLabel)
                 SegmentedControl(
                     options = listOf("Fast", "Balanced", "Precision"),
                     selected = profile,
                     onSelect = { vm.setAnalysisProfile(it) },
-                    // Full words. These rendered as "Balan" and "Preci" before.
-                    label = { it }
+                    label = { "${PredictionModelScope.coverageGridSpacingM(it).toInt()} m" }
                 )
-                SectionLabel("Reflection order")
-                SegmentedControl(
-                    options = listOf(1, 2, 3),
-                    selected = reflectionOrder,
-                    onSelect = { vm.setReflectionOrder(it) },
-                    label = { n ->
-                        when (n) {
-                            1 -> "1st only"
-                            2 -> "1st + 2nd"
-                            else -> "1st + 2nd + 3rd"
-                        }
-                    }
-                )
-                SectionLabel("Compute")
+                Readout("Reflections", PredictionModelScope.reflectionLabel)
+                Text("Grid spacing controls receiver density, not acoustic model accuracy. Audience meshes may refine it further.",
+                    style = MaterialTheme.typography.bodySmall)
+                Text(PredictionModelScope.summary,
+                    style = MaterialTheme.typography.bodySmall)
+                PredictionModelScope.limitations.forEach {
+                    Text(it, style = MaterialTheme.typography.bodySmall, color = Instrument.Caution)
+                }
+                SectionLabel("Calculation")
                 SegmentedControl(
                     options = listOf(true, false),
                     selected = autoCalc,
@@ -336,14 +418,14 @@ fun SettingsSheet(
                 if (!autoCalc) {
                     SmallAction("Recalculate now", Modifier.fillMaxWidth(), Instrument.Accent) {
                         vm.recalculateSignal()
-                        onMessage("Recalculated")
+                        onMessage("Calculation requested")
                     }
                 }
             }
 
             // ── Layers ───────────────────────────────────────────────────────
             InspectorSection("Layers") {
-                LayerToggle("Direct SPL", splEnabled) { vm.setSignalSplEnabled(it) }
+                LayerToggle("Predicted SPL", splEnabled) { vm.setSignalSplEnabled(it) }
                 LayerToggle("Coverage heatmap", coverage) { vm.setSignalCoverageEnabled(it) }
                 LayerToggle("Directivity", dispersion) { vm.setSignalDispersionEnabled(it) }
                 LayerToggle("Aim rays", aimRays) { vm.setAimRaysEnabled(it) }
@@ -506,21 +588,41 @@ fun SettingsSheet(
             // ── Project ──────────────────────────────────────────────────────
             InspectorSection("Project") {
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                    SmallAction("Save", Modifier.weight(1f)) {
-                        activity.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-                            .edit()
-                            .putString(slotKey(), vm.exportSceneJson())
-                            .apply()
-                        onMessage("Project saved")
+                    SmallAction(if (projectBusy) "Working…" else "Save", Modifier.weight(1f)) {
+                        if (!projectBusy) {
+                            projectBusy = true
+                            val json = vm.exportSceneJson(includeClfRegistry = false)
+                            val assetPayloads = vm.projectAssetPayloads()
+                            scope.launch {
+                                try {
+                                    withContext(Dispatchers.IO) { projectStore.save("project_A", json, assetPayloads::get) }
+                                    onMessage("Project saved")
+                                } catch (e: Exception) { onMessage("Save failed: ${e.message}") }
+                                finally { projectBusy = false }
+                            }
+                        }
                     }
                     SmallAction("Load", Modifier.weight(1f)) {
-                        val json = activity.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-                            .getString(slotKey(), null)
-                        if (json.isNullOrBlank()) onMessage("Nothing saved yet")
-                        else onMessage(
-                            if (vm.importSceneJson(json)) "Project loaded"
-                            else (vm.lastImportError.value ?: "Load failed")
-                        )
+                        if (!projectBusy) {
+                            projectBusy = true
+                            scope.launch {
+                                try {
+                                    val saved = withContext(Dispatchers.IO) { projectStore.loadPrepared("project_A") }
+                                    val legacy = if (saved == null) withContext(Dispatchers.IO) {
+                                        val prefs = activity.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                                        ProjectStore.legacyKeys("project_A").firstNotNullOfOrNull {
+                                            prefs.getString(it, null)?.takeIf(String::isNotBlank)
+                                        }
+                                    } else null
+                                    val prepared = saved?.project ?: legacy?.let { withContext(Dispatchers.Default) { ProjectArchive.open(it) } }
+                                    onMessage(if (prepared == null) "Nothing saved yet"
+                                        else if (!vm.importPreparedProject(prepared)) vm.lastImportError.value ?: "Load failed"
+                                        else if (saved?.usedBackup == true) "Loaded previous valid project checkpoint"
+                                        else "Project loaded")
+                                } catch (e: Exception) { onMessage("Load failed: ${e.message}") }
+                                finally { projectBusy = false }
+                            }
+                        }
                     }
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -563,7 +665,6 @@ private fun LayerToggle(label: String, on: Boolean, onChange: (Boolean) -> Unit)
     }
 }
 
-private fun slotKey() = "scene_snapshot_A_v${SceneViewModel.SCENE_SCHEMA_VERSION}"
 
 private fun copyToClipboard(context: Context, label: String, text: String) {
     val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

@@ -47,7 +47,7 @@ class LineArrayDirectivityTest {
         buildString {
             appendLine("<CLF2>")
             appendLine("<MODELNAME>\t$model")
-            appendLine("<SENSITIVITY>\t100.0")
+            appendLine("<SENSITIVITY>\t" + List(8) { "100.0" }.joinToString("\t"))
             appendLine("<BALLOON-SYMMETRY>\t<none>")
             appendLine("<BALLOON-ARC-ORDER>\t<normal>")
             SceneViewModel.SUPPORTED_BANDS_HZ.forEach { hz ->
@@ -94,7 +94,7 @@ class LineArrayDirectivityTest {
         splayDeg: Float = 0f,
         heightM: Float = 6f,
         distM: Float = 20f
-    ): SceneViewModel = track(SceneViewModel()).apply {
+    ): SceneViewModel = track(SceneViewModel(predictionDispatcher = Dispatchers.Main)).apply {
         setBandHz(1000)
         tabDoc?.let { importClfTabText(it) }
         moveListener(distM, 0f)
@@ -172,7 +172,7 @@ class LineArrayDirectivityTest {
 
     @Test
     fun `a signed angular delta keeps its sign while the unsigned one does not`() {
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         assertEquals(-30f, v.signedAngularDeltaDeg(0f, 30f), 1e-3f)
         assertEquals(30f, v.signedAngularDeltaDeg(30f, 0f), 1e-3f)
         assertEquals(30f, v.angularDeltaDeg(0f, 30f), 1e-3f)
@@ -182,7 +182,7 @@ class LineArrayDirectivityTest {
 
     @Test
     fun `horizontal off-axis angle is measured from where the box is panned`() {
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         val spk = PlacedSpeaker(id = 0, x = 0f, z = 0f, panDeg = 0f)
         // Pan 0 faces +X. A listener at +Z is 90 degrees round.
         assertEquals(90f, v.horizontalOffAxisDeg(spk, 0f, 0f, 0f, 10f), 1e-2f)

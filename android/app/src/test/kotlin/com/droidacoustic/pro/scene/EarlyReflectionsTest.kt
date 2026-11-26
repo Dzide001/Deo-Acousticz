@@ -48,7 +48,7 @@ class EarlyReflectionsTest {
         bandHz: Int = 1000,
         order: Int = 1,
         floorAlpha: Float = 0.15f
-    ): SceneViewModel = track(SceneViewModel()).apply {
+    ): SceneViewModel = track(SceneViewModel(predictionDispatcher = Dispatchers.Main)).apply {
         setBandHz(bandHz)
         setTemperatureC(20f)
         setReflectionOrder(order)
@@ -168,7 +168,7 @@ class EarlyReflectionsTest {
 
     @Test
     fun `an empty room produces nothing rather than failing`() {
-        val v = track(SceneViewModel())
+        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
         assertTrue(v.buildEarlyReflections(emptyList(), null, ListenerPos()).isEmpty())
     }
 

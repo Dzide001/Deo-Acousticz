@@ -34,6 +34,13 @@ build/
 # ─── Generated / temp ──────────────────────────────────────────────────────────
 *.log
 *.tmp
+__pycache__/
+*.py[cod]
+
+# Curated validation evidence is intentionally versioned, unlike runtime logs.
+!validation/**/results/*build.log
+!validation/device/**/test-build.log
+!validation/device/**/final-build.log
 
 # ─── Corrected / additional ignores ────────────────────────────────────────────
 # The NDK external-build dir actually lives at android/app/.cxx (the rule above
@@ -53,3 +60,6 @@ android/app/.cxx/
 # corpus can be restored and verified file by file.
 corpus/
 android/app/src/main/assets/clf/raw/
+
+# Kotlin compiler session/cache files
+android/.kotlin/

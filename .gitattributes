@@ -1,0 +1,2 @@
+# Retain compiler/test evidence verbatim, including tool-generated trailing spaces.
+validation/**/*.log -whitespace

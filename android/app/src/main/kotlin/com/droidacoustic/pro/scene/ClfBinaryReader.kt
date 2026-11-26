@@ -55,7 +55,9 @@ object ClfBinaryReader {
         val slots: Int,
         val bandTable: List<Int>,
         val storesEverySlot: Boolean,
-        val usualOffsets: List<Int>
+        val usualOffsets: List<Int>,
+        /** Start of the per-slot on-axis level array. */
+        val sensitivityOffset: Int
     ) {
         val perBand: Int get() = arcs * samples
     }
@@ -64,21 +66,26 @@ object ClfBinaryReader {
         arcs = 72, samples = 37, resolutionDeg = 5, slots = 30,
         bandTable = ClfTabParser.THIRD_OCTAVE_HZ,
         storesEverySlot = true,
-        usualOffsets = listOf(0x3798)
+        usualOffsets = listOf(0x3798),
+        sensitivityOffset = 0x1000
     )
 
     private val CF1 = Layout(
         arcs = 36, samples = 19, resolutionDeg = 10, slots = 10,
         bandTable = ClfTabParser.OCTAVE_HZ,
         storesEverySlot = false,
-        usualOffsets = listOf(0x23a8, 0x2e58)
+        usualOffsets = listOf(0x23a8, 0x2e58),
+        // Not the same place as CF2. Found as the one slot-indexed run of
+        // plausible levels that lines up with the declared band range in all
+        // nine distinct CF1 files; unlike the CF2 array, which matches the
+        // published XD12 text exactly, there is no ground truth behind it.
+        sensitivityOffset = 0x1240
     )
 
     private const val OFF_VERSION = 0x0014
     private const val OFF_MODEL = 0x0138
     private const val OFF_MANUFACTURER = 0x0238
     private const val OFF_DESCRIPTION = 0x0338
-    private const val OFF_AXIAL = 0x1000
     private const val OFF_BAND_RANGE = 0x1210
     private const val USUAL_BALLOON = 0x3798
 
@@ -133,9 +140,13 @@ object ClfBinaryReader {
         }
         if (bands.isEmpty()) throw ParseException("no usable bands in $lo..$hi")
 
-        val sensitivity = (lo..hi)
-            .map { buf.getFloat(OFF_AXIAL + it * 4) }
-            .filter { it.isFinite() && it > 0f }
+        val sensitivityByBand = (lo..hi).mapNotNull { slot ->
+            val at = layout.sensitivityOffset + slot * 4
+            if (at + 4 > bytes.size) return@mapNotNull null
+            val v = buf.getFloat(at)
+            if (v.isFinite() && v in 30f..150f) layout.bandTable[slot] to v else null
+        }.toMap().filterKeys { hz -> bands.any { it.frequencyHz == hz } }
+        val sensitivity = sensitivityByBand.values
             .takeIf { it.isNotEmpty() }?.average()?.toFloat()
 
         val model = readString(bytes, OFF_MODEL)
@@ -146,12 +157,14 @@ object ClfBinaryReader {
             description = readString(bytes, OFF_DESCRIPTION),
             resolutionDeg = layout.resolutionDeg,
             sensitivityDb = sensitivity,
+            sensitivityByBand = sensitivityByBand,
             maxInputW = null,
             bands = bands,
             tags = mapOf(
                 "<FORMAT>" to listOf(if (layout === CF2) "CF2" else "CF1"),
                 "<VERSION>" to listOf(readString(bytes, OFF_VERSION))
-            )
+            ),
+            sourceSha256 = com.droidacoustic.pro.acoustics.SpeakerProvenance.hash(bytes)
         )
     }
 

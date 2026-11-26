@@ -1,0 +1,38 @@
+[
+  {
+    "check": "Single mode button beside Calculate",
+    "manualBounds": [
+      2585,
+      155,
+      2691,
+      193
+    ],
+    "calculateBounds": [
+      2780,
+      154,
+      2956,
+      194
+    ]
+  },
+  {
+    "check": "Manual waits for explicit recalculation"
+  },
+  {
+    "check": "Same button toggles Auto; Calculate stays available"
+  },
+  {
+    "check": "Broadband hides frequency row and explanations"
+  },
+  {
+    "check": "Auto and Broadband survive restart"
+  },
+  {
+    "check": "Manual choice survives restart without scene edit"
+  },
+  {
+    "check": "Returning to Band restores frequency buttons"
+  },
+  {
+    "check": "Final manual calculation completes"
+  }
+]

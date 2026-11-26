@@ -1,0 +1,162 @@
+{
+  "speakerId": "point_small",
+  "manufacturer": "TEST ONLY",
+  "model": "Angular provenance recovery fixture",
+  "sensitivityByBand": {
+    "1000": 90
+  },
+  "patterns": [
+    {
+      "frequency": 1000,
+      "azimuths": [
+        0,
+        5,
+        10,
+        350
+      ],
+      "elevations": [
+        0
+      ],
+      "spl": [
+        [
+          0
+        ],
+        [
+          -0.5
+        ],
+        [
+          -1
+        ],
+        [
+          -1
+        ]
+      ],
+      "angularDomain": {
+        "version": 1,
+        "provenance": "SYNTHETIC TEST ONLY: stored angular provenance and recovery; not physical measurement evidence",
+        "regions": [
+          {
+            "origin": "MEASURED",
+            "azimuths": [
+              0,
+              10
+            ],
+            "elevations": [
+              0
+            ],
+            "basis": "TEST ONLY measured-node declaration"
+          },
+          {
+            "origin": "SYMMETRY",
+            "azimuths": [
+              350
+            ],
+            "elevations": [
+              0
+            ],
+            "basis": "TEST ONLY assumed mirror, not an independent measurement",
+            "operation": "MIRROR_AZIMUTH_ZERO"
+          },
+          {
+            "origin": "INTERPOLATED",
+            "azimuths": [
+              5
+            ],
+            "elevations": [
+              0
+            ],
+            "basis": "TEST ONLY interpolation between stored 0 and 10 degree nodes",
+            "method": "DB_LINEAR_ANGULAR"
+          }
+        ]
+      }
+    }
+  ],
+  "complexResponse": {
+    "version": 1,
+    "convention": "positive-delay-propagation-removed-1m-v1",
+    "provenance": "SYNTHETIC TEST ONLY",
+    "referenceDrive": "test",
+    "patterns": [
+      {
+        "frequency": 1000,
+        "azimuths": [
+          0,
+          5,
+          10,
+          350
+        ],
+        "elevations": [
+          0
+        ],
+        "real": [
+          [
+            1
+          ],
+          [
+            0.9
+          ],
+          [
+            0.8
+          ],
+          [
+            0.8
+          ]
+        ],
+        "imaginary": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ]
+        ],
+        "angularDomain": {
+          "version": 1,
+          "provenance": "SYNTHETIC TEST ONLY: stored angular provenance and recovery; not physical measurement evidence",
+          "regions": [
+            {
+              "origin": "MEASURED",
+              "azimuths": [
+                0,
+                10
+              ],
+              "elevations": [
+                0
+              ],
+              "basis": "TEST ONLY measured-node declaration"
+            },
+            {
+              "origin": "SYMMETRY",
+              "azimuths": [
+                350
+              ],
+              "elevations": [
+                0
+              ],
+              "basis": "TEST ONLY assumed mirror, not an independent measurement",
+              "operation": "MIRROR_AZIMUTH_ZERO"
+            },
+            {
+              "origin": "INTERPOLATED",
+              "azimuths": [
+                5
+              ],
+              "elevations": [
+                0
+              ],
+              "basis": "TEST ONLY interpolation between stored 0 and 10 degree nodes",
+              "method": "CARTESIAN_LINEAR_ANGULAR"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

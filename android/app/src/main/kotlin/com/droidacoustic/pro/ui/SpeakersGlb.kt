@@ -1,5 +1,6 @@
 package com.droidacoustic.pro.ui
 
+import com.droidacoustic.pro.scene.elementPoses
 import com.droidacoustic.pro.scene.PlacedSpeaker
 import com.droidacoustic.pro.scene.SpeakerModelPackage
 import java.nio.ByteBuffer
@@ -26,17 +27,26 @@ object SpeakersGlb {
         if (speakers.isEmpty()) return null
 
         val packageById = modelPackages.associateBy { it.id }
-        val totalVerts = speakers.size * VERTS_PER_SPEAKER
+        val cabinets = speakers.flatMap { spk ->
+            val yaw = Math.toRadians(spk.panDeg.toDouble())
+            spk.elementPoses().map { pose -> spk.copy(
+                x = spk.x + pose.forwardM * cos(yaw).toFloat(),
+                heightM = spk.heightM + pose.upM,
+                z = spk.z + pose.forwardM * sin(yaw).toFloat(),
+                arrayAimDeg = pose.tiltDownDeg
+            ) }
+        }
+        val totalVerts = cabinets.size * VERTS_PER_SPEAKER
         val positions  = FloatArray(totalVerts * 3)
         val colours    = FloatArray(totalVerts * 4)
 
         // ── Fill vertex data ──────────────────────────────────────────────────
-        speakers.forEachIndexed { si, spk ->
+        cabinets.forEachIndexed { si, spk ->
             val base = si * VERTS_PER_SPEAKER
             val pkg = packageById[spk.modelPackageId]
             val cabW = (pkg?.cabinetWidthM ?: 0.42f).coerceAtLeast(0.08f)
             val cabD = (pkg?.cabinetDepthM ?: 0.40f).coerceAtLeast(0.08f)
-            val cabH = (pkg?.cabinetHeightM ?: 0.65f).coerceAtLeast(0.08f)
+            val cabH = (if (spk.arrayElements > 1) spk.arraySpacingM else pkg?.cabinetHeightM ?: 0.65f).coerceAtLeast(0.08f)
             val cR = pkg?.colorR ?: 0.0f
             val cG = pkg?.colorG ?: 0.9f
             val cB = pkg?.colorB ?: 0.9f
@@ -50,7 +60,7 @@ object SpeakersGlb {
             //
             // Only the mechanical aim moves the box. arraySteerDeg is electronic
             // steering, which swings the beam without touching the cabinet, so
-            // the rays use aim + steer and the mesh uses aim alone.
+            // the cabinet-axis rays and mesh both use mechanical aim alone.
             val pitch = Math.toRadians(-spk.arrayAimDeg.toDouble())
             val cyaw = cos(yaw).toFloat()
             val syaw = sin(yaw).toFloat()

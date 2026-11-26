@@ -29,7 +29,7 @@ class RevisionTest {
 
     /** Asserts that [change] both moves the revision and alters the saved JSON. */
     private fun marksTheScene(name: String, change: (SceneViewModel) -> Unit) {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         val beforeRev = v.revision.value
         val beforeJson = v.exportSceneJson(includeClfRegistry = false)
         change(v)
@@ -65,7 +65,7 @@ class RevisionTest {
 
     @Test
     fun `setting a value to what it already is does not churn the autosave`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         v.setContourMode(SceneViewModel.CONTOUR_LINES)
         v.setAimRaysEnabled(true)
         val settled = v.revision.value
@@ -76,7 +76,7 @@ class RevisionTest {
 
     @Test
     fun `a rejected value moves nothing`() {
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         val before = v.revision.value
         v.setContourMode("NOT_A_MODE")
         v.setWeighting("dB(HL)")
@@ -87,14 +87,14 @@ class RevisionTest {
     fun `broadband and its weighting survive a save and reload`() {
         // The end of the chain the counter exists to serve: what was on screen
         // is what comes back.
-        val v = SceneViewModel()
+        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         v.setSignalType("SPECTRUM")
         v.setWeighting(SceneViewModel.WEIGHTING_A)
         v.setContourMode(SceneViewModel.CONTOUR_BANDS)
         v.setAimRaysEnabled(true)
         v.addSpeaker(0f, 0f)
 
-        val restored = SceneViewModel()
+        val restored = SceneViewModel(predictionDispatcher = Dispatchers.Main)
         restored.importSceneJson(v.exportSceneJson(includeClfRegistry = false))
         assertEquals("SPECTRUM", restored.signalType.value)
         assertEquals(SceneViewModel.WEIGHTING_A, restored.weighting.value)

@@ -1,0 +1,204 @@
+{
+    "schema": 1,
+    "fixtureSha256": "8ed71bae89df6afdd35912a3282829dc07fdbf58c1f7262836fbdc26bcb348e9",
+    "allPassed": true,
+    "cases": [
+        {
+            "id": "direct-1m",
+            "classification": "numerical-verification",
+            "referencePower": 9.989264824251646E9,
+            "enginePower": 9.989264824269588E9,
+            "normalizedError": 1.7961710801086265E-12,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "direct-2m",
+            "classification": "numerical-verification",
+            "referencePower": 2.4946352932257824E9,
+            "enginePower": 2.4946352932347517E9,
+            "normalizedError": 3.5954381669164474E-12,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "direct-10m",
+            "classification": "numerical-verification",
+            "referencePower": 9.893165358697002E7,
+            "enginePower": 9.893165358874775E7,
+            "normalizedError": 1.796935832256779E-11,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "air-and-distance-8khz-60m",
+            "classification": "numerical-verification",
+            "referencePower": 648562.6654848271,
+            "enginePower": 648562.668009381,
+            "normalizedError": 3.892536602715498E-9,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "quarter-period-delay",
+            "classification": "numerical-verification",
+            "referencePower": 1.978633071739411E8,
+            "enginePower": 1.9786336187175894E8,
+            "normalizedError": 2.764424521831484E-7,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true,
+            "normalizedComplexPressureError": 1.378737319201475E-7
+        },
+        {
+            "id": "half-period-null",
+            "classification": "numerical-verification",
+            "referencePower": 1.132989285013882E-20,
+            "enginePower": 1.1183481881716934E-20,
+            "normalizedError": 7.399601801519329E-31,
+            "normalizedTolerance": 1.0E-12,
+            "passed": true,
+            "normalizedComplexPressureError": 6.465729649126186E-17
+        },
+        {
+            "id": "polarity-null",
+            "classification": "numerical-verification",
+            "referencePower": 0.0,
+            "enginePower": 0.0,
+            "normalizedError": 0.0,
+            "normalizedTolerance": 1.0E-12,
+            "passed": true,
+            "normalizedComplexPressureError": 0.0
+        },
+        {
+            "id": "eight-emitter-asymmetric",
+            "classification": "numerical-verification",
+            "referencePower": 6.864496271695986E8,
+            "enginePower": 6.864495544677942E8,
+            "normalizedError": 4.013765682388301E-7,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true,
+            "normalizedComplexPressureError": 7.742983059259617E-8
+        },
+        {
+            "id": "band-comb-short-delay",
+            "classification": "numerical-verification",
+            "referencePower": 1.9260231018634918E8,
+            "enginePower": 1.926023101898101E8,
+            "normalizedError": 1.7491438640102216E-11,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "band-comb-long-delay",
+            "classification": "numerical-verification",
+            "referencePower": 1.9741885247495666E8,
+            "enginePower": 1.974188524785041E8,
+            "normalizedError": 1.7928690716432993E-11,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "hard-ground-double-pressure",
+            "classification": "numerical-verification",
+            "referencePower": 3.9572661434788007E8,
+            "enginePower": 3.95726614354991E8,
+            "normalizedError": 3.593871664513558E-11,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "absorbing-ground-free-field",
+            "classification": "numerical-verification",
+            "referencePower": 9.893165358697002E7,
+            "enginePower": 9.893165358874775E7,
+            "normalizedError": 1.796935832256779E-11,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "ground-destructive-interference",
+            "classification": "numerical-verification",
+            "referencePower": 2.367472876166272E7,
+            "enginePower": 2.367472876168564E7,
+            "normalizedError": 7.906401534891959E-14,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "finite-edge-inside",
+            "classification": "known-model-limitation",
+            "referencePower": 1.8659225328402233E8,
+            "enginePower": 1.8659225203689837E8,
+            "normalizedError": 6.430350932767926E-9,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "finite-edge-outside",
+            "classification": "known-model-limitation",
+            "referencePower": 1.1528273005304879E8,
+            "enginePower": 1.1528272982751644E8,
+            "normalizedError": 1.9563411867550792E-9,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "barrier-shadow",
+            "classification": "known-model-limitation",
+            "referencePower": 0.0,
+            "enginePower": 0.0,
+            "normalizedError": 0.0,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "barrier-above",
+            "classification": "known-model-limitation",
+            "referencePower": 3.978575696642607E8,
+            "enginePower": 3.9785756966783494E8,
+            "normalizedError": 8.983747956881333E-12,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true
+        },
+        {
+            "id": "wideband-frequency-refinement",
+            "classification": "numerical-verification",
+            "referencePower": 5258848.804609066,
+            "enginePower": 5258855.269882974,
+            "normalizedError": 1.2449414334896134E-6,
+            "normalizedTolerance": 3.0E-6,
+            "passed": true,
+            "engineConvergence": [
+                {
+                    "segments": 1,
+                    "power": 5250517.260291022,
+                    "normalizedError": 0.0016043070832789394
+                },
+                {
+                    "segments": 4,
+                    "power": 5256040.620261142,
+                    "normalizedError": 5.407388916806676E-4
+                },
+                {
+                    "segments": 16,
+                    "power": 5263180.543034029,
+                    "normalizedError": 8.341117052008962E-4
+                },
+                {
+                    "segments": 64,
+                    "power": 5258955.230684801,
+                    "normalizedError": 2.049321237812744E-5
+                },
+                {
+                    "segments": 256,
+                    "power": 5258855.269882974,
+                    "normalizedError": 1.2449414334896134E-6
+                }
+            ]
+        }
+    ],
+    "referenceSha256": "280769d791a35fb17d5ff4d0248a0ff7b31c36708a4071a78a345f71a9eae0e0",
+    "sharedCoreKotlinSha256": "47e4bfdff808d0184f143a354fc4730370a92c7e68324cb0be6c93da22bd893a",
+    "runtime": "21.0.9+10-LTS",
+    "platform": "Mac OS X aarch64"
+}

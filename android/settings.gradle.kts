@@ -22,3 +22,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "DroidAcousticPro"
 include(":app")
+
+include(":shared-core")

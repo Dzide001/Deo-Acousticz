@@ -1,5 +1,7 @@
 package com.droidacoustic.pro.ui
 
+import com.droidacoustic.pro.geometry.PreparedAudienceGeometry
+import com.droidacoustic.pro.geometry.SurfaceContours
 import com.droidacoustic.pro.scene.HeatCell
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -20,8 +22,8 @@ import kotlin.math.roundToInt
  * set, otherwise the loudest point on the plane. -6 dB is drawn brightest
  * because that is the conventional edge of coverage; the others are context.
  *
- * Marching squares over the same lattice the heat field is built from. The
- * segments are emitted as thin ribbons rather than glTF LINES: a line is one
+ * Shared piecewise linear contours follow the solver's surface triangles; legacy
+ * callers without topology use marching squares. The segments are emitted as thin ribbons rather than glTF LINES: a line is one
  * device pixel wide however far away it is, which on a tablet at venue scale is
  * a hairline you cannot follow. A ribbon has a width in metres, so it stays
  * readable and thickens as you zoom in, like every other thing on the plan.
@@ -42,7 +44,7 @@ object ContoursGlb {
     private data class Seg(
         val x0: Float, val z0: Float, val x1: Float, val z1: Float,
         val y: Float, val r: Float, val g: Float, val b: Float, val a: Float,
-        val halfWidth: Float
+        val halfWidth: Float, val y1: Float = y
     )
 
     /**
@@ -52,8 +54,23 @@ object ContoursGlb {
     fun build(
         cells: List<HeatCell>,
         thresholds: List<Float>,
-        emphasisDb: Float? = null
+        emphasisDb: Float? = null,
+        geometry: PreparedAudienceGeometry? = null
     ): ByteArray? {
+        if (geometry != null) {
+            val values = FloatArray(geometry.receiverCount) { Float.NaN }
+            cells.forEach { c -> c.sampleIndex?.takeIf { it in values.indices }?.let { values[it]=c.splDb } }
+            val positions=mutableListOf<Float>(); val colors=mutableListOf<Float>()
+            for (segment in SurfaceContours.build(geometry,values,thresholds)) {
+                val emphasis=emphasisDb!=null && abs(segment.levelDb-emphasisDb)<1e-3f
+                val grey=if (emphasis) 1f else 0.88f
+                for (p in SurfaceContours.ribbon(segment,if (emphasis) HALF_WIDTH_EMPHASIS_M else HALF_WIDTH_M)) {
+                    positions.addAll(listOf(p.x,p.y,p.z)); colors.addAll(listOf(grey,grey,grey,if (emphasis) 0.95f else 0.5f))
+                }
+            }
+            if (positions.isEmpty()) return null
+            return assemble(positions.toFloatArray(),colors.toFloatArray(),positions.size/3)
+        }
         if (cells.size < 4 || thresholds.isEmpty()) return null
 
         val xs = cells.map { it.x }.distinct().sorted()
@@ -85,9 +102,12 @@ object ContoursGlb {
                 marchQuad(c, right, diag, up, t, emphasised, segs)
             }
         }
-        if (segs.isEmpty()) return null
+        return renderSegments(segs)
+    }
 
-        // Two triangles per segment, laid flat in the XZ plane.
+    private fun renderSegments(segs: List<Seg>): ByteArray? {
+        if (segs.isEmpty()) return null
+        // Two triangles per segment, following the surface elevation at each endpoint.
         val vertCount = segs.size * 6
         val positions = FloatArray(vertCount * 3)
         val colours = FloatArray(vertCount * 4)
@@ -108,9 +128,9 @@ object ContoursGlb {
                 Triple(seg.x1 + nx, seg.z1 + nz, 4),
                 Triple(seg.x1 - nx, seg.z1 - nz, 5)
             )
-            corners.forEach { (cx, cz, _) ->
+            corners.forEach { (cx, cz, corner) ->
                 positions[v * 3] = cx
-                positions[v * 3 + 1] = seg.y
+                positions[v * 3 + 1] = if (corner == 0 || corner == 1 || corner == 3) seg.y else seg.y1
                 positions[v * 3 + 2] = cz
                 colours[v * 4] = seg.r
                 colours[v * 4 + 1] = seg.g

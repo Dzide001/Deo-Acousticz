@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.prediction.CoveragePresentationTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-26T04:55:24.344Z" hostname="Dzide.local" time="0.017">
+  <properties/>
+  <testcase name="automaticAndRunningStatesDoNotClaimResultsAreCurrent[jvm]" classname="com.droidacoustic.pro.prediction.CoveragePresentationTest" time="0.016"/>
+  <testcase name="spectrumInspectionCannotRelabelBroadbandAsSelectedBand[jvm]" classname="com.droidacoustic.pro.prediction.CoveragePresentationTest" time="0.001"/>
+  <testcase name="staleAndFailedStatesOfferManualRecoveryInBothModes[jvm]" classname="com.droidacoustic.pro.prediction.CoveragePresentationTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

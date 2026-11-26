@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-26",
+  "suites": {
+    "sharedJvm": {
+      "tests": 615,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "android": {
+      "tests": 471,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "debugBuild": "passed",
+  "independentReferenceChecks": "six packages passed",
+  "csvPackagingTests": 6,
+  "stiMerged": false,
+  "stiBranchHead": "5b58c7e97819332518f227df4d894a107b9d1c90"
+}

@@ -1,0 +1,38 @@
+{
+  "scope": "SYNTHETIC_RELATIVE_WEIGHTED_TOTALS_ONLY",
+  "toleranceDb": 1e-07,
+  "scriptSha256": "7d808069506afdcb439026be465dd14bdaca87f7dae9df47507cbfc3ca971f72",
+  "weightedReferenceSha256": "39d701bd04138adddbabee2d265cde199a99dcfdb2a7d655c76f307a3f3d2109",
+  "cases": [
+    {
+      "weighting": "A",
+      "distanceM": 10,
+      "relativeDb": 0.0
+    },
+    {
+      "weighting": "A",
+      "distanceM": 20,
+      "relativeDb": -6.279864998610748
+    },
+    {
+      "weighting": "C",
+      "distanceM": 10,
+      "relativeDb": 0.0
+    },
+    {
+      "weighting": "C",
+      "distanceM": 20,
+      "relativeDb": -6.143630368655522
+    },
+    {
+      "weighting": "Z",
+      "distanceM": 10,
+      "relativeDb": 0.0
+    },
+    {
+      "weighting": "Z",
+      "distanceM": 20,
+      "relativeDb": -6.190089734156743
+    }
+  ]
+}
