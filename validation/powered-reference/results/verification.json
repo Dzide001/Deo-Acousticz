@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-26",
+  "scope": "SYNTHETIC_REFERENCE_BASIS_AND_CALIBRATION_GUARD_NOT_PHYSICAL_ACCURACY",
+  "referenceCases": 4,
+  "maxReopenDifferenceDb": 0.0,
+  "failedImportsPreservedProjects": true,
+  "tests": {
+    "sharedJvm": {
+      "tests": 632,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "androidFocused": {
+      "tests": 51,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "androidDebugBuild": "PASS",
+  "iosArm64CoreCompilation": "PASS",
+  "iosSimulatorArm64TestCompilation": "PASS (compile only)",
+  "physicalDeviceTest": "Not run in this batch",
+  "legacyDefaultAssetHashStability": "PASS (shared common test)",
+  "command": "JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home ./gradlew :shared-core:jvmTest :shared-core:compileTestKotlinIosSimulatorArm64 :shared-core:compileKotlinIosArm64 :app:testDebugUnitTest --tests '*PoweredReferenceRecoveryTest' --tests '*Cf1ReferenceValidationTest' --tests '*ExternalClfHandednessTest' --tests '*ClfTabParserTest' --tests '*ClfBinaryReaderTest' --tests '*MeasuredDirectivityTest' --tests '*ManufacturerDataComparisonTest' --tests '*ProjectRecoveryTest' --tests '*AsymmetricDirectivityRecoveryTest' :app:assembleDebug -Pkotlin.compiler.execution.strategy=in-process --offline",
+  "evidenceSha256": {
+    "android.json": "3ad1e90523f787635f1d7df87a5f38332d1a2129be7d64aeea735f6b50191870",
+    "shared-tests.xml": "70bedb29d5314397c32ac6ae53ac570ebcf44ec96e627885fe5b8a17f24ab2c5",
+    "android-tests.xml": "d8607430bee3e72eaeef255d3cf9f3c1d95a7c6b1105b5f3bb476778e5499aab",
+    "validation-build.log": "e728658e830d2d492f438e33f8a285cc0c00a50fb9eed0d20ff7d93c8af95a0d"
+  },
+  "remainingGates": [
+    "Qualified powered octave/drive conversion",
+    "External electrical calibration",
+    "Asymmetric binary CF1",
+    "Manufacturer/measurement acceptance"
+  ]
+}

@@ -1,206 +1,89 @@
 package com.droidacoustic.pro.scene
 
+import com.droidacoustic.pro.prediction.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
-import kotlin.math.log10
+import kotlinx.coroutines.test.*
+import org.junit.*
+import org.junit.Assert.*
+import kotlin.math.*
 
-/**
- * Coherent summation across the elements of a line array.
- *
- * The anchor is the one number an array must get right: N elements radiating in
- * phase into the far field sum to 20*log10(N) over one of them, not 10*log10(N).
- * Eight boxes are +18.06 dB, and anything near +9 would mean the model had
- * quietly fallen back to adding power instead of pressure.
- *
- * The rest of the model is less firm. The steering phase term is a far-field
- * linear-array approximation, the edge taper is a shading control rather than a
- * measurement, and mechanical poses and electronic delays are tested separately.
- */
+/** Physical array predictions through SceneViewModel.capturePredictionRequest. */
 @OptIn(ExperimentalCoroutinesApi::class)
 class LineArraySummationTest {
-
-    @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
-    @After fun tearDown() = Dispatchers.resetMain()
-
-    private fun vm(bandHz: Int = 63) = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply {
-        setBandHz(bandHz)
-        setTemperatureC(20f)
+    private val dispatcher=StandardTestDispatcher()
+    private val models=mutableListOf<SceneViewModel>()
+    @Before fun setup()=Dispatchers.setMain(dispatcher)
+    @After fun cleanup() {models.forEach {it.cancelAnalysisJobs()};dispatcher.scheduler.runCurrent();Dispatchers.resetMain()}
+    private fun vm(band:Int=63)=SceneViewModel(predictionDispatcher=dispatcher).also {models+=it}.apply {
+        setBandHz(band);setSignalType("BAND");setSignalDispersionEnabled(false)
+        setSignalBandwidthOct(1f/12);setSignalInterferenceEnabled(true)
     }
+    private fun array(n:Int=8,spacing:Float=.2f)=PlacedSpeaker(0,0f,0f,heightM=8f,sensitivity=100f,arrayElements=n,arraySpacingM=spacing)
+    private fun output(v:SceneViewModel,sources:List<PlacedSpeaker>,x:Float=200f,y:Float=8f,
+        dsp:Map<Int,SpeakerDsp> = emptyMap(),cells:List<HeatCell> = listOf(HeatCell(x,0f,Float.NaN,renderY=y)))=
+        v.capturePredictionRequest(PredictionTicket(v.revision.value,1,PredictionChannel.COVERAGE),sources,cells,
+            dsps=dsp,retainBandPowers=true).calculate()
+    private fun level(v:SceneViewModel,s:PlacedSpeaker)=output(v,listOf(s)).levelAt(0)
 
-    private fun array(
-        elements: Int = 8,
-        spacingM: Float = 0.2f,
-        heightM: Float = 6f,
-        steerDeg: Float = 0f,
-        aimDeg: Float = 0f,
-        splayDeg: Float = 0f,
-        taperDb: Float = 0f
-    ) = PlacedSpeaker(
-        id = 0, x = 0f, z = 0f, heightM = heightM, sensitivity = 100f,
-        arrayElements = elements, arraySpacingM = spacingM,
-        arraySteerDeg = steerDeg, arrayAimDeg = aimDeg,
-        arrayInterBoxSplayDeg = splayDeg, arrayEdgeTaperDb = taperDb
-    )
-
-    private val dsp = SpeakerDsp(speakerId = 0)
-
-    /** On-axis in the far field, where the elements are effectively equidistant. */
-    private fun onAxis(v: SceneViewModel, spk: PlacedSpeaker, distM: Float = 200f) =
-        v.lineArraySplDb(spk, dsp, distM, spk.heightM)
-
-    // ── The anchor ───────────────────────────────────────────────────────────
-
-    @Test
-    fun `eight elements in phase sum to plus eighteen, not plus nine`() {
-        val v = vm()
-        val spk = array(elements = 8)
-        val one = v.elementSplDb(100f, dsp, 200f)
-        val gain = onAxis(v, spk) - one
-        assertEquals("pressure summation is 20*log10(8)", 20f * log10(8f), gain, 0.5f)
-        assertTrue("power summation would be about +9 dB; got $gain", gain > 15f)
+    @Test fun farFieldArrayGainFollowsPressureSummation() {
+        val v=vm();val one=level(v,array(1))
+        for(n in listOf(2,3,4,6,8,12,16)) assertEquals("$n elements",(20*log10(n.toDouble())).toFloat(),level(v,array(n))-one,.01f)
     }
-
-    @Test
-    fun `doubling the box count adds six decibels`() {
-        val v = vm()
-        val four = onAxis(v, array(elements = 4))
-        val eight = onAxis(v, array(elements = 8))
-        assertEquals(6.02f, eight - four, 0.4f)
+    @Test fun doublingTheBoxCountAddsSixDecibels() {
+        val v=vm();assertEquals(6.0206f,level(v,array(8))-level(v,array(4)),.01f)
     }
-
-    @Test
-    fun `the coherent gain follows twenty log N across sizes`() {
-        val v = vm()
-        val one = v.elementSplDb(100f, dsp, 200f)
-        listOf(2, 3, 6, 12, 16).forEach { n ->
-            val gain = onAxis(v, array(elements = n)) - one
-            assertEquals("$n elements", 20f * log10(n.toFloat()), gain, 0.6f)
+    @Test fun onAxisGainIsMonotonicForThisLowFrequencyFarFieldFixture() {
+        val v=vm();val levels=(1..16).map {level(v,array(it))}
+        assertTrue(levels.zipWithNext().all {(a,b)->b>=a})
+    }
+    @Test fun taperAndGainReachEveryElement() {
+        val v=vm();val s=array();val flat=level(v,s)
+        assertTrue(level(v,s.copy(arrayEdgeTaperDb=6f))<flat-1)
+        assertEquals(5f,output(v,listOf(s),dsp=mapOf(0 to SpeakerDsp(0,gainDb=5f))).levelAt(0)-flat,.0001f)
+    }
+    @Test fun wholeArrayPolarityAndCommonDelayDoNotChangeItsOwnEnergy() {
+        val v=vm(1000);val s=array();val normal=level(v,s)
+        for(dsp in listOf(SpeakerDsp(0,polarity=true),SpeakerDsp(0,delayMs=17f)))
+            assertEquals(normal,output(v,listOf(s),dsp=mapOf(0 to dsp)).levelAt(0),.0001f)
+    }
+    @Test fun interSourceInterferenceOffDoesNotMakeArrayElementsIndependent() {
+        val v=vm();val coherent=level(v,array());v.setSignalInterferenceEnabled(false)
+        assertEquals(coherent,level(v,array()),.0001f)
+    }
+    @Test fun electronicSteeringPreservesPosesAndMechanicalAimMovesThem() {
+        val s=array();assertEquals(s.elementPoses(),s.copy(arraySteerDeg=15f).elementPoses())
+        assertNotEquals(s.elementPoses(),s.copy(arrayAimDeg=15f).elementPoses())
+        val v=vm(1000)
+        assertNotEquals(output(v,listOf(s),x=40f,y=1.2f).levelAt(0),output(v,listOf(s.copy(arraySteerDeg=15f)),x=40f,y=1.2f).levelAt(0))
+    }
+    @Test fun twinArrayCancellationAndDelayedBandResidualUseProductionRequests() {
+        val v=vm(1000);val s=array();val twin=s.copy(id=1)
+        val single=output(v,listOf(s)).totalPowerAt(0)
+        val opposed=output(v,listOf(s,twin),dsp=mapOf(1 to SpeakerDsp(1,polarity=true))).totalPowerAt(0)
+        val delayed=output(v,listOf(s,twin),dsp=mapOf(1 to SpeakerDsp(1,delayMs=.5f))).totalPowerAt(0)
+        assertTrue(opposed<=single*1e-12);assertTrue(delayed>0 && delayed<single*.02)
+    }
+    @Test fun splayWithGenericDirectivityChangesCoverage() {
+        val v=vm(1000);v.setSignalDispersionEnabled(true)
+        val s=array();val straight=output(v,listOf(s),x=60f).levelAt(0)
+        assertTrue(output(v,listOf(s.copy(arrayInterBoxSplayDeg=6f)),x=60f).levelAt(0)<straight)
+    }
+    @Test fun highFrequencyCoverageVariesMoreRapidlyForThisStraightArrayFixture() {
+        val cells=(0..40).map {HeatCell(30f,0f,Float.NaN,renderY=.5f+it*.35f)}
+        fun variation(hz:Int):Double {
+            val result=output(vm(hz),listOf(array(12)),cells=cells)
+            return (0 until 40).map {abs(result.levelAt(it+1)-result.levelAt(it)).toDouble()}.average()
         }
+        assertTrue(variation(8000)>2*variation(63))
     }
-
-    @Test
-    fun `more boxes never means less level on axis`() {
-        val v = vm()
-        var previous = -Float.MAX_VALUE
-        (1..16).forEach { n ->
-            val spl = onAxis(v, array(elements = n))
-            assertTrue("$n elements gave $spl, below $previous", spl >= previous - 1e-3f)
-            previous = spl
-        }
-    }
-
-    // ── Shading and polarity ─────────────────────────────────────────────────
-
-    @Test
-    fun `edge taper trades level for shading`() {
-        val v = vm()
-        val flat = onAxis(v, array(taperDb = 0f))
-        val shaded = onAxis(v, array(taperDb = 6f))
-        assertTrue("tapering the ends should cost level: $shaded vs $flat", shaded < flat - 1f)
-    }
-
-    @Test
-    fun `inverting the whole array changes nothing about its own level`() {
-        // Every element flips together, so the magnitude of the sum is
-        // untouched. Polarity only matters against something else.
-        val v = vm()
-        val spk = array()
-        val normal = v.lineArraySplDb(spk, dsp, 200f, spk.heightM)
-        val inverted = v.lineArraySplDb(spk, dsp.copy(polarity = true), 200f, spk.heightM)
-        assertEquals(normal, inverted, 1e-2f)
-    }
-
-    @Test
-    fun `gain trim moves the whole array together`() {
-        val v = vm()
-        val spk = array()
-        val flat = v.lineArraySplDb(spk, dsp, 200f, spk.heightM)
-        val lifted = v.lineArraySplDb(spk, dsp.copy(gainDb = 5f), 200f, spk.heightM)
-        assertEquals(5f, lifted - flat, 1e-2f)
-    }
-
-    // ── Steering ─────────────────────────────────────────────────────────────
-
-    @Test
-    fun `electronic steering leaves poses unchanged while mechanical tilt moves them`() {
-        val spk = array()
-        assertEquals(spk.elementPoses(), spk.copy(arraySteerDeg = 15f).elementPoses())
-        assertTrue(spk.elementPoses() != spk.copy(arrayAimDeg = 15f).elementPoses())
-        val v = vm(1000)
-        val electronic = v.arrayPressure(spk.copy(arraySteerDeg = 15f), dsp, 40f, 1.2f, 0f, 1000)
-        val mechanical = v.arrayPressure(spk.copy(arrayAimDeg = 15f), dsp, 40f, 1.2f, 0f, 1000)
-        assertTrue(kotlin.math.abs(electronic.levelDb - mechanical.levelDb) > 0.1f)
-    }
-
-    @Test
-    fun `production contribution preserves array phase and delay`() {
-        val v = vm(1000)
-        val spk = array(aimDeg = 12f, splayDeg = 4f)
-        val d = kotlin.math.sqrt(40f * 40f + 4.8f * 4.8f)
-        val raw = v.arrayPressure(spk, dsp, 40f, 1.2f, 0f, 1000)
-        val normal = v.directContribution(spk, dsp, 40f, 1.2f, 0f, d, 1000).pressure!!
-        val delayed = v.directContribution(spk, dsp.copy(delayMs = 0.5f), 40f, 1.2f, 0f, d, 1000).pressure!!
-        assertEquals(kotlin.math.atan2(raw.imaginary, raw.real), kotlin.math.atan2(normal.imaginary, normal.real), 1e-5)
-        assertTrue((normal + delayed).power < normal.power * 1e-8)
-    }
-
-    @Test
-    fun `splaying the array spreads its energy and costs on-axis level`() {
-        val v = vm(bandHz = 1000)
-        val straight = onAxis(v, array(splayDeg = 0f), distM = 60f)
-        val splayed = onAxis(v, array(splayDeg = 6f), distM = 60f)
-        assertTrue("splay should cost level on the axis: $splayed vs $straight",
-                   splayed < straight)
-    }
-
-    // ── Interference ─────────────────────────────────────────────────────────
-
-    @Test
-    fun `the high end lobes and the low end does not`() {
-        // Element spacing is a fixed fraction of a long wavelength and a large
-        // fraction of a short one, so the vertical response gets ragged with
-        // frequency. That raggedness is the whole reason arrays are splayed.
-        fun raggedness(bandHz: Int): Float {
-            val v = vm(bandHz)
-            val spk = array(elements = 12, heightM = 8f)
-            val levels = (0..40).map { i ->
-                v.lineArraySplDb(spk, dsp, 30f, 0.5f + i * 0.35f)
-            }
-            return levels.zipWithNext().map { (a, b) -> kotlin.math.abs(a - b) }.average().toFloat()
-        }
-        val low = raggedness(63)
-        val high = raggedness(8000)
-        assertTrue("8 kHz ($high) should be raggeder than 63 Hz ($low)", high > low * 2f)
-    }
-
-    // ── Guard rails ──────────────────────────────────────────────────────────
-
-    @Test
-    fun `a listener at the array does not produce infinity`() {
-        val v = vm(bandHz = 1000)
-        val spl = v.lineArraySplDb(array(), dsp, 0.001f, 6f)
-        assertTrue("degenerate distance gave $spl", spl.isFinite())
-    }
-
-    @Test
-    fun `level stays finite over bands, sizes and spacings`() {
-        SceneViewModel.SUPPORTED_BANDS_HZ.forEach { band ->
-            val v = vm(band)
-            listOf(2, 8, 16).forEach { n ->
-                listOf(0.05f, 0.2f, 0.6f).forEach { spacing ->
-                    listOf(1f, 25f, 150f).forEach { d ->
-                        val spl = v.lineArraySplDb(array(elements = n, spacingM = spacing), dsp, d, 1.2f)
-                        assertTrue("$band Hz, $n boxes, $spacing m, $d m gave $spl", spl.isFinite())
-                    }
-                }
+    @Test fun nearArrayAndBandSizeSpacingMatrixRemainFinite() {
+        assertTrue(output(vm(1000),listOf(array()),x=.001f).levelAt(0).isFinite())
+        for(hz in SceneViewModel.SUPPORTED_BANDS_HZ) {
+            val v=vm(hz)
+            for(n in listOf(2,8,16)) for(spacing in listOf(.05f,.2f,.6f)) {
+                val result=output(v,listOf(array(n,spacing)),cells=listOf(1f,25f,150f).map {HeatCell(it,0f,Float.NaN,renderY=1.2f)})
+                for(i in 0 until result.receiverCount) assertTrue("$hz Hz, $n boxes, $spacing m, receiver $i",result.levelAt(i).isFinite())
             }
         }
     }

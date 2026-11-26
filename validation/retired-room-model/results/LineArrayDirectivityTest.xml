@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.LineArrayDirectivityTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-26T15:09:37.484Z" hostname="Dzide.local" time="0.467">
+  <properties/>
+  <testcase name="aiming away from the listener costs level" classname="com.droidacoustic.pro.scene.LineArrayDirectivityTest" time="0.083"/>
+  <testcase name="an array uses measured data at all" classname="com.droidacoustic.pro.scene.LineArrayDirectivityTest" time="0.085"/>
+  <testcase name="a single box tells above the axis from below it" classname="com.droidacoustic.pro.scene.LineArrayDirectivityTest" time="0.07"/>
+  <testcase name="horizontal off-axis angle is measured from where the box is panned" classname="com.droidacoustic.pro.scene.LineArrayDirectivityTest" time="0.001"/>
+  <testcase name="a signed angular delta keeps its sign while the unsigned one does not" classname="com.droidacoustic.pro.scene.LineArrayDirectivityTest" time="0.0"/>
+  <testcase name="aiming an array down points it at an audience below" classname="com.droidacoustic.pro.scene.LineArrayDirectivityTest" time="0.094"/>
+  <testcase name="measured attenuation is applied once, not once per path" classname="com.droidacoustic.pro.scene.LineArrayDirectivityTest" time="0.066"/>
+  <testcase name="splay changes the answer, so each element is read at its own angle" classname="com.droidacoustic.pro.scene.LineArrayDirectivityTest" time="0.067"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

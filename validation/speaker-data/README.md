@@ -1,5 +1,11 @@
 # Speaker-data provenance and matched comparisons — revision 1
 
+**Orientation update, 2026-11-26:** the [external CLF handedness package](../clf-handedness/README.md)
+uses the official specification and asymmetric example to correct TAB azimuth and
+remove the binary reader's unconditional arc reversal. The XD12 data below is
+exactly left/right symmetric and never established handedness. Its independent
+reference script now uses the corrected convention; directional numbers are unchanged.
+
 This package separates **data consistency**, **declared calibration**, **manufacturer-software
 comparison** and **controlled-measurement validation**. Passing one does not imply the others.
 The shared core implements provenance records, calibration-declaration checks and condition/sample

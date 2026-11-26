@@ -1,0 +1,262 @@
+{
+  "cases": [
+    {
+      "file": "passive-axial.tab",
+      "sha256": "882c9a66caecf3d0c05d73ebe96bc2cf9c19fcc6c4ae401f8e5f736e3d90f757",
+      "reopenedPredictionDb": 36.95309,
+      "report": {
+        "levelReferenceDistanceM": 1,
+        "provenance": {
+          "sourceUrl": "",
+          "sourceSha256": "882c9a66caecf3d0c05d73ebe96bc2cf9c19fcc6c4ae401f8e5f736e3d90f757",
+          "importer": "clf-subset-v5:TAB",
+          "operatingPreset": "",
+          "origin": "USER_SUPPLIED",
+          "sourceName": "Synthetic reference-basis guard",
+          "normalizationNotes": "Input setting unspecified; indicative spectrum"
+        },
+        "warnings": [
+          "axial-spectrum level reference; match the source input setting before comparing levels.",
+          "magnitude angular support (1000 Hz): stored-knot origins are undeclared; measured acquisition is not assumed.",
+          "user-supplied data; manufacturer provenance unverified.",
+          "electrical reference unknown; absolute-drive comparisons unavailable.",
+          "operating preset unspecified; matched system comparisons need explicit settings."
+        ],
+        "levelReferenceBasis": "AXIAL_SPECTRUM",
+        "externalValidation": "pending",
+        "calibrationStatus": "UNKNOWN",
+        "speakerId": "reference",
+        "driveUnit": "UNKNOWN",
+        "angularSupport": {
+          "schema": 2,
+          "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+          "bands": [{
+            "response": "magnitude",
+            "domain": {
+              "authenticated": false,
+              "counts": {
+                "INTERPOLATED": 0,
+                "SYMMETRY": 0,
+                "MEASURED": 0,
+                "UNDECLARED": 2664
+              },
+              "state": "UNDECLARED"
+            },
+            "frequencyHz": 1000,
+            "support": {
+              "valid": true,
+              "elevationCount": 37,
+              "maximumElevationDeg": 90,
+              "maximumElevationGapDeg": 5,
+              "azimuthCount": 72,
+              "advisorySpacingDeg": 5,
+              "maximumAzimuthGapDeg": 5,
+              "issues": [],
+              "minimumElevationDeg": -90
+            }
+          }],
+          "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration."
+        }
+      },
+      "levelDb": 57,
+      "predictionDb": 36.95309,
+      "basis": "AXIAL_SPECTRUM",
+      "failedImportPreservedProject": true,
+      "electricalReferenceKnown": false
+    },
+    {
+      "file": "passive-sensitivity.tab",
+      "sha256": "81a6953395c1ac6f289b59adfc6b97918cc6af44ed74b36d97a68f3d1b323c1e",
+      "reopenedPredictionDb": 72.95309,
+      "report": {
+        "driveValue": 1,
+        "levelReferenceDistanceM": 1,
+        "provenance": {
+          "sourceUrl": "",
+          "sourceSha256": "81a6953395c1ac6f289b59adfc6b97918cc6af44ed74b36d97a68f3d1b323c1e",
+          "importer": "clf-subset-v5:TAB",
+          "operatingPreset": "",
+          "origin": "USER_SUPPLIED",
+          "sourceName": "Synthetic reference-basis guard",
+          "normalizationNotes": "Measured at 4 m and 2.83 Vrms and normalized to 1W/1m"
+        },
+        "warnings": [
+          "magnitude angular support (1000 Hz): stored-knot origins are undeclared; measured acquisition is not assumed.",
+          "user-supplied data; manufacturer provenance unverified.",
+          "electrical reference declared, not independently calibrated.",
+          "operating preset unspecified; matched system comparisons need explicit settings."
+        ],
+        "levelReferenceBasis": "SENSITIVITY",
+        "externalValidation": "pending",
+        "calibrationStatus": "DECLARED",
+        "speakerId": "reference",
+        "driveUnit": "WATTS",
+        "angularSupport": {
+          "schema": 2,
+          "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+          "bands": [{
+            "response": "magnitude",
+            "domain": {
+              "authenticated": false,
+              "counts": {
+                "INTERPOLATED": 0,
+                "SYMMETRY": 0,
+                "MEASURED": 0,
+                "UNDECLARED": 2664
+              },
+              "state": "UNDECLARED"
+            },
+            "frequencyHz": 1000,
+            "support": {
+              "valid": true,
+              "elevationCount": 37,
+              "maximumElevationDeg": 90,
+              "maximumElevationGapDeg": 5,
+              "azimuthCount": 72,
+              "advisorySpacingDeg": 5,
+              "maximumAzimuthGapDeg": 5,
+              "issues": [],
+              "minimumElevationDeg": -90
+            }
+          }],
+          "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration."
+        }
+      },
+      "levelDb": 93,
+      "predictionDb": 72.95309,
+      "basis": "SENSITIVITY",
+      "failedImportPreservedProject": true,
+      "electricalReferenceKnown": true
+    },
+    {
+      "file": "powered-axial.tab",
+      "sha256": "661742bd9194e238ad5200dc76896923b2709fcc3b99d2a201cef5171a7ca785",
+      "reopenedPredictionDb": 36.95309,
+      "report": {
+        "levelReferenceDistanceM": 1,
+        "provenance": {
+          "sourceUrl": "",
+          "sourceSha256": "661742bd9194e238ad5200dc76896923b2709fcc3b99d2a201cef5171a7ca785",
+          "importer": "clf-subset-v5:TAB",
+          "operatingPreset": "",
+          "origin": "USER_SUPPLIED",
+          "sourceName": "Synthetic reference-basis guard",
+          "normalizationNotes": "Input setting unspecified; indicative spectrum"
+        },
+        "warnings": [
+          "axial-spectrum level reference; match the source input setting before comparing levels.",
+          "magnitude angular support (1000 Hz): stored-knot origins are undeclared; measured acquisition is not assumed.",
+          "user-supplied data; manufacturer provenance unverified.",
+          "electrical reference unknown; absolute-drive comparisons unavailable.",
+          "operating preset unspecified; matched system comparisons need explicit settings."
+        ],
+        "levelReferenceBasis": "AXIAL_SPECTRUM",
+        "externalValidation": "pending",
+        "calibrationStatus": "UNKNOWN",
+        "speakerId": "reference",
+        "driveUnit": "UNKNOWN",
+        "angularSupport": {
+          "schema": 2,
+          "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+          "bands": [{
+            "response": "magnitude",
+            "domain": {
+              "authenticated": false,
+              "counts": {
+                "INTERPOLATED": 0,
+                "SYMMETRY": 0,
+                "MEASURED": 0,
+                "UNDECLARED": 2664
+              },
+              "state": "UNDECLARED"
+            },
+            "frequencyHz": 1000,
+            "support": {
+              "valid": true,
+              "elevationCount": 37,
+              "maximumElevationDeg": 90,
+              "maximumElevationGapDeg": 5,
+              "azimuthCount": 72,
+              "advisorySpacingDeg": 5,
+              "maximumAzimuthGapDeg": 5,
+              "issues": [],
+              "minimumElevationDeg": -90
+            }
+          }],
+          "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration."
+        }
+      },
+      "levelDb": 57,
+      "predictionDb": 36.95309,
+      "basis": "AXIAL_SPECTRUM",
+      "failedImportPreservedProject": true,
+      "electricalReferenceKnown": false
+    },
+    {
+      "file": "powered-sensitivity.tab",
+      "sha256": "aa03eaac06be6aea85361e56342274be9b65750d37262ef066d493ecb95fe735",
+      "reopenedPredictionDb": 72.95309,
+      "report": {
+        "levelReferenceDistanceM": 1,
+        "provenance": {
+          "sourceUrl": "",
+          "sourceSha256": "aa03eaac06be6aea85361e56342274be9b65750d37262ef066d493ecb95fe735",
+          "importer": "clf-subset-v5:TAB",
+          "operatingPreset": "",
+          "origin": "USER_SUPPLIED",
+          "sourceName": "Synthetic reference-basis guard",
+          "normalizationNotes": "Measured at 4 m and 2.83 Vrms and normalized to 1W/1m"
+        },
+        "warnings": [
+          "magnitude angular support (1000 Hz): stored-knot origins are undeclared; measured acquisition is not assumed.",
+          "user-supplied data; manufacturer provenance unverified.",
+          "electrical reference unknown; absolute-drive comparisons unavailable.",
+          "operating preset unspecified; matched system comparisons need explicit settings."
+        ],
+        "levelReferenceBasis": "SENSITIVITY",
+        "externalValidation": "pending",
+        "calibrationStatus": "UNKNOWN",
+        "speakerId": "reference",
+        "driveUnit": "UNKNOWN",
+        "angularSupport": {
+          "schema": 2,
+          "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+          "bands": [{
+            "response": "magnitude",
+            "domain": {
+              "authenticated": false,
+              "counts": {
+                "INTERPOLATED": 0,
+                "SYMMETRY": 0,
+                "MEASURED": 0,
+                "UNDECLARED": 2664
+              },
+              "state": "UNDECLARED"
+            },
+            "frequencyHz": 1000,
+            "support": {
+              "valid": true,
+              "elevationCount": 37,
+              "maximumElevationDeg": 90,
+              "maximumElevationGapDeg": 5,
+              "azimuthCount": 72,
+              "advisorySpacingDeg": 5,
+              "maximumAzimuthGapDeg": 5,
+              "issues": [],
+              "minimumElevationDeg": -90
+            }
+          }],
+          "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration."
+        }
+      },
+      "levelDb": 93,
+      "predictionDb": 72.95309,
+      "basis": "SENSITIVITY",
+      "failedImportPreservedProject": true,
+      "electricalReferenceKnown": false
+    }
+  ],
+  "scope": "SYNTHETIC_REFERENCE_BASIS_AND_CALIBRATION_GUARD_NOT_PHYSICAL_ACCURACY",
+  "fixturesSha256": "3a87c96a27cd2fa757c76e5c42abaa875a48713bdc1109d5623822adc309cbbe",
+  "allPassed": true
+}

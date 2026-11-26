@@ -1,5 +1,12 @@
 # CLF CF1/CF2 container — reverse-engineering notes
 
+**CF1 reference update, 2026-11-26:** the
+[official Active/Passive1 text pairs](../validation/cf1-reference/README.md) now pin
+13 sensitivity values at `0x1240 + 4*octaveSlot`. This qualifies the tested byte
+offset, not electrical calibration. Powered zero placeholders stay unavailable.
+Shared TAB reference parsing now preserves missing slots; no implicit CF1 axial
+third-octave-to-octave drive conversion is claimed.
+
 **Review update, 2026-11-12:** the decoding results below are historical corpus
 research, not a general CF1/CF2 conformance claim. The current project still needs
 reference-drive calibration, persistent imported assets, and integration of its
@@ -7,6 +14,18 @@ per-band response work. See the [project review](project_review.md) and
 [implementation plan](implementation_plan.md). The reader capability is a tested
 subset; optional phase/filter/multipart support and unresolved variants remain
 separate work.
+
+**Handedness correction, 2026-11-26:** the
+subsequent [relative-magnitude/symmetry cleanup](../validation/clf-magnitude/README.md)
+qualifies reversed signs and declared sector ordering for the retained CF1 text
+examples. Unsupported absolute/arbitrary references are now explicitly rejected.
+Binary CF1 calibration/handedness remain open. The
+[official asymmetric TAB/CF2 validation](../validation/clf-handedness/README.md)
+supersedes the historical arc-order inference below. CLF Figure 1 explicitly labels
+90° left / 270° right (rear view). Corrected the shared native-to-CLF azimuth sign
+and removed unconditional binary reversal. The XD12 grid is exactly left/right
+symmetric, so matching it never established either sign. The official CF2 subset
+is qualified; asymmetric CF1 and other variants remain separate gates.
 
 **Calibration/provenance update, 2026-11-17:** see the retained
 [speaker-data validation package](../validation/speaker-data/README.md). The official XD12 TAB/CF2
@@ -128,9 +147,20 @@ The phi reference was fixed by measurement, not assumption: at 4 kHz the
 published 90° horizontal pattern, while phi 0/180 gives the narrower and
 frequency-dependent vertical figure. So phi 0 is up.
 
-Converting from the app's convention, with on-axis +x and up +z:
+The existing importer converts using cabinet-space components with on-axis +x
+and up +z (these are not the engine's world axes):
 
     theta = acos(x),  phi = atan2(y, z)
+
+The normalized engine frame is +X forward, +Y up, +Z right. Its synthetic
+[asymmetric orientation validation](../validation/asymmetric-directivity/README.md)
+does not establish whether positive external phi maps to speaker-left or right.
+The symmetric XD12 establishes the horizontal/vertical planes but cannot prove
+their handedness. The subsequent [external sample validation](../validation/clf-handedness/README.md)
+uses the official specification's labelled directions: 90° left, 270° right.
+Native positive azimuth must therefore negate the cabinet-left component in the
+conversion above. Full-circle TAB arc order/rotation and the tested CF2 layout
+are qualified; other binary variants and asymmetric CF1 remain open.
 
 ### The pole check
 
@@ -172,12 +202,11 @@ out, taken from a single file where the string happened to start there.
   length. It is positional. It is `0x3798` in all 669 CF2 files of the corpus,
   and the reader tries there first, then scans - so a variant that moves it is
   handled, just more slowly.
-- **`<BALLOON-ARC-ORDER>`** was not found in the binary. The XD12's TAB declares
-  `<reversed>` and the binary stores its arcs in the same order as the TAB rows,
-  so the reader applies the same reversal the TAB reader does. That is
-  calibrated on the one file where both formats exist. Reversal mirrors phi,
-  which swaps left and right and leaves up and down alone, so an asymmetric
-  horizontal pattern is the only case where getting it wrong would show.
+- **Binary arc order is qualified only for the tested layout.** No arc-order flag
+  has been decoded. The official asymmetric Passive2 TAB/CF2 pair establishes
+  ascending default phi order, and the reader no longer reverses it. The old
+  XD12 inference was invalid because every left/right counterpart is identical.
+  Unseen variants and independently asymmetric CF1 still need reference pairs.
 - **`<BALLOON-SYMMETRY>`** turned out not to matter for the binary. It affects
   how the TAB stores arcs; every CF2 file examined carries all 72.
 - **CF1 is decoded.** It was unblocked by more samples, not by a spec. Four

@@ -5,7 +5,9 @@ import kotlinx.serialization.json.*
 
 /**
  * CLF (Common Loudspeaker Format) polar pattern data.
- * Represents frequency-dependent directivity.
+ * Represents frequency-dependent directivity in the normalized engine frame:
+ * +X forward, +Y up, +Z right; positive azimuth turns toward speaker-right
+ * when viewed from behind the cabinet. Importers must convert external conventions.
  */
 data class ClfPolarPattern(
     val frequencyHz: Int,                    // Center frequency (e.g., 1000)
@@ -50,6 +52,9 @@ data class ClfPolarPattern(
     }
 }
 
+/** Which file row supplied levels; independent of declared electrical calibration. */
+enum class LevelReferenceBasis { UNSPECIFIED, SENSITIVITY, AXIAL_SPECTRUM }
+
 data class ClfData(
     val speakerId: String,                   // Identifier (e.g., "jbl_cbt_50la_1")
     val manufacturerName: String = "",
@@ -68,7 +73,8 @@ data class ClfData(
     val measurementGrid: MeasurementGrid = MeasurementGrid.THIRD_OCTAVE,
     val calibration: ReferenceCalibration = ReferenceCalibration(),
     val complexResponse: ComplexSpeakerResponse? = null,
-    val provenance: SpeakerProvenance = SpeakerProvenance()
+    val provenance: SpeakerProvenance = SpeakerProvenance(),
+    val levelReferenceBasis: LevelReferenceBasis = LevelReferenceBasis.UNSPECIFIED
 ) {
     fun measuredRadiator(useDirectivity: Boolean = true): MeasuredRadiator = MeasuredRadiator(
         sensitivityDbByBand,
@@ -120,11 +126,14 @@ object ClfParser {
         ClfData(id, root.text("manufacturer"), root.text("model"), patterns, sensitivity,
             MeasurementGrid.valueOf(root.text("measurementGrid", "THIRD_OCTAVE")), calibration,
             root["complexResponse"]?.let {ComplexSpeakerResponse.fromJsonString(it.toString())},
-            root["provenance"]?.let {SpeakerProvenance.parse(it.jsonObject)} ?: SpeakerProvenance())
+            root["provenance"]?.let {SpeakerProvenance.parse(it.jsonObject)} ?: SpeakerProvenance(),
+            LevelReferenceBasis.valueOf(root.text("levelReferenceBasis","UNSPECIFIED")))
     }.getOrNull()
 
     /** Stable field/band ordering supplies a platform-independent content hash input. */
     fun toJson(data: ClfData): String = buildJsonObject {
+        // Omit the legacy default so existing portable-asset hashes remain stable.
+        if(data.levelReferenceBasis!=LevelReferenceBasis.UNSPECIFIED) put("levelReferenceBasis",data.levelReferenceBasis.name)
         data.complexResponse?.let {put("complexResponse",Json.parseToJsonElement(it.toJsonString()))}
         if(data.provenance!=SpeakerProvenance()) put("provenance",data.provenance.json())
         put("speakerId", data.speakerId)

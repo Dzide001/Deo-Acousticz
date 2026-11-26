@@ -1,0 +1,64 @@
+{
+  "scope": "OFFICIAL_CF1_TAB_RELATIVE_MAGNITUDE_NOT_BINARY_OR_PHYSICAL_CALIBRATION",
+  "toleranceDb": 0.001,
+  "scriptSha256": "bd59085e153acb90d26034ad5dd2b78b2f565daaf6e53b7a87ca77fdc89fb763",
+  "provenanceSha256": "b346310ef414e9ef5edd14b21521d7e4a6fdfd661d22b1c1a78823468ea68456",
+  "cases": [
+    {
+      "file": "clf1_active_point.tab",
+      "azimuth": 0,
+      "elevation": 60,
+      "label": "up",
+      "relativeDb": -11.3
+    },
+    {
+      "file": "clf1_active_point.tab",
+      "azimuth": -60,
+      "elevation": 0,
+      "label": "left",
+      "relativeDb": -4.8
+    },
+    {
+      "file": "clf1_active_point.tab",
+      "azimuth": 0,
+      "elevation": -60,
+      "label": "down",
+      "relativeDb": -12.3
+    },
+    {
+      "file": "clf1_active_point.tab",
+      "azimuth": 60,
+      "elevation": 0,
+      "label": "right",
+      "relativeDb": -4.8
+    },
+    {
+      "file": "clf1_powered_point.tab",
+      "azimuth": 0,
+      "elevation": 60,
+      "label": "up",
+      "relativeDb": -4.8
+    },
+    {
+      "file": "clf1_powered_point.tab",
+      "azimuth": -60,
+      "elevation": 0,
+      "label": "left",
+      "relativeDb": -11.3
+    },
+    {
+      "file": "clf1_powered_point.tab",
+      "azimuth": 0,
+      "elevation": -60,
+      "label": "down",
+      "relativeDb": -4.8
+    },
+    {
+      "file": "clf1_powered_point.tab",
+      "azimuth": 60,
+      "elevation": 0,
+      "label": "right",
+      "relativeDb": -11.3
+    }
+  ]
+}

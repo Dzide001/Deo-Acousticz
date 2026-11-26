@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-26",
+  "scope": "EXTERNAL_CLF_FORMAT_HANDEDNESS_NOT_PHYSICAL_ACCURACY",
+  "sharedPredictions": 256,
+  "androidPredictions": 128,
+  "rejectedOldMappings": 128,
+  "maxAbsoluteResidualDb": {
+    "shared": 3.8146973e-06,
+    "android": 5.722046e-06
+  },
+  "toleranceDb": 0.001,
+  "tests": {
+    "sharedJvm": {
+      "tests": 622,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "androidFocused": {
+      "tests": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "androidDebugBuild": "PASS",
+  "iosArm64CoreCompilation": "PASS",
+  "iosSimulatorArm64TestCompilation": "PASS (compile only, no simulator execution)",
+  "diskRecovery": "TAB and CF2, all 4 saved poses, 128 bit-identical relative predictions after fresh reopen",
+  "independentSource": "Official CLF Group asymmetric format example, Fig. 1 labelled directions; not a real measured product",
+  "physicalDeviceTest": "Not run in this batch",
+  "command": "JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home ./gradlew :shared-core:jvmTest :shared-core:compileTestKotlinIosSimulatorArm64 :shared-core:compileKotlinIosArm64 :app:testDebugUnitTest --tests '*ExternalClfHandednessTest' --tests '*ClfTabParserTest' --tests '*ClfBinaryReaderTest' --tests '*MeasuredDirectivityTest' --tests '*ManufacturerDataComparisonTest' --tests '*ProjectRecoveryTest' --tests '*AsymmetricDirectivityRecoveryTest' :app:assembleDebug -Pkotlin.compiler.execution.strategy=in-process --offline",
+  "evidenceSha256": {
+    "engine-jvm.json": "ddaf268d575f347a77d05ea90725af83c4a0399d305899237348128e1fbdcf67",
+    "android.json": "efcdf0cd8581f5420d7aba6f12a632c179db8def11c7fdab5ab47288acb9af64",
+    "validation-build.log": "e664522e8a8a3191dbb1c983060cd70bf90d0e1f773b7077ddc61b57637c34ef"
+  },
+  "remainingGates": [
+    "Independently asymmetric CF1 and other binary variants",
+    "Other symmetry/sign/reference combinations",
+    "Complex phase/filter/multipart containers",
+    "Physical calibration and matched manufacturer software"
+  ]
+}

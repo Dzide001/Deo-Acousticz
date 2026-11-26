@@ -9,13 +9,14 @@
     "provenance": {
       "sourceUrl": "http://www.martin-audio.com",
       "sourceSha256": "4aecc3ca0c420b48b7a7b522535fb44097d738394faa9dc4f1568ebd96b31ce4",
-      "importer": "clf-subset-v1:TAB",
+      "importer": "clf-subset-v2:TAB",
       "operatingPreset": "",
       "origin": "USER_SUPPLIED",
       "sourceName": "XD12",
       "normalizationNotes": "Measured at 4.000 m and 2.828 Vrms and normalized to 1W/1m"
     },
     "warnings": [
+      "magnitude angular support (50, 63, 80, 100, 125, 160, 200, 250 \u2026 (27 bands) Hz): stored-knot origins are undeclared; measured acquisition is not assumed.",
       "user-supplied data; manufacturer provenance unverified.",
       "electrical reference declared, not independently calibrated.",
       "operating preset unspecified; matched system comparisons need explicit settings."
@@ -23,7 +24,689 @@
     "externalValidation": "pending",
     "calibrationStatus": "DECLARED",
     "speakerId": "xd12",
-    "driveUnit": "WATTS"
+    "driveUnit": "WATTS",
+    "angularSupport": {
+      "schema": 2,
+      "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+      "bands": [
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 50,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 63,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 80,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 100,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 125,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 160,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 200,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 250,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 315,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 400,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 500,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 630,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 800,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 1000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 1250,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 1600,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 2000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 2500,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 3150,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 4000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 5000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 6300,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 8000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 10000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 12500,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 16000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 20000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        }
+      ],
+      "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration."
+    }
   },
   "tab": {
     "sampleCount": 36,
@@ -67,8 +750,8 @@
       -5.340576159085231E-7
     ],
     "evidenceScope": "DATA_CONSISTENCY_ONLY",
-    "engineArtifactSha256": "496505ba8e55823073ce02acce3541118cb66cff9bf6cbbdd67c485f77a716b0",
-    "referenceArtifactSha256": "48eae7e51e6e4760da07ef4185b165f6f8e3763f2a30fc4eb5ef2f7f6dd5a728",
+    "engineArtifactSha256": "471e3ddaafe7f5da64b74fb21e37761a8df647637a587b864b3b5efbe194b126",
+    "referenceArtifactSha256": "b74278fc015991619989ed1a844d023d29a04c7393d0310230404c7c3b964084",
     "maxAbsoluteErrorDb": 5.340576159085231E-7,
     "toleranceDb": 0.001,
     "status": "PASSED"
@@ -78,13 +761,14 @@
     "provenance": {
       "sourceUrl": "",
       "sourceSha256": "a0d26c8fbfb23d944a94a8b51a9dcbd1bcbf240fe49c48eb53976d8f9020f65e",
-      "importer": "clf-subset-v1:CF2",
+      "importer": "clf-subset-v2:CF2",
       "operatingPreset": "",
       "origin": "USER_SUPPLIED",
       "sourceName": "XD12",
       "normalizationNotes": "Binary axial-spectrum row; electrical normalization not decoded"
     },
     "warnings": [
+      "magnitude angular support (50, 63, 80, 100, 125, 160, 200, 250 \u2026 (27 bands) Hz): stored-knot origins are undeclared; measured acquisition is not assumed.",
       "user-supplied data; manufacturer provenance unverified.",
       "electrical reference unknown; absolute-drive comparisons unavailable.",
       "operating preset unspecified; matched system comparisons need explicit settings."
@@ -92,11 +776,693 @@
     "externalValidation": "pending",
     "calibrationStatus": "UNKNOWN",
     "speakerId": "xd12",
-    "driveUnit": "UNKNOWN"
+    "driveUnit": "UNKNOWN",
+    "angularSupport": {
+      "schema": 2,
+      "scope": "Stored sampling plus declared origins only; no accuracy guarantee or authenticated measurement evidence, including at 5° or finer spacing",
+      "bands": [
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 50,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 63,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 80,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 100,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 125,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 160,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 200,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 250,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 315,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 400,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 500,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 630,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 800,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 1000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 1250,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 1600,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 2000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 2500,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 3150,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 4000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 5000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 6300,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 8000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 10000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 12500,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 16000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        },
+        {
+          "response": "magnitude",
+          "domain": {
+            "authenticated": false,
+            "counts": {
+              "INTERPOLATED": 0,
+              "SYMMETRY": 0,
+              "MEASURED": 0,
+              "UNDECLARED": 2664
+            },
+            "state": "UNDECLARED"
+          },
+          "frequencyHz": 20000,
+          "support": {
+            "valid": true,
+            "elevationCount": 37,
+            "maximumElevationDeg": 90,
+            "maximumElevationGapDeg": 5,
+            "azimuthCount": 72,
+            "advisorySpacingDeg": 5,
+            "maximumAzimuthGapDeg": 5,
+            "issues": [],
+            "minimumElevationDeg": -90
+          }
+        }
+      ],
+      "policy": "Diagnostics only; existing interpolation and prediction values unchanged. Large-gap missing-sector detection is heuristic, not a coverage declaration."
+    }
   },
   "scope": "MANUFACTURER_DATA_CONSISTENCY_NOT_SOFTWARE_VALIDATION",
   "maxSourceRowErrorDb": 3.051757815342171E-6,
-  "referenceSha256": "48eae7e51e6e4760da07ef4185b165f6f8e3763f2a30fc4eb5ef2f7f6dd5a728",
+  "referenceSha256": "b74278fc015991619989ed1a844d023d29a04c7393d0310230404c7c3b964084",
   "tabVersusCf2DifferentReferenceRowsMaxDb": 1.0999999999999943,
   "externalSoftwareComparison": "PENDING_MATCHED_EXPORT",
   "absoluteComparisonGate": {
@@ -105,7 +1471,7 @@
     "differencesDb": [],
     "evidenceScope": "DATA_CONSISTENCY_ONLY",
     "engineArtifactSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-    "referenceArtifactSha256": "48eae7e51e6e4760da07ef4185b165f6f8e3763f2a30fc4eb5ef2f7f6dd5a728",
+    "referenceArtifactSha256": "b74278fc015991619989ed1a844d023d29a04c7393d0310230404c7c3b964084",
     "toleranceDb": 0.1,
     "status": "NOT_COMPARABLE"
   },
@@ -151,8 +1517,8 @@
       -5.340576159085231E-7
     ],
     "evidenceScope": "DATA_CONSISTENCY_ONLY",
-    "engineArtifactSha256": "4242223201d5b7b70abcd5d5e6ccb0f42b137ab84ef8c9efe8758a2fc7d26898",
-    "referenceArtifactSha256": "48eae7e51e6e4760da07ef4185b165f6f8e3763f2a30fc4eb5ef2f7f6dd5a728",
+    "engineArtifactSha256": "810b19255fc8132d5eb1a73cb48553f28e3361550e4383407d71cfb9057be9f8",
+    "referenceArtifactSha256": "b74278fc015991619989ed1a844d023d29a04c7393d0310230404c7c3b964084",
     "maxAbsoluteErrorDb": 5.340576159085231E-7,
     "toleranceDb": 0.001,
     "status": "PASSED"

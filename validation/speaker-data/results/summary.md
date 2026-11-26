@@ -1,5 +1,12 @@
 # Speaker-data validation results — revision 1
 
+**2026-11-26 refresh:** `engine.json` and the reference script/hash were refreshed
+after the shared CLF handedness correction. XD12 directional values are unchanged
+because its grid is exactly left/right symmetric. This dataset never established
+handedness; the separate [official asymmetric sample results](../../clf-handedness/results/verification.json)
+now qualify the tested TAB/CF2 subset. The test counts below describe the original
+2026-11-17 gate; the linked verification records the current batch.
+
 Reviewed 2026-11-17. The official Martin Audio XD archive was downloaded; both XD12 source
 files matched the pinned local corpus hashes. Retained references are reconstructed directly
 from the publisher's TAB by the independent Python script.

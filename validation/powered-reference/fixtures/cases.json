@@ -1,0 +1,34 @@
+{
+  "scope": "SYNTHETIC_REFERENCE_BASIS_AND_CALIBRATION_GUARD_NOT_PHYSICAL_ACCURACY",
+  "cases": [
+    {
+      "file": "passive-axial.tab",
+      "sha256": "882c9a66caecf3d0c05d73ebe96bc2cf9c19fcc6c4ae401f8e5f736e3d90f757",
+      "basis": "AXIAL_SPECTRUM",
+      "levelDb": 57,
+      "electricalReferenceKnown": false
+    },
+    {
+      "file": "passive-sensitivity.tab",
+      "sha256": "81a6953395c1ac6f289b59adfc6b97918cc6af44ed74b36d97a68f3d1b323c1e",
+      "basis": "SENSITIVITY",
+      "levelDb": 93,
+      "electricalReferenceKnown": true
+    },
+    {
+      "file": "powered-axial.tab",
+      "sha256": "661742bd9194e238ad5200dc76896923b2709fcc3b99d2a201cef5171a7ca785",
+      "basis": "AXIAL_SPECTRUM",
+      "levelDb": 57,
+      "electricalReferenceKnown": false
+    },
+    {
+      "file": "powered-sensitivity.tab",
+      "sha256": "aa03eaac06be6aea85361e56342274be9b65750d37262ef066d493ecb95fe735",
+      "basis": "SENSITIVITY",
+      "levelDb": 93,
+      "electricalReferenceKnown": false
+    }
+  ],
+  "unsupportedSha256": "4cda6925b788d2429df4a5601feaa55c369a100f873e11411674ea249b092a7c"
+}

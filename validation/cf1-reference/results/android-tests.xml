@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.Cf1ReferenceValidationTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-26T14:46:13.972Z" hostname="Dzide.local" time="0.423">
+  <properties/>
+  <testcase name="missingSensitivitySlotSurvivesAndroidAssetSaveReopen" classname="com.droidacoustic.pro.scene.Cf1ReferenceValidationTest" time="0.105"/>
+  <testcase name="officialCf1SensitivitySlotsMatchTheirOwnTextRowsAndReopenWithoutInventedCalibration" classname="com.droidacoustic.pro.scene.Cf1ReferenceValidationTest" time="0.318"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

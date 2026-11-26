@@ -1,6 +1,7 @@
 package com.droidacoustic.pro.acoustics
 
 import com.droidacoustic.pro.scene.ClfData
+import com.droidacoustic.pro.scene.LevelReferenceBasis
 import kotlinx.serialization.json.*
 import okio.ByteString.Companion.toByteString
 
@@ -34,6 +35,15 @@ data class SpeakerProvenance(
 }
 
 object SpeakerDataChecks {
+    /** Axial indications and powered input settings cannot inherit watt calibration
+     * from an unrelated/stale sensitivity-info field. Explicit native calibration
+     * declarations are handled separately by the portable speaker format.
+     */
+    fun clfCalibration(basis:LevelReferenceBasis,powered:Boolean,note:String):ReferenceCalibration =
+        if(!powered && basis==LevelReferenceBasis.SENSITIVITY) declaredClfCalibration(note)
+        else ReferenceCalibration(provenance=if(powered) "Powered CLF input setting unqualified"
+            else "CLF axial-spectrum input normalization unverified")
+
     /** Narrow, explicit CLF declaration; raw measurement distance is not a second normalization. */
     fun declaredClfCalibration(note: String): ReferenceCalibration {
         val declaration = Regex("Measured at ([0-9.]+) m and ([0-9.]+) Vrms and normalized to 1W/1m",RegexOption.IGNORE_CASE)
@@ -47,6 +57,12 @@ object SpeakerDataChecks {
     }
     fun warnings(data: ClfData): List<String> = buildList {
         val p=data.provenance
+        if(data.levelReferenceBasis==LevelReferenceBasis.AXIAL_SPECTRUM)
+            add("axial-spectrum level reference; match the source input setting before comparing levels.")
+        if(p.importer=="clf-subset-v1:TAB")
+            add("legacy TAB left/right mapping; reimport the original TAB to correct handedness.")
+        if(p.importer=="clf-subset-v2:TAB")
+            add("legacy TAB symmetry/sign decoding; reimport the original TAB to verify its declarations.")
         addAll(SpeakerAngularSupport.warnings(data))
         add(when(p.origin) {
             SpeakerDataOrigin.GENERIC_ESTIMATE -> "generic estimate; not measured manufacturer data."
@@ -61,6 +77,7 @@ object SpeakerDataChecks {
     }
     fun reportJson(data: ClfData): String = buildJsonObject {
         put("speakerId",data.speakerId);put("provenance",data.provenance.json())
+        put("levelReferenceBasis",data.levelReferenceBasis.name)
         put("calibrationStatus",if(data.calibration.electricalReferenceKnown) "DECLARED" else "UNKNOWN")
         put("driveUnit",data.calibration.driveUnit.name)
         data.calibration.driveValue?.let {put("driveValue",it)}

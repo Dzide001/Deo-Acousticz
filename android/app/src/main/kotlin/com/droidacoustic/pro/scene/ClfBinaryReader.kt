@@ -29,7 +29,7 @@ import kotlin.math.abs
  * | `0x0138` | model name |
  * | `0x0238` | manufacturer |
  * | `0x0338` | description |
- * | `0x1000` | 30 × f32 axial spectrum, dB @ 1 W / 1 m |
+ * | `0x1000` | 30 × f32 axial spectrum; electrical normalization unverified |
  * | `0x1210` | u32 MINBAND, u32 MAXBAND - indices into the third-octave table |
  * | `0x3798` | balloon: 30 × 72 × 37 f32, dB relative to on axis |
  *
@@ -76,9 +76,10 @@ object ClfBinaryReader {
         storesEverySlot = false,
         usualOffsets = listOf(0x23a8, 0x2e58),
         // Not the same place as CF2. Found as the one slot-indexed run of
-        // plausible levels that lines up with the declared band range in all
-        // nine distinct CF1 files; unlike the CF2 array, which matches the
-        // published XD12 text exactly, there is no ground truth behind it.
+        // plausible levels matching the declared band range. The official
+        // Active/Passive1 TAB pairs now independently pin all 13 sensitivity
+        // slots here. This validates the byte offset, not electrical calibration;
+        // Powered.CF1 has zero placeholders and no usable sensitivity row.
         sensitivityOffset = 0x1240
     )
 
@@ -171,14 +172,11 @@ object ClfBinaryReader {
     /**
      * One band as `[arc][sample]`, or null when the slot holds no usable data.
      *
-     * Arcs are reversed on the way out. The binary stores them in the same order
-     * as the rows of the TAB source, and the XD12's TAB declares
-     * `<BALLOON-ARC-ORDER> <reversed>`, so the same normalisation the TAB reader
-     * applies has to happen here for the two paths to agree. That flag was not
-     * found anywhere in the binary header, so this is calibrated on the one file
-     * where both formats are available. It mirrors phi, which swaps left and
-     * right and leaves up and down alone - so a box with an asymmetric
-     * horizontal pattern is the only case where getting it wrong would show.
+     * The official authoring kit's asymmetric Passive2 TAB/CF2 pair establishes
+     * ascending CLF phi order in this binary layout. Do not reverse these arcs:
+     * the old XD12 reference is exactly left/right symmetric and could not
+     * establish handedness. Native azimuth conversion is shared with TAB import.
+     * This is a qualified subset, not proof of every CF1/CF2 container variant.
      */
     private fun readBand(
         buf: ByteBuffer,
@@ -193,7 +191,7 @@ object ClfBinaryReader {
             }
         }
         if (arcs.any { row -> row.any { !it.isFinite() } }) return null
-        return (listOf(arcs[0]) + arcs.drop(1).reversed()).toTypedArray()
+        return arcs
     }
 
     /**

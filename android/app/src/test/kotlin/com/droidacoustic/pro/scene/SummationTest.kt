@@ -1,91 +1,82 @@
 package com.droidacoustic.pro.scene
 
+import com.droidacoustic.pro.prediction.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
+import kotlinx.coroutines.test.*
+import org.junit.*
+import org.junit.Assert.*
+import org.junit.rules.TemporaryFolder
+import kotlin.math.*
 
-/**
- * Summation of multiple arrivals at a point.
- *
- * The textbook answers are the anchors: two equal, in-phase sources sum to +6 dB
- * coherently and +3 dB incoherently, and two equal sources in anti-phase cancel.
- * What the app actually returns is a blend of the two, weighted by a
- * `coherentWeight` derived from the UI's bandwidth or resolution setting. That
- * weight has no physical derivation - it is a smoothing control - so these tests
- * bracket the result between the two physical answers rather than pretending the
- * blend is itself physics.
- */
+/** Android adapter checks run the same immutable request used by listener/maps. */
 @OptIn(ExperimentalCoroutinesApi::class)
 class SummationTest {
-
-    @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
-    @After fun tearDown() = Dispatchers.resetMain()
-
-    private fun vm() = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply {
-        setBandHz(1000)
-        setSignalType("BAND")
-        setSignalInterferenceEnabled(true)
+    @get:Rule val folder=TemporaryFolder()
+    private val dispatcher=StandardTestDispatcher()
+    private val models=mutableListOf<SceneViewModel>()
+    @Before fun setup()=Dispatchers.setMain(dispatcher)
+    @After fun cleanup() {models.forEach {it.cancelAnalysisJobs()};dispatcher.scheduler.runCurrent();Dispatchers.resetMain()}
+    private fun vm()=SceneViewModel(predictionDispatcher=dispatcher).also {models+=it}.apply {
+        setBandHz(1000);setSignalType("BAND");setSignalDispersionEnabled(false)
+        setSignalBandwidthOct(1f/12);setSignalInterferenceEnabled(true)
     }
+    private fun source(id:Int=0,level:Float=100f)=PlacedSpeaker(id,0f,0f,heightM=15f,sensitivity=level)
+    private fun output(v:SceneViewModel,sources:List<PlacedSpeaker>,dsp:Map<Int,SpeakerDsp> = emptyMap())=
+        v.capturePredictionRequest(PredictionTicket(v.revision.value,1,PredictionChannel.COVERAGE),sources,
+            listOf(HeatCell(10f,0f,Float.NaN,renderY=15f)),dsps=dsp,retainBandPowers=true).calculate()
 
-    private fun arrival(splDb: Float, distanceM: Float = 10f, delayMs: Float = 0f, inverted: Boolean = false) =
-        SceneViewModel.CoherentContribution(splDb, distanceM, delayMs, inverted)
-
-    @Test
-    fun `nothing arriving is silence, not a crash`() {
-        assertEquals(0f, vm().coherentSumDb(emptyList()), 0f)
+    @Test fun emptyRequestHasZeroEnergy() {
+        assertEquals(0.0,output(vm(),emptyList()).totalPowerAt(0),0.0)
     }
-
-    @Test
-    fun `a single arrival passes through at its own level`() {
-        // Coherent and incoherent agree for one source, so the blend weight cannot
-        // matter here - any answer other than the input level is a bug.
-        val v = vm()
-        assertEquals(94f, v.coherentSumDb(listOf(arrival(94f))), 1e-2f)
+    @Test fun singleSourceGainReachesProductionResult() {
+        val v=vm();val baseline=output(v,listOf(source())).levelAt(0)
+        assertEquals(4f,output(v,listOf(source()),mapOf(0 to SpeakerDsp(0,gainDb=4f))).levelAt(0)-baseline,.0001f)
     }
-
-    @Test
-    fun `two identical arrivals land between the incoherent and coherent answers`() {
-        val v = vm()
-        val one = v.coherentSumDb(listOf(arrival(90f)))
-        val two = v.coherentSumDb(listOf(arrival(90f), arrival(90f)))
-        val gain = two - one
-        // +3 dB is power summation, +6 dB is pressure summation. The blend must sit
-        // in between, inclusive, and must never lose level by adding a source.
-        assertTrue("expected +3..+6 dB from doubling, got $gain", gain >= 2.9f && gain <= 6.1f)
+    @Test fun identicalCoherentSourcesAddExactlySixDecibels() {
+        val v=vm();val one=output(v,listOf(source())).levelAt(0)
+        assertEquals(6.0206f,output(v,listOf(source(),source(1))).levelAt(0)-one,.0001f)
     }
-
-    @Test
-    fun `an anti-phase twin cancels rather than reinforcing`() {
-        val v = vm()
-        val single = v.coherentSumDb(listOf(arrival(90f)))
-        val opposed = v.coherentSumDb(listOf(arrival(90f), arrival(90f, inverted = true)))
-        assertTrue("polarity inversion should not raise level: $opposed vs $single", opposed < single)
+    @Test fun invertedCoincidentTwinCancelsInTheProductionBand() {
+        val v=vm();val one=output(v,listOf(source())).totalPowerAt(0)
+        val opposed=output(v,listOf(source(),source(1)),mapOf(1 to SpeakerDsp(1,polarity=true))).totalPowerAt(0)
+        assertTrue("Cancellation must be checked in energy, not against the display floor",opposed<=one*1e-12)
     }
-
-    @Test
-    fun `below 163 Hz with interference disabled the result is pure power summation`() {
-        // The documented escape hatch: no phase modelling in the low end.
-        val v = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply {
-            setBandHz(63)
-            setSignalInterferenceEnabled(false)
+    @Test fun interferenceOffAddsSeparateSourcePowersAcrossAllBands() {
+        val v=vm();v.setSignalInterferenceEnabled(false)
+        for(hz in SceneViewModel.SUPPORTED_BANDS_HZ) {
+            v.setBandHz(hz);val one=output(v,listOf(source())).levelAt(0)
+            assertEquals("$hz Hz",3.0103f,output(v,listOf(source(),source(1))).levelAt(0)-one,.0001f)
         }
-        val one = v.coherentSumDb(listOf(arrival(90f)))
-        val two = v.coherentSumDb(listOf(arrival(90f), arrival(90f)))
-        assertEquals("expected exactly +3.01 dB", 3.0103f, two - one, 1e-2f)
     }
-
-    @Test
-    fun `adding a much quieter source barely moves the total`() {
-        val v = vm()
-        val loud = v.coherentSumDb(listOf(arrival(100f)))
-        val both = v.coherentSumDb(listOf(arrival(100f), arrival(60f)))
-        assertTrue("a 40 dB quieter source moved the sum by ${both - loud} dB", kotlin.math.abs(both - loud) < 1f)
+    @Test fun quieterCoherentSourceHasTheAnalyticalPressureGain() {
+        val v=vm();val one=output(v,listOf(source())).levelAt(0)
+        assertEquals((20*log10(1.01)).toFloat(),output(v,listOf(source(),source(1,60f))).levelAt(0)-one,.0001f)
+    }
+    @Test fun halfPeriodDelayHasFiniteBandResidualRatherThanAnInventedBlend() {
+        val v=vm();val ratios=mutableListOf<Double>()
+        for(width in listOf(1f/12,1f/3)) {
+            v.setSignalBandwidthOct(width)
+            val single=output(v,listOf(source())).totalPowerAt(0)
+            val pair=output(v,listOf(source(),source(1)),mapOf(1 to SpeakerDsp(1,delayMs=.5f))).totalPowerAt(0)
+            val h=2.0.pow(width.toDouble()/2);val low=1000/h;val high=1000*h
+            val b=PI*(high-low)*.0005
+            val expected=2+2*cos(2*PI*(low+high)/2*.0005)*sin(b)/b
+            assertEquals(expected,pair/single,1e-6);ratios+=pair/single
+        }
+        assertTrue(ratios[1]>ratios[0])
+    }
+    @Test fun productionDspAndCoherenceSettingsSurviveSaveReopen() {
+        val v=vm();v.addSpeaker(0f,0f);v.addSpeaker(0f,0f)
+        val id=v.speakers.value.last().id;v.setGain(id,-4f);v.setDelay(id,.5f);v.setPolarity(id,true)
+        val store=LocalProjectStore(folder.root)
+        fun power(m:SceneViewModel)=m.capturePredictionRequest(PredictionTicket(m.revision.value,1,PredictionChannel.COVERAGE),m.speakers.value,
+            listOf(HeatCell(10f,0f,Float.NaN,renderY=1.2f)),retainBandPowers=true).calculate().totalPowerAt(0)
+        for(coherent in listOf(true,false)) {
+            v.setSignalInterferenceEnabled(coherent);val before=power(v)
+            store.save("design",v.exportSceneJson(false),v::resolveProjectAsset)
+            val fresh=vm();assertTrue(fresh.importPreparedProject(store.loadPrepared("design")!!.project))
+            assertEquals(v.dspMap.value,fresh.dspMap.value);assertEquals(before,power(fresh),0.0)
+        }
     }
 }

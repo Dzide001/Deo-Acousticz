@@ -93,6 +93,11 @@ jobs:
           python3 validation/broadband-capture/reference.py --check
           python3 validation/relative-broadband/reference.py --check
           python3 validation/source-spectrum/reference.py --check
+          python3 validation/asymmetric-directivity/reference.py --check
+          python3 validation/clf-handedness/reference.py --check
+          python3 validation/clf-magnitude/reference.py --check
+          python3 validation/cf1-reference/reference.py --check
+          python3 validation/retired-room-model/audit.py
         working-directory: ${{ github.workspace }}
 
       - name: Check public calibrated-measurement reference preparation
@@ -125,6 +130,13 @@ jobs:
             android/shared-core/build/reports/broadband-capture/results.json
             android/shared-core/build/reports/relative-broadband/results.json
             android/shared-core/build/reports/source-spectrum/results.json
+            android/shared-core/build/reports/asymmetric-directivity/results.json
+            android/shared-core/build/reports/clf-handedness/results.json
+            android/app/build/reports/clf-handedness/results.json
+            android/shared-core/build/reports/clf-magnitude/results.json
+            android/app/build/reports/clf-magnitude/results.json
+            android/app/build/reports/cf1-reference/results.json
+            android/app/build/reports/powered-reference/results.json
             android/shared-core/build/reports/validation-workflow/results.json
             android/shared-core/build/reports/public-measurements/results.json
             android/shared-core/build/reports/angular-support/results.json

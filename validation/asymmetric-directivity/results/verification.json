@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-26",
+  "scope": "SYNTHETIC_NATIVE_DECODED_SPEAKER_ORIENTATION_ONLY",
+  "caseCount": 198,
+  "maxAbsoluteResidualDb": 7.6293945e-06,
+  "toleranceDb": 0.002,
+  "rejectedMirrors": 180,
+  "portableSpeakerRoundTrip": "bit-identical predictions in all 198 cases",
+  "tests": {
+    "sharedJvm": {
+      "tests": 618,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "androidFocused": {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "androidDebugBuild": "PASS",
+  "iosSimulatorArm64TestCompilation": "PASS (compilation only; no simulator runtime)",
+  "physicalDeviceTest": "Not run in this batch",
+  "command": "JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home ./gradlew :shared-core:jvmTest :shared-core:compileTestKotlinIosSimulatorArm64 :app:testDebugUnitTest --tests '*AsymmetricDirectivityRecoveryTest' --tests '*ClfTabParserTest' :app:assembleDebug -Pkotlin.compiler.execution.strategy=in-process --offline",
+  "evidenceSha256": {
+    "engine-jvm.json": "a1d2179ad224d6888721d7bd0d9291ac4c18a25cb1e48ea7350a24ac17776ac7",
+    "validation-build.log": "a1e5e0463d37ba192180e662c880691ea77fa3b114f75e4e2af727081d8f1ff4"
+  },
+  "remainingGates": [
+    "External CLF TAB/CF1/CF2 handedness with independently labelled asymmetric data",
+    "Manufacturer-matched acceptance",
+    "CF1 level-reference qualification",
+    "Intrinsic complex phase orientation"
+  ]
+}

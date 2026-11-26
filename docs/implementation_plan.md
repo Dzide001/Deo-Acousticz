@@ -60,10 +60,15 @@ track. Preserve the platform-independent core throughout; do not move physics ba
    total relative drive split equally across the eight octave bands. Old projects without the new
    field retain per-band reference drive until explicitly changed. The selected convention is
    visible in the map legend and Settings. Neither mode implies watts without electrical calibration.
-4. **Complete physical-validation and production-test gates.** Manufacturer-matched acceptance,
-   asymmetric left/right directivity and CF1 level-reference qualification remain open. The retained
-   PRX635 holdout is not an engine-wide pass. Migrate legacy-helper tests to production snapshots
-   before retiring dead methods; test counts alone do not establish prediction accuracy.
+4. **Complete physical-validation and production-test gates.** Native decoded-data left/right
+   validation is implemented (see batch below). Manufacturer-matched acceptance,
+   external asymmetric CF1/other binary variants and electrical CF1 calibration remain open.
+   The CF1 sensitivity byte offset is now verified against the official text pairs.
+   The official asymmetric TAB/CF2 subset is now qualified (see batch below). The retained
+   PRX635 holdout is not an engine-wide pass. Summation/array adapter tests now use production
+   snapshots. Unpublished room-metric/reflection calculators and their tests are now retired;
+   the source is archived outside the build, while active boundary/ground checks use the shared solver.
+   Test counts alone do not establish prediction accuracy.
 5. **Qualify performance and release.** Keep large diffuse/high-frequency modes experimental until
    they meet a device budget. Address the slow phase-trace test, adaptive grid/preview latency and
    release signing/device acceptance before release; resolve distribution licensing and versioning.
@@ -72,10 +77,208 @@ track. Preserve the platform-independent core throughout; do not move physics ba
 
 Branch decisions: **keep the STI branch as preserved experimental work; do not merge its current
 publication path** into the live-sound product. It conflicts with the explicit RT60/STI gate.
-The reflection-reference test and review report already match `claude/reflection-reference-test`
-byte-for-byte in the working tree; their missing Git integration remains a checkpoint/history task.
+The reflection-reference test and review report were included in checkpoint `b7a472e`;
+their files matched `claude/reflection-reference-test`, so no additional branch merge is needed.
 The legacy optimizer is retained but `runOptimization` returns immediately while the shared scope
 contract disables it; it is not currently allowed to run/apply the legacy objective.
+
+## Validation/import cleanup checkpoint — 2026-11-26
+
+Checkpoint the validated batches after `b7a472e`: native/external asymmetric
+orientation, CLF sign/symmetry and missing-reference corrections, reference-basis
+calibration guards, migration of summation tests to production requests, and
+retirement of unpublished room calculators. Retain fixtures, source provenance,
+scripts, historical archives and raw results; exclude build outputs, the local
+manufacturer corpus and device/user project backups. Publish with a normal push
+to `origin/main`; do not merge or alter `claude/serene-mclaren-0dfd96`.
+
+Run a fresh complete shared/Android test gate before publishing, plus Android
+assembly and iOS arm64 core/simulator test compilation. Retain the consolidated
+gate in `validation/checkpoints/2026-11-26/`, separately from historical batch
+results. Check all eleven independent reference scripts, the archive audit and
+six CSV-packaging tests. The push is a source checkpoint, not signed release or
+device acceptance. Physical/external validation, performance, platform completion
+and release gates remain open as recorded above.
+
+The fresh consolidated gate passed: **644 shared JVM tests and all 449 Android
+tests, zero failures/errors/skips**; Android debug assembly and iOS arm64
+core/simulator test compilation passed. All reference/audit/CSV checks above passed.
+This supersedes the prior batch's split full-run/fixture-repair test evidence as the
+current complete regression checkpoint; historical batch records remain unchanged.
+
+## Retired room-model cleanup — 2026-11-26
+
+Archive the historical RT60/image-source tests and removed ViewModel helpers with
+hashes in the [retirement package](../validation/retired-room-model/README.md).
+Remove unused room-bounds inference, guessed RT60, higher-order image generation,
+empirical reflection-air loss and the obsolete floor adapter from active code.
+Retain compatibility empty/null metric state, old project material/order fields and
+the unmerged STI branch. These archived tests no longer inflate the active suite.
+
+Move `SurfaceMaterial` and six catalogue compatibility checks into shared-core,
+preserving IDs, lookup/clamping and coefficient values. Shared production-request
+tests pin analytical global-ground energy. Android tests cover actual ground
+materials, isolation of inactive room settings, reports without unsupported metrics,
+disk save/reopen and legacy scalar/custom materials. Existing shared boundary and
+Block/face/reflected-phase regressions validate the active first-order implementation.
+Retain audit results and exact test/build scope; fewer Android tests are intentional.
+All **644 shared JVM tests and 77 targeted Android tests pass**, with no skipped
+tests. The Android gate includes reflected-phase traces, Block/face integration,
+directivity, report scope and project recovery. Android debug assembly and iOS
+arm64 core/simulator test compilation pass. No device/runtime acceptance is claimed.
+
+Remaining validation gates are physical/external acceptance, qualified speaker
+reference conversions, other binary variants and release/performance qualification.
+This cleanup adds no room RT60/STI capability or manufacturer-accuracy claim.
+
+## Production summation test migration — 2026-11-26
+
+The [retained migration package](../validation/production-summation/README.md) replaces
+25 legacy-helper calls in Android summation/array tests with immutable production
+prediction requests. Remove arbitrary +3..+6 dB blend assertions: require analytical
+coherent/independent gains, energy cancellation and finite-band delay residuals.
+Four shared common tests pin the request-level physics and within-array coherence
+when inter-source interference is off. Android tests cover actual poses, gain,
+polarity, taper, steering, generic splay, batched receiver grids and DSP save/reopen.
+
+This is validation cleanup; no solver change or manufacturer accuracy claim is
+introduced. Retain the baseline/call inventory and full shared/Android suite results.
+Remaining RT60/reflection helper tests describe unpublished/disabled code and do not
+qualify the live prediction path. Keep compatibility methods until those remaining
+call sites are migrated or explicitly archived.
+The full Android run also found eight outdated coverage-edge fixtures with one
+sensitivity value for eight bands. Correct all three fixture builders and assert
+successful imports before checking edges, avoiding silent generic fallback. Retain
+the initial full-suite inventory and post-fix targeted rerun separately; the slow
+phase-trace class passed in the full run and is not repeated for this fixture-only fix.
+All **636 shared JVM tests pass**. The complete Android run covered **477 tests**:
+469 passed initially; the eight fixture failures were corrected and the full
+coverage-edge class plus migrated summation classes passed a targeted rerun.
+Android debug assembly and iOS arm64 core/simulator test compilation pass. Do not
+describe this as a second clean full Android run; exact run scopes are retained.
+
+## Powered/axial reference qualification — 2026-11-26
+
+The [reference-basis package](../validation/powered-reference/README.md) adds shared
+portable sensitivity/axial/unspecified source-row metadata and data-quality reports.
+Unknown legacy basis is omitted from canonical JSON so default old asset hashes
+remain stable. Persist explicit bases through Android disk save/fresh reopen.
+
+Fixed calibration leakage: axial fallback and powered input settings cannot inherit
+a watt normalization from sensitivity notes. Axial provenance uses its own information
+field. Only a nonpowered sensitivity row can use the existing narrow file-declared
+watt-reference rule. Explicit native-format user calibration remains separate.
+Importer v5 records the change; old assets/traces/variants are retained, so original
+CLF sources need reimport/review to apply these guards to prior declarations.
+
+Reject automatic powered CF1 axial-only conversion with a specific shared error and
+preserve the existing project after failure. A viewer's octave display alone does
+not qualify an engine input-spectrum/drive conversion. Test four synthetic reference
+fixtures, legacy hash stability, unknown/declared calibration, save/reopen and atomic
+failure. Retain per-case results and exact build/test gate in the package.
+All **632 shared JVM tests and 51 focused Android tests pass**, with no skipped
+tests. Android debug assembly and iOS arm64 core/simulator test compilation pass.
+Predictions are identical after reopen in all four cases. No physical-device or
+iOS runtime check was performed.
+
+Remaining: independently calibrated powered/octave conversion, electrical reference
+qualification, asymmetric binary CF1 and actual manufacturer/measurement acceptance.
+This batch qualifies metadata and guards; it does not close physical validation.
+
+## CF1 reference-row validation and missing slots — 2026-11-26
+
+The [CF1 reference package](../validation/cf1-reference/README.md) pins 13 binary
+sensitivity slots against the official Active/Passive1 text examples. This qualifies
+the tested `0x1240 + 4*octaveSlot` address, not electrical drive normalization.
+Powered zero placeholders remain unavailable. Retain input hashes, original numeric
+text subsets/binaries, independent reference/extraction scripts and Android results.
+
+Fixed shared TAB reference parsing to preserve `<nodata>` column positions. Explicit
+sensitivity holes stay missing and cannot borrow the distinct axial spectrum. CLF2
+axial fallback preserves all third-octave slots; CF1 does not guess an octave drive
+conversion. Invalid reference rows fail explicitly. Importer v4 identifies the fix;
+old native projects/assets are retained and need original-file reimport to recover
+previously discarded source slots. Test production TAB/CF1 predictions, sparse
+assets, unknown calibration and disk save/fresh reopen; retain exact gate results.
+All **629 shared JVM tests and 50 focused Android tests pass**, with zero skipped.
+Android debug assembly, iOS arm64 core compilation and iOS simulator test
+compilation pass. No physical-device or iOS runtime test was run in this batch.
+
+Next external gates: independently asymmetric binary CF1, explicit electrical
+normalization and powered/axial conversion. Manufacturer/measurement acceptance
+remains mandatory; official format examples cannot establish physical accuracy.
+
+## CLF relative magnitude and declared-symmetry cleanup — 2026-11-26
+
+The [retained CF1 text examples](../validation/clf-magnitude/README.md) expose ignored
+reversed magnitude signs and incorrect reversed quarter-sector expansion. Corrected
+both in shared-core. Symmetry now follows declared none/horizontal/vertical/full/
+rotational sectors rather than guessing from row count. Rotation follows expansion.
+Reject inconsistent/unknown declarations, non-finite samples and unsupported
+absolute/arbitrary references rather than interpreting them as relative attenuation.
+
+Retain the official numeric source subsets/hashes, extraction/oracle scripts,
+production prediction and recovery results. Common tests cover CLF1/CLF2 resolution,
+sector/order/sign combinations and invalid inputs. Android checks save/reopen and
+atomic rejection of unsupported imports. Importer v3 identifies the correction;
+v2 TAB assets receive a shared reimport warning without silently changing saved
+native data, design history or traces. Exact build/test scope is in package results.
+All **626 shared JVM tests and 48 focused Android tests pass**, with no skipped
+tests. Android debug assembly and both iOS core/test compilation checks pass.
+No device installation or iOS runtime execution was performed in this batch.
+
+The official CF1 examples are horizontally symmetric and cannot establish binary
+CF1 left/right handedness. That gate and electrical CF1 calibration remain open.
+Absolute/arbitrary normalization, polar-only interpolation and optional complex
+container support remain separate work; manufacturer/measurement acceptance is
+still required. This is a focused import-correctness batch, not a new acoustic model.
+
+## External CLF handedness correction — 2026-11-26
+
+The [official CLF sample package](../validation/clf-handedness/README.md) combines
+independently labelled directions from specification Figure 1 with the authoring
+kit's asymmetric TAB/CF2 pair. This exposed two errors that the exactly symmetric
+XD12 could not reveal: native right was mapped to CLF left, and binary arcs were
+unconditionally reversed. The binary errors cancelled for the tested layout;
+the TAB mapping did not. Corrected both, moved the entire TAB parser into shared-core,
+and implemented its declared full-circle `<ROTATE>` normalization.
+
+Retain official source/fixture hashes, a reduced numeric TAB fixture, unmodified
+sample CF2, independent reference/extraction scripts and per-case results. Shared
+tests check 256 predictions across default/reversed/rotated encodings with 128
+rejected old mappings. Android tests check 128 TAB/CF2 production predictions with
+disk save/fresh reopen for each pose. CI checks references and uploads fresh reports.
+Build/test evidence and exact residuals are in the package verification result.
+All **622 shared JVM tests and 47 focused Android tests pass**, with no skipped
+tests. Android debug assembly, iOS arm64 core compilation and iOS simulator test
+compilation pass. Maximum orientation residual is below 0.000006 dB against the
+predeclared 0.001 dB gate. No physical-device or iOS runtime execution is claimed.
+
+New assets identify importer v2. Existing v1 TAB assets receive a shared warning
+to reimport their originals; saved native data, historical traces and variants are
+not silently mirrored. Imports without provenance cannot be classified reliably.
+This closes handedness for the tested full-circle relative-magnitude TAB and CF2
+subset only. Independently asymmetric CF1 and other binary variants, unqualified
+symmetry/sign/reference modes, optional phase/filter/multipart, physical calibration
+and manufacturer-software comparisons remain separate V2 gates.
+
+## Asymmetric directivity validation — 2026-11-26
+
+Implemented the [retained orientation package](../validation/asymmetric-directivity/README.md)
+for normalized speaker data. An independent Python oracle defines 198 left/right,
+upper/lower, signed-grid, seam, frequency and rotated/tilted production-prediction
+comparisons. Mirrored negative controls must fail all 180 off-axis cases. Portable
+speaker reopening must preserve predictions exactly. Shared common tests pin world
+axes and individual array frames; electronic steering cannot rotate those frames.
+Android adapter tests cover import, production coverage capture and disk save/reopen.
+CI verifies the independent references and retains fresh engine reports.
+
+No runtime correction was needed in the normalized engine path. This closes the
+synthetic native handedness gate only. The subsequent external CLF batch above
+qualifies the official TAB/CF2 subset; the symmetric XD12 pair alone cannot prove
+handedness. Other binary variants and CF1 handedness/level calibration,
+manufacturer-matched acceptance and intrinsic phase orientation remain unqualified.
+See the package's verification result for the exact tests and platform build scope.
 
 ## Source-control checkpoint — 2026-11-26
 

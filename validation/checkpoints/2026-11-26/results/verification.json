@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-26",
+  "scope": "SOURCE_CHECKPOINT_LOCAL_TEST_AND_BUILD_GATE_NOT_RELEASE_OR_PHYSICAL_VALIDATION",
+  "baseCommit": "b7a472eda017abe534dfee01e38e964e1144099c",
+  "tests": {
+    "sharedJvm": {
+      "tests": 644,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "androidFull": {
+      "tests": 449,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "androidDebugBuild": "PASS",
+  "iosArm64CoreCompilation": "PASS",
+  "iosSimulatorArm64TestCompilation": "PASS (compilation only)",
+  "physicalDeviceTest": "Not run in this checkpoint",
+  "referenceChecks": {
+    "count": 11,
+    "status": "PASS",
+    "scripts": [
+      "validation/asymmetric-directivity/reference.py",
+      "validation/broadband-capture/reference.py",
+      "validation/cf1-reference/reference.py",
+      "validation/clf-handedness/reference.py",
+      "validation/clf-magnitude/reference.py",
+      "validation/engine-capture/reference.py",
+      "validation/numerical/reference.py",
+      "validation/relative-broadband/reference.py",
+      "validation/relative-response/reference.py",
+      "validation/source-spectrum/reference.py",
+      "validation/speaker-data/reference.py"
+    ]
+  },
+  "archiveAudit": "PASS",
+  "csvPackagingTests": {
+    "tests": 6,
+    "status": "PASS"
+  },
+  "command": "JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home ./gradlew :shared-core:jvmTest :shared-core:compileTestKotlinIosSimulatorArm64 :shared-core:compileKotlinIosArm64 :app:testDebugUnitTest :app:assembleDebug -Pkotlin.compiler.execution.strategy=in-process --offline",
+  "preservedStiBranch": {
+    "name": "claude/serene-mclaren-0dfd96",
+    "commit": "5b58c7e97819332518f227df4d894a107b9d1c90",
+    "merged": false
+  },
+  "evidenceSha256": {
+    "androidFull-classes.json": "dca3191f603396c38cb98cf20214c61159764bca588817f54a48de3bbf21ece8",
+    "sharedJvm-classes.json": "e88cedffddd23675b01904d46dad160c1128657cd4c1c6a8674beff10cfa0d30",
+    "validation-build.log": "b72d91eda6e0ab16b563e58502d5337722903784b090730c1b0a157691934018"
+  }
+}

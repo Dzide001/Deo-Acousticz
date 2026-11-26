@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" tests="31" skipped="0" failures="0" errors="0" timestamp="2026-11-26T15:09:37.962Z" hostname="Dzide.local" time="140.683">
+  <properties/>
+  <testcase name="malformedFilterImportIsAtomicAndLegacyProjectsHaveNoFilters" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.031"/>
+  <testcase name="robustMatchingDiagnosticsAndAppliedReferenceSurviveProjectReopen" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.037"/>
+  <testcase name="adjustableReferencesPersistResetAndUndoWithoutChangingSpeakerDelay" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.028"/>
+  <testcase name="coherentScatteringInterferencePersistsAndPolarityUndoRestoresCoverage" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.749"/>
+  <testcase name="historyNavigationReopensAndIsOneSceneUndoStep" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.026"/>
+  <testcase name="movedRangePreservesWidthAcrossReopenAndUndo" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.02"/>
+  <testcase name="mixedSourceEnergyAtOneKilohertzSurvivesReopenAndCoherentModeStaysUnavailable" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.015"/>
+  <testcase name="groundPhaseChangesInterferenceAndSurvivesVariantsAndReopen" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.055"/>
+  <testcase name="automaticReferenceMatchingAppliesAtomicallyAndSupportsUndoAndReopen" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.053"/>
+  <testcase name="missingMaterialPhaseRemainsUnavailableAfterReopen" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.03"/>
+  <testcase name="historyPreviewDoesNotMutateUntilAppliedAndReopensWithUndo" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.038"/>
+  <testcase name="matchingFrequencyRangePersistsResetsAndUndoesWithAtomicImportValidation" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.027"/>
+  <testcase name="manualExclusionsPersistUndoAndRejectInvalidImportsAtomically" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.031"/>
+  <testcase name="reflectedBlockAndImportedFacesSurviveReopenWithoutDoubleCounting" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.054"/>
+  <testcase name="exclusionDescriptionsFollowUndoRedoAndProjectReopen" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.018"/>
+  <testcase name="fitSampleSelectionPersistsAndInvalidImportIsAtomic" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.019"/>
+  <testcase name="exclusionUndoRedoPersistsAcrossProjectReopen" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.02"/>
+  <testcase name="editingExclusionIsOneUndoStepAndSurvivesReopen" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.017"/>
+  <testcase name="fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="104.689"/>
+  <testcase name="rangeExclusionsPersistUndoAndRejectInvalidImportsAtomically" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.016"/>
+  <testcase name="magnitudeOnlyAndUnsupportedPropagationNeverInventPhase" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.016"/>
+  <testcase name="overlayInspectionPreferencesPersistAndPreviewStillApplies" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.013"/>
+  <testcase name="groundPhaseImportValidationIsAtomicAndLegacySelectionIsEmpty" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.007"/>
+  <testcase name="largeVenueNonuniformMeasuredArraysAtFourAndEightKilohertzReopenExactly" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="22.532"/>
+  <testcase name="measuredThirtyTwoEmitterScatteringPersistsAndPolarityUndoRestoresResult" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="4.063"/>
+  <testcase name="complexBandAndFiltersPersistAndReproduceProductionCoverageAndPhase" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.02"/>
+  <testcase name="derivedPhaseAndMissingIntervalsSurviveProjectReopen" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.011"/>
+  <testcase name="listenerAndReferencePhaseCompareDelayAndReopenWithExactSpeakerData" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.031"/>
+  <testcase name="denseListenerAndReferenceCapturesKeepDelayReferenceAfterReopen" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.021"/>
+  <testcase name="complexDiffuseMaterialAndFilterPersistWithIdenticalProductionResults" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="0.091"/>
+  <testcase name="wholeMeasuredArraySceneCompletesAndReopensWithIdenticalCoverage" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="7.905"/>
+  <system-out><![CDATA[Full-venue diffuse, 64 emitters, 1000 Hz, 333 receivers: 53157.558458 ms
+Full-venue diffuse 1000 Hz area mean: 56.71420139630636 dB
+Large venue 60x40m, 32 emitters, 4000 Hz, 333 receivers: 1372.998416 ms
+Large venue 4000 Hz / 32 emitters area mean: 49.0593787697951 dB
+Large venue 60x40m, 32 emitters, 8000 Hz, 333 receivers: 3072.441167 ms
+Large venue 8000 Hz / 32 emitters area mean: 52.03731159210205 dB
+Large venue 60x40m, 64 emitters, 8000 Hz, 333 receivers: 6736.00275 ms
+Large venue 8000 Hz / 64 emitters area mean: 55.87139387289683 dB
+32-emitter whole-scene coverage: 2055.613292 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

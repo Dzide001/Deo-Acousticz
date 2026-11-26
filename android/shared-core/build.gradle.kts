@@ -16,6 +16,31 @@ kotlin {
     }
 }
 
+tasks.withType<Test>().configureEach {
+    inputs.dir(project.file("../../validation/asymmetric-directivity"))
+    val report=layout.buildDirectory.file("reports/asymmetric-directivity/results.json")
+    outputs.file(report)
+    systemProperty("asymmetricDirectivityReport",report.get().asFile.absolutePath)
+}
+
+tasks.withType<Test>().configureEach {
+    val fixtures=project.file("../../validation/clf-handedness")
+    inputs.dir(fixtures.resolve("fixtures"))
+    inputs.files(fixtures.resolve("reference.py"),fixtures.resolve("provenance.json"),fixtures.resolve("results/reference.json"))
+    val report=layout.buildDirectory.file("reports/clf-handedness/results.json")
+    outputs.file(report)
+    systemProperty("clfHandednessReport",report.get().asFile.absolutePath)
+}
+
+tasks.withType<Test>().configureEach {
+    val fixtures=project.file("../../validation/clf-magnitude")
+    inputs.dir(fixtures.resolve("fixtures"))
+    inputs.files(fixtures.resolve("reference.py"),fixtures.resolve("provenance.json"),fixtures.resolve("results/reference.json"))
+    val report=layout.buildDirectory.file("reports/clf-magnitude/results.json")
+    outputs.file(report)
+    systemProperty("clfMagnitudeReport",report.get().asFile.absolutePath)
+}
+
 // The fixture/reference package is versioned outside platform sources. Tests only read it;
 // refreshed engine reports go to build/, never silently replace the reviewed baseline.
 tasks.withType<Test>().configureEach {

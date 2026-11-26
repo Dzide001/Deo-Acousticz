@@ -1,0 +1,442 @@
+[
+  {
+    "name": "com.droidacoustic.pro.scene.AngularSupportRecoveryTest",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.305
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.AreaBlockManipulationTest",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.126
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.AsymmetricDirectivityRecoveryTest",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.102
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.AtmosphericLossTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.001
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest",
+    "tests": 64,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1.004
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.Cf1ReferenceValidationTest",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.209
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ClfBinaryReaderTest",
+    "tests": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1.235
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ClfTabImportTest",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.035
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ClfTabParserTest",
+    "tests": 15,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.201
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ComparisonImportIntegrationTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.052
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.CoverageComparisonIntegrationTest",
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.211
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.CoverageEdgesTest",
+    "tests": 13,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.344
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.CoverageModeControlsTest",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.093
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.DesignVariantIntegrationTest",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.185
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.DirectivityTest",
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.002
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.DriveAndEqRecoveryTest",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.049
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.DspChainTest",
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.046
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.EngineComparisonCaptureTest",
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.182
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ExternalClfHandednessTest",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1.007
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.FloorBounceTest",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.013
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.GeometryTest",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.001
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.IntelligibilityScoreTest",
+    "tests": 16,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.005
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.LineArrayDirectivityTest",
+    "tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.337
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.LineArraySummationTest",
+    "tests": 11,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.038
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ManufacturerDataComparisonTest",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.058
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.MeasuredDirectivityTest",
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.159
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ObstructionTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.014
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest",
+    "tests": 31,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 138.521
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.PoweredReferenceRecoveryTest",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.036
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.PredictionConcurrencyTest",
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.038
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.PredictionModelCleanupTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.013
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.PredictionValidityRecoveryTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.043
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ProjectRecoveryTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.037
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.PublicMeasurementRecoveryTest",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.044
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ReceiverAngularOverlayTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.027
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ReceiverDiffuseIntegrationTest",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 4.454
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ReceiverFramingRecoveryTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.302
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ReceiverMarkerRecoveryTest",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.173
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.ReferenceTraceIntegrationTest",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.344
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.RevisionTest",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.113
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.SavedTraceIntegrationTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.124
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.21
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.SpeakerCalibrationTest",
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.098
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.SpeakerManipulationTest",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.157
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.SplScaleAdoptionTest",
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.026
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.SplScaleWindowTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.0
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.SummationTest",
+    "tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.044
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.SurfaceMaterialTest",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.033
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest",
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.126
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest",
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.252
+  },
+  {
+    "name": "com.droidacoustic.pro.scene.WeightingTest",
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.089
+  },
+  {
+    "name": "com.droidacoustic.pro.ui.AimRaysGlbTest",
+    "tests": 22,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.011
+  },
+  {
+    "name": "com.droidacoustic.pro.ui.ContoursGlbTest",
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.015
+  },
+  {
+    "name": "com.droidacoustic.pro.ui.HeatmapBandingTest",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.008
+  },
+  {
+    "name": "com.droidacoustic.pro.ui.SpeakersGlbTest",
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 0.005
+  }
+]

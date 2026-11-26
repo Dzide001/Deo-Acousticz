@@ -1,0 +1,25 @@
+{
+  "scope": "Retired unpublished room model; historical source, excluded from all active tests",
+  "files": [
+    {
+      "original": "android/app/src/test/kotlin/com/droidacoustic/pro/scene/Rt60Test.kt",
+      "archive": "validation/retired-room-model/legacy/Rt60Test.kt.txt",
+      "sha256": "5696f5c071b2c574d5d298e9def3cdaa00fbc01bb8997661643ea76bf822132e"
+    },
+    {
+      "original": "android/app/src/test/kotlin/com/droidacoustic/pro/scene/EarlyReflectionsTest.kt",
+      "archive": "validation/retired-room-model/legacy/EarlyReflectionsTest.kt.txt",
+      "sha256": "d136241eaa4f81a183bdf9312e95704df1bf677ff020007521f278e7bcf07fdc"
+    },
+    {
+      "original": "android/app/src/test/kotlin/com/droidacoustic/pro/scene/SurfaceMaterialTest.kt",
+      "archive": "validation/retired-room-model/legacy/SurfaceMaterialTest.kt.txt",
+      "sha256": "98ccfe30c4e3a6da9f0c2da9657cd334f377bdca237afff41421cef45afce8fa"
+    },
+    {
+      "original": "android/app/src/main/kotlin/com/droidacoustic/pro/scene/SceneViewModel.kt",
+      "archive": "validation/retired-room-model/legacy/SceneViewModel-room-helpers.kt.txt",
+      "sha256": "76dcd783a1becd66a99c055940b50bd6c6d4dfe0cf53aced7df29b6ff70e9dba"
+    }
+  ]
+}

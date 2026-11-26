@@ -46,8 +46,8 @@ class ClfTabParserTest {
         appendLine("<MODELNAME>\tTest Box 90x50")
         appendLine("<MANUFACTURER>\tSynthetic Audio")
         appendLine("<DESCRIPTION>\tFixture, not a real loudspeaker")
-        appendLine("<SENSITIVITY>\t96.0\t98.0")
-        appendLine("<BALLOON-SYMMETRY>\t<none>")
+        appendLine("<SENSITIVITY>\t"+bands.indices.joinToString("\t") {"${96.0+2*it}"})
+        appendLine("<BALLOON-SYMMETRY>\t${when(arcCount) {37->"<horizontal>";19->"<full>";else->"<none>"}}")
         appendLine("<BALLOON-ARC-ORDER>\t$arcOrder")
         appendLine("<CABINET-SYSTEM>\t<on-axis>\t<+x>\t<up>\t<+z>")
         bands.forEach { hz ->
@@ -107,7 +107,7 @@ class ClfTabParserTest {
 
         val (thetaSide, phiSide) = ClfTabParser.toAxisRelative(90f, 0f)
         assertEquals(90f, thetaSide, 1e-3f)
-        assertEquals(90f, phiSide, 1e-3f)
+        assertEquals(270f, phiSide, 1e-3f) // Native right is CLF arc 270 (rear view).
 
         val (thetaAhead, _) = ClfTabParser.toAxisRelative(0f, 0f)
         assertEquals(0f, thetaAhead, 1e-3f)

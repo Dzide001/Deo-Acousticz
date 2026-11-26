@@ -31,7 +31,8 @@ def generate(directory):
     def attenuation(hz,az,el):
         a,e=map(math.radians,(az,el))
         theta=math.degrees(math.acos(max(-1,min(1,math.cos(e)*math.cos(a)))))/5
-        phi=(math.degrees(math.atan2(math.cos(e)*math.sin(a),math.sin(e)))%360)/5
+        # CLF specification Fig. 1: phi 90 is left; native positive azimuth is right.
+        phi=(math.degrees(math.atan2(-math.cos(e)*math.sin(a),math.sin(e)))%360)/5
         # Reversed arcs: ascending phi i reads file row (-i mod 72).
         t=min(35,int(theta)); p=int(phi)%72; ft=theta-t; fp=phi-int(phi)
         values=bands[hz]

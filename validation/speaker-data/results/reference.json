@@ -8,7 +8,7 @@
     "CLF2_XD12.tab": "4aecc3ca0c420b48b7a7b522535fb44097d738394faa9dc4f1568ebd96b31ce4",
     "Martin Audio-XD12.CF2": "a0d26c8fbfb23d944a94a8b51a9dcbd1bcbf240fe49c48eb53976d8f9020f65e"
   },
-  "referenceScriptSha256": "b646f38f24127be2a5bfd24f9f69ab7fd2ab8444fc067034b070585302952f11",
+  "referenceScriptSha256": "6150e61d8cd846155879a73ce060179cc49d60e695674719bf3ae0a52321f2b8",
   "relativeToleranceDb": 0.001,
   "referenceRowToleranceDb": 0.0001,
   "sourceRows": [

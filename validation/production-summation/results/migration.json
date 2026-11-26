@@ -1,0 +1,34 @@
+{
+  "baselineCommit": "b7a472eda017abe534dfee01e38e964e1144099c",
+  "scope": "Test migration to actual prediction request; not manufacturer accuracy",
+  "files": [
+    {
+      "file": "android/app/src/test/kotlin/com/droidacoustic/pro/scene/SummationTest.kt",
+      "previousHelperCalls": {
+        "coherentSumDb": 10,
+        "lineArraySplDb": 0,
+        "elementSplDb": 0,
+        "arrayPressure": 0,
+        "directContribution": 0
+      },
+      "currentHelperCalls": 0,
+      "currentAdapter": "capturePredictionRequest",
+      "tests": 8,
+      "currentSourceSha256": "e25cc7e1116e01d01eb5cf89f6a3a3f6cf9f9581508860f65329cfcbdedcc86e"
+    },
+    {
+      "file": "android/app/src/test/kotlin/com/droidacoustic/pro/scene/LineArraySummationTest.kt",
+      "previousHelperCalls": {
+        "coherentSumDb": 0,
+        "lineArraySplDb": 8,
+        "elementSplDb": 2,
+        "arrayPressure": 3,
+        "directContribution": 2
+      },
+      "currentHelperCalls": 0,
+      "currentAdapter": "capturePredictionRequest",
+      "tests": 11,
+      "currentSourceSha256": "1d817537ec59498fe2dd4c53c61b872f5330a799f8a2f80636a0a77aa97e00c3"
+    }
+  ]
+}

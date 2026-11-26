@@ -35,7 +35,7 @@ class CoverageEdgesTest {
         buildString {
             appendLine("<CLF2>")
             appendLine("<MODELNAME>\t$model")
-            appendLine("<SENSITIVITY>\t100.0")
+            appendLine("<SENSITIVITY>\t"+SceneViewModel.SUPPORTED_BANDS_HZ.joinToString("\t") {"100.0"})
             appendLine("<BALLOON-SYMMETRY>\t<none>")
             appendLine("<BALLOON-ARC-ORDER>\t<normal>")
             SceneViewModel.SUPPORTED_BANDS_HZ.forEach { hz ->
@@ -58,7 +58,7 @@ class CoverageEdgesTest {
     private fun vmWith(doc: String, band: Int = 1000): SceneViewModel =
         SceneViewModel(predictionDispatcher = Dispatchers.Main).apply {
             setBandHz(band)
-            importClfTabText(doc)
+            assertTrue("CLF fixture must import",importClfTabText(doc))
         }
 
     // ── Measured ─────────────────────────────────────────────────────────────
@@ -120,7 +120,7 @@ class CoverageEdgesTest {
         val doc = buildString {
             appendLine("<CLF2>")
             appendLine("<MODELNAME>\tNarrowing")
-            appendLine("<SENSITIVITY>\t100.0")
+            appendLine("<SENSITIVITY>\t"+SceneViewModel.SUPPORTED_BANDS_HZ.joinToString("\t") {"100.0"})
             appendLine("<BALLOON-SYMMETRY>\t<none>")
             appendLine("<BALLOON-ARC-ORDER>\t<normal>")
             SceneViewModel.SUPPORTED_BANDS_HZ.forEach { hz ->
@@ -194,7 +194,7 @@ class CoverageEdgesTest {
         assumeTrue("corpus not present - third-party data, not in the repo", f != null)
 
         val v = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply { setBandHz(2000) }
-        v.importClfTabText(f!!.readText(Charsets.ISO_8859_1))
+        assertTrue(v.importClfTabText(f!!.readText(Charsets.ISO_8859_1)))
         val e = v.coverageEdgesFor(placedFrom(v))
         assertTrue("should come from the file", e.measured)
         // Measured directly out of the TAB earlier: about 10 degrees up and 25
@@ -231,7 +231,7 @@ class CoverageEdgesTest {
         val doc = buildString {
             appendLine("<CLF2>")
             appendLine("<MODELNAME>\tHorizNarrowing")
-            appendLine("<SENSITIVITY>\t100.0")
+            appendLine("<SENSITIVITY>\t"+SceneViewModel.SUPPORTED_BANDS_HZ.joinToString("\t") {"100.0"})
             appendLine("<BALLOON-SYMMETRY>\t<none>")
             appendLine("<BALLOON-ARC-ORDER>\t<normal>")
             SceneViewModel.SUPPORTED_BANDS_HZ.forEach { hz ->
@@ -269,7 +269,7 @@ class CoverageEdgesTest {
         assumeTrue("corpus not present - third-party data, not in the repo", f != null)
 
         val v = SceneViewModel(predictionDispatcher = Dispatchers.Main).apply { setBandHz(4000) }
-        v.importClfTabText(f!!.readText(Charsets.ISO_8859_1))
+        assertTrue(v.importClfTabText(f!!.readText(Charsets.ISO_8859_1)))
         val e = v.coverageEdgesFor(placedFrom(v))
         // Martin Audio publish the XD12 as 90 degrees horizontal, so the two
         // half-angles should add to about that. This is the end-to-end check

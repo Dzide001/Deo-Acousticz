@@ -1,0 +1,97 @@
+{
+  "date": "2026-11-26",
+  "scope": "RETIRE_UNPUBLISHED_ROOM_CALCULATORS_VALIDATE_ACTIVE_SHARED_GROUND_AND_BOUNDARIES",
+  "sharedJvm": {
+    "tests": 644,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "androidTargeted": {
+    "counts": {
+      "tests": 77,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "classes": [
+      {
+        "name": "com.droidacoustic.pro.scene.CoverageEdgesTest",
+        "tests": 13,
+        "failures": 0,
+        "skipped": 0,
+        "seconds": 0.646
+      },
+      {
+        "name": "com.droidacoustic.pro.scene.LineArrayDirectivityTest",
+        "tests": 8,
+        "failures": 0,
+        "skipped": 0,
+        "seconds": 0.467
+      },
+      {
+        "name": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest",
+        "tests": 31,
+        "failures": 0,
+        "skipped": 0,
+        "seconds": 140.683
+      },
+      {
+        "name": "com.droidacoustic.pro.scene.PredictionModelCleanupTest",
+        "tests": 3,
+        "failures": 0,
+        "skipped": 0,
+        "seconds": 0.048
+      },
+      {
+        "name": "com.droidacoustic.pro.scene.ProjectRecoveryTest",
+        "tests": 6,
+        "failures": 0,
+        "skipped": 0,
+        "seconds": 0.064
+      },
+      {
+        "name": "com.droidacoustic.pro.scene.SurfaceMaterialTest",
+        "tests": 6,
+        "failures": 0,
+        "skipped": 0,
+        "seconds": 0.028
+      },
+      {
+        "name": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest",
+        "tests": 10,
+        "failures": 0,
+        "skipped": 0,
+        "seconds": 0.226
+      }
+    ]
+  },
+  "retiredHelperApis": [
+    "estimateRoomBounds",
+    "buildEarlyReflections",
+    "estimateRt60",
+    "atmosphericLossDbForReflection",
+    "floorBoundaryInterferenceDb"
+  ],
+  "archivedUnsupportedTests": 23,
+  "movedCatalogueTests": 6,
+  "newSharedGroundTests": 2,
+  "legacyMetricState": "Empty/null compatibility state retained; unsupported report fields absent",
+  "androidDebugBuild": "PASS",
+  "iosArm64CoreCompilation": "PASS",
+  "iosSimulatorArm64TestCompilation": "PASS (compile only)",
+  "physicalDeviceTest": "Not run",
+  "command": "JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home ./gradlew :shared-core:jvmTest :shared-core:compileTestKotlinIosSimulatorArm64 :shared-core:compileKotlinIosArm64 :app:testDebugUnitTest --tests '*SurfaceMaterialTest' --tests '*PredictionModelCleanupTest' --tests '*UnifiedBoundaryIntegrationTest' --tests '*LineArrayDirectivityTest' --tests '*CoverageEdgesTest' --tests '*PhaseTraceIntegrationTest' --tests '*ProjectRecoveryTest' :app:assembleDebug -Pkotlin.compiler.execution.strategy=in-process --offline",
+  "evidenceSha256": {
+    "CoverageEdgesTest.xml": "315b3bb3861d1f69ed4c4d76efc9d9ef9a946f052292537191015aae20f73db2",
+    "LineArrayDirectivityTest.xml": "f4bcbbc576a072f061fc0670ad1521334ffc3a50615df9a1f705812d86e005b7",
+    "PhaseTraceIntegrationTest.xml": "9ba1010cb477b3a94ce59f63198e0397c1d615b191c65e4cbd8f6e5c01133adf",
+    "PredictionModelCleanupTest.xml": "c437c3dd567f39f8509634ec7547f01c84f8e7cfc438892b7765a2e2401a0731",
+    "ProductionGroundMaterialTest.xml": "423f394a2f06f015187b0a4ff78a8a84fcd16cc2e94f6ddc11e62207abb4339b",
+    "ProjectRecoveryTest.xml": "521015dd510ed1b4522cf842bd7541a5b47ed43f66417fffee6ad9bbc17dfd23",
+    "SharedSurfaceMaterialTest.xml": "dd0dda8e9a0fec4e2b9d69e0d075ede1c387e9b214632fa423c56bfbd1ecc049",
+    "SurfaceMaterialTest.xml": "59e471569df76dc5be4d0c0e924d84e4785220db5e461b7a365a9bc6780a7979",
+    "UnifiedBoundaryIntegrationTest.xml": "9b0c13203af9f517723bbefd8173cf0615f5063a4ada6a5258eb1ff0ba89430d",
+    "validation-build.log": "bb908e4091161d29c815c2c7fa0414160ffe66dc69c363788f46a4e3f1d2da19"
+  }
+}

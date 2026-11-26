@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-26",
+  "scope": "OFFICIAL_CF1_TAB_RELATIVE_MAGNITUDE_NOT_BINARY_OR_PHYSICAL_CALIBRATION",
+  "sharedPredictions": 16,
+  "androidPredictions": 8,
+  "toleranceDb": 0.001,
+  "maxAbsoluteResidualDb": {
+    "shared": 2.861023e-06,
+    "android": 2.861023e-06
+  },
+  "tests": {
+    "sharedJvm": {
+      "tests": 626,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "androidFocused": {
+      "tests": 48,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "androidDebugBuild": "PASS",
+  "iosArm64CoreCompilation": "PASS",
+  "iosSimulatorArm64TestCompilation": "PASS (compile only)",
+  "physicalDeviceTest": "Not run in this batch",
+  "diskRecovery": "All eight Android magnitude comparisons bit-identical after disk save/fresh reopen",
+  "failedImportPreservedProject": true,
+  "command": "JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home ./gradlew :shared-core:jvmTest :shared-core:compileTestKotlinIosSimulatorArm64 :shared-core:compileKotlinIosArm64 :app:testDebugUnitTest --tests '*ExternalClfHandednessTest' --tests '*ClfTabParserTest' --tests '*ClfBinaryReaderTest' --tests '*MeasuredDirectivityTest' --tests '*ManufacturerDataComparisonTest' --tests '*ProjectRecoveryTest' --tests '*AsymmetricDirectivityRecoveryTest' :app:assembleDebug -Pkotlin.compiler.execution.strategy=in-process --offline",
+  "evidenceSha256": {
+    "engine-jvm.json": "503b437dd3672f65d58ae4aa7d0691fb528af5bddfcea947b08e6449995c4185",
+    "android.json": "77e8d4d78fd1d1e0df308e14efd8ba149d8a0736361e6b2a09ad6d16bcf31daa",
+    "validation-build.log": "6a8281bee2205e1384e5333d2b25c40fcccb69540ef3fde450d1221d5c44b816"
+  },
+  "remainingGates": [
+    "Asymmetric binary CF1 handedness",
+    "CF1 electrical level offsets",
+    "Absolute/arbitrary normalization",
+    "Polar-only interpolation and complex container variants",
+    "Matched manufacturer and real-measurement acceptance"
+  ]
+}

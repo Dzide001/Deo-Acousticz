@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.LineArraySummationTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-11-26T15:03:21.332Z" hostname="Dzide.local" time="0.134">
+  <properties/>
+  <testcase name="electronicSteeringPreservesPosesAndMechanicalAimMovesThem" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.03"/>
+  <testcase name="doublingTheBoxCountAddsSixDecibels" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.004"/>
+  <testcase name="nearArrayAndBandSizeSpacingMatrixRemainFinite" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.059"/>
+  <testcase name="twinArrayCancellationAndDelayedBandResidualUseProductionRequests" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.003"/>
+  <testcase name="splayWithGenericDirectivityChangesCoverage" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.004"/>
+  <testcase name="onAxisGainIsMonotonicForThisLowFrequencyFarFieldFixture" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.006"/>
+  <testcase name="interSourceInterferenceOffDoesNotMakeArrayElementsIndependent" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.005"/>
+  <testcase name="highFrequencyCoverageVariesMoreRapidlyForThisStraightArrayFixture" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.01"/>
+  <testcase name="farFieldArrayGainFollowsPressureSummation" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.004"/>
+  <testcase name="taperAndGainReachEveryElement" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.005"/>
+  <testcase name="wholeArrayPolarityAndCommonDelayDoNotChangeItsOwnEnergy" classname="com.droidacoustic.pro.scene.LineArraySummationTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

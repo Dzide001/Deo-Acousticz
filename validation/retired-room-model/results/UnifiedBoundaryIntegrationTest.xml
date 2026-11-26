@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-11-26T15:11:58.819Z" hostname="Dzide.local" time="0.226">
+  <properties/>
+  <testcase name="coldReopenAndVenueExchangePreserveRolesAndTransforms" classname="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" time="0.014"/>
+  <testcase name="scatteringSurvivesColdReopenAndVenueExchange" classname="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" time="0.116"/>
+  <testcase name="blocksAndFacesShareVisibilityAndDuplicateReflectionsCountOnce" classname="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" time="0.006"/>
+  <testcase name="customMaterialsSurviveColdReopenAndVenueExchange" classname="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" time="0.013"/>
+  <testcase name="reflectionPhaseSurvivesColdReopenAndVenueExchange" classname="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" time="0.015"/>
+  <testcase name="angularMaterialsSurviveColdReopenAndVenueExchange" classname="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" time="0.014"/>
+  <testcase name="oldProjectsMigrateToOpaqueAndMalformedRolesFailAtomically" classname="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" time="0.01"/>
+  <testcase name="materialsSurviveColdReopenAndVenueExchange" classname="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" time="0.015"/>
+  <testcase name="roleEditsInvalidateFreezeAndUndoWithoutAddingAudienceCoverage" classname="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" time="0.015"/>
+  <testcase name="conflictingCoincidentRolesUseOpaqueAndExactBlockDuplicatesDoNotAddEnergy" classname="com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

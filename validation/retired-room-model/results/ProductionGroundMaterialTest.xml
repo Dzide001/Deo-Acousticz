@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.prediction.ProductionGroundMaterialTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-26T15:09:09.536Z" hostname="Dzide.local" time="0.001">
+  <properties/>
+  <testcase name="coincidentDirectAndImagePathsHaveTheAnalyticalMaterialBoost[jvm]" classname="com.droidacoustic.pro.prediction.ProductionGroundMaterialTest" time="0.001"/>
+  <testcase name="fullyAbsorbingGroundReturnsTheDirectFieldWithoutInventedRoomEnergy[jvm]" classname="com.droidacoustic.pro.prediction.ProductionGroundMaterialTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

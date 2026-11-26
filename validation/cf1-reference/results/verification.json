@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-26",
+  "scope": "CF1_SENSITIVITY_ROW_BYTE_OFFSET_NOT_ELECTRICAL_CALIBRATION",
+  "referenceRows": 13,
+  "maxReferenceResidualDb": 3.051757815342171e-06,
+  "maxTabBinaryPredictionDifferenceDb": 0.0,
+  "maxReopenDifferenceDb": 0.0,
+  "referenceToleranceDb": 0.0001,
+  "tests": {
+    "sharedJvm": {
+      "tests": 629,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "androidFocused": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "missingSensitivitySlotDiskRecovery": "PASS; 1000 Hz unavailable, other five source bands preserved",
+  "poweredReference": "UNAVAILABLE",
+  "electricalCalibration": "UNKNOWN",
+  "androidDebugBuild": "PASS",
+  "iosArm64CoreCompilation": "PASS",
+  "iosSimulatorArm64TestCompilation": "PASS (compile only)",
+  "physicalDeviceTest": "Not run in this batch",
+  "command": "JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home ./gradlew :shared-core:jvmTest :shared-core:compileTestKotlinIosSimulatorArm64 :shared-core:compileKotlinIosArm64 :app:testDebugUnitTest --tests '*Cf1ReferenceValidationTest' --tests '*ExternalClfHandednessTest' --tests '*ClfTabParserTest' --tests '*ClfBinaryReaderTest' --tests '*MeasuredDirectivityTest' --tests '*ManufacturerDataComparisonTest' --tests '*ProjectRecoveryTest' --tests '*AsymmetricDirectivityRecoveryTest' :app:assembleDebug -Pkotlin.compiler.execution.strategy=in-process --offline",
+  "evidenceSha256": {
+    "android.json": "23fc9a2d3cfe3b75e1769c54e10dcb4708c4d5a5e43886ac5dd1381f11b05ad4",
+    "shared-tests.xml": "72bd2278c212936328ee277a33a25c68f0a0035eb38a96874777570b8cfc45cd",
+    "android-tests.xml": "1610f1455f19ab6fa9a2498b21788ef24f402b8329350da8c952f18981c4d191",
+    "validation-build.log": "c2e47c8c03d3ed7ecc876a5e42dba5f855a72aa06a844532854cee04f4cd4079"
+  },
+  "remainingGates": [
+    "Electrical drive normalization",
+    "Powered/axial octave conversion",
+    "Asymmetric binary CF1 handedness",
+    "Other binary variants",
+    "Manufacturer/measurement acceptance"
+  ]
+}

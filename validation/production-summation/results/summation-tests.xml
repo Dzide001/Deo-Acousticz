@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.SummationTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-26T15:03:21.539Z" hostname="Dzide.local" time="0.085">
+  <properties/>
+  <testcase name="interferenceOffAddsSeparateSourcePowersAcrossAllBands" classname="com.droidacoustic.pro.scene.SummationTest" time="0.017"/>
+  <testcase name="singleSourceGainReachesProductionResult" classname="com.droidacoustic.pro.scene.SummationTest" time="0.004"/>
+  <testcase name="quieterCoherentSourceHasTheAnalyticalPressureGain" classname="com.droidacoustic.pro.scene.SummationTest" time="0.003"/>
+  <testcase name="productionDspAndCoherenceSettingsSurviveSaveReopen" classname="com.droidacoustic.pro.scene.SummationTest" time="0.047"/>
+  <testcase name="halfPeriodDelayHasFiniteBandResidualRatherThanAnInventedBlend" classname="com.droidacoustic.pro.scene.SummationTest" time="0.003"/>
+  <testcase name="emptyRequestHasZeroEnergy" classname="com.droidacoustic.pro.scene.SummationTest" time="0.006"/>
+  <testcase name="invertedCoincidentTwinCancelsInTheProductionBand" classname="com.droidacoustic.pro.scene.SummationTest" time="0.003"/>
+  <testcase name="identicalCoherentSourcesAddExactlySixDecibels" classname="com.droidacoustic.pro.scene.SummationTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

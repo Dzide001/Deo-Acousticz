@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.ProjectRecoveryTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-26T15:11:58.701Z" hostname="Dzide.local" time="0.064">
+  <properties/>
+  <testcase name="tamperedEmbeddedAssetIsNotReplacedByPreviousRegistry" classname="com.droidacoustic.pro.scene.ProjectRecoveryTest" time="0.01"/>
+  <testcase name="malformedLoadLeavesSceneDataAndHistoryUnchanged" classname="com.droidacoustic.pro.scene.ProjectRecoveryTest" time="0.003"/>
+  <testcase name="missingDiskAssetPreservesSceneAndReportsUnavailable" classname="com.droidacoustic.pro.scene.ProjectRecoveryTest" time="0.012"/>
+  <testcase name="undoAndRedoRetainExactMeasuredRevisions" classname="com.droidacoustic.pro.scene.ProjectRecoveryTest" time="0.017"/>
+  <testcase name="diskCorruptionUsesPreviousCheckpoint" classname="com.droidacoustic.pro.scene.ProjectRecoveryTest" time="0.013"/>
+  <testcase name="diskSaveAndFreshReopenRecoverCalibrationAndPrediction" classname="com.droidacoustic.pro.scene.ProjectRecoveryTest" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,3769 @@
+{
+  "scope": "SYNTHETIC_NATIVE_DECODED_SPEAKER_ORIENTATION_ONLY",
+  "toleranceDb": 0.002,
+  "scriptSha256": "8a9f569154b3d7397e3a4e7fb710459551606a21409a4bf38a680dd29d432a18",
+  "cases": [
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        -11.071067811865476
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        3.0710678118654746
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        11.238795325112868,
+        3.0,
+        -7.826834323650898
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        11.238795325112868,
+        3.0,
+        -0.17316567634910207
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        -7.998476951563912,
+        3.0,
+        -4.174524064372834
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        -7.998476951563912,
+        3.0,
+        -3.8254759356271655
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        10.535533905932738,
+        6.826834323650898,
+        -7.535533905932738
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        10.535533905932738,
+        -0.8268343236508979,
+        -0.46446609406726225
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        -11.071067811865476
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        3.0710678118654746
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        11.238795325112868,
+        3.0,
+        -7.826834323650898
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        11.238795325112868,
+        3.0,
+        -0.17316567634910207
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        -7.998476951563912,
+        3.0,
+        -4.174524064372834
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        -7.998476951563912,
+        3.0,
+        -3.8254759356271655
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        10.535533905932738,
+        6.826834323650898,
+        -7.535533905932738
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        10.535533905932738,
+        -0.8268343236508979,
+        -0.46446609406726225
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        -11.071067811865476
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        3.0710678118654746
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        11.238795325112868,
+        3.0,
+        -7.826834323650898
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        11.238795325112868,
+        3.0,
+        -0.17316567634910207
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        -7.998476951563912,
+        3.0,
+        -4.174524064372834
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        -7.998476951563912,
+        3.0,
+        -3.8254759356271655
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        10.535533905932738,
+        6.826834323650898,
+        -7.535533905932738
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 0,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        10.535533905932738,
+        -0.8268343236508979,
+        -0.46446609406726225
+      ],
+      "onAxis": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        3.071067811865475
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        -5.071067811865474,
+        3.0,
+        3.071067811865476
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        5.826834323650898,
+        3.0,
+        5.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        -1.8268343236508975,
+        3.0,
+        5.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        -8.0,
+        3.0,
+        -3.999999999999999
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        2.1745240643728336,
+        3.0,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        1.825475935627165,
+        3.0,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        5.535533905932738,
+        6.826834323650898,
+        4.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        -1.5355339059327373,
+        -0.8268343236508979,
+        4.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        3.071067811865475
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        -5.071067811865474,
+        3.0,
+        3.071067811865476
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        5.826834323650898,
+        3.0,
+        5.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        -1.8268343236508975,
+        3.0,
+        5.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        -8.0,
+        3.0,
+        -3.999999999999999
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        2.1745240643728336,
+        3.0,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        1.825475935627165,
+        3.0,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        5.535533905932738,
+        6.826834323650898,
+        4.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        -1.5355339059327373,
+        -0.8268343236508979,
+        4.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        3.071067811865475
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        -5.071067811865474,
+        3.0,
+        3.071067811865476
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        5.826834323650898,
+        3.0,
+        5.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        -1.8268343236508975,
+        3.0,
+        5.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        -8.0,
+        3.0,
+        -3.999999999999999
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        2.1745240643728336,
+        3.0,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        1.825475935627165,
+        3.0,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        5.535533905932738,
+        6.826834323650898,
+        4.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        -1.5355339059327373,
+        -0.8268343236508979,
+        4.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        6.0
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        -5.071067811865474,
+        3.0,
+        -11.071067811865476
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        -11.071067811865476
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        -1.8268343236508975,
+        3.0,
+        -13.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        5.826834323650898,
+        3.0,
+        -13.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        -8.0,
+        3.0,
+        -4.000000000000002
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        1.825475935627165,
+        3.0,
+        5.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        2.1745240643728336,
+        3.0,
+        5.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        -1.5355339059327373,
+        6.826834323650898,
+        -12.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        5.535533905932738,
+        -0.8268343236508979,
+        -12.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        -5.071067811865474,
+        3.0,
+        -11.071067811865476
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        -11.071067811865476
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        -1.8268343236508975,
+        3.0,
+        -13.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        5.826834323650898,
+        3.0,
+        -13.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        -8.0,
+        3.0,
+        -4.000000000000002
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        1.825475935627165,
+        3.0,
+        5.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        2.1745240643728336,
+        3.0,
+        5.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        -1.5355339059327373,
+        6.826834323650898,
+        -12.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        5.535533905932738,
+        -0.8268343236508979,
+        -12.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        -5.071067811865474,
+        3.0,
+        -11.071067811865476
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        9.071067811865476,
+        3.0,
+        -11.071067811865476
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        -1.8268343236508975,
+        3.0,
+        -13.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        5.826834323650898,
+        3.0,
+        -13.238795325112868
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        -8.0,
+        3.0,
+        -4.000000000000002
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        12.0,
+        3.0,
+        -4.0
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        1.825475935627165,
+        3.0,
+        5.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        2.1745240643728336,
+        3.0,
+        5.998476951563912
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        -1.5355339059327373,
+        6.826834323650898,
+        -12.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": -90,
+      "tiltDown": 0,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        5.535533905932738,
+        -0.8268343236508979,
+        -12.535533905932738
+      ],
+      "onAxis": [
+        2.0000000000000004,
+        3.0,
+        -14.0
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        -4.28418061584917,
+        0.011637612698801814,
+        3.181835714463888
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        -4.530994914645708,
+        0.011637612698801814,
+        -10.958145993512595
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.305129400282787,
+        -0.9044836208773002,
+        -0.027616169243037003
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.438704336251792,
+        -0.9044836208773002,
+        -7.680119125738473
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        2.174524064372834,
+        2.9999999999999996,
+        5.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        1.8254759356271653,
+        2.9999999999999996,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        11.063363244189791,
+        7.225538949324388,
+        -3.9836509446131783
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        11.057271514380748,
+        7.225538949324388,
+        -4.332645911638187
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        -7.289982816498837,
+        2.861017244869844,
+        -0.3017702798591899
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        -4.179302468457441,
+        -4.075562249578037,
+        -7.428212341098778
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        -4.28418061584917,
+        0.011637612698801814,
+        3.181835714463888
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        -4.530994914645708,
+        0.011637612698801814,
+        -10.958145993512595
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.305129400282787,
+        -0.9044836208773002,
+        -0.027616169243037003
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.438704336251792,
+        -0.9044836208773002,
+        -7.680119125738473
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        2.174524064372834,
+        2.9999999999999996,
+        5.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        1.8254759356271653,
+        2.9999999999999996,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        11.063363244189791,
+        7.225538949324388,
+        -3.9836509446131783
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        11.057271514380748,
+        7.225538949324388,
+        -4.332645911638187
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        -7.289982816498837,
+        2.861017244869844,
+        -0.3017702798591899
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        -4.179302468457441,
+        -4.075562249578037,
+        -7.428212341098778
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        -4.28418061584917,
+        0.011637612698801814,
+        3.181835714463888
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        -4.530994914645708,
+        0.011637612698801814,
+        -10.958145993512595
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.305129400282787,
+        -0.9044836208773002,
+        -0.027616169243037003
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.438704336251792,
+        -0.9044836208773002,
+        -7.680119125738473
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        2.174524064372834,
+        2.9999999999999996,
+        5.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        1.8254759356271653,
+        2.9999999999999996,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        11.063363244189791,
+        7.225538949324388,
+        -3.9836509446131783
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        11.057271514380748,
+        7.225538949324388,
+        -4.332645911638187
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        -7.289982816498837,
+        2.861017244869844,
+        -0.3017702798591899
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 179,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        -4.179302468457441,
+        -4.075562249578037,
+        -7.428212341098778
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.8418274814336146
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        -4.284180615849169,
+        0.011637612698801814,
+        3.1818357144638894
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        -4.530994914645709,
+        0.011637612698801814,
+        -10.958145993512595
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.3051294002827865,
+        -0.9044836208773002,
+        -0.02761616924303567
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.438704336251793,
+        -0.9044836208773002,
+        -7.6801191257384716
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        2.174524064372836,
+        2.9999999999999996,
+        5.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        1.8254759356271633,
+        2.9999999999999996,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        11.063363244189791,
+        7.225538949324388,
+        -3.98365094461318
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        11.057271514380748,
+        7.225538949324388,
+        -4.332645911638188
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        -7.289982816498836,
+        2.861017244869844,
+        -0.30177027985918814
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        -4.179302468457442,
+        -4.075562249578037,
+        -7.428212341098777
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        -4.284180615849169,
+        0.011637612698801814,
+        3.1818357144638894
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        -4.530994914645709,
+        0.011637612698801814,
+        -10.958145993512595
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.3051294002827865,
+        -0.9044836208773002,
+        -0.02761616924303567
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.438704336251793,
+        -0.9044836208773002,
+        -7.6801191257384716
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        2.174524064372836,
+        2.9999999999999996,
+        5.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        1.8254759356271633,
+        2.9999999999999996,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        11.063363244189791,
+        7.225538949324388,
+        -3.98365094461318
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        11.057271514380748,
+        7.225538949324388,
+        -4.332645911638188
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        -7.289982816498836,
+        2.861017244869844,
+        -0.30177027985918814
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        -4.179302468457442,
+        -4.075562249578037,
+        -7.428212341098777
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        -4.284180615849169,
+        0.011637612698801814,
+        3.1818357144638894
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        -4.530994914645709,
+        0.011637612698801814,
+        -10.958145993512595
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.3051294002827865,
+        -0.9044836208773002,
+        -0.02761616924303567
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        -6.438704336251793,
+        -0.9044836208773002,
+        -7.6801191257384716
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        2.174524064372836,
+        2.9999999999999996,
+        5.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        1.8254759356271633,
+        2.9999999999999996,
+        -13.998476951563912
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        11.063363244189791,
+        7.225538949324388,
+        -3.98365094461318
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        11.057271514380748,
+        7.225538949324388,
+        -4.332645911638188
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        -7.289982816498836,
+        2.861017244869844,
+        -0.30177027985918814
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": -181,
+      "tiltDown": 25,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        -4.179302468457442,
+        -4.075562249578037,
+        -7.428212341098777
+      ],
+      "onAxis": [
+        -7.061697519708838,
+        -1.2261826174069945,
+        -3.841827481433613
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        10.88139505423375,
+        7.0557978767263885,
+        -6.161324934796712
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        2.370445376418701,
+        7.0557978767263885,
+        5.133086762219644
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        10.347102418905218,
+        8.299155298754943,
+        -2.501722880110595
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        5.7410096447311805,
+        8.299155298754943,
+        3.6107686837602486
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        8.018150231520483,
+        3.0000000000000004,
+        -11.986355100472927
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        -4.018150231520483,
+        3.0000000000000004,
+        3.9863551004729287
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        -4.43601151888602,
+        -2.7348907788160997,
+        -9.068410350772375
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        -4.646073926568273,
+        -2.7348907788160997,
+        -8.789648120440525
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        7.958726516386548,
+        11.030540279492339,
+        -3.936745574360743
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 500,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        7.209232805909894,
+        4.761021960744509,
+        4.352406553060483
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        10.88139505423375,
+        7.0557978767263885,
+        -6.161324934796712
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        2.370445376418701,
+        7.0557978767263885,
+        5.133086762219644
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        10.347102418905218,
+        8.299155298754943,
+        -2.501722880110595
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        5.7410096447311805,
+        8.299155298754943,
+        3.6107686837602486
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        8.018150231520483,
+        3.0000000000000004,
+        -11.986355100472927
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        -4.018150231520483,
+        3.0000000000000004,
+        3.9863551004729287
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        -4.43601151888602,
+        -2.7348907788160997,
+        -9.068410350772375
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        -4.646073926568273,
+        -2.7348907788160997,
+        -8.789648120440525
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        7.958726516386548,
+        11.030540279492339,
+        -3.936745574360743
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 1000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        7.209232805909894,
+        4.761021960744509,
+        4.352406553060483
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": 0,
+      "elevation": 0,
+      "receiver": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": 0.0,
+      "mirroredDb": 0.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": -45,
+      "elevation": 0,
+      "receiver": [
+        10.88139505423375,
+        7.0557978767263885,
+        -6.161324934796712
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -3.0,
+      "mirroredDb": -18.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": 45,
+      "elevation": 0,
+      "receiver": [
+        2.370445376418701,
+        7.0557978767263885,
+        5.133086762219644
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -18.0,
+      "mirroredDb": -3.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 0,
+      "receiver": [
+        10.347102418905218,
+        8.299155298754943,
+        -2.501722880110595
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -1.5,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": 0,
+      "receiver": [
+        5.7410096447311805,
+        8.299155298754943,
+        3.6107686837602486
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -1.5
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": -90,
+      "elevation": 0,
+      "receiver": [
+        8.018150231520483,
+        3.0000000000000004,
+        -11.986355100472927
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -9.0,
+      "mirroredDb": -28.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": 90,
+      "elevation": 0,
+      "receiver": [
+        -4.018150231520483,
+        3.0000000000000004,
+        3.9863551004729287
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -28.0,
+      "mirroredDb": -9.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": -179,
+      "elevation": 0,
+      "receiver": [
+        -4.43601151888602,
+        -2.7348907788160997,
+        -9.068410350772375
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -39.65555555555556,
+      "mirroredDb": -39.86666666666667
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": 179,
+      "elevation": 0,
+      "receiver": [
+        -4.646073926568273,
+        -2.7348907788160997,
+        -8.789648120440525
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -39.86666666666667,
+      "mirroredDb": -39.65555555555556
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": -22.5,
+      "elevation": 22.5,
+      "receiver": [
+        7.958726516386548,
+        11.030540279492339,
+        -3.936745574360743
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -7.5,
+      "mirroredDb": -15.0
+    },
+    {
+      "yaw": 37,
+      "tiltDown": -35,
+      "frequency": 4000,
+      "azimuth": 22.5,
+      "elevation": -22.5,
+      "receiver": [
+        7.209232805909894,
+        4.761021960744509,
+        4.352406553060483
+      ],
+      "onAxis": [
+        8.542039106970215,
+        8.73576436351046,
+        0.9297800649882726
+      ],
+      "relativeDb": -11.5,
+      "mirroredDb": -4.0
+    }
+  ]
+}

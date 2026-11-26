@@ -1,5 +1,6 @@
 package com.droidacoustic.pro.scene
 
+import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.acos
 import kotlin.math.atan2
@@ -41,6 +42,8 @@ import kotlin.math.sin
  * | Bands | 1/3 octave | 1/1 octave |
  */
 object ClfTabParser {
+
+    const val IMPORTER_VERSION = "clf-subset-v5"
 
     /** Third-octave centres a CLF2 file can carry, in file order. */
     val THIRD_OCTAVE_HZ = listOf(
@@ -133,7 +136,7 @@ object ClfTabParser {
         var format: String? = null
 
         text.lineSequence().forEach { rawLine ->
-            val line = rawLine.trimEnd('\r', '\n')
+            val line = rawLine.substringBefore('#').trimEnd('\r', '\n')
             if (line.isBlank()) return@forEach
             val trimmed = line.trimStart()
 
@@ -156,7 +159,10 @@ object ClfTabParser {
 
             // A numeric row: one arc of the balloon for the band in progress.
             val band = currentBand ?: return@forEach
-            val values = line.split('\t').mapNotNull { it.trim().takeIf(String::isNotEmpty)?.toFloatOrNull() }
+            val values = line.split('\t').map(String::trim).filter(String::isNotEmpty).map { value ->
+                value.toFloatOrNull()?.takeIf {it.isFinite()}
+                    ?: throw ParseException("invalid balloon magnitude: $value")
+            }
             if (values.isNotEmpty()) band.add(values.toFloatArray())
         }
 
@@ -168,9 +174,23 @@ object ClfTabParser {
         val resolution = if (fmt == "<CLF2>") 5 else 10
         val expectedArcs = 360 / resolution
         val expectedSamples = 180 / resolution + 1
-        val reversedArcs = tags["<BALLOON-ARC-ORDER>"]
-            ?.any { it.equals("<reversed>", ignoreCase = true) } == true
+        val arcOrder=tags["<BALLOON-ARC-ORDER>"]?.firstOrNull()?.lowercase() ?: "<default>"
+        if(arcOrder !in listOf("<default>","<normal>","<reversed>")) throw ParseException("unsupported arc order: $arcOrder")
+        val reversedArcs=arcOrder=="<reversed>"
+        val orderFields=tags["<BALLOON-ARC-ORDER>"].orEmpty()
+        val rotateIndex=orderFields.indexOfFirst {it.equals("<ROTATE>",ignoreCase=true)}
+        val rotate=if(rotateIndex<0) 0f else orderFields.getOrNull(rotateIndex+1)?.toFloatOrNull()
+            ?: throw ParseException("<ROTATE> needs an angle")
+        if(!rotate.isFinite() || abs(rotate/resolution-(rotate/resolution).roundToInt())>1e-5)
+            throw ParseException("<ROTATE> must use $resolution degree steps")
         val symmetry = tags["<BALLOON-SYMMETRY>"]?.firstOrNull()?.lowercase() ?: "<none>"
+
+        val referenceFields=tags["<BALLOON-REF>"].orEmpty()
+        val reference=referenceFields.firstOrNull()?.lowercase() ?: "<relative>"
+        if(reference!="<relative>") throw ParseException("unsupported balloon reference: $reference; import normalized relative magnitudes")
+        val signIndex=referenceFields.indexOfFirst {it.equals("<SIGN>",ignoreCase=true)}
+        val sign=if(signIndex<0) "<actual>" else referenceFields.getOrNull(signIndex+1)?.lowercase()
+        if(sign !in listOf("<actual>","<reversed>")) throw ParseException("unsupported balloon sign: $sign")
 
         val bands = bandBlocks.map { (hz, arcs) ->
             arcs.forEachIndexed { i, arc ->
@@ -181,22 +201,34 @@ object ClfTabParser {
                     )
                 }
             }
-            val full = expandSymmetry(arcs, expectedArcs, symmetry, hz)
-            Band(hz, orderArcs(full, reversedArcs), resolution)
+            val magnitudes=arcs.map {row->FloatArray(row.size) {i->if(sign=="<reversed>") -row[i] else row[i]}}
+            val ordered=expandSymmetry(magnitudes, expectedArcs, symmetry, hz, reversedArcs)
+            val shift=((rotate % 360)/resolution).roundToInt()
+            Band(hz, Array(expectedArcs) {i->ordered[((i-shift)%expectedArcs+expectedArcs)%expectedArcs]}, resolution)
         }
 
-        // <SENSITIVITY> lists one value per band the file carries, in order.
-        // <AXIAL-SPECTRUM> lists every slot of the table and is the fallback.
-        val table = if (fmt == "<CLF2>") THIRD_OCTAVE_HZ else OCTAVE_HZ
-        val rowed = tags["<SENSITIVITY>"]?.mapNotNull { it.toFloatOrNull() }.orEmpty()
-        val axial = tags["<AXIAL-SPECTRUM>"]?.mapNotNull { it.toFloatOrNull() }.orEmpty()
-        val sensitivityByBand: Map<Int, Float> = when {
-            rowed.size == bands.size ->
-                bands.map { it.frequencyHz }.zip(rowed).toMap()
-            axial.size == table.size ->
-                table.zip(axial).toMap().filterKeys { hz -> bands.any { it.frequencyHz == hz } }
-            else -> emptyMap()
-        }.filterValues { it.isFinite() && it in 30f..150f }
+        // Preserve explicit missing slots. Sensitivity and axial spectrum are
+        // different reference rows; an explicit missing sensitivity cannot be
+        // repaired with the other row. CLF1 axial data is third-octave, not octave.
+        fun parseRow(tag:String, frequencies:List<Int>):Map<Int,Float> {
+            val tokens=tags[tag] ?: return emptyMap()
+            if(tokens.size!=frequencies.size) throw ParseException("$tag requires ${frequencies.size} reference slots, found ${tokens.size}")
+            return frequencies.zip(tokens).mapNotNull {(hz,token)->
+                if(token.equals("<nodata>",ignoreCase=true)) null else {
+                    val level=token.toFloatOrNull()?.takeIf {it.isFinite()}
+                        ?: throw ParseException("$tag has invalid reference at $hz Hz: $token")
+                    if(level in 30f..150f) hz to level else null
+                }
+            }.toMap()
+        }
+        if(fmt=="<CLF1>" && !tags.containsKey("<SENSITIVITY>") && tags.containsKey("<AXIAL-SPECTRUM>") &&
+            tags["<TYPE>"]?.firstOrNull()?.equals("<powered>",ignoreCase=true)==true)
+            throw ParseException("powered CF1 axial-only conversion is unsupported; supply normalized octave reference levels")
+        val sensitivityByBand=if(tags.containsKey("<SENSITIVITY>"))
+            parseRow("<SENSITIVITY>",bands.map {it.frequencyHz})
+        else if(fmt=="<CLF2>") parseRow("<AXIAL-SPECTRUM>",THIRD_OCTAVE_HZ)
+            .filterKeys {hz->bands.any {it.frequencyHz==hz}}
+        else emptyMap() // No implicit third-octave -> octave drive normalization.
 
         return Speaker(
             speakerId = speakerId.ifBlank { slug(tags.value("<MODELNAME>") ?: "clf_import") },
@@ -204,8 +236,7 @@ object ClfTabParser {
             model = tags.value("<MODELNAME>").orEmpty(),
             description = tags.value("<DESCRIPTION>").orEmpty(),
             resolutionDeg = resolution,
-            sensitivityDb = tags["<SENSITIVITY>"]?.mapNotNull { it.toFloatOrNull() }
-                ?.takeIf { it.isNotEmpty() }?.average()?.toFloat(),
+            sensitivityDb = sensitivityByBand.values.takeIf {it.isNotEmpty()}?.average()?.toFloat(),
             sensitivityByBand = sensitivityByBand,
             maxInputW = tags["<TOTMAXINPUT>"]?.firstNotNullOfOrNull { it.toFloatOrNull() },
             bands = bands,
@@ -217,55 +248,35 @@ object ClfTabParser {
     fun parseOrNull(text: String, speakerId: String = ""): Speaker? =
         runCatching { parse(text, speakerId) }.getOrNull()
 
-    /**
-     * Mirror a symmetric balloon out to the full circle.
-     *
-     * A file may store only half or a quarter of the arcs when the cabinet is
-     * symmetric. The stored run always starts at phi = 0, so the missing arcs
-     * are its reflection.
+    /** Specification section 12.2 and footnotes 1-4: order the stored sector
+     * first, then reflect according to the declared symmetry. Vertical sectors
+     * start at phi=270, unlike horizontal/full sectors. Rotation follows this.
      */
-    private fun expandSymmetry(
-        arcs: List<FloatArray>,
-        expectedArcs: Int,
-        symmetry: String,
-        hz: Int
-    ): List<FloatArray> {
-        if (arcs.size == expectedArcs) return arcs
-        if (arcs.isEmpty()) throw ParseException("band $hz Hz has no arcs")
-
-        val half = expectedArcs / 2 + 1
-        val quarter = expectedArcs / 4 + 1
-        return when (arcs.size) {
-            half -> List(expectedArcs) { i ->
-                arcs[if (i < half) i else expectedArcs - i]
-            }
-            quarter -> List(expectedArcs) { i ->
-                val q = expectedArcs / 4
-                val folded = when {
-                    i <= q -> i
-                    i <= 2 * q -> 2 * q - i
-                    i <= 3 * q -> i - 2 * q
-                    else -> expectedArcs - i
-                }
-                arcs[folded.coerceIn(0, arcs.size - 1)]
-            }
-            else -> throw ParseException(
-                "band $hz Hz: $symmetry symmetry with ${arcs.size} arcs does not " +
-                    "expand to $expectedArcs (expected $expectedArcs, $half or $quarter)"
-            )
+    private fun expandSymmetry(arcs: List<FloatArray>, count: Int, symmetry: String,
+        hz: Int, reversed: Boolean): Array<FloatArray> {
+        val q=count/4
+        val expected=when(symmetry) {
+            "<none>" -> count
+            "<horizontal>","<vertical>" -> 2*q+1
+            "<full>" -> q+1
+            "<rotational>" -> 1
+            else -> throw ParseException("band $hz Hz: unsupported symmetry $symmetry")
         }
-    }
-
-    /**
-     * Put arcs in ascending phi order.
-     *
-     * `<BALLOON-ARC-ORDER> <reversed>` means the arcs were written going the
-     * other way round the axis, so arc *i* is at phi = -i steps. Reversing the
-     * tail leaves arc 0 in place and puts the rest back in ascending order.
-     */
-    private fun orderArcs(arcs: List<FloatArray>, reversed: Boolean): Array<FloatArray> {
-        if (!reversed || arcs.size <= 1) return arcs.toTypedArray()
-        return (listOf(arcs[0]) + arcs.drop(1).reversed()).toTypedArray()
+        if(arcs.size!=expected) throw ParseException("band $hz Hz: $symmetry requires $expected arcs, found ${arcs.size}")
+        val sector=if(reversed && symmetry!="<none>") arcs.reversed() else arcs
+        return Array(count) {i->
+            val index=when(symmetry) {
+                "<none>" -> if(reversed) (count-i)%count else i
+                "<rotational>" -> 0
+                "<horizontal>" -> minOf(i,count-i)
+                "<vertical>" -> {
+                    val upper=if(i in q..3*q) (2*q-i+count)%count else i
+                    (upper+q)%count
+                }
+                else -> {val half=minOf(i,count-i);minOf(half,2*q-half)}
+            }
+            sector[index]
+        }
     }
 
     /**
@@ -283,8 +294,7 @@ object ClfTabParser {
                 lo = minOf(lo, arc[idx]); hi = maxOf(hi, arc[idx])
             }
             if (hi - lo > toleranceDb) {
-                return "band ${band.frequencyHz} Hz: $name differs by %.2f dB across arcs"
-                    .format(hi - lo)
+                return "band ${band.frequencyHz} Hz: $name differs by ${((hi-lo)*100).roundToInt()/100f} dB across arcs"
             }
         }
         return null
@@ -299,17 +309,18 @@ object ClfTabParser {
      *
      *     theta = acos(x),  phi = atan2(y, z)
      *
-     * so phi = 0 is straight up and phi = 90 is horizontal, which is what the
-     * measured data shows.
+     * CLF specification (4 March 2020), Fig. 1: phi 0 is up, 90 left,
+     * 180 down, 270 right, as viewed from behind the cabinet. Native positive
+     * azimuth is right, so the CLF left component has the opposite sign.
      */
     fun toAxisRelative(azimuthDeg: Float, elevationDeg: Float): Pair<Float, Float> {
-        val az = Math.toRadians(azimuthDeg.toDouble())
-        val el = Math.toRadians(elevationDeg.toDouble())
+        val az = azimuthDeg * PI / 180.0
+        val el = elevationDeg * PI / 180.0
         val x = cos(el) * cos(az)
-        val y = cos(el) * sin(az)
+        val y = -cos(el) * sin(az) // CLF +Y is left; native positive azimuth is right.
         val z = sin(el)
-        val theta = Math.toDegrees(acos(x.coerceIn(-1.0, 1.0)))
-        val phi = (Math.toDegrees(atan2(y, z)) + 360.0) % 360.0
+        val theta = acos(x.coerceIn(-1.0, 1.0)) * 180.0 / PI
+        val phi = (atan2(y, z) * 180.0 / PI + 360.0) % 360.0
         return theta.toFloat() to phi.toFloat()
     }
 
@@ -324,6 +335,16 @@ object ClfTabParser {
      * consumers keep working without knowing about axis-relative coordinates.
      */
     fun toClfData(speaker: Speaker, stepDeg: Int = 5): ClfData {
+        val format=speaker.tags["<FORMAT>"]?.firstOrNull()
+        val basis=when {
+            format=="CF1" || speaker.tags.containsKey("<SENSITIVITY>") -> LevelReferenceBasis.SENSITIVITY
+            format=="CF2" || speaker.tags.containsKey("<AXIAL-SPECTRUM>") -> LevelReferenceBasis.AXIAL_SPECTRUM
+            else -> LevelReferenceBasis.UNSPECIFIED
+        }
+        val powered=speaker.tags["<TYPE>"]?.firstOrNull()?.equals("<powered>",ignoreCase=true)==true
+        val note=if(basis==LevelReferenceBasis.AXIAL_SPECTRUM)
+            speaker.tags["<AXIAL-SPECTRUM-INFO>"]?.joinToString(" ") ?: "Axial-spectrum input normalization unspecified"
+        else speaker.tags["<SENSITIVITY-INFO>"]?.joinToString(" ").orEmpty()
         val azimuths = (0 until 360 step stepDeg).map { it.toFloat() }
         val elevations = (-90..90 step stepDeg).map { it.toFloat() }
         val patterns = speaker.bands.map { band ->
@@ -346,17 +367,17 @@ object ClfTabParser {
             // The sensitivity row is carried at its existing 1 m reference. Raw
             // measurement distance/input voltage must not be applied again without
             // a verified contract for the exporter and normalization of this row.
-            calibration = com.droidacoustic.pro.acoustics.SpeakerDataChecks.declaredClfCalibration(
-                speaker.tags["<SENSITIVITY-INFO>"]?.joinToString(" ").orEmpty()),
+            levelReferenceBasis = basis,
+            calibration = com.droidacoustic.pro.acoustics.SpeakerDataChecks.clfCalibration(basis,powered,note),
             provenance = com.droidacoustic.pro.acoustics.SpeakerProvenance(
                 origin = com.droidacoustic.pro.acoustics.SpeakerDataOrigin.USER_SUPPLIED,
                 sourceName = speaker.model,
                 sourceUrl = speaker.tags["<WEB-SITE>"]?.firstOrNull().orEmpty(),
                 sourceSha256 = speaker.sourceSha256,
-                importer = "clf-subset-v1:" + (speaker.tags["<FORMAT>"]?.firstOrNull() ?: "TAB"),
-                normalizationNotes = speaker.tags["<SENSITIVITY-INFO>"]?.joinToString(" ")
-                    ?: if(speaker.tags["<FORMAT>"]?.firstOrNull() in listOf("CF1","CF2"))
-                        "Binary axial-spectrum row; electrical normalization not decoded" else "")
+                importer = "$IMPORTER_VERSION:" + (speaker.tags["<FORMAT>"]?.firstOrNull() ?: "TAB"),
+                normalizationNotes = if(format in listOf("CF1","CF2"))
+                    "Binary ${if(basis==LevelReferenceBasis.SENSITIVITY) "sensitivity" else "axial-spectrum"} row; electrical normalization not decoded"
+                    else note)
         )
     }
 

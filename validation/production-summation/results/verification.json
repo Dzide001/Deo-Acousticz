@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-26",
+  "scope": "PRODUCTION_REQUEST_TEST_MIGRATION_NOT_MANUFACTURER_ACCURACY",
+  "sharedJvm": {
+    "tests": 636,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "initialFullAndroid": {
+    "tests": 477,
+    "failures": 8,
+    "errors": 0,
+    "skipped": 0
+  },
+  "initialFailures": "Eight malformed coverage-edge fixture failures; all other 469 cases passed",
+  "postRepairAndroidRerun": {
+    "tests": 32,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "androidVerificationMode": "Complete initial run plus targeted coverage/summation rerun after fixture-only repairs; full suite not repeated",
+  "androidTestsVerifiedAcrossRuns": 477,
+  "removedLegacyHelperCallSites": 25,
+  "migratedAndroidTests": 19,
+  "newSharedCommonTests": 4,
+  "androidDebugBuild": "PASS",
+  "iosArm64CoreCompilation": "PASS",
+  "iosSimulatorArm64TestCompilation": "PASS (compile only)",
+  "physicalDeviceTest": "Not run",
+  "fullSuiteCommand": "./gradlew :shared-core:jvmTest :shared-core:compileTestKotlinIosSimulatorArm64 :shared-core:compileKotlinIosArm64 :app:testDebugUnitTest :app:assembleDebug -Pkotlin.compiler.execution.strategy=in-process --offline",
+  "finalCommand": "./gradlew :shared-core:jvmTest :shared-core:compileTestKotlinIosSimulatorArm64 :shared-core:compileKotlinIosArm64 :app:testDebugUnitTest --tests '*CoverageEdgesTest' --tests '*SummationTest' :app:assembleDebug -Pkotlin.compiler.execution.strategy=in-process --offline",
+  "evidenceSha256": {
+    "array-tests.xml": "c3ee65faef435dbfb0ff8b2fde7b376dd26039b09ad9be88130bb03e743f7635",
+    "coverage-tests.xml": "eb75711e9ac72e4d967500cf20802aaa2ba6ac7090f3d72228329449c33bb315",
+    "full-android-initial.json": "7e8bd3ca3e5d184eb07b62ee02f8f0901b16e3186d31b6a49a712acad50c9c62",
+    "initial-full-build.log": "3c61285368c4458004cb5694d8cbbcd6466ab8982759ebae59c72b79b12ed6f8",
+    "migration.json": "7b2c996f70935eb924ebf2092bd13fa96c7398002b58ebc4740414bf599924e1",
+    "shared-tests.xml": "8bb8b886d14d070c41a0933d5bdff4ded4f5fde9e7e9569af932259c4db9dafe",
+    "summation-tests.xml": "64df609bbf2321cb8e898acdd27dd3dcfb3b1f4a20a3c366dd915604b3a43efe",
+    "validation-build.log": "603a0f1d84e78198e79b2c2d4910bf35f04620cba9566fcd82ef9b064675b47e"
+  },
+  "remainingLegacyTests": [
+    "Rt60Test",
+    "EarlyReflectionsTest",
+    "Parts of SurfaceMaterialTest"
+  ],
+  "slowTraceClassSeconds": 148.881
+}

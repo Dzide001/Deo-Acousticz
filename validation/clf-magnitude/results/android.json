@@ -1,0 +1,87 @@
+{
+  "cases": [
+    {
+      "elevation": 60,
+      "file": "clf1_active_point.tab",
+      "actualDb": -11.300003,
+      "azimuth": 0,
+      "relativeDb": -11.3,
+      "label": "up",
+      "reopenedDb": -11.300003,
+      "residualDb": -2.861023E-6
+    },
+    {
+      "elevation": 0,
+      "file": "clf1_active_point.tab",
+      "actualDb": -4.800003,
+      "azimuth": -60,
+      "relativeDb": -4.8,
+      "label": "left",
+      "reopenedDb": -4.800003,
+      "residualDb": -2.861023E-6
+    },
+    {
+      "elevation": -60,
+      "file": "clf1_active_point.tab",
+      "actualDb": -12.300003,
+      "azimuth": 0,
+      "relativeDb": -12.3,
+      "label": "down",
+      "reopenedDb": -12.300003,
+      "residualDb": -2.861023E-6
+    },
+    {
+      "elevation": 0,
+      "file": "clf1_active_point.tab",
+      "actualDb": -4.800003,
+      "azimuth": 60,
+      "relativeDb": -4.8,
+      "label": "right",
+      "reopenedDb": -4.800003,
+      "residualDb": -2.861023E-6
+    },
+    {
+      "elevation": 60,
+      "file": "clf1_powered_point.tab",
+      "actualDb": -4.800003,
+      "azimuth": 0,
+      "relativeDb": -4.8,
+      "label": "up",
+      "reopenedDb": -4.800003,
+      "residualDb": -2.861023E-6
+    },
+    {
+      "elevation": 0,
+      "file": "clf1_powered_point.tab",
+      "actualDb": -11.300003,
+      "azimuth": -60,
+      "relativeDb": -11.3,
+      "label": "left",
+      "reopenedDb": -11.300003,
+      "residualDb": -2.861023E-6
+    },
+    {
+      "elevation": -60,
+      "file": "clf1_powered_point.tab",
+      "actualDb": -4.800003,
+      "azimuth": 0,
+      "relativeDb": -4.8,
+      "label": "down",
+      "reopenedDb": -4.800003,
+      "residualDb": -2.861023E-6
+    },
+    {
+      "elevation": 0,
+      "file": "clf1_powered_point.tab",
+      "actualDb": -11.300003,
+      "azimuth": 60,
+      "relativeDb": -11.3,
+      "label": "right",
+      "reopenedDb": -11.300003,
+      "residualDb": -2.861023E-6
+    }
+  ],
+  "scope": "OFFICIAL_CF1_TAB_RELATIVE_MAGNITUDE_NOT_BINARY_OR_PHYSICAL_CALIBRATION",
+  "failedImportPreservedProject": true,
+  "allPassed": true
+}

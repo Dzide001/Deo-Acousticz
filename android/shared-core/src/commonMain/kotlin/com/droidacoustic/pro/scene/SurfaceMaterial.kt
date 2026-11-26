@@ -1,27 +1,9 @@
 package com.droidacoustic.pro.scene
 
-/**
- * Sabine absorption for one surface, per octave band.
- *
- * A single broadband coefficient cannot describe a real surface. Heavy carpet
- * absorbs about 2% at 125 Hz and 65% at 4 kHz - a factor of thirty across the
- * range a loudspeaker actually covers - so one number is wrong at both ends
- * whichever value is chosen. Every consumer of absorption in this app is
- * frequency dependent: RT60, the loss at each reflection, and the floor bounce.
- *
- * ## Where the numbers come from
- *
- * These are the representative published values that appear across the standard
- * references (Egan, Beranek, the manufacturer tables they draw on). They
- * describe a *type* of construction, not a specific product: a real room should
- * be measured, and a specified product has its own data sheet. They are here so
- * that "acoustic tile" behaves like acoustic tile rather than like a number
- * someone typed.
- *
- * Published tables run 125 Hz to 4 kHz. This app models 63 Hz to 8 kHz, so the
- * end bands hold the nearest published value rather than extrapolating a curve
- * nobody measured. That is a stated approximation, and it errs toward the
- * conservative: real absorption usually falls below 125 Hz rather than holding.
+/** Representative legacy material curves used by the optional global ground model.
+ * These defaults are not product-specific measured data. Endpoint holding and
+ * nearest-band lookup preserve existing projects; room RT60 is not predicted.
+ * Explicit Blocks/imported faces use BoundaryMaterial instead.
  */
 data class SurfaceMaterial(
     val id: String,
@@ -44,13 +26,13 @@ data class SurfaceMaterial(
 
     /** Mean across the bands the app models - for a single-figure readout only. */
     fun averageAlpha(): Float =
-        SceneViewModel.SUPPORTED_BANDS_HZ.map { alphaAt(it) }.average().toFloat()
+        com.droidacoustic.pro.acoustics.OctaveWeighting.bands.map { alphaAt(it) }.average().toFloat()
 
     companion object {
         /** A surface with no frequency behaviour, for a hand-entered number. */
         fun flat(alpha: Float, id: String = CUSTOM_ID, name: String = "Custom"): SurfaceMaterial {
             val a = alpha.coerceIn(0.01f, 1f)
-            return SurfaceMaterial(id, name, SceneViewModel.SUPPORTED_BANDS_HZ.associateWith { a })
+            return SurfaceMaterial(id, name, com.droidacoustic.pro.acoustics.OctaveWeighting.bands.associateWith { a })
         }
 
         const val CUSTOM_ID = "custom"

@@ -1,231 +1,69 @@
 package com.droidacoustic.pro.scene
 
+import com.droidacoustic.pro.geometry.AcousticBoundaryRole
+import com.droidacoustic.pro.prediction.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Test
+import kotlinx.coroutines.test.*
+import org.json.JSONObject
+import org.junit.*
+import org.junit.Assert.*
+import org.junit.rules.TemporaryFolder
+import kotlin.math.*
 
-/**
- * Per-octave absorption, and the three things that read it.
- *
- * One broadband coefficient could not describe a real surface: heavy carpet is
- * 0.02 at 125 Hz and 0.65 at 4 kHz, a factor of thirty across the range a
- * loudspeaker covers, so whichever single number was chosen was wrong at one
- * end or the other. These tests pin the published values, and then check that
- * RT60, the loss at each reflection and the floor bounce all actually vary with
- * frequency now rather than only claiming to.
- */
+/** Active global-ground material and project compatibility through production requests. */
 @OptIn(ExperimentalCoroutinesApi::class)
 class SurfaceMaterialTest {
-
-    private val live = mutableListOf<SceneViewModel>()
-
-    @Before fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
-
-    @After fun tearDown() {
-        live.forEach { it.cancelAnalysisJobs() }
-        live.clear()
-        Dispatchers.resetMain()
+    @get:Rule val folder=TemporaryFolder()
+    private val dispatcher=StandardTestDispatcher()
+    private val models=mutableListOf<SceneViewModel>()
+    @Before fun setup()=Dispatchers.setMain(dispatcher)
+    @After fun cleanup() {models.forEach {it.cancelAnalysisJobs()};dispatcher.scheduler.runCurrent();Dispatchers.resetMain()}
+    private fun model()=SceneViewModel(predictionDispatcher=dispatcher).also {models+=it}.apply {
+        setSignalType("BAND");setSignalDispersionEnabled(false);setStageBoundaryRole(AcousticBoundaryRole.NONE)
     }
-
-    private fun track(vm: SceneViewModel) = vm.also { live += it }
-
-    private fun room() = RoomBounds(minX = 0f, maxX = 20f, minZ = 0f, maxZ = 20f, heightM = 8f)
-
-    // ── The curves ───────────────────────────────────────────────────────────
-
-    @Test
-    fun `carpet absorbs the top end and almost none of the bottom`() {
-        val c = SurfaceMaterial.CARPET
-        assertEquals(0.02f, c.alphaAt(125), 1e-3f)
-        assertEquals(0.37f, c.alphaAt(1000), 1e-3f)
-        assertEquals(0.65f, c.alphaAt(4000), 1e-3f)
-        assertTrue("carpet should rise steeply with frequency",
-                   c.alphaAt(4000) > c.alphaAt(125) * 20f)
-    }
-
-    @Test
-    fun `gypsum does the opposite, absorbing most at the bottom`() {
-        // A stud wall is a panel absorber: it works low and reflects high. A
-        // single number cannot express a curve that runs the other way from
-        // carpet's, which is the whole argument for doing this per band.
-        val g = SurfaceMaterial.GYPSUM
-        assertEquals(0.29f, g.alphaAt(125), 1e-3f)
-        assertEquals(0.04f, g.alphaAt(1000), 1e-3f)
-        assertTrue("gypsum should fall with frequency", g.alphaAt(125) > g.alphaAt(1000) * 5f)
-    }
-
-    @Test
-    fun `the end bands hold the nearest published value rather than inventing one`() {
-        // Published tables run 125 Hz to 4 kHz. Holding is a stated
-        // approximation; extrapolating a curve nobody measured would not be.
-        SurfaceMaterial.CATALOGUE.forEach { m ->
-            assertEquals("${m.name} at 63 Hz", m.alphaAt(125), m.alphaAt(63), 1e-4f)
-            assertEquals("${m.name} at 8 kHz", m.alphaAt(4000), m.alphaAt(8000), 1e-4f)
+    private fun power(v:SceneViewModel,hz:Int=1000)=v.capturePredictionRequest(PredictionTicket(v.revision.value,1,PredictionChannel.COVERAGE),
+        listOf(PlacedSpeaker(0,0f,0f,heightM=0f,sensitivity=100f)),listOf(HeatCell(10f,0f,Float.NaN,renderY=0f)),
+        bands=listOf(hz),selected=hz,retainBandPowers=true).calculate().totalPowerAt(0)
+    @Test fun floorCurveReachesProductionGroundReflectionEnergy() {
+        val v=model();v.setSurfaceMaterial("FLOOR",SurfaceMaterial.ACOUSTIC_PANEL.id)
+        for(hz in listOf(125,1000,4000)) {
+            v.setGroundReflectionEnabled(false);val free=power(v,hz)
+            v.setGroundReflectionEnabled(true);val reflected=power(v,hz)
+            val expected=(1+sqrt(1.0-SurfaceMaterial.ACOUSTIC_PANEL.alphaAt(hz))).pow(2)
+            assertEquals(expected,reflected/free,1e-6)
         }
     }
-
-    @Test
-    fun `every catalogue entry is a usable coefficient in every band`() {
-        SurfaceMaterial.CATALOGUE.forEach { m ->
-            SceneViewModel.SUPPORTED_BANDS_HZ.forEach { band ->
-                val a = m.alphaAt(band)
-                assertTrue("${m.name} at $band Hz gave $a", a in 0.01f..1f)
-            }
-        }
+    @Test fun unassignedRoomWallCeilingAndOldOrderSettingsDoNotAffectTheSolver() {
+        val v=model();v.setGroundReflectionEnabled(true);val before=power(v)
+        v.setSurfaceMaterial("WALL",SurfaceMaterial.BRICK.id);v.setSurfaceMaterial("CEILING",SurfaceMaterial.CURTAIN.id)
+        v.setReflectionOrder(3);assertEquals(before,power(v),0.0)
+        assertTrue(v.earlyReflections.value.isEmpty());assertNull(v.rt60Estimate.value);assertNull(v.stiEstimate.value)
     }
-
-    @Test
-    fun `a flat surface is the old behaviour, available for a typed-in number`() {
-        val f = SurfaceMaterial.flat(0.42f)
-        SceneViewModel.SUPPORTED_BANDS_HZ.forEach { assertEquals(0.42f, f.alphaAt(it), 1e-4f) }
+    @Test fun materialAndLegacyRoomSettingsSurviveDiskReopen() {
+        val v=model();v.setGroundReflectionEnabled(true);v.setSurfaceMaterial("FLOOR",SurfaceMaterial.WOOD_FLOOR.id)
+        v.setSurfaceMaterial("CEILING",SurfaceMaterial.OPEN_TRUSS.id);v.setSurfaceMaterial("WALL",SurfaceMaterial.CURTAIN.id)
+        v.setReflectionOrder(3);val before=power(v)
+        val store=LocalProjectStore(folder.root);store.save("materials",v.exportSceneJson(false),v::resolveProjectAsset)
+        val fresh=model();assertTrue(fresh.importPreparedProject(store.loadPrepared("materials")!!.project))
+        assertEquals(v.roomMaterials.value,fresh.roomMaterials.value);assertEquals(3,fresh.reflectionOrder.value)
+        assertEquals(before,power(fresh),0.0)
+        val report=JSONObject(fresh.exportProjectReportJson())
+        for(key in listOf("rt60S","roomVolumeM3","sti","stiQuality","alconsPct")) assertFalse(report.has(key))
     }
-
-    @Test
-    fun `an unknown id is refused rather than silently substituted`() {
-        assertNull(SurfaceMaterial.byId("shag_pile"))
-        assertEquals(SurfaceMaterial.CARPET, SurfaceMaterial.byId("carpet"))
+    @Test fun oldScalarAbsorptionReopensAsTheSameFlatGroundCurve() {
+        val v=model();val document=JSONObject(v.exportSceneJson(false));val material=document.getJSONObject("roomMaterials")
+        material.remove("floorMaterial");material.remove("floorAlphaByBand");material.put("floorAlpha",.33)
+        val fresh=model();assertTrue(fresh.importSceneJson(document.toString()))
+        for(hz in SceneViewModel.SUPPORTED_BANDS_HZ) assertEquals(.33f,fresh.roomMaterials.value.floor.alphaAt(hz),.001f)
     }
-
-    // ── RT60 ─────────────────────────────────────────────────────────────────
-
-    @Test
-    fun `RT60 now varies with frequency, which is the point of all this`() {
-        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        val carpeted = RoomMaterials(
-            floor = SurfaceMaterial.CARPET,
-            ceiling = SurfaceMaterial.ACOUSTIC_TILE,
-            wall = SurfaceMaterial.GYPSUM
-        )
-        val low = v.estimateRt60(room(), carpeted, 125).rt60S
-        val high = v.estimateRt60(room(), carpeted, 4000).rt60S
-        assertTrue("a carpeted, tiled room should ring longer low than high: $low vs $high",
-                   low > high * 1.5f)
+    @Test fun customCurveSurvivesProjectRoundTrip() {
+        val v=model();v.setFloorAbsorption(.5f)
+        val fresh=model();assertTrue(fresh.importSceneJson(v.exportSceneJson(false)))
+        assertEquals(v.roomMaterials.value.floor,fresh.roomMaterials.value.floor)
     }
-
-    @Test
-    fun `a hard room rings longer than a soft one at every band`() {
-        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        val hard = RoomMaterials(SurfaceMaterial.CONCRETE, SurfaceMaterial.CONCRETE, SurfaceMaterial.BRICK)
-        val soft = RoomMaterials(SurfaceMaterial.CARPET, SurfaceMaterial.ACOUSTIC_PANEL, SurfaceMaterial.CURTAIN)
-        SceneViewModel.SUPPORTED_BANDS_HZ.forEach { band ->
-            val h = v.estimateRt60(room(), hard, band).rt60S
-            val s = v.estimateRt60(room(), soft, band).rt60S
-            assertTrue("at $band Hz hard=$h soft=$s", h > s)
-        }
-    }
-
-    // ── The floor bounce ─────────────────────────────────────────────────────
-
-    @Test
-    fun `the floor bounce follows the floor's own curve`() {
-        // Measured with the source and the ear both at floor level, so the image
-        // is co-located and the two arrivals are always in phase. That removes
-        // the comb from the question entirely and leaves only how much the floor
-        // reflects, which is what varies with band.
-        //
-        // Sweeping for "the deepest null" was the wrong test and failed for a
-        // good reason: over a 10 m run the geometry cannot produce enough excess
-        // path to reach a null at 125 Hz at all, so the sweep was comparing a
-        // null against a non-null rather than two reflection strengths.
-        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main)).apply { setTemperatureC(20f) }
-        v.setSurfaceMaterial("FLOOR", SurfaceMaterial.ACOUSTIC_PANEL.id)
-        fun inPhaseBoost(band: Int) =
-            v.floorBoundaryInterferenceDb(0f, 0f, 0f, 0f, 0f, 10f, band)
-
-        // The panel absorbs 0.20 at 125 Hz and 0.95 at 1 kHz, so it returns most
-        // of the low end and almost none of the top.
-        val low = inPhaseBoost(125)
-        val high = inPhaseBoost(1000)
-        assertTrue("a reflective floor should add more than an absorbent one: $low vs $high",
-                   low > high + 1f)
-        assertEquals("0.95 absorption leaves almost nothing to add back", 1.76f, high, 0.15f)
-    }
-
-    // ── Reflections ──────────────────────────────────────────────────────────
-
-    @Test
-    fun `a reflection off carpet loses more at the top than at the bottom`() {
-        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main)).apply {
-            setVenueSize(30f, 30f)
-            moveListener(10f, 0f)
-            addSpeaker(0f, 0f)
-        }
-        v.setSurfaceMaterial("FLOOR", SurfaceMaterial.CARPET.id)
-        fun floorLevel(band: Int): Float {
-            val spk = v.speakers.value.single()
-            val listener = v.listener.value
-            val r = v.estimateRoomBounds(v.speakers.value, listener, v.audience.value, v.audienceAreas.value)
-            val results = listOf(SpeakerResult(spk, 10f, 100f, 0f))
-            return v.buildEarlyReflections(results, r, listener, band)
-                .first { it.surfaceName == "Floor" }.splDb
-        }
-        assertTrue("carpet absorbs the top end, so the 4 kHz bounce must be quieter",
-                   floorLevel(4000) < floorLevel(125))
-    }
-
-    // ── Persistence ──────────────────────────────────────────────────────────
-
-    @Test
-    fun `materials survive a scene round trip`() {
-        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        v.setSurfaceMaterial("FLOOR", SurfaceMaterial.WOOD_FLOOR.id)
-        v.setSurfaceMaterial("CEILING", SurfaceMaterial.OPEN_TRUSS.id)
-        v.setSurfaceMaterial("WALL", SurfaceMaterial.CURTAIN.id)
-        val restored = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        restored.importSceneJson(v.exportSceneJson(includeClfRegistry = false))
-        assertEquals(SurfaceMaterial.WOOD_FLOOR.id, restored.roomMaterials.value.floor.id)
-        assertEquals(SurfaceMaterial.OPEN_TRUSS.id, restored.roomMaterials.value.ceiling.id)
-        assertEquals(SurfaceMaterial.CURTAIN.id, restored.roomMaterials.value.wall.id)
-    }
-
-    @Test
-    fun `a scene from before per-band absorption still opens`() {
-        // Older scenes carry one number per surface. It becomes a flat curve,
-        // which is exactly the answer that version of the app would have given.
-        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        v.addSpeaker(0f, 0f)
-        // A real older scene has neither the id nor the curve - only the one
-        // number. Editing the JSON as text got this wrong twice: stripping just
-        // the id left the curve behind, and the curve rightly won; then the
-        // comma-anchored regex missed because JSONObject does not promise key
-        // order. Take the keys out properly instead.
-        val doc = org.json.JSONObject(v.exportSceneJson(includeClfRegistry = false))
-        val rm = doc.getJSONObject("roomMaterials")
-        rm.remove("floorMaterial")
-        rm.remove("floorAlphaByBand")
-        rm.put("floorAlpha", 0.33)
-        val legacy = doc.toString()
-        val restored = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        assertTrue("an older scene must still load", restored.importSceneJson(legacy))
-        assertEquals(0.33f, restored.roomMaterials.value.floor.alphaAt(1000), 1e-3f)
-        assertEquals("and be flat, as it was then",
-                     restored.roomMaterials.value.floor.alphaAt(125),
-                     restored.roomMaterials.value.floor.alphaAt(4000), 1e-4f)
-    }
-
-    @Test
-    fun `a custom surface keeps its curve, not just its name`() {
-        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        v.setFloorAbsorption(0.5f)
-        val restored = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        restored.importSceneJson(v.exportSceneJson(includeClfRegistry = false))
-        assertEquals(0.5f, restored.roomMaterials.value.floor.alphaAt(2000), 1e-3f)
-    }
-
-    @Test
-    fun `choosing a material marks the scene for saving`() {
-        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        val before = v.revision.value
-        v.setSurfaceMaterial("WALL", SurfaceMaterial.BRICK.id)
-        assertNotEquals(before, v.revision.value)
+    @Test fun materialEditsMarkTheSceneForSaving() {
+        val v=model();val before=v.revision.value;v.setSurfaceMaterial("WALL",SurfaceMaterial.BRICK.id)
+        assertNotEquals(before,v.revision.value)
     }
 }

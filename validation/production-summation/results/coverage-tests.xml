@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.CoverageEdgesTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-11-26T15:03:20.499Z" hostname="Dzide.local" time="0.757">
+  <properties/>
+  <testcase name="the published XD12 measures its stated 90 degree horizontal pattern" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.243"/>
+  <testcase name="a narrow box reports a narrow edge and a wide one a wide edge" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.138"/>
+  <testcase name="the edge follows the band selector" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.087"/>
+  <testcase name="the horizontal edges follow the band selector too" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.059"/>
+  <testcase name="the edge lands where the balloon has fallen six decibels" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.03"/>
+  <testcase name="an unmeasured array is narrower across than a point source" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.002"/>
+  <testcase name="an omnidirectional balloon has no edge to draw" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.029"/>
+  <testcase name="the published XD12 reports its own asymmetry" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.064"/>
+  <testcase name="importing measured data changes the edge from the synthetic guess" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.034"/>
+  <testcase name="an asymmetric box reports different angles up and down" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.03"/>
+  <testcase name="without measured data the edge matches what the model itself predicts" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.003"/>
+  <testcase name="an unmeasured array narrows with frequency and with element count" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.008"/>
+  <testcase name="a box narrow across and wide up-down reports it that way round" classname="com.droidacoustic.pro.scene.CoverageEdgesTest" time="0.027"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

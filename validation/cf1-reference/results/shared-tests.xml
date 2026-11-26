@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.ClfReferenceSlotsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-26T14:44:45.567Z" hostname="Dzide.local" time="0.02">
+  <properties/>
+  <testcase name="malformedReferenceRowsFailInsteadOfShiftingOrFallingBack[jvm]" classname="com.droidacoustic.pro.scene.ClfReferenceSlotsTest" time="0.006"/>
+  <testcase name="explicitSensitivityHolesKeepTheirBandIdentityAndDoNotBorrowAxialLevels[jvm]" classname="com.droidacoustic.pro.scene.ClfReferenceSlotsTest" time="0.013"/>
+  <testcase name="thirdOctaveAxialFallbackPreservesNodataSlotsAndCf1DoesNotInferOctaveDrive[jvm]" classname="com.droidacoustic.pro.scene.ClfReferenceSlotsTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
