@@ -1,0 +1,39 @@
+{
+  "shared": {
+    "tests": 696,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "android": {
+    "tests": 407,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "baseline": "a600361e2086a00a6a1e2df7f97a31907d9425bb",
+  "date": "2026-11-27",
+  "builds": [
+    "Android debug",
+    "Android release",
+    "iOS simulator shared tests compile"
+  ],
+  "source_sha256": {
+    "android/app/src/main/kotlin/com/droidacoustic/pro/optimizer/OptimizerSupport.kt": "f8bccbbd02d03e8410e7d6fb6c709a5d72573dec040c66316a693b3fb279be8c",
+    "android/app/src/main/kotlin/com/droidacoustic/pro/scene/SceneViewModel.kt": "4cab9d9c397a002868a86742a464bc5dbf67e64d63f1230c18a2b04c9066438e",
+    "android/app/src/test/kotlin/com/droidacoustic/pro/scene/CoverageEdgesTest.kt": "f0a5e4f3865576b587b20af927be3f479b5f6e111987d0654aa6810439a71f80",
+    "android/app/src/test/kotlin/com/droidacoustic/pro/scene/DspChainTest.kt": "194c40372b43b4b43428bcc330246f30781c4580fb77dc73bbeaa4033ff733d7",
+    "android/app/src/test/kotlin/com/droidacoustic/pro/scene/LineArrayDirectivityTest.kt": "2a98bd3991d8063c97070ee9fc3aa0c196e91fbda3dc8be9af84f559326b24a3",
+    "android/app/src/test/kotlin/com/droidacoustic/pro/scene/MeasuredDirectivityTest.kt": "18c397c42cbd0130e0c33d6ffbef6b37176b6eb57d2dad5faeffef782c9ecdbe",
+    "android/app/src/test/kotlin/com/droidacoustic/pro/scene/ObstructionTest.kt": "0ef51b108251359a48d4fbcf7e4cb95734fe7cdb2043941137a83bb26a3e34a0",
+    "android/app/src/test/kotlin/com/droidacoustic/pro/scene/SpeakerCalibrationTest.kt": "27ea57ecd4525be5d748f04c6ad2c5c83883783f0d6cf86958aaa32a8fe53d85",
+    "android/shared-core/src/commonTest/kotlin/com/droidacoustic/pro/prediction/AirPropagationRequestTest.kt": "8f0776540a7f5ffcd321becf59a3de4fb636712c35dfb218f857a9e2aa4f2e96",
+    "android/shared-core/src/commonTest/kotlin/com/droidacoustic/pro/prediction/DirectivityPredictionRequestTest.kt": "d54eb51aee3dc71a80c573750898b446b6816488c9ba8c82672e28f52571715f",
+    "android/shared-core/src/commonTest/kotlin/com/droidacoustic/pro/prediction/DspPredictionRequestTest.kt": "dada16b1ba1c9bff9fa0229849ef32e9c219b6d9b006957132d096ed3aa77728",
+    "android/shared-core/src/commonTest/kotlin/com/droidacoustic/pro/prediction/FreeFieldRequests.kt": "4ca2413362697988e25e2603c0df21925ea7bebeea4effdff9fcc0191fddc083"
+  },
+  "device_tested": false,
+  "unsupported_score_tests_retired": 16,
+  "new_common_request_tests": 29,
+  "view_model_lines_removed_net": 496
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.prediction.DspPredictionRequestTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2026-11-27T15:53:45.606Z" hostname="Dzide.local" time="0.011">
+  <properties/>
+  <testcase name="everyBandFallsMonotonicallyWithDistance[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.005"/>
+  <testcase name="polarityAndDelayReachActualCorrelatedSummation[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.001"/>
+  <testcase name="oneMetreRetainsReferenceLevelWithAirLoss[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.0"/>
+  <testcase name="relativeGainPassesThrough[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.001"/>
+  <testcase name="doublingDistanceIncludesSixDecibelsAndAir[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.0"/>
+  <testcase name="geometricDoublingsRemainScaleFree[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.001"/>
+  <testcase name="gainAndEqStack[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.0"/>
+  <testcase name="sourceCoincidenceUsesTheProductionDistanceGuard[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.001"/>
+  <testcase name="absentEqEntriesAreNeutral[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.0"/>
+  <testcase name="tenfoldDistanceCostsTwentyDecibelsPlusAir[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.0"/>
+  <testcase name="everyBandReadsItsOwnEntry[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.001"/>
+  <testcase name="analysedBandGetsItsEqEntry[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.0"/>
+  <testcase name="sensitivityPassesThrough[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.0"/>
+  <testcase name="otherBandsDoNotLeakIntoSelectedBand[jvm]" classname="com.droidacoustic.pro.prediction.DspPredictionRequestTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

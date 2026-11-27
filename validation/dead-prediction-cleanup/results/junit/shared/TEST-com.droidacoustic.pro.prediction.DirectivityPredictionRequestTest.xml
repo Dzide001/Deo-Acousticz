@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-11-27T15:53:45.544Z" hostname="Dzide.local" time="0.002">
+  <properties/>
+  <testcase name="bypassingDispersionRemovesThePattern[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.0"/>
+  <testcase name="panPointsSourceAtReceiver[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.0"/>
+  <testcase name="horizontalHalfAngleCostsSixDb[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.001"/>
+  <testcase name="horizontalFalloffIsQuadratic[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.0"/>
+  <testcase name="mechanicalTiltPointsSourceDown[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.0"/>
+  <testcase name="listenerBelowAnUntiltedBoxLosesLevel[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.0"/>
+  <testcase name="tiltingPastTheReceiverCostsLevel[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.0"/>
+  <testcase name="rotatingSourceAndReceiverTogetherPreservesDirectivity[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.0"/>
+  <testcase name="onAxisHasNoDirectivityLoss[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.0"/>
+  <testcase name="rearLossIsCappedByTheActualGenericModel[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.0"/>
+  <testcase name="panWrapsWithoutChangingThePrediction[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.0"/>
+  <testcase name="coincidentArrayElementsApplyTheirTiltedPatternOnce[jvm]" classname="com.droidacoustic.pro.prediction.DirectivityPredictionRequestTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

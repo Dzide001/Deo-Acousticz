@@ -18,7 +18,7 @@ Removed APIs: `estimateRoomBounds`, `buildEarlyReflections`, `estimateRt60`,
 internal `RoomBounds` type. The obsolete floor adapter already delegated to shared
 physics; it is removed because its test bypassed the real request path. The other
 helpers inferred a rectangular room, higher-order images or empirical losses and
-were not the active solver. The signed horizontal-angle helper remains in place.
+were not the active solver. The unused signed horizontal-angle helper was subsequently removed in the prediction cleanup.
 Existing empty/null room-metric state fields remain for API compatibility and are
 checked to stay unavailable. The separate STI branch remains unmerged.
 
@@ -57,8 +57,16 @@ cd android
 ```
 
 The audit checks archive hashes and rejects reintroduced calls/declarations of the
-five retired helper APIs in active Kotlin sources. CI also runs it. Targeted JUnit
+six retired helper APIs in active Kotlin sources. CI also runs it. Targeted JUnit
 XML, the build log and `results/verification.json` retain the exact local checks,
 including any broader phase/recovery regressions. No physical-device or iOS runtime
 execution is claimed. First-order reflections/scattering remain experimental;
 external calibration and manufacturer/measurement acceptance remain open.
+
+## Prediction cleanup follow-up — 2026-11-27
+
+The unused empirical `intelligibilityScore`, its 16 tests, and the dormant
+`ArrayCalcOptimizer` solver are also archived with hashes. None establishes
+acoustic accuracy. Optimizer data types, audience-grid support and the disabled
+public entry point remain compatible; the approximate objective cannot run.
+See [prediction cleanup](../dead-prediction-cleanup/README.md) for migration checks.

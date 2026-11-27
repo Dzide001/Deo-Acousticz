@@ -1,6 +1,6 @@
 # DroidAcoustic Pro implementation plan
 
-Updated **2026-11-26** after the [project review](project_review.md). This replaces
+Updated **2026-11-27** after the [project review](project_review.md). This replaces
 the original numbered-phase timetable in the README. The first release priority
 is **live sound: PA coverage, arrays, subwoofers and delay systems**. The existing
 application is Android-only; an iPad path is included as a recommended extension
@@ -80,8 +80,30 @@ Branch decisions: **keep the STI branch as preserved experimental work; do not m
 publication path** into the live-sound product. It conflicts with the explicit RT60/STI gate.
 The reflection-reference test and review report were included in checkpoint `b7a472e`;
 their files matched `claude/reflection-reference-test`, so no additional branch merge is needed.
-The legacy optimizer is retained but `runOptimization` returns immediately while the shared scope
-contract disables it; it is not currently allowed to run/apply the legacy objective.
+The legacy optimizer solver is archived outside the build. Its compatibility models and disabled
+`runOptimization` entry point remain; no approximate objective can run or apply DSP changes.
+
+## Dead prediction cleanup and DSP test migration — 2026-11-27
+
+Removed duplicate prediction, directivity, summation and air-loss helpers from Android
+`SceneViewModel`, together with the dormant approximate optimizer objective. Live alignment
+adapters and immutable prediction-request capture remain intact. Shared production physics,
+project schema and viewport geometry are unchanged. Optimizer compatibility types and its
+explicitly disabled entry point remain; no STI/RT60 publication is introduced.
+
+Numerical DSP, directivity and air-propagation checks now exercise production shared-core
+requests in common tests. Android integration covers DSP setters/clamping, immutable capture,
+digital filters and disk save/fresh reopen. Sixteen empirical intelligibility-score tests are
+archived as historical evidence, rather than counted as prediction validation. Removed helper
+calls cannot return silently: the cleanup audit runs in CI. Results and reproducible commands:
+[validation/dead-prediction-cleanup](../validation/dead-prediction-cleanup/README.md).
+
+Validation passed **696 shared + 407 Android tests**, debug/release assembly and iOS shared-test
+compilation. The lower Android count includes 16 retired heuristic tests and numerical cases
+moved into common tests. Evidence is retained locally in the validation package.
+
+Next priorities remain external/calibrated acceptance and bounded performance work; this
+cleanup does not qualify full-venue high-frequency diffuse prediction or certify rigging.
 
 ## Permission-safe publication checkpoint — 2026-11-27
 

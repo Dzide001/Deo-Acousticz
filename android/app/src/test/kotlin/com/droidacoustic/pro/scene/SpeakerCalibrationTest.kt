@@ -31,7 +31,7 @@ class SpeakerCalibrationTest {
     @Test fun calibratedReferenceAndRelativeGainReachAndroidSolver() {
         val v = vm()
         val s = install(v, data(calibration = ReferenceCalibration(10.0, DriveUnit.VOLTS_RMS, 2.83, "Lab fixture")))
-        assertEquals(100f, v.referenceLevelDb(s, 1000), 1e-5f)
+        assertEquals(100f, v.getClfData(s.presetId)!!.measuredRadiator().referenceLevelDb(1000)!!, 1e-5f)
         val base = level(v, s)
         assertTrue(base in 79f..81f)
         v.setSignalLevelDbu(6f)
@@ -45,7 +45,7 @@ class SpeakerCalibrationTest {
         assertTrue(level(v, s, 8000).isNaN())
         assertTrue(v.importClfJsonData(ClfParser.toJson(data().copy(sensitivityDbByBand = emptyMap()))))
         assertTrue(level(v, s).isNaN())
-        assertTrue(v.referenceLevelDb(s, 1000).isNaN())
+        assertNull(v.getClfData(s.presetId)!!.measuredRadiator().referenceLevelDb(1000))
     }
     @Test fun wideBandWithPartialDataIsUnavailableRatherThanUnderestimated() {
         val v = vm()

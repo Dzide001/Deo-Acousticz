@@ -170,26 +170,15 @@ class LineArrayDirectivityTest {
         assertTrue("asymmetry was lost: below=$below above=$above", above - below > 10f)
     }
 
-    @Test
-    fun `a signed angular delta keeps its sign while the unsigned one does not`() {
-        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        assertEquals(-30f, v.signedAngularDeltaDeg(0f, 30f), 1e-3f)
-        assertEquals(30f, v.signedAngularDeltaDeg(30f, 0f), 1e-3f)
-        assertEquals(30f, v.angularDeltaDeg(0f, 30f), 1e-3f)
-        // Still takes the short way round the circle.
-        assertEquals(-20f, v.signedAngularDeltaDeg(350f, 10f), 1e-3f)
+    @Test fun equivalentWrappedPansReachTheSameProductionPrediction() {
+        val v=arrayScene(elements=1);val s=v.speakers.value.single()
+        fun level(yaw:Float)=v.predictBandDb(listOf(s.copy(panDeg=yaw)),20f,s.heightM,0f,1000)
+        assertEquals(level(-10f),level(350f),.001f);assertEquals(level(-10f),level(710f),.001f)
     }
-
-    @Test
-    fun `horizontal off-axis angle is measured from where the box is panned`() {
-        val v = track(SceneViewModel(predictionDispatcher = Dispatchers.Main))
-        val spk = PlacedSpeaker(id = 0, x = 0f, z = 0f, panDeg = 0f)
-        // Pan 0 faces +X. A listener at +Z is 90 degrees round.
-        assertEquals(90f, v.horizontalOffAxisDeg(spk, 0f, 0f, 0f, 10f), 1e-2f)
-        assertEquals(-90f, v.horizontalOffAxisDeg(spk, 0f, 0f, 0f, -10f), 1e-2f)
-        assertEquals(0f, v.horizontalOffAxisDeg(spk, 0f, 0f, 10f, 0f), 1e-2f)
-        // Panning onto the listener brings them back on axis.
-        val panned = spk.copy(panDeg = 90f)
-        assertEquals(0f, v.horizontalOffAxisDeg(panned, 0f, 0f, 0f, 10f), 1e-2f)
+    @Test fun panningOntoTheReceiverRecoversProductionLevel() {
+        val v=arrayScene(elements=1);val s=v.speakers.value.single()
+        fun level(yaw:Float,z:Float)=v.predictBandDb(listOf(s.copy(panDeg=yaw)),0f,s.heightM,z,1000)
+        assertTrue(level(90f,20f)>level(0f,20f)+5f)
+        assertEquals(level(90f,20f),level(-90f,-20f),.001f)
     }
 }

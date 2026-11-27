@@ -1,0 +1,11 @@
+{
+  "alignment_source_adapter": {
+    "unchanged": true,
+    "sha256": "bdd70677b7edc81c88886ebf428f22713a8bda9105688c7c403df39c52d7b6e2"
+  },
+  "request_capture": {
+    "unchanged": true,
+    "sha256": "00a92da487964177351d989efe3756ddc3c39ac38405a466b3d64b1f0bec8027"
+  },
+  "shared_production_sources_unchanged": true
+}

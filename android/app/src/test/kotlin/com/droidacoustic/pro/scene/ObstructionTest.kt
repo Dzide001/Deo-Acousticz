@@ -20,13 +20,12 @@ class ObstructionTest {
         val v=wall()
         for (band in SceneViewModel.SUPPORTED_BANDS_HZ) {
             v.setBandHz(band); assertTrue(blocked(v,2f))
-            assertEquals(Float.POSITIVE_INFINITY,v.estimateObstructionAttenuationDb(0f,2f,-5f,0f,2f,5f),0f)
         }
     }
     @Test fun clearAndNearEdgePathsHaveNoGrazingPenalty() {
         val v=wall()
         for (y in listOf(4.001f,4.05f,4.2f,6f)) {
-            assertFalse(blocked(v,y)); assertEquals(0f,v.estimateObstructionAttenuationDb(0f,y,-5f,0f,y,5f),0f)
+            assertFalse(blocked(v,y))
         }
     }
     @Test fun removalAndNoBoundaryRoleRestoreClearPath() {

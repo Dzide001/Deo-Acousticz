@@ -72,8 +72,8 @@ class MeasuredDirectivityTest {
         val text = cliffPatternTab().replace("<SENSITIVITY>\t" + List(8) { "100.0" }.joinToString("\t"), "<SENSITIVITY>\t80\t82\t84\t86\t88\t90\t92\t94")
         assertTrue(vm.importClfTabText(text, "band_response"))
         val speaker = PlacedSpeaker(id = 0, x = 0f, z = 0f, sensitivity = 100f, presetId = "band_response")
-        assertEquals(88f, vm.referenceLevelDb(speaker, 1000), 0.001f)
-        assertEquals(94f, vm.referenceLevelDb(speaker, 8000), 0.001f)
+        assertEquals(88f, vm.predictBandDb(listOf(speaker),1f,speaker.heightM,0f,1000), 0.02f)
+        assertEquals(94f, vm.predictBandDb(listOf(speaker),1f,speaker.heightM,0f,8000), 0.15f)
     }
 
     /** A speaker at the origin facing +X, listener [d] metres away, [offAxis] degrees round. */

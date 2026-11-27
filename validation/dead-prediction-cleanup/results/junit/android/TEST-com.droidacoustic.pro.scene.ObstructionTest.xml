@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.ObstructionTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-27T15:54:10.035Z" hostname="Dzide.local" time="0.025">
+  <properties/>
+  <testcase name="clearAndNearEdgePathsHaveNoGrazingPenalty" classname="com.droidacoustic.pro.scene.ObstructionTest" time="0.001"/>
+  <testcase name="opaqueWallBlocksEveryBandWithoutAddingAnEmpiricalLoss" classname="com.droidacoustic.pro.scene.ObstructionTest" time="0.012"/>
+  <testcase name="removalAndNoBoundaryRoleRestoreClearPath" classname="com.droidacoustic.pro.scene.ObstructionTest" time="0.004"/>
+  <testcase name="endpointAndZeroLengthContactsDoNotSelfOcclude" classname="com.droidacoustic.pro.scene.ObstructionTest" time="0.003"/>
+  <testcase name="elevatedBalconyKeepsUnderpassAndRotationChangesFootprint" classname="com.droidacoustic.pro.scene.ObstructionTest" time="0.003"/>
+  <testcase name="visibilityIsReciprocalAndIndependentOfAnalysisProfile" classname="com.droidacoustic.pro.scene.ObstructionTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

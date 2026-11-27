@@ -110,6 +110,7 @@ jobs:
           python3 validation/clf-magnitude/reference.py --check
           python3 validation/cf1-reference/reference.py --check
           python3 validation/retired-room-model/audit.py
+          python3 validation/dead-prediction-cleanup/audit.py
         working-directory: ${{ github.workspace }}
 
       - name: Check public calibrated-measurement reference preparation

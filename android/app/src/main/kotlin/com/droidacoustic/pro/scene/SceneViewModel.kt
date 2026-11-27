@@ -17,9 +17,6 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.yield
 import com.droidacoustic.pro.engine.AcousticEngine
-import com.droidacoustic.pro.optimizer.ArrayCalcOptimizer
-import com.droidacoustic.pro.optimizer.CoverageGridBuilder
-import com.droidacoustic.pro.optimizer.CoveragePoint
 import com.droidacoustic.pro.optimizer.OptimizerParam
 import com.droidacoustic.pro.optimizer.OptimizerResult
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +30,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.zip.ZipInputStream
 import kotlin.math.pow
-import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.log10
@@ -42,7 +38,6 @@ import kotlin.math.round
 import kotlin.math.sin
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
-import kotlin.math.tan
 
 // =============================================================================
 // Domain types
@@ -1260,7 +1255,6 @@ class SceneViewModel(
     private val _optimizerIsRunning = MutableStateFlow(false)
     val optimizerIsRunning: StateFlow<Boolean> = _optimizerIsRunning.asStateFlow()
 
-    private var optimizerJob: Job? = null
 
     private val _coverageGeometry = MutableStateFlow<PreparedAudienceGeometry?>(null)
     val coverageGeometry: StateFlow<PreparedAudienceGeometry?> = _coverageGeometry.asStateFlow()
@@ -1301,7 +1295,7 @@ class SceneViewModel(
      * it`. Bounded, so a wedged job cannot hang a suite.
      */
     internal fun cancelAnalysisJobs(timeoutMs: Long = 3_000) {
-        val jobs = listOfNotNull(engineCaptureJob,referenceTraceJob,comparisonJob,autoRecomputeJob, optimizerJob, recalcJob, heatmapJob)
+        val jobs = listOfNotNull(engineCaptureJob,referenceTraceJob,comparisonJob,autoRecomputeJob, recalcJob, heatmapJob)
         jobs.forEach { it.cancel() }
         val deadline = System.currentTimeMillis() + timeoutMs
         while (jobs.any { it.isActive } && System.currentTimeMillis() < deadline) {
@@ -4848,11 +4842,6 @@ class SceneViewModel(
         refreshHeatmap()
     }
 
-    /** Compatibility for the separate experimental room analysis: geometric visibility, no empirical loss. */
-    internal fun estimateObstructionAttenuationDb(sx: Float, sy: Float, sz: Float,
-        tx: Float, ty: Float, tz: Float, @Suppress("UNUSED_PARAMETER") bandHz: Int = _selectedBandHz.value): Float =
-        if (isLineOfSightBlocked(sx,sy,sz,tx,ty,tz)) Float.POSITIVE_INFINITY else 0f
-
     internal fun isLineOfSightBlocked(sx: Float, sy: Float, sz: Float, tx: Float, ty: Float, tz: Float): Boolean =
         BoundaryGeometry.prepare(_audienceAreas.value.map {it.sharedSurface()},venue=_venueGeometry.value)
             .blocked(BoundaryPoint(sx.toDouble(),sy.toDouble(),sz.toDouble()),BoundaryPoint(tx.toDouble(),ty.toDouble(),tz.toDouble()))
@@ -4984,7 +4973,6 @@ class SceneViewModel(
         coverageResultTicket = null
         recalcJob?.cancel()
         heatmapJob?.cancel()
-        optimizerJob?.cancel()
         _optimizerIsRunning.value = false
         _heatmap.value = emptyList()
         _coverageGeometry.value = null
@@ -5134,90 +5122,6 @@ class SceneViewModel(
         return out
     }
 
-    /**
-     * Heuristic legibility score from coverage level, coverage evenness and RT60.
-     *
-     * This is NOT IEC 60268-16 STI, despite the field name it is stored under.
-     * Real STI is measured from the modulation transfer function - how much of a
-     * modulated test signal's envelope survives the room - across seven octave
-     * bands and fourteen modulation frequencies. Nothing here modulates anything.
-     * What this returns is a weighted opinion: 45% "is it loud enough", 25% "is it
-     * even", 30% "is the reverb near 0.9 s". The weights and the 0.9 s target are
-     * chosen, not derived.
-     *
-     * The %ALcons conversion below is the genuine Farrell-Becker relation, but it
-     * is only meaningful when applied to a real STI value. Fed this score, it
-     * inherits the score's arbitrariness and merely restates it on another scale.
-     */
-    internal fun intelligibilityScore(avgDb: Float, devDb: Float, rt60S: Float): StiEstimate {
-        val levelScore = ((avgDb - 58f) / 22f).coerceIn(0f, 1f)
-        val uniformityScore = (1f - devDb / 10f).coerceIn(0f, 1f)
-        val rtTarget = 0.9f
-        val rtPenalty = (kotlin.math.abs(rt60S - rtTarget) / 1.6f).coerceIn(0f, 1f)
-        val rtScore = (1f - rtPenalty).coerceIn(0f, 1f)
-
-        val sti = (0.45f * levelScore + 0.25f * uniformityScore + 0.30f * rtScore).coerceIn(0f, 1f)
-        val quality = when {
-            sti >= 0.75f -> "Excellent"
-            sti >= 0.60f -> "Good"
-            sti >= 0.45f -> "Fair"
-            sti >= 0.30f -> "Poor"
-            else -> "Bad"
-        }
-        val alcons = (170f * kotlin.math.exp((-5.4f * sti).toDouble()).toFloat()).coerceIn(0f, 100f)
-        return StiEstimate(sti = sti, quality = quality, alconsPct = alcons)
-    }
-
-    internal data class CoherentContribution(
-        val splDb: Float,
-        val distanceM: Float,
-        val delayMs: Float,
-        val polarity: Boolean,
-        val pressure: ComplexPressure? = null
-    )
-
-    /**
-     * Phase 8 — single-element SPL (geometric spreading + atmospheric loss + DSP).
-     * Building block for both point sources and individual array elements.
-     */
-    internal fun elementSplDb(
-        sensitivity: Float,
-        dsp: SpeakerDsp,
-        distanceM: Float,
-        bandHz: Int = _selectedBandHz.value
-    ): Float {
-        val geo    = 20f * log10(distanceM.toDouble()).toFloat()
-        val air    = atmosphericLossDb(distanceM, bandHz, _temperatureC.value, _humidityPct.value)
-        val eqGain = dsp.eqBands[bandHz] ?: 0f
-        return sensitivity + dsp.gainDb + eqGain - geo - air
-    }
-
-    /**
-     * Phase 8 — vertical line-array coherent summation.
-     * Compatibility level query using horizontal polar receiver coordinates.
-     * Physical element poses and complex summation live in the shared core.
-     */
-    internal fun lineArraySplDb(
-        spk       : PlacedSpeaker,
-        dsp       : SpeakerDsp,
-        horizDistM: Float,         // XZ-plane distance to listener
-        listenerY : Float,
-        horizOffAxisDeg: Float = 0f,   // signed horizontal angle off the box's pan
-        clf       : ClfData? = null,   // measured balloon, applied per element
-        bandHz    : Int = _selectedBandHz.value
-    ): Float {
-        val bearing = Math.toRadians((spk.panDeg + horizOffAxisDeg).toDouble())
-        return arrayPressure(spk, dsp,
-            spk.x + horizDistM * cos(bearing).toFloat(), listenerY,
-            spk.z + horizDistM * sin(bearing).toFloat(), bandHz, clf).levelDb
-    }
-
-    internal fun arrayPressure(spk: PlacedSpeaker, dsp: SpeakerDsp,
-        x: Float, y: Float, z: Float, bandHz: Int, clf: ClfData? = clfDataFor(spk)): ComplexPressure {
-        val air = Atmosphere(_temperatureC.value, _humidityPct.value)
-        return tonePressure(predictionSources(spk, dsp, air, clf), x, y, z, bandHz, air)
-    }
-
     private fun predictionSources(spk: PlacedSpeaker, dsp: SpeakerDsp, air: Atmosphere,
         clf: ClfData? = clfDataFor(spk), extraGainDb: Float = 0f): List<SoundSource> {
         val synthetic = SyntheticRadiator(0f, SyntheticRadiator.horizontalHalfDeg(spk.modelPackageId)) {
@@ -5284,50 +5188,6 @@ class SceneViewModel(
             listOf(HeatCell(x, z, Float.NaN, renderY = y)), bands = listOf(band), selected = band,
             dsps = dspOverride ?: _dspMap.value).calculate().levelAt(0)
 
-    internal fun directContribution(spk: PlacedSpeaker, dsp: SpeakerDsp,
-        x: Float, y: Float, z: Float, distance: Float, band: Int): CoherentContribution {
-        val level = directPathSplDb(spk, dsp, x, y, z, distance, band)
-        val pressure = if (spk.arrayElements > 1) {
-            val raw = arrayPressure(spk, dsp, x, y, z, band)
-            raw.gain((level - raw.levelDb).toDouble())
-        } else ComplexPressure.arrival(level, distance / Atmosphere(_temperatureC.value).speedOfSound +
-            dsp.delayMs / 1000.0, band.toDouble(), dsp.polarity)
-        return CoherentContribution(level, distance, dsp.delayMs, dsp.polarity, pressure)
-    }
-
-    /**
-     * Phase 8 — dispatch: line-array or point-source SPL.
-     * A speaker is treated as a line array when `arrayElements > 1`.
-     */
-    private fun directSplDb(
-        spk: PlacedSpeaker,
-        dsp: SpeakerDsp,
-        distanceM: Float,
-        listenerY: Float = _listener.value.earHeightM,
-        horizOffAxisDeg: Float = 0f,
-        clf: ClfData? = null,
-        bandHz: Int = _selectedBandHz.value
-    ): Float {
-        val base = if (spk.arrayElements > 1) {
-            lineArraySplDb(spk, dsp, sqrt((distanceM * distanceM - (spk.heightM - listenerY) * (spk.heightM - listenerY)).coerceAtLeast(0f)), listenerY, horizOffAxisDeg, clf, bandHz)
-        } else {
-            elementSplDb(referenceLevelDb(spk, bandHz), dsp, distanceM, bandHz)
-        }
-        return base + _signalLevelDbu.value
-    }
-
-    /**
-     * Measured data for a placed box, if any was imported for its preset.
-     *
-     * An array applies this per element inside [lineArraySplDb]; a single box
-     * applies it once, outside, via [clfDirectivityAttenuationDb]. Either way it
-     * is applied exactly once - [perElementClfActive] is what keeps the callers
-     * from adding it a second time.
-     */
-    internal fun referenceLevelDb(spk: PlacedSpeaker, bandHz: Int): Float =
-        clfDataFor(spk)?.measuredRadiator()?.referenceLevelDb(bandHz)
-            ?: if (requiresMeasuredData(spk)) Float.NaN else spk.sensitivity
-
     private fun clfDataFor(spk: PlacedSpeaker): ClfData? =
         _clfRegistry.value[spk.presetId]
 
@@ -5363,70 +5223,6 @@ class SceneViewModel(
         }
     }
 
-    private fun perElementClfActive(spk: PlacedSpeaker): Boolean =
-        spk.arrayElements > 1 && clfDataFor(spk) != null
-
-    /**
-     * One speaker's contribution at one point, in one band.
-     *
-     * Everything between the box and the ear that depends on frequency lives
-     * here: spreading, air, the balloon or its synthetic stand-in, obstruction,
-     * and the floor bounce. Taking a band as an argument rather than reading the
-     * selected one is what lets the same path be evaluated across the spectrum
-     * and summed, which is the whole basis of a weighted broadband figure.
-     */
-    internal fun directPathSplDb(
-        spk: PlacedSpeaker,
-        dsp: SpeakerDsp,
-        tx: Float,
-        ty: Float,
-        tz: Float,
-        distanceM: Float,
-        bandHz: Int
-    ): Float {
-        val occlusionPenalty = estimateObstructionAttenuationDb(
-            sx = spk.x, sy = spk.heightM, sz = spk.z,
-            tx = tx, ty = ty, tz = tz,
-            bandHz = bandHz
-        )
-        // Measured directivity is applied exactly once. An array reads the
-        // balloon per element inside directSplDb, so the box-level penalty is
-        // zero for it; a single box reads it here.
-        val isArray = spk.arrayElements > 1
-        val clfPenalty = if (isArray) 0f else clfDirectivityAttenuationDb(
-            speakerId = spk.presetId,
-            fromX = spk.x, fromY = spk.heightM, fromZ = spk.z,
-            toX = tx, toY = ty, toZ = tz,
-            spk = spk,
-            bandHz = bandHz
-        )
-        val directivityPenalty = clfPenalty ?: horizontalDirectivityAttenuationDb(
-            spk = spk, fromX = spk.x, fromZ = spk.z, toX = tx, toZ = tz, pathOrder = 0
-        )
-        val verticalAimPenalty = if (clfPenalty != null) 0f else verticalAimAttenuationDb(
-            spk = spk,
-            fromX = spk.x, fromY = spk.heightM, fromZ = spk.z,
-            toX = tx, toY = ty, toZ = tz,
-            pathOrder = 0
-        )
-        val boundaryDelta = 0f // Ground is summed as image arrivals by predictBandDb.
-
-        // A flat 12 dB step once the synthetic model runs out of shape - a crude
-        // stand-in for rear radiation. It must not touch a measured balloon: a
-        // CLF file already describes what happens behind the box, and stacking a
-        // step on top of it corrupts real data with a discontinuity.
-        val beamShadowPenalty = if (
-            clfPenalty == null &&
-            _signalDispersionEnabled.value &&
-            (directivityPenalty + verticalAimPenalty) > 14f
-        ) 12f else 0f
-
-        val direct = if (isArray) {
-            arrayPressure(spk, dsp, tx, ty, tz, bandHz).levelDb + _signalLevelDbu.value
-        } else directSplDb(spk, dsp, distanceM, ty, bandHz = bandHz)
-        return direct - occlusionPenalty - directivityPenalty - verticalAimPenalty - beamShadowPenalty + boundaryDelta
-    }
-
     /**
      * Bands the current analysis covers: one, or the whole spectrum.
      *
@@ -5436,114 +5232,6 @@ class SceneViewModel(
      */
     internal fun analysisBands(): List<Int> =
         if (_signalType.value == "SPECTRUM") SUPPORTED_BANDS_HZ else listOf(_selectedBandHz.value)
-
-    /** Combined level at a point: one band, or every band weighted and summed. */
-    private fun combineAcrossBands(perBand: Map<Int, Float>): Float =
-        if (perBand.size == 1) perBand.values.first()
-        else if (perBand.values.any { !it.isFinite() }) Float.NaN
-        else broadbandSplDb(perBand, _weighting.value) ?: perBand.values.first()
-
-    internal fun coherentSumDb(
-        contributions: List<CoherentContribution>,
-        bandHz: Int = _selectedBandHz.value
-    ): Float {
-        if (contributions.isEmpty()) return 0f
-        val frequencyHz = bandHz.toDouble().coerceAtLeast(1.0)
-        var real = 0.0
-        var imag = 0.0
-        contributions.forEach { c ->
-            val pressure = c.pressure ?: ComplexPressure.arrival(c.splDb,
-                c.distanceM / Atmosphere(_temperatureC.value).speedOfSound + c.delayMs / 1000.0,
-                frequencyHz, c.polarity)
-            real += pressure.real
-            imag += pressure.imaginary
-        }
-        val mag = sqrt(real * real + imag * imag).coerceAtLeast(1e-9)
-        val coherentDb = (20.0 * log10(mag)).toFloat()
-
-        val incoherentPower = contributions.sumOf { Math.pow(10.0, it.splDb.toDouble() / 10.0) }.coerceAtLeast(1e-12)
-        val incoherentDb = (10.0 * log10(incoherentPower)).toFloat()
-
-        val lowFreqForceIncoherent = !_signalInterferenceEnabled.value && bandHz <= 163
-        if (lowFreqForceIncoherent) return incoherentDb
-
-        return coherentDb
-
-    }
-
-    /**
-     * CLF-based directivity attenuation using polar pattern interpolation.
-     * Returns negative dB attenuation (loss) from on-axis reference.
-     * For frequency-dependent realism, CLF replaces the simpler model.
-     */
-    private fun clfDirectivityAttenuationDb(
-        speakerId: String,
-        fromX: Float,
-        fromY: Float,
-        fromZ: Float,
-        toX: Float,
-        toY: Float,
-        toZ: Float,
-        spk: PlacedSpeaker,
-        bandHz: Int = _selectedBandHz.value
-    ): Float? {
-        if (!_signalDispersionEnabled.value) return 0f
-        val clf = _clfRegistry.value[speakerId] ?: return null
-        
-        // Calculate direction from speaker to listener
-        val dx = toX - fromX
-        val dz = toZ - fromZ
-        val dy = toY - fromY
-        if (kotlin.math.abs(dx) < 1e-5f && kotlin.math.abs(dz) < 1e-5f && kotlin.math.abs(dy) < 1e-5f) {
-            return 0f  // On-axis
-        }
-
-        // Horizontal angle (azimuth): relative to speaker's pan direction
-        // Signed, not absolute: a measured balloon is not symmetric, so the side
-        // of the axis the listener is on changes the answer.
-        val bearingDeg = Math.toDegrees(atan2(dz.toDouble(), dx.toDouble())).toFloat()
-        val azimuthDeg = signedAngularDeltaDeg(bearingDeg, spk.panDeg)
-
-        // Vertical angle (elevation): relative to speaker's aim direction
-        val horizDist = sqrt(dx * dx + dz * dz).coerceAtLeast(1e-4f)
-        val targetElevationDeg = Math.toDegrees(atan2(dy.toDouble(), horizDist.toDouble())).toFloat()
-        val acousticAxisDeg = -spk.arrayAimDeg  // App convention: down-positive → elevation negative
-        val elevationDeg = signedAngularDeltaDeg(targetElevationDeg, acousticAxisDeg)
-        
-        // Look up SPL at this direction and frequency from CLF
-        val splDbRelative = clf.splAtDirection(bandHz, azimuthDeg, elevationDeg) ?: return null
-        
-        // Return attenuation (negative = loss)
-        return -splDbRelative
-    }
-
-    internal fun horizontalDirectivityAttenuationDb(
-        spk: PlacedSpeaker,
-        fromX: Float,
-        fromZ: Float,
-        toX: Float,
-        toZ: Float,
-        pathOrder: Int
-    ): Float {
-        if (!_signalDispersionEnabled.value) return 0f
-        val dx = toX - fromX
-        val dz = toZ - fromZ
-        if (kotlin.math.abs(dx) < 1e-5f && kotlin.math.abs(dz) < 1e-5f) return 0f
-
-        val bearingDeg = Math.toDegrees(atan2(dz.toDouble(), dx.toDouble())).toFloat()
-        val mismatchDeg = angularDeltaDeg(bearingDeg, spk.panDeg)
-
-        val halfPowerDeg = when (spk.modelPackageId) {
-            "line_array" -> 45f
-            "point_source" -> 60f
-            else -> 50f
-        }
-
-        val x = (mismatchDeg / halfPowerDeg).coerceAtLeast(0f)
-        val baseLoss = (6f * x * x).coerceAtMost(24f)
-        val reflectionRelax = (1f - 0.16f * pathOrder.coerceAtLeast(0)).coerceIn(0.5f, 1f)
-        return baseLoss * reflectionRelax
-    }
 
     /**
      * Vertical coverage edges for a box at the band being analysed.
@@ -5612,7 +5300,7 @@ class SceneViewModel(
 
     /** Where the synthetic horizontal model puts its own -6 dB point. */
     private fun syntheticHorizontalMinusSixDeg(spk: PlacedSpeaker): Float =
-        // horizontalDirectivityAttenuationDb: 6 * x^2, so -6 dB lands at x = 1.
+        // Generic horizontal parabola: -6 dB at its half-angle.
         when (spk.modelPackageId) {
             "line_array" -> 45f
             "point_source" -> 60f
@@ -5622,13 +5310,13 @@ class SceneViewModel(
     /** Where the synthetic vertical model puts its own -6 dB point, so the two agree. */
     private fun syntheticVerticalMinusSixDeg(spk: PlacedSpeaker): Float {
         if (spk.arrayElements > 1) {
-            // lineArraySplDb: -12 * x^2, so -6 dB lands at x = 1/sqrt(2).
+            // Existing approximate viewport footprint; shared prediction sums physical elements.
             val freqK = (_selectedBandHz.value.toDouble() / 1000.0).coerceAtLeast(0.063)
             val halfPower = (65.0 / (sqrt(spk.arrayElements.toDouble()) * Math.pow(freqK, 0.35)))
                 .coerceIn(4.0, 80.0)
             return (halfPower / sqrt(2.0)).toFloat()
         }
-        // verticalAimAttenuationDb: 6 * x^2, so -6 dB lands at x = 1.
+        // Generic point-source parabola: -6 dB at its vertical half-angle.
         return when (spk.modelPackageId) {
             "point_source" -> 35f
             "line_array" -> 28f
@@ -5636,98 +5324,15 @@ class SceneViewModel(
         }
     }
 
-    internal fun verticalAimAttenuationDb(
-        spk: PlacedSpeaker,
-        fromX: Float,
-        fromY: Float,
-        fromZ: Float,
-        toX: Float,
-        toY: Float,
-        toZ: Float,
-        pathOrder: Int
-    ): Float {
-        if (!_signalDispersionEnabled.value) return 0f
-        // Vertical steering/directivity for line arrays is already handled in lineArraySplDb.
-        if (spk.arrayElements > 1) return 0f
-
-        val dx = toX - fromX
-        val dz = toZ - fromZ
-        val dy = toY - fromY
-        val horizDist = sqrt(dx * dx + dz * dz).coerceAtLeast(1e-4f)
-
-        val targetElevationDeg = Math.toDegrees(atan2(dy.toDouble(), horizDist.toDouble())).toFloat()
-        // App convention: arrayAimDeg is down-positive, so acoustic axis elevation is -arrayAimDeg.
-        val acousticAxisDeg = -spk.arrayAimDeg
-        val mismatchDeg = angularDeltaDeg(targetElevationDeg, acousticAxisDeg)
-
-        val halfPowerDeg = when (spk.modelPackageId) {
-            "point_source" -> 35f
-            "line_array" -> 28f
-            else -> 40f
-        }
-
-        val x = (mismatchDeg / halfPowerDeg).coerceAtLeast(0f)
-        val baseLoss = (6f * x * x).coerceAtMost(18f)
-        val reflectionRelax = (1f - 0.16f * pathOrder.coerceAtLeast(0)).coerceIn(0.5f, 1f)
-        return baseLoss * reflectionRelax
-    }
-
-    internal fun angularDeltaDeg(aDeg: Float, bDeg: Float): Float =
-        kotlin.math.abs(signedAngularDeltaDeg(aDeg, bDeg))
-
-    /**
-     * Shortest angle from [bDeg] to [aDeg], keeping its sign.
-     *
-     * The unsigned [angularDeltaDeg] is all a symmetric model needs, but a
-     * measured balloon is not symmetric - a box can be 10 degrees wide upwards
-     * and 25 downwards at the same frequency - so throwing the sign away
-     * mirrors real data onto the wrong side of the axis.
-     */
-    internal fun signedAngularDeltaDeg(aDeg: Float, bDeg: Float): Float =
-        (((aDeg - bDeg) + 540f) % 360f) - 180f
-
-    /** Horizontal angle of a target off the speaker's aim, signed. */
-    internal fun horizontalOffAxisDeg(
-        spk: PlacedSpeaker,
-        fromX: Float,
-        fromZ: Float,
-        toX: Float,
-        toZ: Float
-    ): Float {
-        val dx = toX - fromX
-        val dz = toZ - fromZ
-        if (kotlin.math.abs(dx) < 1e-5f && kotlin.math.abs(dz) < 1e-5f) return 0f
-        val bearingDeg = Math.toDegrees(atan2(dz.toDouble(), dx.toDouble())).toFloat()
-        return signedAngularDeltaDeg(bearingDeg, spk.panDeg)
-    }
-
-    internal fun atmosphericLossDb(
-        distanceM: Float,
-        bandHz: Int,
-        temperatureC: Float,
-        humidityPct: Float
-    ): Float {
-        return (com.droidacoustic.pro.acoustics.Atmosphere.iso9613(
-            bandHz.toDouble(), temperatureC.toDouble(), humidityPct.toDouble()
-        ) * distanceM.coerceAtLeast(0f)).toFloat()
-    }
-
     // ─────────────────────────────────────────────────────────────────────
     // Phase 9: ArrayCalc Optimizer public API
     // ─────────────────────────────────────────────────────────────────────
 
-    /**
-     * Enable/disable optimizer. When enabled, optimization parameters are applied to DSP map.
-     */
+    /** Compatibility state only; enabling is gated until a shared optimizer is validated. */
     fun setOptimizerEnabled(enabled: Boolean) {
         if (enabled && !PredictionModelScope.automaticOptimizationAvailable) return
         _optimizerEnabled.value = enabled
-        if (enabled && _optimizerParams.value.isNotEmpty()) {
-            // Apply optimizer params to DSP map
-            applyOptimizerParams(_optimizerParams.value)
-            recalculate(force = true)
-            refreshHeatmap(force = true)
-        }
+
     }
 
     /**
@@ -5740,108 +5345,8 @@ class SceneViewModel(
         _optimizerMode.value = mode
     }
 
-    /**
-     * Run array optimization with current speakers and coverage points.
-     * Uses MINIMIZE_VARIANCE mode to optimize uniformity across audience area.
-     */
-    fun runOptimization() {
-        // Legacy objective ignores delay and does not use the shared prediction model.
-        if (!PredictionModelScope.automaticOptimizationAvailable) return
-        val spks = _speakers.value
-        if (spks.size < 2) return  // Optimization only makes sense for multiple speakers
-
-        _optimizerIsRunning.value = true
-        optimizerJob?.cancel()
-        val optimizerTicket = predictionGate.begin(PredictionChannel.OPTIMIZER, _revision.value)
-        optimizerJob = viewModelScope.launch {
-            val result = withContext(Dispatchers.Default) {
-                val mode = _optimizerMode.value
-
-                // Build coverage grid from audience points and areas
-                val coveragePoints = CoverageGridBuilder.buildGrid(
-                    _audience.value,
-                    _audienceAreas.value,
-                    gridSpacingM = 2.0f  // 2-meter grid spacing for fast optimization
-                )
-
-                if (coveragePoints.isEmpty()) {
-                    // Fall back to listener position if no audience defined
-                    val listener = _listener.value
-                    val fallbackPoints = listOf(
-                        CoveragePoint(listener.x, listener.z, listener.earHeightM, weight = 1f)
-                    )
-                    if (mode == "MINIMIZE_VARIANCE") {
-                        ArrayCalcOptimizer.minimizeVariance(spks, fallbackPoints, ::refSplDb)
-                    } else {
-                        ArrayCalcOptimizer.maximizeCoverage(spks, listener, ::refSplDb)
-                    }
-                } else {
-                    if (mode == "MINIMIZE_VARIANCE") {
-                        ArrayCalcOptimizer.minimizeVariance(spks, coveragePoints, ::refSplDb)
-                    } else {
-                        ArrayCalcOptimizer.maximizeCoverage(spks, _listener.value, ::refSplDb)
-                    }
-                }
-            }
-
-            if (!predictionGate.complete(optimizerTicket, _revision.value)) return@launch
-            _optimizerResult.value = result
-            _optimizerParams.value = result.params
-            _optimizerIsRunning.value = false
-
-            // Auto-enable and apply if optimizer was disabled
-            if (!_optimizerEnabled.value) {
-                setOptimizerEnabled(true)
-            }
-        }
-    }
-
-    /**
-     * Reference SPL function for optimizer: calculates SPL from speaker to point with DSP applied.
-     * Signature required by ArrayCalcOptimizer.
-     */
-    private fun refSplDb(speakerId: Int, x: Float, z: Float, earHeightM: Float, shadingDb: Float, delayMs: Float): Float {
-        val spk = _speakers.value.find { it.id == speakerId } ?: return 0f
-        val dx = x - spk.x
-        val dz = z - spk.z
-        val dy = earHeightM - spk.heightM
-        val d = sqrt(dx * dx + dz * dz + dy * dy).coerceAtLeast(0.1f)
-
-        // Base SPL with shading and sensitivity
-        val baseSpl = spk.sensitivity + 20f * log10(1f / d) + shadingDb
-
-        // Approximate directivity penalty (simplified model)
-        val directivityPenalty = horizontalDirectivityAttenuationDb(
-            spk = spk,
-            fromX = spk.x,
-            fromZ = spk.z,
-            toX = x,
-            toZ = z,
-            pathOrder = 0
-        )
-
-        // Air loss (frequency-dependent; use selected band)
-        val airLoss = atmosphericLossDb(d, _selectedBandHz.value, _temperatureC.value, _humidityPct.value)
-
-        // Delay is handled in coherent summation, not here
-        return baseSpl - directivityPenalty - airLoss
-    }
-
-    /**
-     * Apply optimizer parameters to DSP map.
-     */
-    private fun applyOptimizerParams(params: List<OptimizerParam>) {
-        pushUndoCheckpoint()
-        val newDspMap = _dspMap.value.toMutableMap()
-        for (param in params) {
-            val existing = newDspMap[param.speakerId] ?: SpeakerDsp(param.speakerId)
-            newDspMap[param.speakerId] = existing.copy(
-                gainDb = param.shadingGainDb,
-                delayMs = param.delayMs
-            )
-        }
-        _dspMap.value = newDspMap
-    }
+    /** Unsupported until a validated shared-engine objective replaces the retired model. */
+    fun runOptimization() = Unit
 
     /**
      * Clear/reset optimizer parameters and disable optimizer.
@@ -5852,7 +5357,6 @@ class SceneViewModel(
         _optimizerParams.value = emptyList()
         _optimizerResult.value = null
         _optimizerIsRunning.value = false
-        optimizerJob?.cancel()
 
         // Reset DSP map to zero gains/delays
         val resetDsp = _speakers.value.associate { it.id to SpeakerDsp(it.id) }

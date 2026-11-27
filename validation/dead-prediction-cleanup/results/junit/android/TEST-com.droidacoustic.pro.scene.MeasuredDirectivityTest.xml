@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.MeasuredDirectivityTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-11-27T15:54:09.720Z" hostname="Dzide.local" time="0.314">
+  <properties/>
+  <testcase name="a placed speaker remembers which preset it came from" classname="com.droidacoustic.pro.scene.MeasuredDirectivityTest" time="0.014"/>
+  <testcase name="importedBandSensitivityReachesProductionLevel" classname="com.droidacoustic.pro.scene.MeasuredDirectivityTest" time="0.014"/>
+  <testcase name="inside the plateau the measured pattern costs nothing" classname="com.droidacoustic.pro.scene.MeasuredDirectivityTest" time="0.067"/>
+  <testcase name="importing data for one model does not affect a different one" classname="com.droidacoustic.pro.scene.MeasuredDirectivityTest" time="0.046"/>
+  <testcase name="the prediction follows the measured pattern's own shape" classname="com.droidacoustic.pro.scene.MeasuredDirectivityTest" time="0.078"/>
+  <testcase name="preset identity survives a scene round trip" classname="com.droidacoustic.pro.scene.MeasuredDirectivityTest" time="0.042"/>
+  <testcase name="a speaker with no measured data still gets the synthetic fallback" classname="com.droidacoustic.pro.scene.MeasuredDirectivityTest" time="0.004"/>
+  <testcase name="a scene saved before preset identity existed still loads" classname="com.droidacoustic.pro.scene.MeasuredDirectivityTest" time="0.011"/>
+  <testcase name="measured data changes the prediction" classname="com.droidacoustic.pro.scene.MeasuredDirectivityTest" time="0.038"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

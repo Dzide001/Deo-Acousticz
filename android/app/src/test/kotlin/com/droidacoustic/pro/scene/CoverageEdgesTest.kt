@@ -153,7 +153,7 @@ class CoverageEdgesTest {
         assertFalse("nothing was imported, so this is not measured", e.measured)
         assertEquals(35f, e.upDeg, 0.01f)
         assertEquals(e.upDeg, e.downDeg, 0.01f)
-        // horizontalDirectivityAttenuationDb puts a point source's -6 dB point
+        // The shared generic horizontal model puts a point source's -6 dB point
         // at 60 degrees, and a box is wider across than it is tall.
         assertEquals(60f, e.leftDeg, 0.01f)
         assertEquals(60f, e.rightDeg, 0.01f)

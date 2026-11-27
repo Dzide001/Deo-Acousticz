@@ -20,6 +20,21 @@
       "original": "android/app/src/main/kotlin/com/droidacoustic/pro/scene/SceneViewModel.kt",
       "archive": "validation/retired-room-model/legacy/SceneViewModel-room-helpers.kt.txt",
       "sha256": "76dcd783a1becd66a99c055940b50bd6c6d4dfe0cf53aced7df29b6ff70e9dba"
+    },
+    {
+      "original": "android/app/src/main/kotlin/com/droidacoustic/pro/scene/SceneViewModel.kt",
+      "archive": "validation/retired-room-model/legacy/SceneViewModel-intelligibility-score.kt.txt",
+      "sha256": "bb34ece9d99553627d82fe6a8e09d614e91d099c78544a82d2c930d3bc368937"
+    },
+    {
+      "original": "android/app/src/test/kotlin/com/droidacoustic/pro/scene/IntelligibilityScoreTest.kt",
+      "archive": "validation/retired-room-model/legacy/IntelligibilityScoreTest.kt.txt",
+      "sha256": "e66016f054a71226609b67182a2a62c260cc379450976c97cb8321f35bc43b12"
+    },
+    {
+      "original": "android/app/src/main/kotlin/com/droidacoustic/pro/optimizer/ArrayCalcOptimizer.kt",
+      "archive": "validation/retired-room-model/legacy/ArrayCalcOptimizer.kt.txt",
+      "sha256": "efbf8a58d91e4d7becaa78219efe06a4027fee517e01deefad2aa0d414bbd910"
     }
   ]
 }

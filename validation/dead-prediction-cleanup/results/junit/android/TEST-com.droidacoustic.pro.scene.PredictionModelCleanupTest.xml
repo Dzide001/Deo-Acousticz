@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.PredictionModelCleanupTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-27T15:56:12.123Z" hostname="Dzide.local" time="0.018">
+  <properties/>
+  <testcase name="legacySettingsReopenWithoutChangingTheActualModelOrLevels" classname="com.droidacoustic.pro.scene.PredictionModelCleanupTest" time="0.013"/>
+  <testcase name="predictionsDoNotPublishGuessedRoomMetricsOrLegacyReflections" classname="com.droidacoustic.pro.scene.PredictionModelCleanupTest" time="0.003"/>
+  <testcase name="unvalidatedOptimizerCannotRunOrApplyDspChanges" classname="com.droidacoustic.pro.scene.PredictionModelCleanupTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
