@@ -7,6 +7,26 @@ import kotlin.test.*
 import kotlinx.serialization.json.*
 
 class MixedComplexDiffuseTest {
+    @Test fun preparedGeometryMaterialsPreserveEveryToneWithAngularFallbacksAndSmallCaches() {
+        val src=listOf(source(),source(id=1,delay=.0002))
+        val angular=BoundaryMaterial.angular("Angle",listOf(0f to listOf(100 to .1f,2000 to .2f),
+            90f to listOf(100 to .7f,2000 to .8f))).withScattering(MaterialScattering.create(listOf(0f to listOf(100 to .2f,2000 to .3f))))
+        val scatter=material().withScattering(MaterialScattering.create(listOf(0f to listOf(100 to .1f,2000 to .2f),
+            90f to listOf(100 to .8f,2000 to .9f))))
+        val tones=List(97) {Bands.Segment(1000,995.0+it*.1,995.0+it*.1)}
+        for(m in listOf(material(),angular,scatter)) for(limit in listOf(0,2,65536)) {
+            val g=geometry(listOf(wall(m)))
+            fun calculate(prepared:Boolean):DoubleArray {
+                val missing=mutableSetOf<MissingBand>()
+                val field=CoherentDiffuse(src,BoundaryPoint(4.0,0.0,0.0),g,Atmosphere(),segments,true,true,false,
+                    BoundaryWork(),geometryCacheEntries=limit,cacheMaterialFractions=prepared)
+                return field.bandPowers(tones,missing,null,null).also {
+                    assertTrue(missing.isEmpty());assertTrue(it.all {power->power.isFinite() && power>0})
+                }
+            }
+            assertContentEquals(calculate(false),calculate(true))
+        }
+    }
     @Test fun pressureCompressionChecksCancellationAndKeepsPartialStateConsistent() {
         val cache=DiffuseIncidentCache(maxValues=32)
         val context=cache.context(DiffuseIncidentCache.Context(listOf(source()),geometry(listOf(wall())),Atmosphere(),true,true,null))

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.acoustics.LargeVenueMeasuredArrayTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-27T16:38:37.766Z" hostname="Dzide.local" time="4.812">
+  <properties/>
+  <testcase name="eightKilohertzScatteringWithNarrowDirectivityMatchesDenseSurfaceIntegral[jvm]" classname="com.droidacoustic.pro.acoustics.LargeVenueMeasuredArrayTest" time="2.116"/>
+  <testcase name="highFrequencyArraysMatchIndependentDenseComplexIntegralAtNearFarAndOffAxisReceivers[jvm]" classname="com.droidacoustic.pro.acoustics.LargeVenueMeasuredArrayTest" time="2.696"/>
+  <system-out><![CDATA[8 kHz nonuniform scattering: adaptive=4779.232190164533 dense=4779.256319697408 geometry evaluations cold=316512 repeated=250976
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,90 @@
+{
+  "bounded": {
+    "unprofiledPairs": [
+      {
+        "before": "01-before",
+        "after": "02-after",
+        "receivers": 3,
+        "beforeSeconds": 11.8801415,
+        "afterSeconds": 10.679896542,
+        "improvementPercent": 10.102951703058425,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      },
+      {
+        "before": "04-before",
+        "after": "03-after",
+        "receivers": 3,
+        "beforeSeconds": 11.09429375,
+        "afterSeconds": 10.580361625,
+        "improvementPercent": 4.6324005527616405,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      },
+      {
+        "before": "07-expanded-before",
+        "after": "08-expanded-after",
+        "receivers": 33,
+        "beforeSeconds": 15.320266792,
+        "afterSeconds": 15.613884166,
+        "improvementPercent": -1.9165291178435773,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      }
+    ],
+    "threeReceiverMedians": {
+      "beforeSeconds": 11.487217625,
+      "afterSeconds": 10.6301290835,
+      "improvementPercent": 7.46123708525109
+    },
+    "profileGeometryEvaluations": {
+      "before": 4751872,
+      "after": 1449504
+    },
+    "diskSaveReopenMatched": true
+  },
+  "offset": {
+    "unprofiledPairs": [
+      {
+        "before": "01-before",
+        "after": "02-after",
+        "receivers": 3,
+        "beforeSeconds": 29.527978291,
+        "afterSeconds": 29.688964417,
+        "improvementPercent": -0.5451986059237548,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      },
+      {
+        "before": "04-before",
+        "after": "03-after",
+        "receivers": 3,
+        "beforeSeconds": 29.27311925,
+        "afterSeconds": 29.404792917,
+        "improvementPercent": -0.4498108516399432,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      },
+      {
+        "before": "07-expanded-before",
+        "after": "08-expanded-after",
+        "receivers": 33,
+        "beforeSeconds": 126.127560209,
+        "afterSeconds": 143.784979166,
+        "improvementPercent": -13.999651565241358,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      }
+    ],
+    "threeReceiverMedians": {
+      "beforeSeconds": 29.400548770500002,
+      "afterSeconds": 29.546878667,
+      "improvementPercent": -0.4977114462802958
+    },
+    "profileGeometryEvaluations": {
+      "before": 11748608,
+      "after": 1857056
+    },
+    "diskSaveReopenMatched": true
+  }
+}

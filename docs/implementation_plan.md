@@ -83,6 +83,42 @@ their files matched `claude/reflection-reference-test`, so no additional branch 
 The legacy optimizer solver is archived outside the build. Its compatibility models and disabled
 `runOptimization` entry point remain; no approximate objective can run or apply DSP changes.
 
+## Bounded diffuse geometry/material optimization — 2026-11-27
+
+The first window-traversal prototype preserved exact powers but changed incident-cache
+admission/reuse. Its three-receiver common-corner pairs improved, yet the 33-receiver
+pair regressed **1.9% common / 14.0% offset** (offset **126.128 → 143.785 s**).
+Reject that runtime change; retain its eight matched trials, profiles, source captures
+and exact disk-recovery evidence in
+[validation/windowed-diffuse-geometry](../validation/windowed-diffuse-geometry/README.md).
+Do not ship a smaller-work counter as a speed improvement when expanded timings regress.
+
+The replacement preserves the original traversal, summation and cache-admission order.
+Prepare an angle-independent material scattering fraction once per patch geometry miss,
+rather than per emitter. Angular absorption/scattering retains the existing per-emitter
+path. The temporary scalar adds no persistent cache. Keep the **65,536 geometry-entry**
+and **32-tone** limits, all convergence/work/incident-cache budgets, and project schema.
+
+The order-preserving replacement's balanced three-receiver medians improve
+**11.072 → 10.637 s (3.93%)** common and **28.876 → 27.906 s (3.36%)** offset.
+Separate profiles confirm identical geometry, incident-cache and quadrature work;
+these gains do not come from omitted paths, changed cache admission or relaxed limits.
+
+Retain balanced unprofiled pairs, separate diagnostic profiles, exact matched vectors,
+33-receiver expansion and fresh disk save/reopen results in
+[validation/bounded-diffuse-geometry](../validation/bounded-diffuse-geometry/README.md).
+Both scenes pass all **33 selected receiver** reference checks and fresh disk save/reopen,
+with **zero matched level/power differences**. The single expanded timing pair improves
+common **15.127 → 14.633 s (3.26%)** and offset **125.514 → 118.193 s (5.83%)**.
+These are desktop request observations, not repeated expanded/native qualification.
+Validation passed **699 shared + 407 Android tests**, Android debug/release assembly
+and iOS shared-test compilation. Current results are local; hosted CI requires a
+subsequent commit/push.
+Repeated expanded/native performance acceptance remains a gate before another full
+offset venue/OnePlus attempt. Manufacturer acceptance, electrical CF1 calibration,
+high-frequency diffuse qualification and production-release gates remain open.
+STI remains unmerged.
+
 ## Dead prediction cleanup and DSP test migration — 2026-11-27
 
 Removed duplicate prediction, directivity, summation and air-loss helpers from Android
@@ -133,9 +169,8 @@ receipts are preserved, not rewritten to pretend they ran on new Gradle/test inp
 The reviewed performance work, proprietary source notice, explicit CI SDK package
 selection and publication cleanup form the requested checkpoint. Hosted CI status
 must be checked on GitHub for the published commit rather than inferred from local
-counts. STI remains unmerged. Next: migrate dormant DSP/optimizer compatibility
-paths to production requests, then remove dead code; continue bounded geometry
-performance work afterward. Manufacturer acceptance, CF1 electrical calibration,
+counts. STI remains unmerged. The subsequent cleanup and bounded geometry batches
+are recorded above; those entries supersede this checkpoint's next-step ordering. Manufacturer acceptance, CF1 electrical calibration,
 production signing, headroom and certified rigging remain open.
 
 ## Public-repository cleanup priorities — 2026-11-27
@@ -199,9 +234,10 @@ restored current checkpoint to recovery.previous changed afterward. Latest X/pan
 array-aim changes were preserved in a fresh backup; the earlier backup remains intact.
 The full offset-venue/native performance gate remains open.
 
-Next compare bounded geometry traversal at the existing 65,536 source/surface-entry
-limit to reduce repeated miss geometry, preserving each tone's surface addition
-order. Expand to 33 receivers before another full offset venue/tablet attempt.
+The subsequent bounded geometry batch above tests and rejects window traversal,
+then preserves traversal while preparing material fractions at this same entry
+limit, expanding validation to 33 receivers. Repeated expanded/native
+performance acceptance remains open; preserve each tone's surface addition order.
 Do not increase memory/work limits or loosen convergence to qualify the mode.
 
 ## Bounded filter-knot / cache-cost profile — 2026-11-26

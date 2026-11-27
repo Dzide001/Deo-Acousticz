@@ -1,0 +1,20 @@
+package com.droidacoustic.pro.acoustics
+
+/** Contiguous surface windows bounded by source/surface entries, never frequencies.
+ * An oversized surface stands alone and uses the existing uncached scratch path. */
+internal object DiffuseGeometryWindows {
+    fun ranges(entries:IntArray,limit:Int):List<IntRange> {
+        require(limit>=0 && entries.all {it>=0})
+        if(entries.isEmpty()) return emptyList()
+        val windows=mutableListOf<IntRange>()
+        var start=0;var used=0L
+        for(i in entries.indices) {
+            if(i>start && used+entries[i]>limit) {
+                windows+=start until i;start=i;used=0
+            }
+            used+=entries[i]
+        }
+        windows+=start..entries.lastIndex
+        return windows
+    }
+}

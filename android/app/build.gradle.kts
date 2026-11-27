@@ -146,6 +146,8 @@ tasks.withType<Test>().configureEach {
     val costProfile=providers.gradleProperty("acousticCostProfile").orElse("false").get().toBooleanStrict()
     inputs.property("acousticCacheProfile",providers.environmentVariable("ACOUSTIC_CACHE_PROFILE").orElse(""))
     inputs.property("acousticCostProfile",costProfile)
+    inputs.property("geometryReceiverCount",providers.environmentVariable("ACOUSTIC_GEOMETRY_RECEIVERS").orElse("3"))
+    inputs.property("geometryReopen",providers.environmentVariable("ACOUSTIC_GEOMETRY_REOPEN").orElse("false"))
     inputs.property("acousticCostProfileDirectory",providers.environmentVariable("ACOUSTIC_COST_PROFILE_DIR").orElse(""))
     // Manual profiling tools do not extend the routine/large acceptance workload.
     if(!costProfile) {
@@ -155,6 +157,7 @@ tasks.withType<Test>().configureEach {
         exclude("**/FilterKnotProfileTest.class")
         exclude("**/PackedCacheBenchmarkTest.class")
         exclude("**/PackedCacheExpansionTest.class")
+        exclude("**/GeometryTraversalBenchmarkTest.class")
     }
     val recording=providers.gradleProperty("acousticProfileRecording")
     inputs.property("acousticProfileRecording",recording.orElse(""))

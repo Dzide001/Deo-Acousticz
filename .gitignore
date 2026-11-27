@@ -39,6 +39,8 @@ __pycache__/
 
 # Curated validation evidence is intentionally versioned, unlike runtime logs.
 !validation/**/results/*build.log
+!validation/bounded-diffuse-geometry/results/*/build.log
+!validation/windowed-diffuse-geometry/results/*/build.log
 !validation/device/**/test-build.log
 !validation/device/**/final-build.log
 

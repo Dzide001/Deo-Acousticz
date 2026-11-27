@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-11-27T16:39:00.382Z" hostname="Dzide.local" time="1.487">
+  <properties/>
+  <testcase name="narrowLobeBetweenProbesConvergesWithoutAddingEnergyOrDuplicateFaces[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.151"/>
+  <testcase name="measuredGridBoundsFindOffProbeLobesAcrossTheAzimuthSeam[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.002"/>
+  <testcase name="duplicateAndRetriangulatedShadowsCannotMultiplyOrRemoveExtraEnergy[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.004"/>
+  <testcase name="discontinuousProfilesHaveBoundedRefinementWithoutDuplicatingEnergy[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.01"/>
+  <testcase name="sharpProfileRefinementConservesWeightsAndConverges[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.183"/>
+  <testcase name="receiverAngularRefinementConvergesNearSurface[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.014"/>
+  <testcase name="budgetAndProfileValidationFailExplicitly[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.0"/>
+  <testcase name="customNarrowLobeConvergesConservesWeightsAndCountsDuplicateFacesOnce[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.494"/>
+  <testcase name="predictionUsesActualRadiatorProfileAndAirLoss[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.1"/>
+  <testcase name="frozenBandReuseKeepsMissingBandsAndEmitterIdentitiesSeparate[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.002"/>
+  <testcase name="narrowReceiverShadowIsClippedWithoutChangingSourceVisibility[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.001"/>
+  <testcase name="frozenMeasuredLobePredictionMatchesIndependentIntegral[jvm]" classname="com.droidacoustic.pro.geometry.ReceiverDiffuseTest" time="0.525"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

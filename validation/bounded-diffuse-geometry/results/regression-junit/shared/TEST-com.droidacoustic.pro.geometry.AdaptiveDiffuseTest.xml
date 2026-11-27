@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.geometry.AdaptiveDiffuseTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-27T16:38:59.603Z" hostname="Dzide.local" time="0.012">
+  <properties/>
+  <testcase name="receiverEnergyConvergesAgainstIndependentAreaIntegration[jvm]" classname="com.droidacoustic.pro.geometry.AdaptiveDiffuseTest" time="0.008"/>
+  <testcase name="partiallyHiddenSurfaceRetainsOnlyItsVisibleSolidAngle[jvm]" classname="com.droidacoustic.pro.geometry.AdaptiveDiffuseTest" time="0.0"/>
+  <testcase name="resolutionCacheAndWorkLimitsDoNotReturnPartialSampling[jvm]" classname="com.droidacoustic.pro.geometry.AdaptiveDiffuseTest" time="0.002"/>
+  <testcase name="overlapAndRetriangulationPreserveExactInterceptedEnergyAtEveryResolution[jvm]" classname="com.droidacoustic.pro.geometry.AdaptiveDiffuseTest" time="0.001"/>
+  <testcase name="distantPanelIsFoundEvenWhenNoFixedDirectionHitsIt[jvm]" classname="com.droidacoustic.pro.geometry.AdaptiveDiffuseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

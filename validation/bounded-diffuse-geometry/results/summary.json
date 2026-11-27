@@ -1,0 +1,92 @@
+{
+  "bounded": {
+    "unprofiledPairs": [
+      {
+        "before": "01-before",
+        "after": "02-after",
+        "receivers": 3,
+        "beforeSeconds": 11.356495667,
+        "afterSeconds": 10.5125035,
+        "improvementPercent": 7.431801074450244,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      },
+      {
+        "before": "04-before",
+        "after": "03-after",
+        "receivers": 3,
+        "beforeSeconds": 10.788424417,
+        "afterSeconds": 10.761045917,
+        "improvementPercent": 0.25377663078268664,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      },
+      {
+        "before": "07-expanded-before",
+        "after": "08-expanded-after",
+        "receivers": 33,
+        "beforeSeconds": 15.1272145,
+        "afterSeconds": 14.633491833,
+        "improvementPercent": 3.2638042317704845,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      }
+    ],
+    "threeReceiverMedians": {
+      "beforeSeconds": 11.072460042,
+      "afterSeconds": 10.636774708499999,
+      "improvementPercent": 3.9348557759283933
+    },
+    "profileGeometryEvaluations": {
+      "before": 4751872,
+      "after": 4751872
+    },
+    "profileCacheAndQuadratureWorkUnchanged": true,
+    "diskSaveReopenMatched": true
+  },
+  "offset": {
+    "unprofiledPairs": [
+      {
+        "before": "01-before",
+        "after": "02-after",
+        "receivers": 3,
+        "beforeSeconds": 29.206645292,
+        "afterSeconds": 27.898520458,
+        "improvementPercent": 4.478860276220458,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      },
+      {
+        "before": "04-before",
+        "after": "03-after",
+        "receivers": 3,
+        "beforeSeconds": 28.545867708,
+        "afterSeconds": 27.91410825,
+        "improvementPercent": 2.2131380431744474,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      },
+      {
+        "before": "07-expanded-before",
+        "after": "08-expanded-after",
+        "receivers": 33,
+        "beforeSeconds": 125.513902916,
+        "afterSeconds": 118.193342167,
+        "improvementPercent": 5.832470012425064,
+        "maxLevelDifferenceDb": 0.0,
+        "maxRelativePowerDifference": 0.0
+      }
+    ],
+    "threeReceiverMedians": {
+      "beforeSeconds": 28.8762565,
+      "afterSeconds": 27.906314354000003,
+      "improvementPercent": 3.3589608334445895
+    },
+    "profileGeometryEvaluations": {
+      "before": 11748608,
+      "after": 11748608
+    },
+    "profileCacheAndQuadratureWorkUnchanged": true,
+    "diskSaveReopenMatched": true
+  }
+}

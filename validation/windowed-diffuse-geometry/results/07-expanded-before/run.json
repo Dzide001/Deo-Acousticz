@@ -1,0 +1,25 @@
+{
+  "variant": "before",
+  "receiverCount": 33,
+  "profilingEnabled": false,
+  "reopen": false,
+  "sourceSha256": "64b5ac6666e4ab4d1dffcfd6412e807ed5b1ac3ece6740e2e5e4625ff2a9bd22",
+  "loadAverage": [
+    7.509765625,
+    5.6279296875,
+    4.9130859375
+  ],
+  "command": [
+    "./gradlew",
+    ":app:testDebugUnitTest",
+    "-PacousticCostProfile=true",
+    "--tests",
+    "*GeometryTraversalBenchmarkTest",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--offline"
+  ],
+  "times": {
+    "offset": 126.127560209,
+    "bounded": 15.320266792
+  }
+}

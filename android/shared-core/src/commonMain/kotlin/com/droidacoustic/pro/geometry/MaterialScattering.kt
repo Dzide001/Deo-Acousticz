@@ -5,6 +5,7 @@ import kotlinx.serialization.json.*
 /** Fraction of reflected (not incident) energy redirected out of the specular path.
  * This is not a diffusion coefficient or an angular radiation distribution. */
 class MaterialScattering private constructor(private val curves: List<Pair<Float,BoundaryMaterial>>,val source: String) {
+    internal val isAngleDependent get()=curves.size>1
     fun curves(): List<Pair<Float,List<Pair<Int,Float>>>> = curves.map {(a,c)->a to c.points()}
     fun coefficientAt(hz: Int,angle: Float=0f): Float {
         require(hz>0 && angle.isFinite() && angle in 0f..90f)

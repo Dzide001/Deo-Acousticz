@@ -14,7 +14,8 @@ internal class CoherentDiffuse(
     private val incidentCache:DiffuseIncidentCache?=null,
     private val batchTonePhases:Boolean=true,
     private val diagnostics:DiffuseDiagnostics?=null,
-    private val cacheSamplingFilters:Boolean=true
+    private val cacheSamplingFilters:Boolean=true,
+    private val cacheMaterialFractions:Boolean=true
 ) {
     private fun position(s:SoundSource)=BoundaryPoint(s.x.toDouble(),s.y.toDouble(),s.z.toDouble())
     private fun distance(a:BoundaryPoint,b:BoundaryPoint)=sqrt((a.x-b.x).pow(2)+(a.y-b.y).pow(2)+(a.z-b.z).pow(2))
@@ -254,6 +255,10 @@ internal class CoherentDiffuse(
             var complete=true
             val geometry=geometryCache[cellIndex] ?: run {
                 val data=geometryScratch
+                // The same angle-independent material partition serves every
+                // emitter on this patch. Keep traversal and admission order.
+                val constantFraction=if(cacheMaterialFractions)
+                    DiffuseGeometryMaterial.constantScatteredFraction(cell.materials,seg.dataHz) else null
                 for((slot,i) in cell.visibleEmitters.withIndex()) {
                     if(slot%32==0) work.check()
                     geometryEvaluations++
@@ -262,9 +267,11 @@ internal class CoherentDiffuse(
                     val d=max(rawDistance,DirectField.MIN_DISTANCE_M)
                     val cosine=(((source.x-cell.point.x)*cell.normal.x+(source.y-cell.point.y)*cell.normal.y+
                         (source.z-cell.point.z)*cell.normal.z)/rawDistance).coerceIn(0.0,1.0)
-                    val incidence=(acos(cosine)*180/PI).toFloat()
-                    val fraction=BoundaryMaterial.reflectionMaterial(cell.materials,seg.dataHz,incidence)
-                        ?.energyPartition(seg.dataHz,incidence)?.scattered ?: 0.0
+                    val fraction=if(constantFraction!=null && cosine.isFinite()) constantFraction else {
+                        val incidence=(acos(cosine)*180/PI).toFloat()
+                        BoundaryMaterial.reflectionMaterial(cell.materials,seg.dataHz,incidence)
+                            ?.energyPartition(seg.dataHz,incidence)?.scattered ?: 0.0
+                    }
                     source.toward(cell.point.x.toFloat(),cell.point.y.toFloat(),cell.point.z.toFloat(),scratch)
                     data[slot*4]=rawDistance;data[slot*4+1]=sqrt(cosine*fraction)/d
                     data[slot*4+2]=scratch[1];data[slot*4+3]=scratch[2]

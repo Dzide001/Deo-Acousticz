@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-27",
+  "baseline": "784a875dd35baae389720009d66e3b2f25bdfbe1",
+  "shared": {
+    "tests": 699,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "android": {
+    "tests": 407,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "builds": [
+    "Android debug",
+    "Android release",
+    "iOS shared simulator tests compilation"
+  ],
+  "source_sha256": {
+    "android/app/src/test/kotlin/com/droidacoustic/pro/scene/GeometryTraversalBenchmarkTest.kt": "400dd00745db1430036a0b73167726f52e4db5f28b5d3605d2663ed2844861d9",
+    "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/CoherentDiffuse.kt": "235dfdfaf7765ba3acb5512c07d8681d24e3ab0ab7c53f47df23ecf8e8a81892",
+    "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/DiffuseGeometryMaterial.kt": "bde7973910061f44a5fe20081d232b7d3eff34812fd4c784736e8f6b8ddf7b7a",
+    "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/geometry/MaterialScattering.kt": "d1d65b92a20305f51e39ddca380e482f735df367827b2a92d3b2ed9feb41d69d",
+    "android/shared-core/src/commonTest/kotlin/com/droidacoustic/pro/acoustics/DiffuseGeometryMaterialTest.kt": "fc35b16429bd761b6e46b7619b3dffc40fddc0bdd2a0e98d70de5f1189faa460",
+    "android/shared-core/src/commonTest/kotlin/com/droidacoustic/pro/acoustics/MixedComplexDiffuseTest.kt": "cf8d089de000a50557a0c78c04cf8a072324c13f76368a6b3bad6d42b2c77e33"
+  },
+  "device_tested": false,
+  "thirty_three_receiver_save_reopen": true,
+  "window_traversal_rejected": true,
+  "resource_limits_unchanged": true
+}
