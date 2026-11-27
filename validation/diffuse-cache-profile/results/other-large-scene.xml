@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-26T16:12:47.536Z" hostname="Dzide.local" time="31.007">
+  <properties/>
+  <testcase name="largeVenueNonuniformMeasuredArraysAtFourAndEightKilohertzReopenExactly" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="21.615"/>
+  <testcase name="wholeMeasuredArraySceneCompletesAndReopensWithIdenticalCoverage" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="9.392"/>
+  <system-out><![CDATA[Large venue 60x40m, 32 emitters, 4000 Hz, 333 receivers: 1562.713125 ms
+Large venue 4000 Hz / 32 emitters area mean: 49.0593787697951 dB
+Large venue 60x40m, 32 emitters, 8000 Hz, 333 receivers: 2836.839584 ms
+Large venue 8000 Hz / 32 emitters area mean: 52.03731159210205 dB
+Large venue 60x40m, 64 emitters, 8000 Hz, 333 receivers: 6470.40575 ms
+Large venue 8000 Hz / 64 emitters area mean: 55.87139387289683 dB
+32-emitter whole-scene coverage: 3132.784125 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

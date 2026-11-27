@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent CF1 source-row references. No engine imports or electrical assumptions."""
+"""CF1 row regression oracle; sourceKind distinguishes synthetic from private external inputs."""
 import argparse
 import hashlib
 import json
@@ -27,10 +27,10 @@ def generate():
             assert abs(decoded-level)<1e-4
             cases.append(dict(binary=pair['binary'],text=pair['text'],hz=hz,referenceDb=level,
                               binaryByteOffset=offset,binaryValueDb=decoded))
-    powered=ROOT/'fixtures/Powered.CF1'
+    powered=ROOT/'fixtures'/provenance.get('poweredFile','Powered.CF1')
     assert hashlib.sha256(powered.read_bytes()).hexdigest()==provenance['poweredSha256']
     assert all(v==0 for v in struct.unpack_from('<10f',powered.read_bytes(),0x1240))
-    return dict(scope='CF1_SENSITIVITY_ROW_BYTE_OFFSET_NOT_ELECTRICAL_CALIBRATION',toleranceDb=0.0001,
+    return dict(scope=provenance.get('sourceKind','EXTERNAL')+'_CF1_ROW_NOT_ELECTRICAL_CALIBRATION',toleranceDb=0.0001,
                 referenceScriptSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                 provenanceSha256=hashlib.sha256((ROOT/'provenance.json').read_bytes()).hexdigest(),cases=cases,
                 poweredReference='UNAVAILABLE; zero placeholders must not become level data')
@@ -41,4 +41,4 @@ if __name__=='__main__':
     result=generate();path=ROOT/'results/reference.json'
     if args.check:assert json.loads(path.read_text())==result,'Stale CF1 references'
     else:path.write_text(json.dumps(result,indent=2)+'\n')
-    print('13 official CF1 sensitivity slots and powered missing-reference control verified')
+    print('13 declared CF1 sensitivity slots and powered missing-reference control verified')

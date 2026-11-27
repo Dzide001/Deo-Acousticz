@@ -1,0 +1,11 @@
+{
+  "startUnix": 1795713560.618408,
+  "startMonotonic": 173671.674975125,
+  "fixtureSha256": "a09f635886b206cfa8351e7008427205b951410a89f0580369fc7643d6e9e5c6",
+  "apkSha256": "972bc8cd55177238ed84322371146fec250827648a56219d7eb8114622efc53f",
+  "apkBytes": 9843440,
+  "build": "release, R8 optimized, non-debuggable, test-key signature; compact timer helper",
+  "device": "OPD2415",
+  "serial": "50eb54c9",
+  "scope": "Final-build cold reopen of initial native autosave"
+}

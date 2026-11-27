@@ -1,0 +1,45 @@
+{
+  "bounded": {
+    "times": {
+      "before": [
+        10.851806917,
+        10.918884708
+      ],
+      "after": [
+        11.115004792,
+        10.840480291
+      ]
+    },
+    "medians": {
+      "before": 10.885345812499999,
+      "after": 10.9777425415
+    },
+    "pairedReductionPercent": [
+      -2.4253829524711223,
+      0.7180625045207667
+    ]
+  },
+  "offset": {
+    "times": {
+      "before": [
+        30.859883833,
+        31.050527167
+      ],
+      "after": [
+        28.425486917,
+        28.2745185
+      ]
+    },
+    "medians": {
+      "before": 30.955205499999998,
+      "after": 28.3500027085
+    },
+    "pairedReductionPercent": [
+      7.888548541445839,
+      8.940294804238613
+    ]
+  },
+  "maximumLevelDifferenceDb": 0.0,
+  "maximumRelativePowerDifference": 0.0,
+  "scope": "Two balanced three-receiver JVM pairs; no universal, native or sustained-thermal speed rating"
+}

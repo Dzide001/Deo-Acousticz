@@ -63,3 +63,8 @@ android/app/src/main/assets/clf/raw/
 
 # Kotlin compiler session/cache files
 android/.kotlin/
+
+# Project-authored binary fixtures are generated locally; external inputs stay private.
+validation/**/fixtures/Synthetic*.CF1
+validation/**/fixtures/Synthetic*.CF2
+validation/external-clf/private/

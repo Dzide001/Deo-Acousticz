@@ -9,8 +9,8 @@ import kotlin.math.*
 import kotlin.test.*
 
 class ClfMagnitudePackageTest {
-    @Test fun officialCf1TabDeclarationsReachProductionPredictionsAndPortableRecovery() {
-        val dir=File(System.getProperty("numericalValidationDir")).parentFile.resolve("clf-magnitude")
+    @Test fun declaredCf1TabDeclarationsReachProductionPredictionsAndPortableRecovery() {
+        val dir=File(System.getProperty("clfFixtureValidationRoot"),"validation").resolve("clf-magnitude")
         val ref=Json.parseToJsonElement(dir.resolve("results/reference.json").readText()).jsonObject
         assertEquals(ref.getValue("scriptSha256").jsonPrimitive.content,SpeakerProvenance.hash(dir.resolve("reference.py").readBytes()))
         assertEquals(ref.getValue("provenanceSha256").jsonPrimitive.content,SpeakerProvenance.hash(dir.resolve("provenance.json").readBytes()))

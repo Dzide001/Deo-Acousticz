@@ -1,0 +1,114 @@
+package com.droidacoustic.pro.acoustics
+
+import com.droidacoustic.pro.geometry.*
+
+/** Request-local reuse of incident flux spectra, never receiver propagation or diffuse phase.
+ * Frozen sources are required. Keys retain source visibility, materials, band slices and all
+ * additional source/path losses. Losslessly packed payload is bounded to 32 MiB by default, with no eviction churn.
+ * Key accounting is capped at 64 MiB and 262,144 entries. Shared interned vectors
+ * are charged once by their separately bounded registry, rather than once per spectrum.
+ * Object/map overhead is additional; context and spectrum definitions are bounded too.
+ */
+internal class DiffuseIncidentCache(private val maxValues:Int=4_194_304,
+    private val maxEntries:Int=262144, private val maxKeyBytes:Int=64*1024*1024) {
+    internal data class Context(val sources:List<SoundSource>,val boundaries:BoundaryGeometry,val air:Atmosphere,
+        val coherent:Boolean,val correlateByGroup:Boolean,val groupLoss:List<Float>?) {
+        private val hash=31*(31*(31*(31*sources.hashCode()+boundaries.hashCode())+air.hashCode())+coherent.hashCode())+
+            31*correlateByGroup.hashCode()+(groupLoss?.hashCode() ?: 0)
+        override fun hashCode()=hash
+    }
+    internal data class Spectrum(val bands:List<Bands.Segment>) {
+        private val hash=bands.hashCode()
+        override fun hashCode()=hash
+    }
+    internal class PackedInts(values:IntArray) {
+        private val values=values.copyOf()
+        val size get()=values.size
+        private val hash=values.contentHashCode()
+        override fun hashCode()=hash
+        override fun equals(other:Any?)=other is PackedInts && values.contentEquals(other.values)
+    }
+    internal data class Materials(val values:Set<BoundaryMaterial>) {
+        private val hash=values.hashCode()
+        override fun hashCode()=hash
+    }
+    private val singleMaterials=mutableListOf<Pair<BoundaryMaterial,Materials>>()
+    fun materials(values:Set<BoundaryMaterial>):Materials=lock.withLock {
+        if(values.size==1) {
+            val material=values.first()
+            singleMaterials.firstOrNull {it.first===material}?.second ?: Materials(values.toSet()).also {
+                if(singleMaterials.size<256) singleMaterials+=material to it
+            }
+        } else Materials(values.toSet())
+    }
+    internal data class Key(val context:Context,val point:BoundaryPoint,val normal:BoundaryPoint,
+        val materials:Materials,val visible:PackedInts,val losses:PackedInts,val spectrum:Spectrum)
+    internal data class ProfileKey(val context:Context,val spectrum:Spectrum,val point:BoundaryPoint,
+        val normal:BoundaryPoint,val visible:PackedInts,val materials:Materials)
+    internal data class BoundKey(val context:Context,val spectrum:Spectrum,val points:List<BoundaryPoint>,
+        val visible:PackedInts,val materials:Materials)
+    private val profiles=HashMap<ProfileKey,FloatArray>()
+    private val bounds=HashMap<BoundKey,Float>()
+    private var profileValues=0
+    fun profile(key:ProfileKey):List<Float>?=lock.withLock {profiles[key]?.asList()}
+    fun putProfile(key:ProfileKey,value:List<Float>)=lock.withLock {
+        if(key !in profiles && profiles.size<32768 && value.size<=262144-profileValues) {
+            profiles[key]=value.toFloatArray();profileValues+=value.size
+        }
+    }
+    fun bound(key:BoundKey):Float?=lock.withLock {bounds[key]}
+    fun putBound(key:BoundKey,value:Float)=lock.withLock {if(bounds.size<65536) bounds[key]=value}
+    private val lock=GeometryCacheLock()
+    private val spectra=HashMap<Key,CachedPowers>()
+    private val contexts=HashMap<Context,Context>()
+    private val spectraDefinitions=HashMap<Spectrum,Spectrum>()
+    private val vectors=HashMap<PackedInts,PackedInts>()
+    fun vector(values:IntArray):PackedInts=lock.withLock {
+        val value=PackedInts(values)
+        vectors[value] ?: value.also {if(vectors.size<256) vectors[value]=value}
+    }
+    fun context(value:Context):Context=lock.withLock {
+        contexts[value] ?: value.also {if(contexts.size<64) contexts[value]=value}
+    }
+    fun spectrum(bands:List<Bands.Segment>):Spectrum=lock.withLock {
+        val value=Spectrum(bands.toList())
+        spectraDefinitions[value] ?: value.also {if(spectraDefinitions.size<1024) spectraDefinitions[value]=value}
+    }
+    private var payloadBytes=0L
+    private var packedEntries=0L
+    private var rejectedPuts=0L
+    private var values=0
+    private var keyBytes=0L
+    internal var hits=0L
+        private set
+    internal val storedValues get()=lock.withLock {values}
+    internal val storedPayloadBytes get()=lock.withLock {payloadBytes}
+    internal fun record(diagnostics:DiffuseDiagnostics)=lock.withLock {
+        diagnostics.cachePayloadBytesPeak=maxOf(diagnostics.cachePayloadBytesPeak,payloadBytes)
+        diagnostics.cachePackedEntriesPeak=maxOf(diagnostics.cachePackedEntriesPeak,packedEntries)
+        diagnostics.cacheRejectedPuts=maxOf(diagnostics.cacheRejectedPuts,rejectedPuts)
+        diagnostics.cacheValuesPeak=maxOf(diagnostics.cacheValuesPeak,values.toLong())
+        diagnostics.cacheEntriesPeak=maxOf(diagnostics.cacheEntriesPeak,spectra.size.toLong())
+        diagnostics.cacheKeyBytesPeak=maxOf(diagnostics.cacheKeyBytesPeak,keyBytes)
+    }
+    fun get(key:Key):DoubleArray?=lock.withLock {spectra[key]?.also {hits++}}?.unpack()
+    fun put(key:Key,power:DoubleArray)=lock.withLock {
+        // Interned arrays are shared across nodes/spectra. Counting them at every key
+        // previously exhausted the budget while most of the power payload was still free.
+        // Reserve conservative per-entry metadata (including the value-array header), and
+        // charge full packed arrays for vectors outside the bounded canonical registry.
+        val packed=(if(vectors[key.visible]===key.visible) 0 else key.visible.size)+
+            (if(vectors[key.losses]===key.losses) 0 else key.losses.size)
+        val charge=224L+packed*4L
+        if(key in spectra) return@withLock
+        if(spectra.size>=maxEntries || charge>maxKeyBytes-keyBytes || power.size>32 || !power.all {it.isFinite()}) {
+            rejectedPuts++;return@withLock
+        }
+        val minimum=if(power.size<2) power.size*8 else 8+power.size/2
+        if(minimum>maxValues.toLong()*8-payloadBytes) {rejectedPuts++;return@withLock}
+        val data=CachedPowers.prepare(power)
+        if(data.payloadBytes>maxValues.toLong()*8-payloadBytes) {rejectedPuts++;return@withLock}
+        spectra[key]=data;values+=power.size;payloadBytes+=data.payloadBytes;keyBytes+=charge
+        if(data.isPacked) packedEntries++
+    }
+}

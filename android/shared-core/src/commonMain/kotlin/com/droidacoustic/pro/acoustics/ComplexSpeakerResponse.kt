@@ -46,6 +46,26 @@ class ComplexSpeakerResponse private constructor(val provenance:String, val refe
         val t=(hz-lo)/(hi-lo)
         return ComplexPressure(a.real+(b.real-a.real)*t,a.imaginary+(b.imaginary-a.imaginary)*t)
     }
+    /** Read each angular endpoint once instead of repeating both grids for each
+     * interior frequency. Preserve bandAt's exact measured-endpoint behavior. */
+    fun linearBandBasis(lowHz:Double,highHz:Double,az:Float,el:Float,out:DoubleArray,offset:Int):Boolean {
+        require(offset>=0 && offset<=out.size-4)
+        val gap=maximumInterpolationGapHz ?: return false
+        if(!lowHz.isFinite() || !highHz.isFinite() || lowHz>=highHz) return false
+        val index=upperIndex((lowHz+highHz)*.5)
+        if(index<=0 || index>=frequencyKeys.size) return false
+        val lo=frequencyKeys[index-1];val hi=frequencyKeys[index]
+        if(lowHz<lo || highHz>hi || hi-lo>gap) return false
+        val a=at(lo,az,el) ?: return false
+        val b=at(hi,az,el) ?: return false
+        val t=(lowHz-lo)/(hi-lo);val u=(highHz-lo)/(hi-lo)
+        val ar=if(lowHz==lo.toDouble()) a.real else a.real+(b.real-a.real)*t
+        val ai=if(lowHz==lo.toDouble()) a.imaginary else a.imaginary+(b.imaginary-a.imaginary)*t
+        val br=if(highHz==hi.toDouble()) b.real else a.real+(b.real-a.real)*u
+        val bi=if(highHz==hi.toDouble()) b.imaginary else a.imaginary+(b.imaginary-a.imaginary)*u
+        out[offset]=ar;out[offset+1]=ai;out[offset+2]=br-ar;out[offset+3]=bi-ai
+        return true
+    }
     /** Conservative angular variation over every frequency of a declared interpolation interval.
      * Bounds complex deviation from the cap centre, and uses the exact minimum distance of
      * the centre's Cartesian frequency segment from zero. No between-probe lobe is assumed absent. */

@@ -17,6 +17,15 @@ fun interface Radiator {
     fun supportsLinearComplexBand(lowHz:Double,highHz:Double):Boolean = false
     fun hasComplexBands():Boolean = false
     fun complexBandAt(hz:Double,azimuthDeg:Float,elevationDeg:Float):ComplexPressure? = null
+    /** Low endpoint and Cartesian delta for a previously declared linear interval.
+     * Default preserves custom response semantics; false denotes missing data. */
+    fun complexBandBasis(lowHz:Double,highHz:Double,az:Float,el:Float,out:DoubleArray,offset:Int):Boolean {
+        val a=complexBandAt(lowHz,az,el) ?: return false
+        val b=complexBandAt(highHz,az,el) ?: return false
+        out[offset]=a.real;out[offset+1]=a.imaginary
+        out[offset+2]=b.real-a.real;out[offset+3]=b.imaginary-a.imaginary
+        return true
+    }
     fun complexBandKnots():Set<Int> = emptySet()
     fun complexAt(hz:Int,azimuthDeg:Float,elevationDeg:Float):ComplexPressure? = null
     fun complexFrequencies(): Set<Int> = emptySet()

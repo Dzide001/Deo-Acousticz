@@ -1,0 +1,32 @@
+{
+  "coverage": {
+    "schema": "droidacoustic.diffuse-costs.v1",
+    "hitTones": 591094840,
+    "cacheMisses": 103810,
+    "surfaceSamples": 2121434,
+    "samplingSeconds": 8.575119968,
+    "missSeconds": 47.131074816,
+    "spectrumSeconds": 129.465244561,
+    "geometryEvaluations": 4568640,
+    "hitSeconds": 65.413391295,
+    "cacheHits": 21110530,
+    "missTones": 2906680,
+    "totalSeconds": 139.698753375,
+    "meanDb": 56.71420139630636
+  },
+  "listener": {
+    "schema": "droidacoustic.diffuse-costs.v1",
+    "hitTones": 0,
+    "cacheMisses": 74816,
+    "surfaceSamples": 9212,
+    "samplingSeconds": 0.712805041,
+    "missSeconds": 25.568024699,
+    "levelDb": 67.50961,
+    "spectrumSeconds": 25.64301692,
+    "geometryEvaluations": 2606432,
+    "hitSeconds": 0,
+    "cacheHits": 0,
+    "missTones": 1852592,
+    "totalSeconds": 26.397617792
+  }
+}

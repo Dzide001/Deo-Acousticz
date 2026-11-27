@@ -1,0 +1,12 @@
+[
+  {
+    "command": "python3 validation/numerical/reference.py --check",
+    "exitCode": 0,
+    "output": "18 reference cases and quadrature convergence checks passed"
+  },
+  {
+    "command": "python3 validation/source-spectrum/reference.py --check",
+    "exitCode": 0,
+    "output": "18 independent spectrum / total-drive references verified"
+  }
+]

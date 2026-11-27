@@ -12,7 +12,9 @@ internal class CoherentDiffuse(
     private val correlateByGroup:Boolean,private val excludeGround:Boolean,private val work:BoundaryWork,
     private val geometryCacheEntries:Int=65536,
     private val incidentCache:DiffuseIncidentCache?=null,
-    private val batchTonePhases:Boolean=true
+    private val batchTonePhases:Boolean=true,
+    private val diagnostics:DiffuseDiagnostics?=null,
+    private val cacheSamplingFilters:Boolean=true
 ) {
     private fun position(s:SoundSource)=BoundaryPoint(s.x.toDouble(),s.y.toDouble(),s.z.toDouble())
     private fun distance(a:BoundaryPoint,b:BoundaryPoint)=sqrt((a.x-b.x).pow(2)+(a.y-b.y).pow(2)+(a.z-b.z).pow(2))
@@ -35,11 +37,12 @@ internal class CoherentDiffuse(
     private var cachedEntries=0
     internal var geometryEvaluations=0L
         private set
+    private val checkCacheCompression={work.check(0)}
     private val geometryScratch=DoubleArray(sources.size*4)
     private val maximumHz=segments.maxOfOrNull {it.f2} ?: 0.0
     private val scratch=DoubleArray(3)
     private val probeMissing=mutableSetOf<MissingBand>()
-    private fun transfer(s:SoundSource,hz:Double,dataHz:Int,point:BoundaryPoint):ComplexPressure? {
+    private fun transfer(s:SoundSource,hz:Double,dataHz:Int,point:BoundaryPoint,filter:ComplexPressure?):ComplexPressure? {
         s.toward(point.x.toFloat(),point.y.toFloat(),point.z.toFloat(),scratch)
         val intrinsic=if(s.radiator.hasComplexBands()) {
             if(s.eqDb(dataHz)!=0f) return null
@@ -49,24 +52,38 @@ internal class CoherentDiffuse(
             if(!level.isFinite()) return null
             ComplexPressure(10.0.pow((level+s.eqDb(dataHz))/20.0),0.0)
         }
-        return intrinsic*(s.filters.at(hz) ?: return null)
+        return intrinsic*(filter ?: return null)
     }
     private val samplingContext=incidentCache?.let {it.context(DiffuseIncidentCache.Context(sources.toList(),boundaries,air,coherent,correlateByGroup,null))}
     private val samplingSpectrum=incidentCache?.spectrum(segments)
-    private val samples by lazy {
+    private val samples by lazy {diagnostics.timed(DiffuseDiagnostics.Stage.SAMPLING) {
+        // Prepared only for an uncached profile. Lifetime ends with sampling;
+        // larger caller-supplied spectra retain scalar evaluation, not an unbounded table.
+        var prepared=false
+        var filterRows:Array<Array<ComplexPressure?>?>?=null
         boundaries.illuminationSamples(positions,receiver,work,excludeGround,
             profile=profile@{p,normal,visible,materials ->
                 val key=samplingContext?.let {DiffuseIncidentCache.ProfileKey(it,samplingSpectrum!!,p,normal,
                     incidentCache!!.vector(visible.toIntArray()),incidentCache.materials(materials))}
                 if(key!=null && probeMissing.isEmpty()) incidentCache?.profile(key)?.let {return@profile it}
+                if(!prepared) {
+                    if(cacheSamplingFilters && segments.size<=FilterResponseRows.MAX_FREQUENCIES)
+                        filterRows=FilterResponseRows.prepare(DoubleArray(segments.size) {segments[it].centreHz},sources.map {it.filters})
+                    prepared=true
+                }
+                val rows=filterRows
                 val values=visible.flatMap {i ->
                 val s=sources[i];val d=distance(positions[i],p).coerceAtLeast(DirectField.MIN_DISTANCE_M)
                 val cosine=((s.x-p.x)*normal.x+(s.y-p.y)*normal.y+(s.z-p.z)*normal.z)/d
-                segments.map {seg ->
+                segments.mapIndexed {index,seg ->
                     val incidence=(acos(cosine.coerceIn(0.0,1.0))*180/PI).toFloat()
                     val fraction=BoundaryMaterial.reflectionMaterial(materials,seg.dataHz,incidence)?.energyPartition(seg.dataHz,incidence)?.scattered ?: 0.0
                     val key=MissingBand(s.group,seg.dataHz)
-                    val value=if(fraction==0.0 || key in probeMissing) ComplexPressure(0.0,0.0) else transfer(s,seg.centreHz,seg.dataHz,p)
+                    val value=if(fraction==0.0 || key in probeMissing) ComplexPressure.ZERO else {
+                        val filter=if(rows==null) s.filters.at(seg.centreHz)
+                            else rows[i]?.get(index) ?: if(rows[i]==null) FilterResponseRows.IDENTITY else null
+                        transfer(s,seg.centreHz,seg.dataHz,p,filter)
+                    }
                     if(value==null) probeMissing+=key
                     if(value==null || value.power==0.0 || cosine<=0) -300f
                     else (10*log10(value.power*cosine*fraction/d.pow(2))).toFloat()
@@ -111,8 +128,8 @@ internal class CoherentDiffuse(
                 bound=max(bound,(2*PI*maximumHz*phaseEnvelope.maximumSpan(radius)/air.speedOfSound/6.0).toFloat())
                 if(key!=null && probeMissing.isEmpty()) incidentCache?.putBound(key,bound)
                 bound
-            })
-    }
+            }).also {samples->diagnostics?.let {it.surfaceSamples+=samples.size}}
+    }}
     private val visibleKeys by lazy {samples.map {incidentCache?.vector(it.visibleEmitters)}}
     private val materialKeys by lazy {samples.map {incidentCache?.materials(it.materials)}}
     /** Independently converged diffuse spectrum. Evaluate the actual complex field at
@@ -120,6 +137,7 @@ internal class CoherentDiffuse(
      * refinement of the direct/specular field. Every group remains coherent at a node. */
     fun integratedPower(base:List<Bands.Segment>,missing:MutableSet<MissingBand>,groupLossDb:FloatArray?,pathLossDb:((SoundSource,BoundaryPoint?,Int)->Float)?):Double? {
         if(samples.isEmpty()) return 0.0
+        diagnostics?.let {it.integrationCalls++;it.baseIntervals+=base.size}
         // Frequency quadrature operates on these already validated spatial sample points.
         // Bound actual incident delays there, rather than the much looser array aperture.
         // This is exact for the sampled field, including visibility and independent groups.
@@ -152,6 +170,10 @@ internal class CoherentDiffuse(
                     }
                 }
             }
+            diagnostics?.let {
+                it.refinementPasses++;it.quadratureTones+=tones.size
+                it.maximumTones=maxOf(it.maximumTones,tones.size.toLong())
+            }
             val values=bandPowers(tones,missing,groupLossDb,pathLossDb)
             if(missing.isNotEmpty()) return null
             val power=values.indices.sumOf {values[it]*weights[it]}/base.sumOf {it.widthHz}
@@ -175,6 +197,7 @@ internal class CoherentDiffuse(
     fun bandPowers(requested:List<Bands.Segment>,missing:MutableSet<MissingBand>,groupLossDb:FloatArray?,pathLossDb:((SoundSource,BoundaryPoint?,Int)->Float)?):DoubleArray {
         val totals=DoubleArray(requested.size)
         val cells=samples
+        return diagnostics.timed(DiffuseDiagnostics.Stage.SPECTRUM) {
         val context=incidentCache?.let {it.context(DiffuseIncidentCache.Context(sources.toList(),boundaries,air,coherent,correlateByGroup,groupLossDb?.toList()))}
         missing+=probeMissing.filter {m->requested.any {it.dataHz==m.dataHz}}
         val absorptions=DoubleArray(requested.size) {air.absorptionDbPerMetre(requested[it].centreHz)}
@@ -184,8 +207,12 @@ internal class CoherentDiffuse(
         for((key,allJobs) in requested.withIndex().groupBy {it.value.dataHz to interval(it.value.centreHz)}) {
         // Bound filter scratch even when convergence requires thousands of frequency slices.
         for(jobs in allJobs.chunked(32)) {
-        val filters=jobs.map {job->sources.map {it.filters.at(job.value.centreHz)}}
-        val toneFrequencies=if(batchTonePhases && jobs.all {it.value.widthHz==0.0}) DoubleArray(jobs.size) {jobs[it].value.centreHz} else null
+        // Cache hits traverse this list for every spatial patch/receiver. Retain
+        // original output indices once per bounded chunk rather than repeatedly
+        // walking boxed IndexedValue objects in that hot path.
+        val jobIndices=IntArray(jobs.size) {jobs[it].index}
+        val exactTones=batchTonePhases && jobs.all {it.value.widthHz==0.0}
+        var prepared:DiffuseChunk?=null
         val seg=jobs.first().value
         val spectrum=incidentCache?.spectrum(jobs.map {it.value})
         val low=responseEdges[key.second];val high=responseEdges[key.second+1]
@@ -211,12 +238,18 @@ internal class CoherentDiffuse(
             }
             val cached=cacheKey?.let {incidentCache?.get(it)}
             if(cached!=null) {
-                for((offset,job) in jobs.withIndex()) {
-                    work.check()
-                    totals[job.index]+=cached[offset]*10.0.pow(-absorptions[job.index]*cell.receiverDistance/10)*cell.outgoingWeight
+                diagnostics?.let {it.cacheHits++;it.hitTones+=jobs.size}
+                diagnostics.timed(DiffuseDiagnostics.Stage.HIT) {
+                DiffuseTransfer.accumulate(totals,jobIndices,cached,absorptions,cell.receiverDistance,cell.outgoingWeight,work)
                 }
                 continue
             }
+            diagnostics?.let {it.cacheMisses++;it.missTones+=jobs.size}
+            diagnostics.timed(DiffuseDiagnostics.Stage.MISS) {
+            // Cache-only chunks never allocate/evaluate filter responses. Preparation
+            // is shared by all misses in this chunk and remains O(32 * emitters).
+            val chunk=prepared ?: DiffuseChunk(DoubleArray(jobs.size) {jobs[it].value.centreHz},low,high,
+                sources.map {it.filters}).also {prepared=it}
             val incidentPowers=DoubleArray(jobs.size)
             var complete=true
             val geometry=geometryCache[cellIndex] ?: run {
@@ -224,6 +257,7 @@ internal class CoherentDiffuse(
                 for((slot,i) in cell.visibleEmitters.withIndex()) {
                     if(slot%32==0) work.check()
                     geometryEvaluations++
+                    diagnostics?.let {it.geometryEvaluations++}
                     val source=sources[i];val rawDistance=distance(positions[i],cell.point)
                     val d=max(rawDistance,DirectField.MIN_DISTANCE_M)
                     val cosine=(((source.x-cell.point.x)*cell.normal.x+(source.y-cell.point.y)*cell.normal.y+
@@ -250,30 +284,24 @@ internal class CoherentDiffuse(
                 airDistances[i]=max(rawDistance,DirectField.MIN_DISTANCE_M)
                 if(linear[i]) {
                     val az=geometry[slot*4+2].toFloat();val el=geometry[slot*4+3].toFloat()
-                    val a=if(eq[i]==0f) source.radiator.complexBandAt(low,az,el) else null
-                    val b=if(eq[i]==0f) source.radiator.complexBandAt(high,az,el) else null
-                    available[i]=a!=null && b!=null
-                    if(a!=null && b!=null) {
-                        basis[i*4]=a.real;basis[i*4+1]=a.imaginary
-                        basis[i*4+2]=b.real-a.real;basis[i*4+3]=b.imaginary-a.imaginary
-                    }
+                    available[i]=eq[i]==0f && source.radiator.complexBandBasis(low,high,az,el,basis,i*4)
                 }
             }
-            if(toneFrequencies!=null) {
+            if(exactTones) {
                 val active=cell.visibleEmitters.filterIndexed {slot,_->geometry[slot*4+1]!=0.0}.toIntArray()
-                toneBatch.prepare(toneFrequencies,times,groupIds,active) {work.check()}
+                toneBatch.prepare(chunk.frequencies,times,groupIds,active) {work.check()}
             }
             for((jobOffset,job) in jobs.withIndex()) {
             work.check()
-            if(toneFrequencies!=null) {toneReal.fill(0.0);toneImaginary.fill(0.0)}
-            val frequency=job.value.centreHz;val fraction=(frequency-low)/(high-low)
+            if(exactTones) {toneReal.fill(0.0);toneImaginary.fill(0.0)}
+            val frequency=chunk.frequencies[jobOffset];val fraction=chunk.fractions[jobOffset]
             val absorption=absorptions[job.index]
             summation.count=0
             for((slot,i) in cell.visibleEmitters.withIndex()) {
                 if(slot%32==0) work.check()
                 if(geometry[slot*4+1]==0.0) continue
-                val source=sources[i];val filter=filters[jobOffset][i]
-                if(filter==null) {complete=false;missing+=MissingBand(source.group,seg.dataHz);continue}
+                val source=sources[i];val filterRow=chunk.filters[i];val filter=filterRow?.get(jobOffset)
+                if(filterRow!=null && filter==null) {complete=false;missing+=MissingBand(source.group,seg.dataHz);continue}
                 val real:Double;val imaginary:Double
                 if(linear[i]) {
                     if(!available[i]) {complete=false;missing+=MissingBand(source.group,seg.dataHz);continue}
@@ -291,24 +319,27 @@ internal class CoherentDiffuse(
                     }
                 }
                 val scale=scales[i]*10.0.pow(-absorption*airDistances[i]/20)
-                val r=(real*filter.real-imaginary*filter.imaginary)*scale
-                val im=(real*filter.imaginary+imaginary*filter.real)*scale
-                if(toneFrequencies!=null) {toneReal[i]=r;toneImaginary[i]=im}
+                val r=if(filter==null) real*scale else (real*filter.real-imaginary*filter.imaginary)*scale
+                val im=if(filter==null) imaginary*scale else (real*filter.imaginary+imaginary*filter.real)*scale
+                if(exactTones) {toneReal[i]=r;toneImaginary[i]=im}
                 else {
                     val n=summation.count++
                     summation.real[n]=r;summation.imaginary[n]=im
                     summation.time[n]=times[i];summation.group[n]=groupIds[i]
                 }
             }
-            val incident=if(toneFrequencies!=null) toneBatch.power(jobOffset,toneReal,toneImaginary)
+            val incident=if(exactTones) toneBatch.power(jobOffset,toneReal,toneImaginary)
                 else summation.power(frequency,job.value.widthHz)
             incidentPowers[jobOffset]=incident
             totals[job.index]+=incident*10.0.pow(-absorption*cell.receiverDistance/10)*cell.outgoingWeight
             }
-            if(complete && cacheKey!=null) incidentCache?.put(cacheKey,incidentPowers)
+            if(complete && cacheKey!=null) incidentCache?.put(cacheKey,incidentPowers,checkCacheCompression)
+            }
         }
         }
         }
-        return totals
+        diagnostics?.let {incidentCache?.record(it)}
+        totals
+        }
     }
 }

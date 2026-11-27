@@ -1,0 +1,84 @@
+{
+  "offset": {
+    "schema": "droidacoustic.diffuse-costs.v1",
+    "hitTones": 7073976,
+    "samplingSeconds": 0.727729084,
+    "cacheRejectedPuts": 109207,
+    "cachePayloadBytesPeak": 33554414,
+    "integrationCalls": 3,
+    "cachePackedEntriesPeak": 157232,
+    "geometryEvaluations": 11748608,
+    "cacheHits": 235377,
+    "missTones": 8147776,
+    "cacheValuesPeak": 4727056,
+    "totalSeconds": 28.36583475,
+    "profilingEnabled": true,
+    "baseIntervals": 39,
+    "cacheMisses": 266439,
+    "surfaceSamples": 20909,
+    "missSeconds": 27.068849869,
+    "spectrumSeconds": 27.529251669,
+    "refinementPasses": 9,
+    "cacheEntriesPeak": 157232,
+    "indices": [
+      0,
+      166,
+      332
+    ],
+    "maximumTones": 416,
+    "hitSeconds": 0.215417366,
+    "quadratureTones": 2184,
+    "cacheKeyBytesPeak": 35219968,
+    "powers": [
+      23199.96356811458,
+      24241.166196354603,
+      412881.67484285077
+    ],
+    "levelsDb": [
+      43.654873,
+      43.845535,
+      56.158257
+    ]
+  },
+  "bounded": {
+    "schema": "droidacoustic.diffuse-costs.v1",
+    "hitTones": 4158336,
+    "samplingSeconds": 1.017916708,
+    "cacheRejectedPuts": 0,
+    "cachePayloadBytesPeak": 21057628,
+    "integrationCalls": 3,
+    "cachePackedEntriesPeak": 102396,
+    "geometryEvaluations": 4751872,
+    "cacheHits": 148512,
+    "missTones": 2867088,
+    "cacheValuesPeak": 2867088,
+    "totalSeconds": 11.25392675,
+    "profilingEnabled": true,
+    "baseIntervals": 9,
+    "cacheMisses": 102396,
+    "surfaceSamples": 20909,
+    "missSeconds": 9.703007217,
+    "spectrumSeconds": 10.048343542,
+    "refinementPasses": 9,
+    "cacheEntriesPeak": 102396,
+    "indices": [
+      0,
+      166,
+      332
+    ],
+    "maximumTones": 192,
+    "hitSeconds": 0.142850679,
+    "quadratureTones": 1008,
+    "cacheKeyBytesPeak": 22936704,
+    "powers": [
+      23340.15352607166,
+      24562.848306816675,
+      423268.94908924657
+    ],
+    "levelsDb": [
+      43.681038,
+      43.902786,
+      56.266163
+    ]
+  }
+}

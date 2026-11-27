@@ -228,11 +228,16 @@ class PredictionRequest(
     }
 
     fun calculate(checkCancellation: () -> Unit = {}): PredictionOutput {
+        return calculateProfiled(null,checkCancellation)
+    }
+
+    /** Explicit profiling entry point; normal calculations keep clocks/counters disabled. */
+    fun calculateProfiled(diagnostics:DiffuseDiagnostics?,checkCancellation: () -> Unit = {}): PredictionOutput {
         val geometryWork=BoundaryWork(checkCancellation)
         val boundaries=BoundaryGeometry.prepare(boundarySurfaces,geometryWork,venue).takeUnless {it.isEmpty}
         val geometry = coveragePlan?.let { geometryCache?.prepare(it,checkCancellation) ?: it.prepare(checkCancellation) }
         val receivers = geometry?.receivers()?.map { ReceiverSnapshot(it.x,it.y,it.z) } ?: this.receivers
-        val field = DirectField(atmosphere,segments.filterKeys {driveFractions[it]!=0.0}.values.flatten().map {it.dataHz}.distinct())
+        val field = DirectField(atmosphere,segments.filterKeys {driveFractions[it]!=0.0}.values.flatten().map {it.dataHz}.distinct(),diagnostics)
         val missing=mutableSetOf<MissingSourceBand>()
         val unavailableBands=mutableSetOf<Int>()
         fun bandPower(receiver: ReceiverSnapshot, band: Int, boundaryWork:BoundaryWork, group: Int? = null): Double {

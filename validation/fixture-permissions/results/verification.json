@@ -1,0 +1,41 @@
+{
+  "sourceSha256": {
+    ".github/workflows/ci.yml": "1b0793f47a05e45db1d27b887c1d233dd769277c9004b53ba918ec566ab4aca9",
+    ".gitignore": "389deccada0851c88c9b7daaff7fd1f17ff05f01967d3c99eaf9f6552bee6b79",
+    "LICENSE": "17cf069f4dd834323af57103c3d72c1c3ea8ef51a7cff659cc4e9f32a9fe465d",
+    "THIRD_PARTY_NOTICES.md": "e75e65fcf36e549f1d9400ee356c27afbcd2d82797ad919f62a8af9a51487eb5",
+    "android/build.gradle.kts": "af5ed6551036d4d812f219b4bea4576ad587ca0fc1b05e96a0abd31e08b3c38e",
+    "android/app/build.gradle.kts": "6ec76de300209481bb001f18e346c82bf00e3debbc0ca6747456f129b6807613",
+    "android/shared-core/build.gradle.kts": "e3e7820d7c0cfbc6250251951f22d91f9b34cfb87509c66d908a63182c44242b",
+    "android/app/src/test/kotlin/com/droidacoustic/pro/scene/Cf1ReferenceValidationTest.kt": "4570723b27dd8c162944481e253bbe6a039da79b227856128657ef30357a9f2a",
+    "android/app/src/test/kotlin/com/droidacoustic/pro/scene/ClfImportFixtureTest.kt": "a7c2a6407cff449436bbe174fb7e446ecd88856064f91fdd7e861fc68c47b3de",
+    "android/shared-core/src/jvmTest/kotlin/com/droidacoustic/pro/validation/ClfHandednessPackageTest.kt": "c876eb7d0dfb8e62b010b59350d84f29c6c236bbfa5558e114832debd363e2c9",
+    "android/shared-core/src/jvmTest/kotlin/com/droidacoustic/pro/validation/ClfMagnitudePackageTest.kt": "19d620ac948d671d43f332b18ab69128a01821226d0ed59249b1056778f228c2",
+    "validation/fixture-permissions/audit.py": "76256c2c698046d498c84816dca56b0006166d1e5c3c154b4b16943569afa4c6",
+    "validation/fixture-permissions/generate.py": "da1dbf49dfc0fd9d0e0acaef69ef5328ddd4e7d9e35a7cd2c7925004faef80c1",
+    "validation/fixture-permissions/prepare_external.py": "44223c29a8112af6bb486ff8486b54ed5950cb3e99596039b715edfc78987d56",
+    "validation/fixture-permissions/test_workflow.py": "6ef433647700ec7edbd482f542a0f16041a631078b6190ba71bda023d0d2f316",
+    "validation/fixture-permissions/verify.py": "ce17920bf1cc19001bd484e3af1963f27fb23caf2948b1ac213bfbd318655ac5",
+    "validation/cf1-reference/reference.py": "f02482cce5e7a068bf6734d47b499a67b564a1dc52557b15f81814671c5bde2a",
+    "validation/cf1-reference/provenance.json": "f140f3cccb89131375eb79238883b1ed876bf1b1887fca10092596cc45e54abc",
+    "validation/cf1-reference/results/reference.json": "22702cf7e57312aec556758719b20c51751fec0f076fc0c1bb1a149095e0e1ef",
+    "validation/clf-handedness/reference.py": "622187fc91e09e49ad3d1e2612f51db077313472b8105d5e5c972ce47a158650",
+    "validation/clf-handedness/provenance.json": "b4a4fdd01a2fb9908dff5bfcdb9c0f6aea4b0b6dbf2866ba98ff45092d0e3694",
+    "validation/clf-handedness/results/reference.json": "31beb42dd77b6697558df51bfd30918c97eb6378543afa7ba61018a0a8b572d5",
+    "validation/clf-magnitude/reference.py": "9b26cd27e4af8b5e93d643921fb331718a24befdeee078a90ff1acd26c9e388e",
+    "validation/clf-magnitude/provenance.json": "8e01308732c3c3e93c1596ac363fd2bec99869a2851fea77d1f2b8fb4f7a4789",
+    "validation/clf-magnitude/results/reference.json": "47516a13e985e865873141541f80265584c25bf81ff92f4db2afa5d437934e16",
+    ".gitattributes": "d906d9fbd26bccff8af0636c17b7e340d18d165f1ea6618b07ebcdc4c0c778a2"
+  },
+  "evidenceSha256": {
+    "android-full.json": "c1ad9fd45521e9026a41564a84105950ef7aa53ddd89c1a736e138fe27b7a861",
+    "external-summary.json": "946db0227e42f17dcca15ec9b3e6c087072d707c7f0c376e16bacdfe7232c081",
+    "full-build.log": "c8fedb8f0f511223917a2bb5b75a77c45a2db1ca6f916fca59dce815d7dca27c",
+    "public-focused-build.log": "061fe10aff6b4c12b08d30638ce465624ddfd3bea8669e36a646ac2778ed9c28",
+    "shared.json": "15386fdc522a92d397f035225b7a9d6871dabc4350ee800e16f5e20524ad1656",
+    "TEST-com.droidacoustic.pro.scene.Cf1ReferenceValidationTest.xml": "3ec6a8abafa53c5c830676fc4a2e85f4798e331f24ca071a122ff77bf3ac760c",
+    "TEST-com.droidacoustic.pro.scene.ClfImportFixtureTest.xml": "a3c5e51c76bd1ca2a25105a73bf6302c61373162353dac3643db0d6d404e1dad",
+    "TEST-com.droidacoustic.pro.validation.ClfHandednessPackageTest.xml": "436bccbbd5dce566d4e9d0997aa9f81ebed0a8bc2a18d67a617ef83179f7421b",
+    "TEST-com.droidacoustic.pro.validation.ClfMagnitudePackageTest.xml": "61097f7ac2f228897ada0028cc2bed651b4a2cc477542a4cfd49b5133c30193d"
+  }
+}

@@ -70,7 +70,8 @@ track. Preserve the platform-independent core throughout; do not move physics ba
    the source is archived outside the build, while active boundary/ground checks use the shared solver.
    Test counts alone do not establish prediction accuracy.
 5. **Qualify performance and release.** Keep large diffuse/high-frequency modes experimental until
-   they meet a device budget. Address the slow phase-trace test, adaptive grid/preview latency and
+   they meet a device budget. Routine tests now separate the three full-size coverage cases;
+   CI still runs fast and large tiers. Address adaptive grid/preview latency and
    release signing/device acceptance before release; resolve distribution licensing and versioning.
    Maximum-output/headroom needs verified speaker/amplifier/DSP data. Certified rigging remains a
    separate manufacturer/engineering track.
@@ -81,6 +82,401 @@ The reflection-reference test and review report were included in checkpoint `b7a
 their files matched `claude/reflection-reference-test`, so no additional branch merge is needed.
 The legacy optimizer is retained but `runOptimization` returns immediately while the shared scope
 contract disables it; it is not currently allowed to run/apply the legacy objective.
+
+## Permission-safe publication checkpoint — 2026-11-27
+
+Replaced the four official-kit binaries and derived TAB/per-sample result content
+in the current checkout with project-authored analytic fixtures. Public binaries
+are generated locally by a test-only Gradle task and remain untracked; no kit
+input/download is required in CI. Public provenance/reports explicitly say
+`PROJECT_AUTHORED_SYNTHETIC`: these are regression tests, not external conformance
+or electrical/manufacturer calibration. CI audits the index for prohibited binary
+fixtures and known kit copies and executes negative publication-guard tests.
+
+An explicit private external root is prepared only from hash-verified, separately
+acquired source files outside the repository. Selecting unavailable external input
+fails configuration; it does not skip assertions. External replay passed the same
+import/handedness/reference/save-reopen checks, with raw data/reports kept private
+and only hashes, counts and residual maxima published. The original JBL CC BY 4.0
+source/notice is unchanged. Earlier public history/forks still contain removed
+material; no history rewrite, takedown or visibility change is included.
+
+Validation passed **667 shared + 449 Android** cases, Android debug assembly,
+iOS shared-test compilation, three publication-guard tests and both public/private
+focused replays. The previously validated shared performance runtime is unchanged.
+[Current qualification and privacy workflow](../validation/fixture-permissions/README.md)
+supersedes older fixture-package scope claims. Historical source-pinned performance
+receipts are preserved, not rewritten to pretend they ran on new Gradle/test inputs.
+
+The reviewed performance work, proprietary source notice, explicit CI SDK package
+selection and publication cleanup form the requested checkpoint. Hosted CI status
+must be checked on GitHub for the published commit rather than inferred from local
+counts. STI remains unmerged. Next: migrate dormant DSP/optimizer compatibility
+paths to production requests, then remove dead code; continue bounded geometry
+performance work afterward. Manufacturer acceptance, CF1 electrical calibration,
+production signing, headroom and certified rigging remain open.
+
+## Public-repository cleanup priorities — 2026-11-27
+
+[Review follow-up](review_2026-11-27.md) confirms the latest hosted CI fails during
+SDK setup. The local workflow now explicitly installs `platform-tools`; hosted
+success is unverified until commit/push and a new run. The owner selected a
+proprietary, rights-reserved source notice; third-party references have separate
+terms. CLF kit redistribution remains unresolved, including derived TAB inputs.
+Resolve that public-fixture workflow before another public checkpoint; keep
+synthetic checks distinct from external conformance evidence. The reviewed engine
+work remains uncommitted, with an additional temporary internal recovery snapshot.
+
+Three named local stale branches were removed after ancestry/file checks; the
+reflection tip has an archive tag and STI remains parked. Next remove dormant
+Android prediction code only after migrating compatibility tests to shared requests.
+The optimized test-key-signed release **has** run on OnePlus; production signing
+and broader release acceptance remain open. Current retained local evidence is
+667 shared + 449 Android cases, not proof of a green GitHub run. The cache lock and
+profiling counters are request-local with sequential receivers today; avoid adding
+synchronization overhead without a measured parallel workload. Performance,
+manufacturer matching, CF1 calibration, headroom and certified rigging remain open.
+
+## Pressure-triggered lossless diffuse cache — 2026-11-26
+
+Implemented exact XOR-byte packing only when a new spectrum would exceed the
+existing **32 MiB payload budget**. Until then, cached rows retain their original
+DoubleArray representation and allocation-free hit path. One cancellable sweep
+packs compressible retained rows; later admissions pack with raw fallback. No
+eviction or persistent queue. Raw entry accounting stays **192 bytes**; packed
+wrappers add **32 bytes**, within the unchanged **64 MiB / 262,144-entry** limits.
+Logical cached values are separate from encoded payload bytes. Cancellation is
+polled per at most 32 conversion rows with zero extra numerical-work charges.
+No filter knots, quadrature, arithmetic order, tolerances or project formats change.
+
+Two balanced unprofiled three-receiver pairs improved offset-scene requests
+**7.89% / 8.94%**, median **30.9552 → 28.3500 s**, with zero level/power differences
+against the original full-scene scalar reference. Common-scene results were mixed
+(**−2.43% / +0.72%**); no common-scene gain is claimed. The profile confirms **zero
+packed entries** for that scene. Under offset pressure the cache holds **4,727,056
+values** in **33,554,414 bytes**, below the 33,554,432-byte limit, but still rejects
+109,207 puts. This is a bounded improvement, not a fix for the full-venue slowdown.
+[Raw controls, final candidate and rejected prototypes](../validation/pressure-packed-cache/README.md)
+are retained. Expanded twelve-receiver-per-scene checks matched all 24 references;
+instrumented times were **57.020 s offset / 15.339 s common**. Common raw storage
+still fits without packing. Validation passed **667 shared + 449 Android** tests,
+including large save/reopen cases, Android debug/release builds and shared iOS-core/
+test compilation. No twelve-receiver baseline or timing-speedup claim is made.
+
+Two earlier prototypes were not adopted unchanged: eager packing completed native
+common-corner calculations at 55.2 dB within **173.0 / 174.0 s** (unpaired polling
+bounds), while the next version still wrapped raw rows and slowed both common-scene
+pairs. The final version avoids those raw wrappers. Final optimized, non-debuggable
+OnePlus runs completed within **147.8 / 152.4 s**, both **55.2 dB**, including native
+save/reopen of the common-corner fixture and exact compact DSP/input/asset recovery.
+These polling bounds do not establish a paired native speedup or qualify the full
+offset venue. After recovering USB debugging, the original APK and all nine latest
+project files were restored byte for byte before reopening. The reopened scene
+string is unchanged; only Android's profile marker and a verified rotation of the
+restored current checkpoint to recovery.previous changed afterward. Latest X/pan/
+array-aim changes were preserved in a fresh backup; the earlier backup remains intact.
+The full offset-venue/native performance gate remains open.
+
+Next compare bounded geometry traversal at the existing 65,536 source/surface-entry
+limit to reduce repeated miss geometry, preserving each tone's surface addition
+order. Expand to 33 receivers before another full offset venue/tablet attempt.
+Do not increase memory/work limits or loosen convergence to qualify the mode.
+
+## Bounded filter-knot / cache-cost profile — 2026-11-26
+
+Profiled three spaced receivers (0, 166, 332) from each unchanged 333-receiver
+scene. All six levels and powers match the retained full-scene scalar references
+exactly. Added opt-in shared counters for integration intervals/passes/tones and
+peak spectrum-cache value/entry/key accounting; a tiny-cache regression confirms
+exact profiled/unprofiled results and bounds. No numerical integration, cache
+admission, persistence or UI behavior changed. Validation passed **662 shared +
+446 routine Android** tests, Android debug assembly and iOS shared-test compilation.
+The manual profile stays outside normal tiers. No tablet/project changes were needed.
+
+The common-corner control used **3 intervals per receiver**, **192 max tones**,
+**2,867,088 cached values** and **12.081 s** instrumented request time. The offset
+case used **13 intervals**, **416 max tones**, **4,194,296 cached values** and
+**28.838 s**; **27.670 s (~96%)** was spent on cache misses. The value budget is
+4,194,304 doubles (32 MiB); entry/key limits were not reached. Both cases required
+three passes per receiver. This supports capacity-driven repeated work, but does
+not establish a complete 333-receiver curve or native speed. Times compare
+different inputs under instrumentation, not before/after optimization.
+[Raw observations, pinned inputs and audit scripts](../validation/filter-knot-costs/README.md)
+are retained. The earlier full-scene scalar 26-minute observation remains valid;
+the expensive candidate/full-venue/tablet case is still unqualified.
+
+Next run a **fixed-budget cache-admission/reuse experiment**, measuring evicted or
+rejected spectra and refinement-level reuse. Bounded geometry traversal is another
+candidate because overflow also repeats geometry evaluation. Preserve all knots,
+positive quadrature, missing-data behavior, cancellation/work limits and convergence
+tolerances. Validate exact receiver references and repeat unprofiled bounded pairs,
+then expand receiver counts before another full-venue/native run. Do not increase
+cache limits or claim this profiling-only batch fixed the slowdown.
+
+## Independent array DSP validation — 2026-11-26
+
+Added a manually selected four-chain fixture: 64 emitters, 333 receivers, eight
+sections per emitter, distinct gains and 48/96 kHz (including mixed-rate) sections.
+The full-venue isolation fixture keeps corners/Q common. Small shared regressions
+also cover different corners/Q, source reordering, edits and per-source Nyquist
+missing responses. Prediction/geometry/serialization production code is unchanged;
+normal Android tiers exclude the manual fixture. Validation passed **661 shared +
+446 routine Android** tests and iOS shared-test compilation; three unchanged large
+cases retain their preceding batch evidence and were not rerun.
+
+A single unprofiled fresh-worker pair completed **73.2565 → 55.5684 s** coverage
+and **8.7295 → 8.5954 s** listener. All receiver/source/listener levels and powers
+match the pre-sampling-optimization baseline exactly; valid area is 100% and mean
+**55.1767400999864 dB**. This is an accuracy check plus individual timing observations,
+not repeated or native speed qualification. OnePlus initial launch and save/reopen
+completed within **149.0 / 149.9 s**, both **55.2 dB**; the second timing starts at
+Manual Calculate. Native compact inputs, all four chains and hashed assets match.
+The original APK and all nine original files were restored byte for byte; the
+original project reopened unchanged and the temporary asset was removed.
+[Scripts, raw results and incomplete exploratory trials](../validation/distinct-array-filters/README.md)
+are retained separately.
+
+**New performance gate:** an exploratory fixture that also varied corners/Q took
+**1563.8 s (26 minutes)** for scalar baseline coverage. Its candidate trial was
+stopped; it has no candidate accuracy/speed or native acceptance. A second Q-varying
+trial was stopped early after code inspection. `DirectField` seeds integration with
+filter frequency ± multiples of frequency/Q, so distinct settings add knots; this
+is a plausible contributor, not a completed causal profile. Do not generalize the
+bounded fixture's pass to arbitrary independently filtered arrays.
+
+Next: profile integration slice counts, cache payload/hit/miss behavior and
+receiver costs on distinct-corner/Q scenes, starting with bounded receiver subsets.
+Retain full-scene accuracy references, work limits and convergence tolerances;
+qualify the costly case before expanding performance claims or running long native
+trials. Paired native baselines, interactive diffuse latency and full-venue 4/8 kHz
+remain open. Preserve the STI branch unmerged.
+
+## Filter-heavy sampling and transfer evaluation — 2026-11-26
+
+Shared immutable biquads now derive coefficients once; chain evaluation reuses
+frequency trigonometry across consecutive equal sample rates. Diffuse adaptive
+sampling lazily shares equal-chain response rows for at most 32 frequencies,
+with scalar fallback above that limit. Missing responses remain missing; empty
+chains remain identity. The existing bounded miss chunks use the same helper.
+No persistent cache, geometry, convergence tolerance or project format changes.
+
+Two fresh-worker before/after pairs on the pinned 64-emitter/eight-filter fixture
+improved coverage **72.3097 → 52.8448 s** (medians), with paired reductions
+**26.70% / 27.14%**. Listener medians were **8.4462 → 7.9415 s**. Every retained
+receiver/source/listener level and receiver power matches the prior scalar reference
+exactly. This is a shared-host observation for one fixture, not a native speed claim.
+[Source captures, raw observations and audit scripts](../validation/filter-transfer-reuse/README.md)
+are retained. **659 shared + 449 Android** checks pass, including project reopen,
+three large-scene checks and new DSP/mixed-rate/missing/fallback regressions;
+iOS-core compilation and optimized Android release assembly also pass.
+
+**OnePlus checks complete:** the non-debuggable optimized release completed at
+**54.2 dB** on initial launch and after native save/reopen. Completion intervals
+were **87.7–94.9 s** from initial launch and **93.5–116.2 s** from the explicit
+Manual Calculate action after reopen (9.9 s after launch). These UI polling
+bounds include listener work and are not paired native performance measurements.
+Native saved DSP, scene inputs and hashed assets match the pinned fixture.
+After the earlier ADB outage, the guarded retry verified the exact staged scene
+before installation. The original APK and all nine original files were restored
+byte for byte, the extra benchmark asset removed, and the original project
+reopened unchanged. Distinct per-array chains and paired native performance remain
+future gates; interactive/full-venue 4/8 kHz diffuse qualification is still open.
+
+## Repeated matched filter-heavy validation — 2026-11-26
+
+Complete three unprofiled fresh-worker pairs (before/after, after/before,
+before/after) for the same 64-emitter, 333-receiver, 1 kHz diffuse fixture with
+eight active shared HPF/LPF/EQ sections per emitter. Hold current shared APIs,
+budgets and geometry constant; exchange only the captured pre-miss-setup loop.
+Keep the manual fixture outside routine test tiers and retain all source hashes,
+scene inputs, receiver powers/levels and raw results in
+[the matched benchmark package](../validation/filter-heavy-arrays/README.md).
+
+Coverage medians: **83.534 → 74.543 s**. All three coverage pairs improve
+(**4.50–10.76%**, median paired reduction **8.01%**); listener timings are mixed.
+All retained numerical differences are zero, with 100% valid area and identical
+54.23276879151662 dB means. This qualifies an observed host benefit for this shared
+eight-filter case, not universal/thermal performance or a native before/after gain.
+
+Candidate OnePlus launch/reopen observations completed within **116.9 / 138.8 s**,
+both **54.2 dB**, with exact saved DSP/input/asset recovery. Original APK and all
+nine files matched before launch; the original project reopened unchanged.
+The 654 shared checks remain valid/up-to-date; 446 routine Android checks and
+release assembly passed, plus the six new manual trials. No production core change
+or standard large-case repetition was needed for this benchmark-only batch.
+
+The subsequent sampling/transfer batch is recorded above. Still qualify distinct per-array chains and native paired baselines
+before broad speed claims. Interactive diffuse latency and full-venue 4/8 kHz
+qualification remain open.
+
+## Diffuse miss interpolation and filter setup — 2026-11-26
+
+Prepare frequency fractions and DSP rows only on the first miss in each bounded
+32-tone chunk. Skip empty-chain rows and share equal nonempty chains, preserving
+the distinction between identity and unavailable filter data. Read declared
+measured angular endpoints once through `complexBandBasis`; preserve exact scalar
+endpoint values, custom response fallback, missing gaps and disabled directivity.
+No sampling/cache/work limit, project format or Android UI changes are included.
+
+Validation passed **654 shared tests and all 449 normal Android cases**, including
+the three large-scene/all-receiver save-reopen checks; shared iOS compilation and
+optimized release assembly passed. The full-venue mean remains exactly
+56.71420139630636 dB with all profile counts unchanged. Final unprofiled first-map
+observation was **43.112 s** (three-test class **115.027 s**).
+
+Instrumented listener/coverage times were **6.451 / 42.388 s before** and
+**6.840 / 45.628 s after**: these single computer observations do not show a gain.
+Lazy setup now falls inside the first miss timer, so miss-region comparisons also
+have an attribution change. OnePlus accepted launch/reopen-retry intervals were
+**109.7–116.8 / 81.2–88.4 s**, both **56.7 dB**. Keep the timing variability and
+initial transient Manual-state observer interruption visible; no manual calculation
+was needed on the accepted retry. No stable overall speedup is established.
+Retain [source snapshots, results and recovery evidence](../validation/diffuse-miss-setup/README.md).
+Native checkpoint/input/asset integrity passed. Original APK and all nine files
+matched the backup before launch, and the original scene reopened unchanged.
+
+Next qualify filter-heavy measured-array setups under repeated matched conditions
+before claiming latency improvement, then profile remaining interpolation/transfer
+costs. Keep full-venue 4/8 kHz diffuse and interactive latency as open gates.
+
+## Listener/coverage cost isolation and bounded diffuse transfer — 2026-11-26
+
+Add opt-in, request-local shared-core diagnostics for adaptive sampling, incident
+cache misses and cached receiver transfer. Keep clocks disabled on normal
+requests. The manual production-request profiler is excluded from ordinary test
+tiers; its explicit flag/output directory are task inputs. Retain source captures,
+JFR stack summaries, matched final-helper profiles and native acceptance in
+[the cost-isolation package](../validation/diffuse-costs/README.md).
+
+The initial sampled profile identified per-tone cancellation/work callbacks in
+cache-hit transfer and identity filter arithmetic in misses. Charge every original
+work unit once per at-most-32-tone cached chunk, checking cancellation before
+chunk writes. Preserve scalar arithmetic/order, cache/sample/convergence limits
+and fail-closed publication. Empty filter chains bypass complex identity multiply;
+nonempty/invalid filters retain their original handling. Tests cover interleaved
+indices, tails, exact work charges, cancellation and fixed-node filter parity.
+
+The first diagnostic helper duplicated the large inline kernel; replace it with
+one block to avoid a JVM optimization regression even when timers are disabled.
+Maximum method instruction offset drops from 14,135 to 5,103 bytes. Retain the
+initial investigation separately and refresh the paired profiles with the compact
+helper. These instrumented times remain distinct from unprofiled/native latency.
+
+Initial optimized OnePlus runs completed within **123.6 / 125.7 s**, both at
+**56.7 dB**, compared with the preceding **159.3 / 159.9 s** observations for the
+same fixture. The rebuilt final-helper APK received an independent native check
+before restoration because code/profile payloads changed during that rebuild.
+The final APK cold reopen completed within **123.5 s**, at **56.7 dB**. Native
+saved inputs, compact checkpoint checksum and separately stored speaker asset
+passed the audit. Original APK and all nine files matched the backup before
+launch; the original scene reopened unchanged. Post-launch profile-installer
+updates are recorded separately.
+
+The refreshed matched profiles (compact helper, JFR disabled) observed listener
+**8.703 → 6.632 s**, coverage **49.576 → 44.955 s**, miss work **11.173 → 8.513 s**
+and hit transfer **20.557 → 19.057 s**. All counts and levels match exactly;
+instrumented timings are not unprofiled/native latency claims.
+Final validation passed **648 shared tests and all 449 normal Android cases**,
+including the three large save/reopen checks, shared iOS compilation and release
+assembly. The unprofiled first diffuse map took **47.975 s**; the three-test class
+took **117.886 s**. This single computer observation does not establish a JVM
+speedup over the preceding 44.6 s median; retain that distinction from native gains.
+
+Next optimize remaining miss-tone interpolation/filter setup and investigate
+bounded immutable preparation reuse between listener and coverage jobs, with exact
+source/material/path-loss identities and cancellation isolation. Full-venue diffuse
+latency remains far from interactive; multi-boundary/finer-mesh/thermal qualification
+and 4/8 kHz whole-venue diffuse coverage remain open. Production signing and physical
+manufacturer acceptance remain separate gates.
+
+## Repeated unprofiled benchmarks and native acceptance — 2026-11-26
+
+Retain [the repeatable benchmark package](../validation/diffuse-repeat/README.md)
+with three fresh JVM observations per solver variant, alternating paired order,
+JFR disabled and identical fixture hashes. Every run passes the original
+333-receiver accuracy, area-weighted statistics, boundary contribution and fresh
+save/reopen checks; the mean stays exactly 56.71420139630636 dB.
+
+Before first-calculation min/median/max: **50.724 / 51.341 / 156.118 s**. After:
+**44.404 / 44.595 / 45.025 s**. Complete-test medians: **102.430 / 89.618 s**.
+The observed first-calculation median reduction is about **13.1%**. Preserve the
+contended first baseline and all raw evidence: changing shared-host load and only
+three observations per variant prevent a causal speedup claim.
+
+Native acceptance uses a release-mode, R8-optimized, non-debuggable APK signed
+with the test key via a retained signing-only Gradle init script. Ordinary debug
+and debuggable/resource-shrunk attempts are incomplete observations, excluded
+from accepted timings; Android explicitly disables code optimization for
+debuggable builds. Keep production signing/distribution as a separate gate.
+
+The candidate optimized OnePlus OPD2415 run and cold native autosave/reopen
+completed within **159.3 / 159.9 s**, both displaying **56.7 dB**. Completion
+intervals were **152.0–159.3 / 152.5–159.9 s**, including activity/listener work.
+This is close to the earlier roughly 162 s native observation, not evidence of
+a tablet speedup or acceptable interactive diffuse latency. The test-key release
+APK now has native acceptance for this synthetic fixture only.
+Verify native checkpoint checksums, all saved prediction inputs and the versioned
+speaker-asset digest in a separate short autosave audit. Original APK and all nine
+files were restored byte-for-byte before launch; the original project reopened
+with unchanged scene inputs. Normal recovery-file updates after launch are recorded
+separately. Private backups/screenshots remain outside version control.
+
+Next performance work should isolate listener/coverage/cache-miss costs and
+investigate coupled spatial/frequency integration before expanding diffuse
+qualification. Interactive preview latency, multiple boundaries, finer meshes,
+sustained thermal behavior and full-venue 4/8 kHz diffuse coverage remain open.
+Keep the shared solver's physics and convergence/work limits unchanged.
+
+## Full-venue diffuse profiling and bounded cache traversal — 2026-11-26
+
+Profile the actual 64-emitter, 333-receiver, 1 kHz third-octave scene through
+the production solver, including fresh save/reopen and every receiver/statistic.
+Retain sanitized JFR stack summaries, source hashes, the exact patch, XML and
+commands in [the profiling package](../validation/diffuse-cache-profile/README.md).
+Add optional JVM test recording through `acousticProfileRecording`; normal test
+runs do not enable profiling.
+
+Replace repeated boxed job traversal on diffuse spectrum-cache hits with one
+primitive output-index array per bounded 32-tone chunk. Preserve arithmetic,
+ordering, cancellation/work checks and all accuracy/cache budgets. Add cache
+parity coverage for interleaved indices, separate intervals, chunk tails and
+multiple receivers. The scene mean remains exactly 56.71420139630636 dB.
+
+Single JFR-enabled observations are mixed: first calculation **56.694 → 59.192 s**;
+complete acceptance test **114.863 → 107.273 s**. Retain the bounded simplification
+and evidence, but **do not claim an end-to-end speedup**. Repeated unprofiled
+matched runs and OnePlus qualification remain open, as does full-venue 4/8 kHz
+diffuse coverage. Coupled spatial/frequency integration is still a separate gate.
+Validation passed **645 shared tests and all 449 Android cases** across the fast
+and large runs, including save/reopen. Android assembly and shared iOS compilation
+passed. The OnePlus was not tested in this batch.
+
+## Test execution tiers — 2026-11-26
+
+The [retained timing and partition evidence](../validation/test-tiers/README.md)
+shows that three intentional full-size coverage/save-reopen cases dominated the
+phase-trace class. Add JUnit category selection through `acousticValidationTier`:
+`fast` is the Android default, `large` selects those cases, and `full` runs both.
+Reject unknown values and include the tier in Gradle task inputs. Test bodies,
+receiver/emitter counts, convergence/work budgets and accuracy assertions are unchanged.
+
+CI runs both tiers and captures their artifacts separately. Keep representative
+measured-array scattering and all other routine checks in the fast tier. Verify
+disjoint case inventories, exact coverage of the 31 original phase cases and all
+449 Android cases across both tiers. Retain measured timings and full gate scope.
+Historical whole-suite reproduction commands need `-PacousticValidationTier=full`
+when executed on current source.
+
+This improves feedback for routine test runs, not engine or tablet calculation
+time. Large-scene performance remains a separate acceptance gate, including the
+still-unqualified full-venue 4/8 kHz diffuse workloads. No production physics or
+project format changes are included in this batch.
+Local validation passed **644 shared tests, 446 fast Android cases and the three
+unchanged large cases**, with no failures/skips. The two tiers partition all 449
+Android cases and all 31 phase cases exactly. The fast phase class took 5.761 s
+(28 cases), versus 140.683 s for the retained baseline (31 cases); these are
+different selected workloads, not an engine speed comparison. Android assembly,
+full-tier configuration and expected rejection of an invalid tier value passed.
 
 ## Validation/import cleanup checkpoint — 2026-11-26
 

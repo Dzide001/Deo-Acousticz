@@ -1,0 +1,14 @@
+{
+  "baseline": "Pre miss-setup loop with scalar endpoint calls and eager per-emitter DSP setup; current shared API/timer/budget code held constant",
+  "candidate": "Current miss-only chunk preparation, shared equal filter chains and measured endpoint basis",
+  "baselineSha256": "b6f70f82533192faada6d7a48151ec3d60975ae21e28d348b43cb612f895d6bd",
+  "candidateSha256": "b0dd72baadf5d06ae4afd4b88f87bc97c8f3a5d1bafcc5d5ea7bdaa23829ecf4",
+  "order": [
+    "before",
+    "after",
+    "after",
+    "before",
+    "before",
+    "after"
+  ]
+}

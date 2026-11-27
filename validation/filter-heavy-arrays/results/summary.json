@@ -1,0 +1,60 @@
+{
+  "variants": {
+    "before": {
+      "listenerSeconds": {
+        "minimum": 9.105535917,
+        "median": 9.368633292,
+        "maximum": 9.659672917,
+        "count": 3
+      },
+      "coverageSeconds": {
+        "minimum": 78.079242958,
+        "median": 83.534496291,
+        "maximum": 83.629474334,
+        "count": 3
+      }
+    },
+    "after": {
+      "listenerSeconds": {
+        "minimum": 8.2472395,
+        "median": 8.947418666,
+        "maximum": 10.830799666,
+        "count": 3
+      },
+      "coverageSeconds": {
+        "minimum": 71.82425875,
+        "median": 74.543390791,
+        "maximum": 79.870005666,
+        "count": 3
+      }
+    }
+  },
+  "pairs": [
+    {
+      "beforeRun": 1,
+      "afterRun": 2,
+      "coverageReductionPercent": 8.011071791980163,
+      "listenerReductionPercent": 1.736495824532347
+    },
+    {
+      "beforeRun": 4,
+      "afterRun": 3,
+      "coverageReductionPercent": 10.763344365756,
+      "listenerReductionPercent": 11.969662564950367
+    },
+    {
+      "beforeRun": 5,
+      "afterRun": 6,
+      "coverageReductionPercent": 4.495387180105192,
+      "listenerReductionPercent": -12.123875819220986
+    }
+  ],
+  "medianPairedCoverageReductionPercent": 8.011071791980163,
+  "coverageMedianReductionPercent": 10.763344365756,
+  "maximumLevelDifferenceDb": 0.0,
+  "maximumMeanDifferenceDb": 0.0,
+  "maximumRelativePowerDifference": 0.0,
+  "fixtureSha256": "cf40debd0934e89cd2b51e588c9cf15f3bd19eabe6956516c9e80b1ecd312b06",
+  "meanDb": 54.23276879151662,
+  "scope": "Three pairs on a shared host; individual observations, not universal/thermal guarantees"
+}

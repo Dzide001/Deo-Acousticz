@@ -1,0 +1,27 @@
+{
+  "finalPolicyAccepted": true,
+  "deviceState": "online: original app restored and reopened",
+  "originalRestorationPending": false,
+  "originalBackupSafe": true,
+  "originalFileCount": 9,
+  "privateBackup": "/tmp/acoustic-pressure-oneplus-backup-20261126",
+  "recoveryHelper": "validation/pressure-packed-cache/restore_oneplus.py",
+  "prototypeNativeRuns": 2,
+  "prototypeDisplayedMeanDb": 55.2,
+  "prototypeCompletionUpperSeconds": [
+    173.0,
+    174.0
+  ],
+  "nextAction": "No recovery work remains; qualify the full offset venue separately",
+  "earlierPrivateBackup": "/tmp/acoustic-packed-oneplus-backup-20261126",
+  "earlierOriginalRestorationVerified": true,
+  "latestSpeakerValuesPreserved": true,
+  "originalProjectReopened": true,
+  "latestOriginalRestorationVerified": true,
+  "finalNativeRuns": 2,
+  "finalDisplayedMeanDb": 55.2,
+  "finalCompletionUpperSeconds": [
+    147.8,
+    152.4
+  ]
+}

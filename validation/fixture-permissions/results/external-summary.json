@@ -1,0 +1,52 @@
+{
+  "scope": "PRIVATE_EXTERNAL_FORMAT_REPLAY_NOT_MANUFACTURER_ACCURACY_OR_REDISTRIBUTION_PERMISSION",
+  "sourceManifestSha256": "ab053c1420ab547dcf267b36990305f134e476503571df724a618aa137e4663a",
+  "rawReportsPublished": false,
+  "reports": [
+    {
+      "module": "shared-core",
+      "package": "clf-handedness",
+      "scope": "EXTERNAL_CLF_KIT_HASH_VERIFIED_CLF_HANDEDNESS_NOT_PHYSICAL_ACCURACY",
+      "caseCount": 256,
+      "allPassed": true,
+      "maximumResidualDb": 3.8146973e-06,
+      "privateReportSha256": "bd2a41b226ca7e223c60c8451955683582dabb99e98d593624a6b639987b100d"
+    },
+    {
+      "module": "shared-core",
+      "package": "clf-magnitude",
+      "scope": "EXTERNAL_CLF_KIT_HASH_VERIFIED_CF1_TAB_MAGNITUDE_NOT_CALIBRATION",
+      "caseCount": 16,
+      "allPassed": true,
+      "maximumResidualDb": 2.861023e-06,
+      "privateReportSha256": "ec6c3dbf377b7f00918c8c9c0c4a0c916fafdfd709f9b081815aa9e16f028e60"
+    },
+    {
+      "module": "app",
+      "package": "cf1-reference",
+      "scope": "EXTERNAL_CLF_KIT_HASH_VERIFIED_CF1_ROW_NOT_ELECTRICAL_CALIBRATION",
+      "caseCount": 13,
+      "allPassed": true,
+      "maximumResidualDb": 3.051757815342171e-06,
+      "privateReportSha256": "0077383f8540dd4627593ce5d4ceb48f12be9bb56fae62ae03c08e2652ee257d"
+    },
+    {
+      "module": "app",
+      "package": "clf-handedness",
+      "scope": "EXTERNAL_CLF_KIT_HASH_VERIFIED_CLF_HANDEDNESS_NOT_PHYSICAL_ACCURACY",
+      "caseCount": 128,
+      "allPassed": true,
+      "maximumResidualDb": 5.722046e-06,
+      "privateReportSha256": "a6291ceb999f924a942e59d0468047cbb326a5bd2cefcbcd05bf5ad5055661b5"
+    },
+    {
+      "module": "app",
+      "package": "clf-magnitude",
+      "scope": "EXTERNAL_CLF_KIT_HASH_VERIFIED_CF1_TAB_MAGNITUDE_NOT_CALIBRATION",
+      "caseCount": 8,
+      "allPassed": true,
+      "maximumResidualDb": 2.861023e-06,
+      "privateReportSha256": "df0a3d72c5a7e1707a758a96c768fbb2871e9ce818bb9ecd8f755ee2d2723372"
+    }
+  ]
+}

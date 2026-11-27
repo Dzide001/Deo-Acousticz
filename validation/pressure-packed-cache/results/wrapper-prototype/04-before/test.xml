@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.PackedCacheBenchmarkTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-27T00:08:02.444Z" hostname="Dzide.local" time="40.983">
+  <properties/>
+  <testcase name="matchSpacedReceiverPowersWithoutChangingIntegration" classname="com.droidacoustic.pro.scene.PackedCacheBenchmarkTest" time="40.983"/>
+  <system-out><![CDATA[bounded: {"indices":[0,166,332],"totalSeconds":10.414161083,"powers":[23340.15352607166,24562.848306816675,423268.94908924657],"profilingEnabled":false,"levelsDb":[43.681038,43.902786,56.266163]}
+offset: {"indices":[0,166,332],"totalSeconds":30.40056475,"powers":[23199.96356811458,24241.166196354603,412881.67484285077],"profilingEnabled":false,"levelsDb":[43.654873,43.845535,56.158257]}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

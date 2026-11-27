@@ -1,0 +1,48 @@
+{
+  "variants": {
+    "before": {
+      "listenerSeconds": {
+        "minimum": 8.729456375,
+        "median": 8.729456375,
+        "maximum": 8.729456375,
+        "count": 1
+      },
+      "coverageSeconds": {
+        "minimum": 73.256502666,
+        "median": 73.256502666,
+        "maximum": 73.256502666,
+        "count": 1
+      }
+    },
+    "after": {
+      "listenerSeconds": {
+        "minimum": 8.595365416,
+        "median": 8.595365416,
+        "maximum": 8.595365416,
+        "count": 1
+      },
+      "coverageSeconds": {
+        "minimum": 55.568403084,
+        "median": 55.568403084,
+        "maximum": 55.568403084,
+        "count": 1
+      }
+    }
+  },
+  "pairs": [
+    {
+      "beforeRun": 1,
+      "afterRun": 2,
+      "coverageReductionPercent": 24.14543274423807,
+      "listenerReductionPercent": 1.5360745645515594
+    }
+  ],
+  "medianPairedCoverageReductionPercent": 24.14543274423807,
+  "coverageMedianReductionPercent": 24.14543274423807,
+  "maximumLevelDifferenceDb": 0.0,
+  "maximumMeanDifferenceDb": 0.0,
+  "maximumRelativePowerDifference": 0.0,
+  "fixtureSha256": "36357401f6ab414ce8e68b81325685d4c2eb545095d993ff9d5213ce8b5fe47e",
+  "meanDb": 55.1767400999864,
+  "scope": "One validation pair on a shared host; not a repeated or native performance qualification"
+}

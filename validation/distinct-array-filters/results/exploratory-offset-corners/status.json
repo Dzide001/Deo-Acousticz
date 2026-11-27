@@ -1,0 +1,8 @@
+{
+  "baselineCompleted": true,
+  "baselineCoverageSeconds": 1563.799,
+  "candidateManuallyStopped": true,
+  "candidateSourceRestored": true,
+  "nativeTested": false,
+  "scope": "Frequency-offset exploratory fixture; no candidate accuracy or speed acceptance; stack capture did not complete"
+}

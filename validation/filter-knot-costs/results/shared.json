@@ -1,0 +1,1996 @@
+{
+  "counts": {
+    "tests": 662,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "cases": [
+    {
+      "id": "com.droidacoustic.pro.acoustics.AngularDomainTest.declarationsRoundTripChangeAssetIdentityButDoNotChangeResponseValues[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AngularDomainTest.invalidSelectorsOverlapsUnsupportedMethodsAndCyclesAreRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AngularDomainTest.partialDeclarationsDoNotFillUnknownNodesAndElevationMirrorRequiresMeasuredSource[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AngularDomainTest.complexDeclarationsAreIndependentAndCannotClaimMagnitudeInterpolationMethod[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AngularDomainTest.storedOriginsAndRuntimeInterpolationRemainSeparate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AngularSupportTest.magnitudeAndComplexCoverageAreAssessedSeparatelyAndRoundTripIsStable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AngularSupportTest.fineAndNonuniformAxesReportActualLocalSpacingWithoutAccuracyCertification[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AngularSupportTest.singleColumnsAndUnsupportedElevationsAreNotConfusedWithMeasuredDirections[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AngularSupportTest.seamWrapUsesLocalBracketAndLargeGapIsOnlyAHeuristicWarning[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AngularSupportTest.equivalentEndpointsCollapseAndMalformedGridsRemainInvalid[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.box zero is the top of the array[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.splay curls the bottom of the array back underneath the top[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.a single box is just a box[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.an unsplayed, untilted array is a straight vertical line[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.steering up reverses the order[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.tilt grows down the array, so the top box throws furthest[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.the fan is centred on the stated aim[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.the delay across the array is its length times the sine of the angle[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.tilting a straight array leans it without bending it[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.no steering means no delay[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.the array is placed by its centroid[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.a splayed array is shorter than a straight one[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayGeometryTest.steering down fires the top of the array first[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayPressureTest.actualElementDistancesAndComplexGrouping[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayPressureTest.curvedSteeringUsesSpatialProjectionAndDoesNotMutatePoses[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayPressureTest.halfPeriodDelayCancelsAndFullPeriodRestores[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrayPressureTest.steeringDownFocusesBelowWhileCabinetsStayFixed[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrivalBandSumTest.workAccountingCancellationAndOverflowRemainEnforced[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrivalBandSumTest.effectiveDelayControlsFastPathAndWideSlopesRetainFallback[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrivalBandSumTest.directAndReflectedPhaseSlopesMatchAnalyticIntegralAcrossGroupAndDelaySpans[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ArrivalBandSumTest.nullsCommonDelaysAndFrozenGeometryRemainStable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AtmosphereTest.loss rises with frequency in every atmosphere[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AtmosphereTest.speed of sound follows temperature[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AtmosphereTest.dry air absorbs far more of the top end than humid air[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AtmosphereTest.absorption matches the ISO table in all six atmospheres[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AtmosphereTest.a long throw loses several decibels of top end to the air alone[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.AtmosphereTest.humidity does not act the same way at every frequency[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandGroundTest.hardGroundAddsSixDbAndAbsorbingGroundAddsNothing[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandGroundTest.sincBandPowerMatchesDenseIndependentQuadrature[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandGroundTest.unequalWidthSegmentsIntegrateByBandwidth[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandGroundTest.fractionalBandEdgesAreNotRoundedToWholeThirds[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandGroundTest.floorPathUsesOwnDistanceAirLossAndDepartureDirection[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandGroundTest.independentSourcesRetainCoherentSelfReflections[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandsTest.nominal centres map to their own index and back[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandsTest.thirty-one and a half hertz is found whichever way it is written[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandsTest.an octave at the edge of the range drops the part that does not exist[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandsTest.narrower bands stay centred and read the same data[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandsTest.a third-octave is one segment a third of an octave wide[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.BandsTest.an octave is three third-octaves, each with its own data[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonImportsTest.malformedAmbiguousAndUnsupportedInputsAreRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonImportsTest.quotedCsvSupportsDelimitersNewlinesBomAndExplicitCoordinateColumns[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonImportsTest.workspaceMatchesSnapshotsPreservesUnavailableAndBlocksSyntheticOrUncalibratedEvidence[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonImportsTest.csvAndJsonPreserveMissingLevelsCoordinatesRawPayloadAndIdentity[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonProtocolReviewTest.annotationsPreserveOriginalArtifactLevelsCalibrationAndAuditAcrossReopen[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonProtocolReviewTest.reviewNeverCertifiesUnknownMeasurementCalibration[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonProtocolReviewTest.staleUnsafeDuplicateUndocumentedAndRepeatedMappingsAreRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonValidationTest.residualMetricsPlotsAndOriginalDocumentsAreReproducible[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonValidationTest.reorderMissingAndExtraSamplesNeverRelaxStrictMatching[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonValidationTest.sameIdAtDifferentFrequencyCannotProduceResidual[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonValidationTest.nestedProtocolDifferencesRemainDiagnosticAndEncodingDifferencesAreExplained[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonValidationTest.unknownMeasurementCalibrationStillBlocksQualificationWithZeroResidual[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonValidationTest.broadbandAggregatesNeverGenerateLogFrequencyPlots[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComparisonValidationTest.syntheticAndAbsentDataStayUnqualifiedAndExtremeLevelsStayFinite[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComplexBandFilterTest.digitalCutoffPhasePeakingInverseAndFourthOrderCrossover[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComplexBandFilterTest.complexRampBandMatchesIndependentDenseIntegralAndDoesNotRequireMagnitudeTable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComplexBandFilterTest.intrinsicPhasePolarityDelayAndRigidGroundAreIntegratedWithoutDoubleCounting[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComplexBandFilterTest.highQPeakConvergesToIndependentDenseReferenceAndLegacyMagnitudeGetsFilterPhase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComplexBandFilterTest.bandInterpolationIsExplicitBoundedAndPortable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComplexBandFilterTest.subdivisionAndIndependentSourcePowerAreStableAndUnknownPhaseIsRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComplexLinearBasisTest.sharedEndpointReadsMatchScalarLookupExactlyAtMeasuredAndInteriorEdges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComplexLinearBasisTest.gapsAndIntervalsCrossingKnotsLeaveTheBasisUnavailableAndUntouched[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ComplexLinearBasisTest.customFallbackAndDisabledMeasuredDirectivityKeepTheirSemantics[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.CustomDirectivityTest.immutableCurvesAndBoundsSurviveCallerEditsAndMissingBands[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.CustomDirectivityTest.callbackAdapterPreservesBoundsUnknownDataAndRejectsInvalidRanges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.CustomDirectivityTest.capBoundsIncludeInteriorRingPeaksSeamsAndPoles[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DiffuseChunkTest.missingFilterResponseIsNeverTreatedAsAnIdentityRow[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DiffuseChunkTest.identityChainsHaveNoRowsAndEqualNonemptyChainsShareResponses[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DiffuseChunkTest.scratchIsBoundedToOneChunk[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DiffuseTransferTest.chunksChargeEveryToneAndKeepScalarOrderForInterleavedIndices[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DiffuseTransferTest.cancellationAndOversizedChunksNeverPublishAnyTransfers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.directivity is read in the box's frame[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.an inverted twin cancels[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.the floor's absorption is read per band[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.ten times the distance costs twenty[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.half a wavelength of delay is a null in a narrow band[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.asked to ignore phase, two sources add three decibels wherever they are[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.gain adds decibel for decibel[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.dead ahead is zero azimuth and zero elevation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.a raised source and ear put the first floor null at half a wavelength of extra path[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.N in the same place add twenty log N[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.source and ear both on a hard floor hear the image in phase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.a whole wavelength of delay is back in phase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.there is no floor unless one is asked for[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.plus Z is ninety degrees round, and above is ninety up[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.the same null fills in as the band widens[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.EQ in one third-octave lifts an octave by its share[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.the air takes its share on top of spreading[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.path difference does what delay does[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.doubling the distance costs six decibels[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.at one metre a source delivers its rated level[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.a loss on one loudspeaker leaves the others alone[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.turning and tilting the box onto a point puts it back on axis[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.a flat source reads the same in an octave as in a third[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.two sources in the same place add six decibels[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.a line of elements sums in pressure on its axis at low frequency[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.an absorbent floor returns less[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.a box with no data in a band is unavailable, not silent[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.two sources far apart in time add three decibels across a band[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.DirectFieldTest.a steeply tilted box reads a side listener correctly[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentBandSumTest.fastWorkGrowsLinearlyAndWideDelaySpansRetainExactFallback[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentBandSumTest.reusedPrimitiveGroupsCannotRetainRemovedOrReassignedEmitters[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentBandSumTest.spatialEnvelopeBoundsEveryPairAndKeepsIndependentGroupsSeparate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentBandSumTest.exactToneUsesLinearWorkForEveryGroupSizeAndMatchesPairReference[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentBandSumTest.reportLargeArrayKernelTimingAlongsideAccuracy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentBandSumTest.exactNullAndNearNullStayNonnegativeAndCommonDelayCannotChangeEnergy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentBandSumTest.largeArraysMatchAnalyticIntegralAcrossFastPathBoundaryAndIndependentGroups[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentToneBatchTest.irregularAndExcessivelyRoundedLatticesFallBackToDirectPhases[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentToneBatchTest.reusedScratchHandlesChangedVisibilityGroupsAndCancellationCallbacks[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentToneBatchTest.regularAndPartialChunksMatchIndependentAndScalarToneSums[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.IncidentToneBatchTest.cancellationsAndCommonDelayPreserveTinyEnergy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.LargeVenueMeasuredArrayTest.eightKilohertzScatteringWithNarrowDirectivityMatchesDenseSurfaceIntegral[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.LargeVenueMeasuredArrayTest.highFrequencyArraysMatchIndependentDenseComplexIntegralAtNearFarAndOffAxisReceivers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.filtersAndComplexFrequencySlopeAffectDiffuseEnergyAndCachedResultsAgree[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.magnitudeOnlyDiffuseRetainsIndependentEnergyWithoutInventedCabinetPhase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.coherentIncidentPhaseAndBandwidthDelayControlScatteredPower[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.mixedSourcesAddIndependentPowersButNeverInventCrossSourcePhase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.diffuseBroadBandMatchesDenseIntegralAndMeshOverlapCountsOnce[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.batchedDiffuseIntegrationMatchesScalarWithCacheOverflowAndReceiverLosses[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.angularBoundsCoverHiddenLobesAndSpectralCancellations[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.emptyFilterFastPathMatchesExplicitUnityFilterWithCoherentCancellation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.complexDiffuseMatchesMagnitudeReferenceAndIgnoresArbitrarySourcePhase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.missingDiffuseDirectionsAndCancelledWorkCannotPublishPartialPower[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.missingSamplingFilterResponseNeverBecomesIdentity[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.independentGroupsDoNotPayForUnrelatedLargeDelayOffsets[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.incidentSpectrumCachePreservesReceiverAirLossPathLossesAndBoundedOverflow[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.absorptionScatteringPartitionAndCoincidentBlocksDoNotDuplicateEnergy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.coherentIlluminationMissingDirectionsNeverPublishPartialPower[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.sharedIncidentVectorsDoNotConsumeTheKeyBudgetRepeatedly[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.integrationDiagnosticsPreservePowerAndReportBoundedCacheOccupancy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.coherentIlluminationRespectsMaterialEnergyPartitionAndUniqueSurfaceOwnership[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.preparedSamplingResponsesMatchScalarForMixedChainsAndLargeSpectraFallback[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.separatedEmittersMatchIndependentDenseSurfaceInterferenceIntegral[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.commonSurfaceSamplesRespectEveryEmitterShadowAndReceiverVisibility[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.declaredLinearIntervalNeverBridgesMissingFrequencyData[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.coherentSurfaceIlluminationReinforcesCancelsAndRetainsIndependentGroups[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.cachedSpectrumChunksKeepInterleavedOutputIndicesAndTailSamples[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.batchedSurfaceIntegrationMatchesScalarEvaluationAcrossKnotsFiltersAndChunkBoundaries[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.independentlyConvergedDiffuseSpectrumMatchesDenseFrequencyReference[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.largeMeasuredArrayReusesBoundedGeometryAndBandChangesStayAccurate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.NominalFrequencyAliasTest.aliasEndpointsGiveIdenticalCanonicalLogFrequencyInterpolation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.NominalFrequencyAliasTest.integerAliasesResolveBothWaysWithoutExtrapolating[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.NominalFrequencyAliasTest.aliasesNeverBridgeMissingCellsOrAcceptArbitraryOffGridSamples[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.PolarGridPerformanceTest.componentBoundsMatchKnotAndEdgeReference[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.PolarGridPerformanceTest.primitiveLookupMatchesIndependentBilinearReferenceAcrossKnotsAndSeam[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.PolarGridPerformanceTest.constantOptimizationPreservesMissingAngularCoverageAndFrozenInput[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.PortableCoreTest.referenceAirLoss[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.PortableCoreTest.mechanicalAimChangesGeometry[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.PreparedDspResponseTest.distinctRowsStayWithTheirSourcesAcrossReorderAndFilterEdit[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.PreparedDspResponseTest.copiedAndReopenedFiltersRebuildCoefficientsWithoutChangingIdentityOrPhase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.PreparedDspResponseTest.invalidFrequenciesRemainMissingAndEmptyChainsRetainIdentity[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.PreparedDspResponseTest.missingNyquistSamplesStayLocalToEachArrayRate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.PreparedDspResponseTest.sharedTrigonometryMatchesOrderedIndividualSectionsAcrossRateChanges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerDataTest.missingSensitivityAndDirectivityRemainDistinctFromZero[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerDataTest.voltageAndPowerReferencesHaveDifferentScaling[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerDataTest.incompleteSourceInvalidatesTotalIncludingMixedBandsAndFloor[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerDataTest.trueCancellationHasPowerButMissingDataDoesNot[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerDataTest.interpolationIsLogFrequencyWithinDeclaredAdjacentBands[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerDataTest.invalidCalibrationIsRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerDataTest.fullyAbsorbedImageDoesNotRequireUnmeasuredDepartureDirection[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerDataTest.holesAreNotInterpolatedOrFilledWithGenericLevels[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerDataTest.angularGridWrapsAndRejectsMalformedOrUnmeasuredDirections[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerDataTest.referenceDistanceNormalizesOnce[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerProvenanceTest.declaredNormalizationIsAppliedOnceWithoutInferringVoltagePowerConversion[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerProvenanceTest.matchingCannotHideOffsetsMissingDataOrMismatchedConditions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpeakerProvenanceTest.metadataPersistsAndChangesAssetIdentityWithoutPromotingTrust[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpecularReflectionReferenceTest.referenceIsConvergedInMeshAndFrequency[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpecularReflectionReferenceTest.matchesTheReferenceForALargePlateAt250Hz[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpecularReflectionReferenceTest.matchesTheReferenceInsideTheZoneOfASixWavelengthPlate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpecularReflectionReferenceTest.knownLimitationLevelStepsAtTheZoneEdge[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.SpecularReflectionReferenceTest.referenceReducesToTheImageSourceOnALargePlate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.acoustics.ValidationWorkflowPackageTest.retainedSyntheticWorkflowReportsRecomputeAfterReopen[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.AlignmentReferencesTest.previewIsPureAndReportsWorseningAtOtherReceiversIncludingChangedReferenceSpeaker[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.AlignmentReferencesTest.sharedSerializationPreservesIdsSelectionCoordinatesAndPerReceiverSpeakers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.AlignmentReferencesTest.impossibleAndMissingProposalsHaveNoPreview[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.AlignmentReferencesTest.stableIdsSelectionAndRemovalAreIndependentOfNames[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.AlignmentReferencesTest.savedReceiverLimitFailsWithoutChangingExistingState[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.AlignmentReferencesTest.selectionDoesNotChangeOtherComparisonsAndDelayHasDifferentEffectsAtDifferentPositions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.SystemAdjustmentTest.missingPowerNeverProducesInventedDifferencesAndCancellationPropagates[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.SystemAdjustmentTest.commandValidationAtomicApplyUndoRedoAndNoOp[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.SystemAdjustmentTest.combinedChangePreservesSingleSourcePowerExceptGainAndChangesArrival[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.SystemAlignmentTest.negativeAndOverLimitDelaysAreNotSilentlyClamped[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.SystemAlignmentTest.speedHeightAndInvalidInputsAreHandledExplicitly[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.SystemAlignmentTest.threeDimensionalDistanceAndExistingDelayDetermineSignedCorrection[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.alignment.SystemAlignmentTest.arraysRetainPerElementSteeringAndPhysicalArrivalSpread[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.rigidReflectionMatchesIndependentAnalyticBandInterference[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.transparentDefaultsDoNotChangeFreeFieldAndOpaqueFacesBlockOnlyCrossingPaths[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.finiteRigidFacetProducesOneSpecularPathIncludingFromItsBackSide[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.portableRolesRoundTripAndLegacyMeshesStayAcousticallyTransparent[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.transformsAndRakeAffectBoundaryPositionWithoutChangingRoles[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.immutableRequestsUseFrozenBoundaryRolesAndNoBoundaryMetadataChangesCoverageArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.completelyBlockedBroadbandDoesNotSumDisplayFloorsAsAcousticEnergy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.rolesAreImmutableIndependentOfAudienceAssignmentsAndGroupMembership[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.assignmentExclusionsAndPlanMasksDoNotRemovePhysicalBoundaries[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.occlusionIsPerArrayElementAndMissingDataIsCheckedOnlyForSurvivingPaths[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.globalGroundAndFiniteGroundDoNotDoubleCountAndBlockersCheckGroundLegs[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.cancellationAndBudgetFailuresNeverReturnPartialBoundaryResults[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.reflectionUsesDepartureDirectivityAndFullReflectedDistance[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.independentSourcesRemainCoherentWithTheirOwnReflections[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.endpointAndCoplanarContactsDoNotSelfOccludeButInteriorSeamsDo[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AcousticBoundaryTest.reflectingLegsMustBeVisibleAndCoincidentReflectorsDoNotDuplicatePressure[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AdaptiveDiffuseTest.receiverEnergyConvergesAgainstIndependentAreaIntegration[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AdaptiveDiffuseTest.partiallyHiddenSurfaceRetainsOnlyItsVisibleSolidAngle[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AdaptiveDiffuseTest.resolutionCacheAndWorkLimitsDoNotReturnPartialSampling[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AdaptiveDiffuseTest.overlapAndRetriangulationPreserveExactInterceptedEnergyAtEveryResolution[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AdaptiveDiffuseTest.distantPanelIsFoundEvenWhenNoFixedDirectionHitsIt[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AngularMaterialTest.angleFromNormalControlsReflectionAndIgnoresWinding[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AngularMaterialTest.invalidAnglesAndMalformedPayloadsAreRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AngularMaterialTest.interpolationPersistenceAndImmutableInputs[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AngularMaterialTest.mixedBlockFaceDuplicatesUseAngleSpecificMaximumOnlyOnce[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.invalidReferencesAndPathsOutsideConcaveBoundaryFail[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.variedInteriorFansRecoverAllConstraintsAndConserveArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.pointRemovalDeletesIncidentConstraintsAndRemapsSurvivors[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.floatRoundedJunctionIsRetainedButNearbyUnconnectedCrossingIsRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.constraintSnapshotsAndCacheKeysAreIndependentOfMutableInputs[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.reverseDuplicateAndOverlappingConstraintsAreHarmless[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.recoveryIsCancellable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.clockwiseAndClosedBoundaryReferencesKeepOriginalMeaning[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.missingFacetUsesItsTrueAreaAndNetTargetDenominator[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.crossingsRequireSharedPointAndRetainItsHeight[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.coverageRetainsCreasesAndAnalyticalStatisticsAtEverySpacing[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.cutoutsClipConstraintsCoverageAndStatisticsWithoutChangingUnderlyingHeight[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.collinearBoundaryAnchorsDefineAFlatAndSlopedStrip[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceBreaklinesTest.forcedDiagonalChangesTheHeightFieldAndPhysicalArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.overlappingExclusionsUseUnionAndDuplicateMasksAreIdempotent[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.holeStatisticsMatchAnalyticalRampAndNetTargetDenominator[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.concaveOuterAndRotatedHoleRetainExactNetArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.nestedListsAreFrozenAndCutoutEditsInvalidateCache[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.holeRemovesExactAreaAndNoTriangleBridgesAcrossIt[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.entirelyExternalAndBoundaryTouchingExclusionsDoNotRemoveExtraArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.holesAndExclusionsShareUnionAndMissingAreaUsesNetDomain[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.manualProbeInHoleRemainsIndependentAndCannotRestoreArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.cutoutProcessingIsCancellableAndDoesNotCachePartialGeometry[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.smallHoleSurvivesCoarseGridAndReversedWinding[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.completeExclusionKeepsNamedSurfaceWithZeroNetArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.multipleHolesAndConcaveExclusionAreSupported[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.holeIsLocalToOneLayerAndRakedAreaUsesPhysicalSurface[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.invalidHolesAndMalformedExclusionsFailRatherThanFillingSilently[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceCutoutsTest.boundaryCrossingCutCanSplitSurfaceIntoDisconnectedRegions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.invalidPolygonsAndExceededBudgetsFailWithoutPartialMesh[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.rakedStandingSurfaceUsesWorldDirectionAndUnclampedElevation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.elevatedBalconySolidDoesNotBlockClearPathUnderneath[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.manualProbesAddToSurfacesAndNonAudienceZonesDoNotBecomeReceivers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.obstructionSnapshotOwnsBlocksAndRespectsElevation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.fullVenuePreviewAndRemoteAreasAreNotLimitedToOldGrid[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.predictionUsesEachLayersPhysicalReceiverHeight[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.preparationOwnsCallerCollectionsAndSupportsCancellation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.contoursDoNotInterpolateAcrossUnavailableSamples[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.concavePolygonIsClippedWithoutBridgingItsNotch[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.narrowAndRotatedPolygonsSurviveCoarseSampling[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.coincidentFloorAndBalconyKeepIndependentVerticesAndListeningHeights[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.AudienceGeometryTest.contoursRemainOnSeparateRakedSurfaces[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.BoundaryMaterialTest.importedAbsorbingDuplicateOverridesRigidBlockAndDoesNotStack[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.BoundaryMaterialTest.interpolationAndEndpointsAreExplicit[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.BoundaryMaterialTest.overlapsUseOneArrivalAndStrongestAbsorptionRegardlessOfOrder[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.BoundaryMaterialTest.meshRoundTripGroupsAndTransformsPreserveMaterial[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.BoundaryMaterialTest.reflectionEnergyFollowsAbsorptionByBand[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.BoundaryMaterialTest.customCurvesAreImmutableAndStrictlyValidated[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.BoundaryMaterialTest.customCurvesReflectInterpolateAndDeduplicate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.DiffuseReflectionTest.missingDiffuseDirectionDataAndWorkLimitsNeverPublishPartialResults[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.DiffuseReflectionTest.normalizedHemisphereAndClosedEnclosureConserveEnergy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.DiffuseReflectionTest.sampledSolidAngleConvergesAndCachedSamplesAreIsolated[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.DiffuseReflectionTest.opaqueSourceAndReceiverOcclusionSuppressDiffusePaths[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.DiffuseReflectionTest.overlappingRetriangulatedAndReversedFacesDoNotDuplicateEnergy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.DiffuseReflectionTest.partialOverlapDoesNotDoubleInterceptedEnergy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.DiffuseReflectionTest.diffuseEnergyReachesReceiverAndDoesNotUseCoherentPhase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.GeometryCacheConcurrencyTest.concurrentSameKeyBuildsReturnOneCanonicalMesh[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.GeometryCacheTest.allGeometryAndMetadataChangesMissTheCache[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.GeometryCacheTest.lruEvictsLeastRecentlyUsedAndStaysWithinCountBudgets[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.GeometryCacheTest.structuralKeysReuseEquivalentSnapshotsAndReturnImmutableMesh[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.GeometryCacheTest.oversizedMeshIsUsableButNotRetained[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.GeometryCacheTest.cancelledAndInvalidBuildsDoNotPopulateCacheAndHitsStillCheckCancellation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.GeometryCacheTest.clearingDuringBuildPreventsOldWorkFromRepopulatingCache[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.mixedWindingNormalizesWithoutReplacingTriangles[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.concaveImportedBoundaryDoesNotBecomeItsConvexHull[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.parserHandlesTriangleReferencesUnitsAndAxes[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.disconnectedNonManifoldAndNonconformingMeshesFail[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.immutableMeshAndTopologyArePartOfCacheIdentity[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.parserRejectsAmbiguousOrUnsupportedGeometry[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.validationAndCoverageHaveCancellationAndSizeBudgets[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.geometryThatCollapsesAtReceiverPrecisionIsRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.importedFacesCannotBeSilentlyReplacedByElevationControls[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.fullExclusionKeepsAnEmptyImportedSurfaceWithoutPreviewFloor[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.intrinsicHolesRemainEmptyInCoverageMembershipContoursAndEdges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.additionalExclusionsUnionWithIntrinsicHolesAndKeepPhysicalArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.invalidIndicesCoordinatesDuplicateAndDegenerateFacesFail[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.frozenRequestsAndSeparateLayersKeepImportedHeightAndArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.importedTopologyRetainsDiagonalAndHeightsAtCoarseAndFineSpacing[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.jsonAndProjectRoundTripsAreIndependentOfExternalAssets[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.projectedOverlapIsAllowedButCoplanarOverlapFails[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedAudienceMeshTest.unequalSlopeAreasWeightStatisticsAndMissingFacetsCorrectly[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.overhangingLayersSharePlanCoordinatesWithoutMergingReceivers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.nearbyLayersKeepSeparateReceivers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.closedManifoldMeshesHaveCoverageWithoutAnOuterPlanBoundary[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.cancellationAndReceiverLimitsApplyToVerticalSampling[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.realIntersectionsAndCoplanarOverlapsStillFail3DValidation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.verticalFacesRetainPhysicalAreaAndRefinementIndependentStatistics[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.verticalContoursProduceNonzeroSharedRibbonsAndCrossSectionsKeepAllLayers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.planCutoutsRemovePrismsFromEveryLayerAndFromVerticalFaces[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.transformsRakeCacheAndPersistenceRetain3DGeometry[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.layerReceiverHeightsFeedIndependentAcousticPredictions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.floorCeilingAndWallUseTheirActualAreasInDistributionAndMissingCoverage[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.ambiguousHeightLookupNeverChoosesAnArbitraryLayer[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMesh3DTest.windingNormalizationPreserves3DFacesAndClosedTopology[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.clippingDistancesDoNotPickInvisibleNearOrFarFaces[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.verticalFacesAndBothWindingsArePickableFromEitherSide[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.pickingSupportsCancellationAndDoesNotTreatAuthoredPolygonsAsImportedFaces[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.tapsReturnOriginalTriangleNumbersAndPhysicalHitPositions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.sharedProjectionMapsPlanSectionAndPerspectiveTapsToGeometry[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.sharedEdgesVerticesAndCoincidentMeshesHaveStableTieBreaks[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.singleToggleAndFlatPatchSelectionPreserveOriginalIndicesWithoutMutatingInputs[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.perspectiveClippingUsesCameraDepthAtScreenEdges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.nearestLayerWinsRegardlessOfIterationOrderOrAssignment[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.baseRakeAndMirroredCoordinatesUseTheVisiblePhysicalGeometry[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.intrinsicHolesMissButPlanMasksKeepSourceFacesEditable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ImportedMeshPickingTest.parallelCoplanarBehindOutsideAndInvalidRaysMiss[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MaterialScatteringTest.specularPowerUsesFrequencyAndAngleScatteringOnce[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MaterialScatteringTest.overlapsSelectOneCompleteResponseIncludingPhaseAndScattering[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MaterialScatteringTest.scatteringRoundTripIsImmutableAndRetainsOtherMaterialProperties[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MaterialScatteringTest.partitionsConserveIncidentEnergyAndSeparateScatteringFromAbsorption[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MaterialScatteringTest.globalGroundPrecedenceDoesNotApplyScatteringTwice[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.selectedFacesDefineAreaAndIndependentListeningHeights[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.immutablePredictionsUsePerFaceListeningOffsetsAndIgnoreExcludedFaces[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.missingMalformedOrUnknownAssignmentsCannotSilentlyRestoreExcludedArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.areaMomentsAndPercentilesRemainStableUnderRefinement[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.planCutsOnlySubtractFromAssignedFacesAndZeroAreaGroupsRemainIdentified[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.aFaceCanBeRestoredWithoutChangingMeshTopologyOrOpeningASeam[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.excludedAreaIsNotMissingAreaAndUnavailableAssignedFacesRemainInDenominator[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.selectedRangesAndConnectedPlanarPatchesKeepOriginalFaceNumbers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.differingAssignmentsDuplicateSharedBoundaryReceiversWithoutDoubleCountingArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.assignmentSnapshotsAndCacheKeysIncludeFaceSemantics[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.portableProjectsRetainAssignmentsAndLegacyMeshesDefaultToFollowZone[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.transformationsRetainOriginalAssignments[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.followZoneTracksParentButExplicitAssignmentsDoNot[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceAssignmentTest.allExcludedMeshesStayEmptyAndDoNotRestoreThePreviewFloor[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.groupTapRecallsMembersWhileUngroupedFacesRemainIndividuallySelectable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.planCutoutsSubtractFromGroupsAndRetainZeroAreaNames[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.ungroupedAreaAndEmptyOrFullyExcludedGroupsStayAccountedForExactlyOnce[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.mixedAssignmentsShareAGroupSummaryButKeepIndependentListeningHeights[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.malformedGroupPayloadsFailBeforeAProjectCanLoseOrMergeMembership[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.adjacentGroupsDoNotShareReceiversOrContaminateEachOthersStatistics[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.createFromExistingGroupsMovesFacesAndAssigningAGroupIsOneImmutableChange[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.invalidNamesIdsMembershipAndOverlapsFailWithoutChangingTheMesh[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.meshAndPortableProjectRoundTripsPreserveGroupsWithoutSourceAssets[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.groupStatisticsUseActualAreaAndRemainStableUnderRefinement[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.groupEditsInvalidateCacheAndCapturedPlansKeepOriginalNamesAndMembership[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.transformsPreserveMembershipAndGroupAreaWithoutChangingOriginalIndices[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.membershipMovesRatherThanOverlapsAndDeletionDoesNotAlterAssignments[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.MeshFaceGroupTest.namedGroupsAreImmutableAndRenamingPreservesStableIdentity[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.invalidElevationsFailWithoutInventingHeights[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.interiorPeakPreservesFacetsEvenWithCoarseGrid[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.collinearBoundaryElevationVertexIsNotDiscarded[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.areaWeightedRampMatchesAnalyticalPyramidAndRefinement[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.cacheSnapshotsIncludeBoundaryAndInteriorElevations[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.outlineAndContourSegmentsFollowCreasesAndDoNotBridgeThePeak[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.independentLayerRetainsItsOwnElevationAndArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.holesClipEveryFacetAndStatisticsUseRemainingPhysicalArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.nonplanarReceiverHeightFeedsThePredictionEngine[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.warpedCornerWeightsFlatAndSlopedFacetsByTheirDifferentAreas[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.NonPlanarAudienceTest.insertionAndMeshPreparationAreCancellable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.caseDistinctSourceNamesStaySeparateWithDeterministicUniqueDisplayLabels[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.singleNamedGroupsMapOriginalFaceIndicesAndInitiallyFollowZone[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.cancellationDuringGroupStateMappingPropagatesWithoutPartialOutput[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.compositeGroupsAndVerticalAreasAreWeightedOnceIncludingMissingPredictions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.unitsAxesAndWindingNormalizationPreserveGroupFaceNumbers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.importedNamesNeverInferAssignmentsAndGroupEditsKeepMeshTopology[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.absentAndBareGroupsStayUngroupedWhileExplicitDefaultIsPreserved[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.repeatedDeclarationsAccumulateAcrossObjectMaterialAndSmoothingChanges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.overlongInvalidAndExcessGroupStateFailsWithLineInformation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.unusedDeclarationsDoNotCreateEmptyGroupsOrConsumeIds[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.multipleMembershipsFormCanonicalDisjointPartitionsWithoutDuplicatingTriangles[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.mappedGroupsAssignmentsAndSubsequentRenamesSurvivePortableReopen[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.importedGroupAreaAndLinearFieldStatisticsRemainStableUnderRefinement[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ObjFaceGroupImportTest.whitespaceCommentsAndRelativeReferencesDoNotShiftGroupMembership[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverCameraFramingTest.intentRoundTripsAndStaleTargetInvalidSchemaAndDegenerateViewportsAreRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverCameraFramingTest.obstructingPanelsAreAvoidedAndCompleteObstructionNeverProducesABadFrame[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverCameraFramingTest.allViewsFrameTheReceiverAndPreserveRequestedContextAcrossAspectRatios[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverCameraFramingTest.widerContextPullsBackAndFramingIsDeterministicAtTranslatedReceiverPositions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.narrowLobeBetweenProbesConvergesWithoutAddingEnergyOrDuplicateFaces[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.measuredGridBoundsFindOffProbeLobesAcrossTheAzimuthSeam[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.duplicateAndRetriangulatedShadowsCannotMultiplyOrRemoveExtraEnergy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.discontinuousProfilesHaveBoundedRefinementWithoutDuplicatingEnergy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.sharpProfileRefinementConservesWeightsAndConverges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.receiverAngularRefinementConvergesNearSurface[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.budgetAndProfileValidationFailExplicitly[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.customNarrowLobeConvergesConservesWeightsAndCountsDuplicateFacesOnce[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.predictionUsesActualRadiatorProfileAndAirLoss[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.frozenBandReuseKeepsMissingBandsAndEmitterIdentitiesSeparate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.narrowReceiverShadowIsClippedWithoutChangingSourceVisibility[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverDiffuseTest.frozenMeasuredLobePredictionMatchesIndependentIntegral[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverMarkerTest.coincidentMarkersCycleButSeparatedLabelsSelectExactlyAndOrderIsDeterministic[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverMarkerTest.allViewDirectionsProjectPickAndLabelStableReceiverIdentities[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverMarkerTest.denseLabelsStayBoundedNonoverlappingAndSelectedLabelHasPriority[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverMarkerTest.densityScalesTouchTargetsAndSelectionReconciliationNeverChangesIdentityByName[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReceiverMarkerTest.clippingRejectsBehindCameraNearFarAndOffscreenMarkers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReflectionPhaseTest.phaseControlsInterferenceWithCorrectSignAndBandwidth[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReflectionPhaseTest.linearPhaseSlopeIsIntegratedRatherThanFrozenAtCentre[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReflectionPhaseTest.phaseKnotsInsideBandAreIntegratedPiecewise[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReflectionPhaseTest.unwrappedInterpolationAngleAndPersistence[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.ReflectionPhaseTest.overlapsKeepAbsorptionAndPhasePairedWithoutStacking[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.SceneGeometryTransformsTest.verticalAndOverhangingMeshPreservesTopologyAndFaceSemantics[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.SceneGeometryTransformsTest.blockElevationPreservesThicknessAndInvalidTransformsFail[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.SceneGeometryTransformsTest.rigidYawAndTranslationPreserveHeightsCutoutsAndIndexedConstraints[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.SpeakerGizmoTest.projectionMatchesSharedPickingRaysAwayFromScreenCentre[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.SpeakerGizmoTest.projectionUsesCameraBasisAndRejectsInvalidOrBehindCameraPoints[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.SpeakerGizmoTest.coincidentAndDegenerateAxesRemainDistinctAndReachableAtViewportCorners[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.SpeakerGizmoTest.axisDragsUseFrozenProjectionAndClampWorldCoordinates[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.SpeakerGizmoTest.presetsExposeExpectedAxesAndRotationControls[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.SpeakerGizmoTest.sceneObjectsExposeMoveAndYawWithoutTilt[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.SpeakerGizmoTest.rotationWrapsPanClampsTiltAndCancelCannotCommitOrResume[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.rotatedSlopedImportedDuplicatePreservesPredictedPower[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.exactDuplicatesAndReversedWindingCannotDoubleReflectionPressure[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.predictionSnapshotsBlocksAndHasNoLegacyNearEdgePenalty[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.globalGroundHasOneArrivalAndOpaquePatchSuppressesIt[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.nearbyButDistinctPlanesAreNotMerged[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.partialOverlapOnlySuppressesBouncesInsideTheOpaquePatch[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.noBoundaryBlocksAreTransparentAndDoNotSuppressReflectors[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.blocksAndImportedClosedMeshesProduceIdenticalPaths[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.duplicateReflectionWithDifferentTriangulationIsCountedOnce[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.opaqueWinsAtCoincidentBounceRegardlessOfSourceOrOrdering[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.invalidGeometryAndRolesFailBeforeMutationAndLegacyRolesAreOpaque[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.slopedRotatedBlocksMatchTheirPhysicalCornersAndPreserveUnderpasses[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.geometry.UnifiedBoundaryTest.stageUsesSameGeometryAndIsNotCountedAgainAsAnEquivalentBlock[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.BreaklinePersistenceTest.portableRoundTripRetainsConstraintReferencesAndVersion[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.BreaklinePersistenceTest.previousHeightFieldSchemaOpensWithoutConstraintsAndFutureSchemaIsRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.BreaklinePersistenceTest.malformedEndpointTypesAndCrossingsFailPreflight[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.DesignVariantsTest.snapshotsRetainExactSpeakerAssetsWithoutAnExternalResolver[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.DesignVariantsTest.snapshotsAreIndependentAndSwitchingKeepsBothLibraries[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.DesignVariantsTest.namesIdsAndLimitsRemainStableAndCorruptionIsRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.absentAssetsRemainPinnedAndUnavailableOnResave[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.legacyEmbeddedDataMigratesAndUnknownVersionsFailBeforeApply[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.unassignedReferenceSourceSurvivesCheckpointRecovery[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.missingAssetKeepsLatestSceneRatherThanRollingBackGeometry[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.portableProjectRestoresIdenticalDataWithoutExternalState[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.newerCheckpointIsNotSilentlyRolledBackToOlderBackup[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.corruptPrimaryFallsBackWithoutOverwritingLastValidBackup[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.freshStoreReopensCompactSnapshotAndDeduplicatesAssets[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.incompletePrimaryDoesNotReplaceCompleteBackupDuringSave[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.interruptedSnapshotWritePreservesPreviousSceneAndData[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.hashesAreStableAcrossJsonObjectOrderAndCalibrationIsCovered[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.futureAssetFormatRemainsUnavailableAndIsPreservedOnResave[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.assetWriteFailureCannotPublishSnapshot[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.wrongRevisionAndIdentityNeverResolveByModelName[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.corruptEmbeddedDataCanRecoverOnlyFromExactExternalAsset[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.persistence.ProjectPersistenceTest.migrationKeysIncludeOlderSchemaSlotsInNewestFirstOrder[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.AsymmetricOrientationTest.eachArrayElementKeepsItsOwnFrameAndSteeringCannotMirrorIt[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.AsymmetricOrientationTest.canonicalWorldAxesDoNotSwapSpeakerLeftAndRight[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.BroadbandSnapshotTest.weightedSnapshotUsesPowerSumAndPreservesUnflooredPerBandDiagnostics[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.BroadbandSnapshotTest.weightingAndRangeDifferencesCannotQualifyAndMissingBandsAreNotDropped[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.BroadbandSnapshotTest.ambiguousMetricsWeightsSchemasAndOverlappingDefinitionsAreRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.CoverageComparisonsTest.importedFaceExclusionsChangeComparisonDomain[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.CoverageComparisonsTest.selectionRoundTripAndInvalidVersion[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.CoverageComparisonsTest.verticalAreaAndNonuniformTrianglesUseActualArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.CoverageComparisonsTest.receiverHeightTopologyAssignmentsAndLayersMustMatch[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.CoverageComparisonsTest.holesExclusionsAndSamplingCannotBeComparedByArrayIndex[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.CoverageComparisonsTest.differencesUsePhysicalPowerWithCorrectSignAndAreaWeights[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.CoverageComparisonsTest.zeroAndUnknownDoNotCreateFalseFiniteDifferences[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.CoveragePresentationTest.automaticAndRunningStatesDoNotClaimResultsAreCurrent[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.CoveragePresentationTest.spectrumInspectionCannotRelabelBroadbandAsSelectedBand[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.CoveragePresentationTest.staleAndFailedStatesOfferManualRecoveryInBothModes[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.DriveAndEqTest.singleBandAndPerBandCompatibilityAreUnchanged[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.DriveAndEqTest.absentPolicyAlwaysMeansLegacyAndBadPolicyIsRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.DriveAndEqTest.missingBroadbandResponseIsNotRenormalizedAway[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.DriveAndEqTest.normalizedDrivePreservesComplexAndValidatedFilterPhase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.DriveAndEqTest.fixedTotalRemovesExactlyEightBandDriveGainForEveryWeighting[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.DriveAndEqTest.sparseLegacyEqOnlyChangesItsStoredBand[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.EngineSceneSnapshotTest.invalidTargetsCancellationAndMissingDataCannotProduceInventedLevels[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.EngineSceneSnapshotTest.captureUsesSceneInputsNotReferenceLevelsAndRetainsUnflooredPower[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.EngineSceneSnapshotTest.geometryBandwidthAtmosphereAndGroundAreDerivedAndRequestsStayFrozen[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionModelScopeTest.portableReportMakesUnsupportedCapabilitiesExplicit[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionModelScopeTest.persistedProfilesHaveExplicitSpacingAndUnknownProfilesUseDefault[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionRequestTest.editOrExplicitInvalidationRejectsInFlightResults[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionRequestTest.lanesCompleteIndependentlyButCannotMixSceneRevisions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionRequestTest.requestOwnsPolarResponseEqLossWeightingAndReceiverCollections[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionRequestTest.olderCompletionCannotReplaceNewerEvenAtSameSceneRevision[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionRequestTest.resultDoesNotExposeOrRetainMutableArrays[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionRequestTest.failedLatestRequestCanBeRetriedAndOlderFailureIsIgnored[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionRequestTest.broadbandWeightingIsCapturedAndCancellationReturnsNoPartialOutput[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionValidityTest.zeroPowerIsAvailableButEmptyRequestsAreUnavailable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionValidityTest.unexcitedBandsDoNotCreateMissingDataWarnings[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionValidityTest.absentAssetIsUnavailableAndFreshBandResultIsAvailable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionValidityTest.missingIntegrationCellsNameActualSourceAndDataFrequencies[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionValidityTest.availableProbesDoNotHideUnavailableOrPartiallyAvailableAudienceArea[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionValidityTest.directionalMissingDataMakesOnlySomeReceiversAvailable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.PredictionValidityTest.warningsCannotOutliveTheRevisionOrAffectRetryInstructions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ProductionGroundMaterialTest.coincidentDirectAndImagePathsHaveTheAnalyticalMaterialBoost[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ProductionGroundMaterialTest.fullyAbsorbingGroundReturnsTheDirectFieldWithoutInventedRoomEnergy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ProductionSummationTest.commonDelayPolarityAndGainHaveTheExpectedSingleArrayEffects[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ProductionSummationTest.coincidentCoherentPowerIndependentPowerAndPolarityHaveExactLimits[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ProductionSummationTest.interGroupIncoherencePreservesWithinArrayCoherence[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ProductionSummationTest.bandDelayFollowsTheIntegralOfPressureNotAnArbitraryCoherenceBlend[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ReceiverAngularSupportTest.aMissingSecondSourceCannotBeHiddenByAnAvailableFirstSource[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ReceiverAngularSupportTest.transformedDirectRaysReportOriginsAndSparseInterpolationSeparately[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ReceiverAngularSupportTest.frozenResponsesMarkersAndReceiverIdentitiesRemainIndependentOfLiveInputs[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ReceiverAngularSupportTest.arrayGeometryAndMechanicalTiltRotateRaysButElectronicSteeringDoesNot[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ReceiverAngularSupportTest.missingGenericBypassedAndCoincidentDirectionsCannotBecomeMeasuredSuccess[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.ReceiverAngularSupportTest.elevationBoundsAndComplexBandOriginsAreNotHiddenByMagnitudeData[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.RelativeBroadbandTest.invalidWeightedReferenceAndChangedProtocolsCannotQualify[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.RelativeBroadbandTest.normalizesWeightedTotalsRatherThanAveragingBandRatios[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.RelativeResponseCaptureTest.missingNearNullAndBelowFloorDenominatorsRemainUnavailable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.RelativeResponseCaptureTest.equalDistanceOnAxisNormalizationPreservesMeasuredOffAxisAttenuation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.RelativeResponseCaptureTest.onAxisIsVerifiedAndUnsupportedOrContradictoryNormalizationIsRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.RelativeResponseCaptureTest.perFrequencyRatioHasZeroReferenceAndCancelsCommonGainWithoutFitting[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.SourceSpectrumTest.totalDriveFractionsConservePowerAndHaveExplicitSpectralShapes[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.SourceSpectrumTest.explicitZeroExcitationNeedsNoResponseButMissingActiveBandsStayUnavailable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.prediction.SourceSpectrumTest.invalidAmbiguousAndTamperedAllocationsAreRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfHandednessTest.declaredRotationOccursAfterFullArcOrderNormalization[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfHandednessTest.legacyTabAssetsAreFlaggedWithoutSilentlyReorientingSavedNativeData[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfHandednessTest.officialRearViewLabelsMapToNativeDirections[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfMagnitudeTest.conflictingDeclarationsUnsupportedReferencesAndNonfiniteSamplesFailExplicitly[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfMagnitudeTest.declaredSectorsAndTheirReversedEncodingsExpandBeforeRotation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfMagnitudeTest.v2AssetsAreFlaggedAndNativeDataSurvivesRecovery[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfReferenceSlotsTest.malformedReferenceRowsFailInsteadOfShiftingOrFallingBack[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfReferenceSlotsTest.explicitSensitivityHolesKeepTheirBandIdentityAndDoNotBorrowAxialLevels[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfReferenceSlotsTest.thirdOctaveAxialFallbackPreservesNodataSlotsAndCf1DoesNotInferOctaveDrive[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PoweredReferenceTest.axialWarningsAndReportsNameTheActualReferenceBasis[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PoweredReferenceTest.referenceBasisRoundTripsWithoutChangingLegacyDefaultAssetHashes[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PoweredReferenceTest.onlyNonpoweredSensitivityMayUseItsOwnWattNormalizationDeclaration[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SharedSurfaceMaterialTest.carpetRetainsItsLegacyBandValues[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SharedSurfaceMaterialTest.gypsumRetainsItsLegacyBandValues[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SharedSurfaceMaterialTest.endpointHoldPreservesOldGroundPredictions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SharedSurfaceMaterialTest.catalogueCoefficientsStayInTheLegacySupportedRange[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SharedSurfaceMaterialTest.customFlatCurvesRemainFlatAcrossSupportedBands[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SharedSurfaceMaterialTest.unknownMaterialIdsRemainUnavailable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.statistics.CoverageStatisticsTest.linearRampHasAnalyticalAreaMeanDeviationPercentilesAndTargetFraction[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.statistics.CoverageStatisticsTest.unequalOverlappingSurfacesWeightAreaAndKeepDuplicateNamesSeparate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.statistics.CoverageStatisticsTest.oneMissingVertexInvalidatesWholeTriangleAndFlatTargetsAreInclusive[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.statistics.CoverageStatisticsTest.independentExtremeProbeCannotBiasAreaStatistics[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.statistics.CoverageStatisticsTest.emptyOrProbeOnlyGeometryHasNoAreaMetrics[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.statistics.CoverageStatisticsTest.resamplingSameLinearFieldDoesNotChangeStatistics[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.statistics.CoverageStatisticsTest.continuousTrianglePercentileMatchesQuadraticDistribution[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.statistics.CoverageStatisticsTest.statisticsCancellationReturnsNoPartialSummary[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.statistics.CoverageStatisticsTest.rakedAreaUsesActualSurfaceSizeRatherThanHorizontalProjection[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.statistics.CoverageStatisticsTest.missingTrianglesStayInDenominatorAndCannotPassCoverageTarget[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.AdjustableReferenceTest.invalidAdjustmentsAreAtomicAndLegacyDefaultsRemainTotal[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.AdjustableReferenceTest.manualReferenceChangesResidualButPreservesTotalAndRawCapture[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.AdjustableReferenceTest.referencesAndDisplayModeSurviveLibraryChangesAndRoundTrip[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.AdjustableReferenceTest.missingSamplesAndAmbiguousResidualStepsRemainUnavailable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.DensePhaseCaptureTest.missingFrequencyInOneSourceLeavesGapAndNeverUsesPartialSum[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.DensePhaseCaptureTest.capturesActualDenseFrequenciesAndRecoversPropagationDspAndCabinetDelay[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.DensePhaseCaptureTest.delayReferenceRemovesMultipleTurnsPerStepAndLegacyStillUsesZero[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.DensePhaseCaptureTest.denseSamplesAndReferenceSurviveSaveReopenWithoutChangingBandPowers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionEditDescriptionTest.compoundImportedChangesUseDeterministicCountSummary[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionEditDescriptionTest.historyNavigationBranchingAndPairIsolationKeepLabelsAccurate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionEditDescriptionTest.descriptionsAreDerivedAfterReopenIncludingExistingHistoryFormat[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionEditDescriptionTest.sampleAndRangeActionsDescribeExactFrequencies[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionEditDescriptionTest.moveResizeAndDeduplicationDescribeActualStateChanges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryNavigationTest.timelineNavigationMatchesSequentialUndoRedoAndPreservesOtherPairs[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryNavigationTest.staleViewsInvalidPositionsAndDeletedTracesFailAtomically[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryNavigationTest.branchingAndBoundedHistoryExposeOnlyAvailableStates[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryNavigationTest.reopeningPreservesCurrentPositionAndAllowsForwardNavigation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryNavigationTest.emptyHistoryShowsOneCurrentState[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryPreviewTest.overlapsPairIsolationAndMatchingWindowAreRespected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryPreviewTest.saveReopenPreservesAppliedPositionAndUnappliedPreviewHasNoEffect[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryPreviewTest.staleHistoryReferencesAndWindowsRejectApplyAtomically[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryPreviewTest.unavailableCandidateFitStillPreviewsAndCanRestoreHistory[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryPreviewTest.previewShowsFitAndDifferencesWithoutChangingSavedState[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryTest.undoRedoIncludesSampleRangeMoveAndRemovalWithPairIsolation[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryTest.noOpsPreserveRedoNewEditsClearOnlyTheirPairAndDeletionDropsHistory[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryTest.legacyImportsAndMalformedHistoryAndBoundedRetention[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ExclusionHistoryTest.historyAndRedoSurviveReopenWithoutChangingReferencesOrRawData[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.FitOverlayComparisonTest.missingExcludedAndInsufficientSamplesStayAbsentAndLinesNeverBridgeGaps[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.FitOverlayComparisonTest.comparisonAlignsSplitSegmentsWithoutChangingResidualsOrSourceData[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.FitOverlayComparisonTest.overlayComparisonsSurviveHistorySaveReopenWithoutMutatingTheProject[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.FitOverlayComparisonTest.incompatibleReferencesAreRejectedAndUnavailableFitsRemainRepresentable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.GroundPhaseTest.globalGroundOwnsCoincidentFacesAndBlockAndOpaqueFaceSuppressesBounce[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.GroundPhaseTest.groundInterferenceMatchesAnalyticComplexPressure[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.GroundPhaseTest.missingComplexSamplesAndMissingPhaseNeverYieldPartialResult[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.GroundPhaseTest.incidencePhaseAndMagnitudeUseTheSameGroundPaths[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ManualMatchingExclusionsTest.changedExclusionsInvalidatePreviewAndTooManyExclusionsDisableFit[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ManualMatchingExclusionsTest.exclusionsBreakUnwrappingAndRecoverKnownDelayWithoutMutatingCaptures[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ManualMatchingExclusionsTest.persistenceRangeChangesDeletionAndReinclusion[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingFitDiagnosticsTest.diagnosticsAreReproducibleBeforeAndAfterAppliedMatchReopen[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingFitDiagnosticsTest.diagnosticsRemainAvailableWhenFitIsRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingFitDiagnosticsTest.plottedSamplesMatchFitCountsValuesSlopeAndRms[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingFitDiagnosticsTest.missingSamplesAndRangeBoundariesDoNotCreateModelConnections[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingFrequencyRangeTest.selectedRegionRecoversItsDelayAndIgnoresOtherRegions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingFrequencyRangeTest.invalidRangesAndMalformedSavedRangesAreRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingFrequencyRangeTest.rangePersistsThroughCaptureApplyRemoveAndResetAndRejectsStalePreview[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingFrequencyRangeTest.endpointsAreInclusiveWithoutInventingBoundarySamples[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingFrequencyRangeTest.missingDataInsideRangeSplitsFitsAndOutsideRangeDoesNotContaminateThem[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingRangeExclusionsTest.overlappingRangesAndIndividualSamplesFormUnionAndRemoveIndependently[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingRangeExclusionsTest.inclusiveExclusionRecoversKnownDelayAndSplitsSegments[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingRangeExclusionsTest.stalePreviewsAllExcludedAndOffGridBounds[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchingRangeExclusionsTest.persistenceRangeChangesAndDeletion[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchRangeEditingTest.editedRangePersistsAndFitRemainsAccurate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchRangeEditingTest.replacementIsAtomicPreservesOtherExclusionsAndRejectsStaleEdits[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchRangeEditingTest.selectingOverlapsAndResizingEitherEdgeIsDeterministic[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchRangeMovementTest.movedExclusionPersistsWithoutAffectingOtherExclusionsOrTraceData[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchRangeMovementTest.bothPlotsPreserveOffGridWidthAndClampWholeRange[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchRangeMovementTest.invalidStartsAndHiddenOrOversizedRangesDoNotMove[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchRangeSelectionTest.selectedExclusionPreservesAccuracyAndSurvivesReopen[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchRangeSelectionTest.bothPlotsSnapClampAndNormalizeDirectionIncludingMissingSamples[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchRangeSelectionTest.tiesChooseLowerFrequencyAndDegeneratePlotsCannotSelectRange[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchSampleInspectionTest.rangeAndDeletionReconcileSelectionAndInvalidStoredSelectionIsRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchSampleInspectionTest.hitTestingUsesActualRetainedRejectedAndMissingMarkerPositions[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchSampleInspectionTest.tieBreakingNavigationAndSelectionAreDeterministic[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.MatchSampleInspectionTest.selectedSampleAndDetailsSurviveSaveReopenAndReferenceChanges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.OverlayInspectionBatchTest.selectionAndFilterReopenAndDoNotInvalidateHistoryPreview[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.OverlayInspectionBatchTest.differencesUsePreviewMinusCurrentAndMissingValuesStayUnavailable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.OverlayInspectionBatchTest.filteringNavigationAndEmptyResultsAreDeterministic[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.OverlayInspectionBatchTest.filteredLinesNeverBridgeHiddenRowsAndSegmentIdsDoNotCountAsChanges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.OverlayInspectionBatchTest.hitTestingMatchesBothSeriesIncludingMissingTicksOnBothPlots[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.PhaseDerivedTracesTest.savedRawSamplesReproduceDerivedTracesAndComparisonsExactly[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.PhaseDerivedTracesTest.unwrapsBothDirectionsAndUsesLinearFrequencyForPositiveDelay[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.PhaseDerivedTracesTest.halfTurnIsAmbiguousAndSingletonCannotYieldDelay[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.PhaseDerivedTracesTest.fullTurnsAreNotRecoverableAndOutputIsExplicitlyAnIntervalEstimate[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.PhaseDerivedTracesTest.missingDataAndOmittedPhaseKeysBreakSegmentsWithoutBridging[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.PhaseDerivedTracesTest.incompatibleConventionsPositionsAndFrequencyGridsAreRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.PhaseTracesTest.tracePhaseRoundTripComparisonWrapsAndKeepsMissingSamples[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.PhaseTracesTest.cabinetPhaseDelayAndPolarityFollowExplicitConvention[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.PhaseTracesTest.missingBandsMagnitudeOnlyEqAndCancellationAreUnavailable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.PhaseTracesTest.portableSpeakerDataPreservesComplexDataAndRejectsUnknownReferences[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ReferenceTraceCaptureTest.batchCapacityAndInvalidResultsNeverPartiallyAppend[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ReferenceTraceCaptureTest.selectionUsesStableIdsOrderAndReconcilesRemovedReceivers[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ReferenceTraceCaptureTest.batchPreservesIdentityPositionsPowersAndComparisonsAfterReopen[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ReflectedPhaseTest.measuredReflectionInterferenceMatchesIndependentComplexSum[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ReflectedPhaseTest.opaquePathsAndDiffuseModelsNeverCreateCoherentPhase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ReflectedPhaseTest.importedFacesAndDuplicateBlocksCountOnePhysicalReflection[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ReflectedPhaseTest.legacyPhaseTracesCompareOnlyWithinTheirOriginalModel[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.ReflectedPhaseTest.missingReflectedSpeakerOrMaterialPhaseDoesNotPublishPartialSum[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.RobustReferenceMatchingTest.widespreadContaminationIsRejectedAndNoiseLowersConfidence[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.RobustReferenceMatchingTest.cleanFitScoresHighlyAndSparseFitHasLowerConfidence[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.RobustReferenceMatchingTest.isolatedAndEndpointOutliersAreRejectedWithoutBiasingDelay[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.RobustReferenceMatchingTest.roundTripReproducesDiagnosticsAndPreservesRejectedRawSamples[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.RobustReferenceMatchingTest.missingDataKeepsSegmentsSeparateAndDoesNotBecomeAnOutlier[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.SavedTracesTest.outputPowersAreDefensiveAndUnknownDataRemainsUnavailable[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.SavedTracesTest.incompatibleReceiverBandwidthOrConventionsAreRejected[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.SavedTracesTest.invalidDataAndUnsupportedVersionsFailExplicitly[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.SavedTracesTest.comparisonUsesCandidateMinusBaselineAndNeverFabricatesMissingDifferences[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.SavedTracesTest.captureOwnsDataAndPreservesMissingAndZeroEnergyThroughReopen[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.TraceReferenceMatchingTest.fitsSeparateSegmentsWithoutBridgingMissingFrequencies[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.TraceReferenceMatchingTest.recoversPositiveAndNegativeDelayDifferencesWithoutRemovingConstantPhase[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.TraceReferenceMatchingTest.rejectsInsufficientAmbiguousIncompatibleAndNonlinearComparisons[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.TraceReferenceMatchingTest.appliedReferenceRoundTripsAndStalePreviewCannotOverwriteEdits[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.traces.TraceReferenceMatchingTest.usesCurrentManualReferencesAndNonuniformMeasuredFrequencies[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.AngularDomainPackageTest.realMeasuredAndUpsampledStorageOriginsDoNotImproveHeldoutAccuracy[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.AngularSupportPackageTest.measuredHoldoutsRemainSparseAndUnsupportedDirectionsAreExplicit[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.AsymmetricDirectivityPackageTest.productionBandPredictionsRetainHandednessAcrossPosesInterpolationAndRecovery[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.BroadbandCapturePackageTest.weightedSnapshotsMatchIndependentFiniteBandPowerReferences[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.ClfHandednessPackageTest.officialAsymmetricTextMagnitudesReachProductionPredictionsWithCorrectHandedness[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.ClfMagnitudePackageTest.officialCf1TabDeclarationsReachProductionPredictionsAndPortableRecovery[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.ComparisonImportPackageTest.retainedSyntheticFixturesImportRestoreAndStayUnqualified[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.EngineSceneCapturePackageTest.capturedAndReopenedEngineSnapshotsMatchIndependentPointSourceReference[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.NumericalValidationPackageTest.sharedEngineMatchesIndependentReferencesAndRefinementConverges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.NumericalValidationPackageTest.fixturesMatchRetainedReferencesAndQuadratureConverges[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.PublicMeasurementComparisonTest.realCalibratedPaMeasurementsAreHeldOutAndReplayedThroughProductionCapture[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.ReceiverAngularPackageTest.realReceiverDirectionsUseFrozenGeometryAndDoNotPromoteUpsampledDataToMeasurements[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.ReceiverFramingPackageTest.retainedFramesKeepReceiverPickableInAllViewsAndRestoreTheSameIntent[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.ReceiverMarkerPackageTest.retainedGeometryCasesPickAndLabelReceiversInAllViews[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.RelativeBroadbandPackageTest.weightedTotalRatiosMatchIndependentReferencesAndPersist[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.RelativeResponsePackageTest.retainedNormalizedSnapshotsMatchIndependentReferencesAndGainInvariance[jvm]"
+    },
+    {
+      "id": "com.droidacoustic.pro.validation.SourceSpectrumPackageTest.normalizedSpectrumSnapshotsMatchIndependentReferencesAndPersist[jvm]"
+    }
+  ]
+}

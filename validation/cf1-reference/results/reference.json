@@ -1,112 +1,112 @@
 {
-  "scope": "CF1_SENSITIVITY_ROW_BYTE_OFFSET_NOT_ELECTRICAL_CALIBRATION",
+  "scope": "PROJECT_AUTHORED_SYNTHETIC_CF1_ROW_NOT_ELECTRICAL_CALIBRATION",
   "toleranceDb": 0.0001,
-  "referenceScriptSha256": "fa8dccd4051ce018d91f597669a40242f5eb326c1c538a9b0dde472b4779e823",
-  "provenanceSha256": "7f453ad59b31536a3eafbd5ba5df9721192a453e744eb9b67efa84afbee6ca87",
+  "referenceScriptSha256": "f02482cce5e7a068bf6734d47b499a67b564a1dc52557b15f81814671c5bde2a",
+  "provenanceSha256": "f140f3cccb89131375eb79238883b1ed876bf1b1887fca10092596cc45e54abc",
   "cases": [
     {
-      "binary": "Active.CF1",
-      "text": "clf1_active_point.tab",
+      "binary": "SyntheticActive.CF1",
+      "text": "synthetic_cf1_active.tab",
       "hz": 125,
-      "referenceDb": 97.2,
+      "referenceDb": 91.25,
       "binaryByteOffset": 4680,
-      "binaryValueDb": 97.19999694824219
+      "binaryValueDb": 91.25
     },
     {
-      "binary": "Active.CF1",
-      "text": "clf1_active_point.tab",
+      "binary": "SyntheticActive.CF1",
+      "text": "synthetic_cf1_active.tab",
       "hz": 250,
-      "referenceDb": 94.9,
+      "referenceDb": 91.75,
       "binaryByteOffset": 4684,
-      "binaryValueDb": 94.9000015258789
+      "binaryValueDb": 91.75
     },
     {
-      "binary": "Active.CF1",
-      "text": "clf1_active_point.tab",
+      "binary": "SyntheticActive.CF1",
+      "text": "synthetic_cf1_active.tab",
       "hz": 500,
-      "referenceDb": 96.2,
+      "referenceDb": 92.25,
       "binaryByteOffset": 4688,
-      "binaryValueDb": 96.19999694824219
+      "binaryValueDb": 92.25
     },
     {
-      "binary": "Active.CF1",
-      "text": "clf1_active_point.tab",
+      "binary": "SyntheticActive.CF1",
+      "text": "synthetic_cf1_active.tab",
       "hz": 1000,
-      "referenceDb": 97.2,
+      "referenceDb": 92.75,
       "binaryByteOffset": 4692,
-      "binaryValueDb": 97.19999694824219
+      "binaryValueDb": 92.75
     },
     {
-      "binary": "Active.CF1",
-      "text": "clf1_active_point.tab",
+      "binary": "SyntheticActive.CF1",
+      "text": "synthetic_cf1_active.tab",
       "hz": 2000,
-      "referenceDb": 96.3,
+      "referenceDb": 93.25,
       "binaryByteOffset": 4696,
-      "binaryValueDb": 96.30000305175781
+      "binaryValueDb": 93.25
     },
     {
-      "binary": "Active.CF1",
-      "text": "clf1_active_point.tab",
+      "binary": "SyntheticActive.CF1",
+      "text": "synthetic_cf1_active.tab",
       "hz": 4000,
-      "referenceDb": 95.5,
+      "referenceDb": 93.75,
       "binaryByteOffset": 4700,
-      "binaryValueDb": 95.5
+      "binaryValueDb": 93.75
     },
     {
-      "binary": "Passive1.CF1",
-      "text": "clf1_passive_point.tab",
+      "binary": "SyntheticPassive.CF1",
+      "text": "synthetic_cf1_passive.tab",
       "hz": 125,
-      "referenceDb": 97.2,
+      "referenceDb": 88.0,
       "binaryByteOffset": 4680,
-      "binaryValueDb": 97.19999694824219
+      "binaryValueDb": 88.0
     },
     {
-      "binary": "Passive1.CF1",
-      "text": "clf1_passive_point.tab",
+      "binary": "SyntheticPassive.CF1",
+      "text": "synthetic_cf1_passive.tab",
       "hz": 250,
-      "referenceDb": 94.9,
+      "referenceDb": 88.75,
       "binaryByteOffset": 4684,
-      "binaryValueDb": 94.9000015258789
+      "binaryValueDb": 88.75
     },
     {
-      "binary": "Passive1.CF1",
-      "text": "clf1_passive_point.tab",
+      "binary": "SyntheticPassive.CF1",
+      "text": "synthetic_cf1_passive.tab",
       "hz": 500,
-      "referenceDb": 96.2,
+      "referenceDb": 89.5,
       "binaryByteOffset": 4688,
-      "binaryValueDb": 96.19999694824219
+      "binaryValueDb": 89.5
     },
     {
-      "binary": "Passive1.CF1",
-      "text": "clf1_passive_point.tab",
+      "binary": "SyntheticPassive.CF1",
+      "text": "synthetic_cf1_passive.tab",
       "hz": 1000,
-      "referenceDb": 97.2,
+      "referenceDb": 90.25,
       "binaryByteOffset": 4692,
-      "binaryValueDb": 97.19999694824219
+      "binaryValueDb": 90.25
     },
     {
-      "binary": "Passive1.CF1",
-      "text": "clf1_passive_point.tab",
+      "binary": "SyntheticPassive.CF1",
+      "text": "synthetic_cf1_passive.tab",
       "hz": 2000,
-      "referenceDb": 96.3,
+      "referenceDb": 91.0,
       "binaryByteOffset": 4696,
-      "binaryValueDb": 96.30000305175781
+      "binaryValueDb": 91.0
     },
     {
-      "binary": "Passive1.CF1",
-      "text": "clf1_passive_point.tab",
+      "binary": "SyntheticPassive.CF1",
+      "text": "synthetic_cf1_passive.tab",
       "hz": 4000,
-      "referenceDb": 95.5,
+      "referenceDb": 91.75,
       "binaryByteOffset": 4700,
-      "binaryValueDb": 95.5
+      "binaryValueDb": 91.75
     },
     {
-      "binary": "Passive1.CF1",
-      "text": "clf1_passive_point.tab",
+      "binary": "SyntheticPassive.CF1",
+      "text": "synthetic_cf1_passive.tab",
       "hz": 8000,
-      "referenceDb": 94.7,
+      "referenceDb": 92.5,
       "binaryByteOffset": 4704,
-      "binaryValueDb": 94.69999694824219
+      "binaryValueDb": 92.5
     }
   ],
   "poweredReference": "UNAVAILABLE; zero placeholders must not become level data"

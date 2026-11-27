@@ -1,0 +1,6 @@
+{
+  "apkSha256": "9d84eb83b0dfd9268a854cea33bffc2af28eadcb33c73c2c4e84f4bab2bfdb2e",
+  "apkBytes": 9843440,
+  "productionChanges": false,
+  "previousBuildEvidence": "validation/filter-transfer-reuse/results/regression-release-build.log"
+}

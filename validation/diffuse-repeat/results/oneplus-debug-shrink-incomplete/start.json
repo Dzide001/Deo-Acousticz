@@ -1,0 +1,10 @@
+{
+  "startUnix": 1795711126.39194,
+  "startMonotonic": 171237.453321583,
+  "apkSha256": "c21c41f5ca8ca63cde6a5232a2e30aa9368e9f5a29f0307e897b362681a93b6a",
+  "apkBytes": 64006634,
+  "fixtureSha256": "a09f635886b206cfa8351e7008427205b951410a89f0580369fc7643d6e9e5c6",
+  "build": "debug with resource shrinking; Android disabled R8 code optimization",
+  "device": "OPD2415",
+  "serial": "50eb54c9"
+}

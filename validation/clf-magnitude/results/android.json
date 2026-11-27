@@ -2,86 +2,86 @@
   "cases": [
     {
       "elevation": 60,
-      "file": "clf1_active_point.tab",
-      "actualDb": -11.300003,
+      "file": "synthetic_cf1_active.tab",
+      "actualDb": -8.149521,
       "azimuth": 0,
-      "relativeDb": -11.3,
+      "relativeDb": -8.149519,
       "label": "up",
-      "reopenedDb": -11.300003,
-      "residualDb": -2.861023E-6
+      "reopenedDb": -8.149521,
+      "residualDb": -1.9073486E-6
     },
     {
       "elevation": 0,
-      "file": "clf1_active_point.tab",
-      "actualDb": -4.800003,
+      "file": "synthetic_cf1_active.tab",
+      "actualDb": -7.5,
       "azimuth": -60,
-      "relativeDb": -4.8,
+      "relativeDb": -7.5,
       "label": "left",
-      "reopenedDb": -4.800003,
-      "residualDb": -2.861023E-6
+      "reopenedDb": -7.5,
+      "residualDb": 0
     },
     {
       "elevation": -60,
-      "file": "clf1_active_point.tab",
-      "actualDb": -12.300003,
+      "file": "synthetic_cf1_active.tab",
+      "actualDb": -6.850479,
       "azimuth": 0,
-      "relativeDb": -12.3,
+      "relativeDb": -6.850481,
       "label": "down",
-      "reopenedDb": -12.300003,
-      "residualDb": -2.861023E-6
+      "reopenedDb": -6.850479,
+      "residualDb": 1.9073486E-6
     },
     {
       "elevation": 0,
-      "file": "clf1_active_point.tab",
-      "actualDb": -4.800003,
+      "file": "synthetic_cf1_active.tab",
+      "actualDb": -7.5,
       "azimuth": 60,
-      "relativeDb": -4.8,
+      "relativeDb": -7.5,
       "label": "right",
-      "reopenedDb": -4.800003,
-      "residualDb": -2.861023E-6
+      "reopenedDb": -7.5,
+      "residualDb": 0
     },
     {
       "elevation": 60,
-      "file": "clf1_powered_point.tab",
-      "actualDb": -4.800003,
+      "file": "synthetic_cf1_powered.tab",
+      "actualDb": -8.149521,
       "azimuth": 0,
-      "relativeDb": -4.8,
+      "relativeDb": -8.149519,
       "label": "up",
-      "reopenedDb": -4.800003,
-      "residualDb": -2.861023E-6
+      "reopenedDb": -8.149521,
+      "residualDb": -1.9073486E-6
     },
     {
       "elevation": 0,
-      "file": "clf1_powered_point.tab",
-      "actualDb": -11.300003,
+      "file": "synthetic_cf1_powered.tab",
+      "actualDb": -7.5,
       "azimuth": -60,
-      "relativeDb": -11.3,
+      "relativeDb": -7.5,
       "label": "left",
-      "reopenedDb": -11.300003,
-      "residualDb": -2.861023E-6
+      "reopenedDb": -7.5,
+      "residualDb": 0
     },
     {
       "elevation": -60,
-      "file": "clf1_powered_point.tab",
-      "actualDb": -4.800003,
+      "file": "synthetic_cf1_powered.tab",
+      "actualDb": -8.149521,
       "azimuth": 0,
-      "relativeDb": -4.8,
+      "relativeDb": -8.149519,
       "label": "down",
-      "reopenedDb": -4.800003,
-      "residualDb": -2.861023E-6
+      "reopenedDb": -8.149521,
+      "residualDb": -1.9073486E-6
     },
     {
       "elevation": 0,
-      "file": "clf1_powered_point.tab",
-      "actualDb": -11.300003,
+      "file": "synthetic_cf1_powered.tab",
+      "actualDb": -7.5,
       "azimuth": 60,
-      "relativeDb": -11.3,
+      "relativeDb": -7.5,
       "label": "right",
-      "reopenedDb": -11.300003,
-      "residualDb": -2.861023E-6
+      "reopenedDb": -7.5,
+      "residualDb": 0
     }
   ],
-  "scope": "OFFICIAL_CF1_TAB_RELATIVE_MAGNITUDE_NOT_BINARY_OR_PHYSICAL_CALIBRATION",
+  "scope": "PROJECT_AUTHORED_SYNTHETIC_CF1_TAB_MAGNITUDE_NOT_CALIBRATION",
   "failedImportPreservedProject": true,
   "allPassed": true
 }

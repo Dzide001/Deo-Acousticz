@@ -1,0 +1,8 @@
+// Native acceptance only: release optimization with the existing Android debug key.
+// Non-debuggable: restore the backed-up debug APK before inspecting private data.
+gradle.afterProject { project ->
+    if (project.path == ':app') {
+        def android = project.extensions.findByName('android')
+        android.buildTypes.getByName('release').signingConfig = android.signingConfigs.getByName('debug')
+    }
+}

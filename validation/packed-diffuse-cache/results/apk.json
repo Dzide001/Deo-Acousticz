@@ -1,0 +1,5 @@
+{
+  "sha256": "63ecbbfdc135d77e7c404ac13dcd23dd8b652e106212ef80061eed0b27cd5045",
+  "bytes": 9853751,
+  "build": "R8 optimized release, non-debuggable, test-key signed"
+}

@@ -6,14 +6,14 @@
         3.0000000000000004,
         -9
       ],
-      "actualDb": -0.58999634,
+      "actualDb": -3.0096207,
       "format": "TAB",
-      "relativeDb": -0.59,
+      "relativeDb": -3.009619,
       "label": "left",
       "theta": 30,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 3.6358833E-6,
+      "residualDb": -1.66893E-6,
       "phi": 90,
       "onAxis": [
         12,
@@ -21,8 +21,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.58999634,
-      "mirroredDb": -0.35
+      "reopenedDb": -3.0096207,
+      "mirroredDb": -1.009619
     },
     {
       "receiver": [
@@ -30,14 +30,14 @@
         3.0000000000000004,
         -11.071067811865476
       ],
-      "actualDb": -2.1399994,
+      "actualDb": -5.8076096,
       "format": "TAB",
-      "relativeDb": -2.14,
+      "relativeDb": -5.807612,
       "label": "left",
       "theta": 45,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 7.1525574E-7,
+      "residualDb": 2.3841858E-6,
       "phi": 90,
       "onAxis": [
         12,
@@ -45,8 +45,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.1399994,
-      "mirroredDb": -1.68
+      "reopenedDb": -5.8076096,
+      "mirroredDb": -2.979185
     },
     {
       "receiver": [
@@ -54,14 +54,14 @@
         3.0000000000000004,
         -12.660254037844386
       ],
-      "actualDb": -5.0199966,
+      "actualDb": -9.232044,
       "format": "TAB",
-      "relativeDb": -5.02,
+      "relativeDb": -9.232051,
       "label": "left",
       "theta": 60,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 3.33786E-6,
+      "residualDb": 6.67572E-6,
       "phi": 90,
       "onAxis": [
         12,
@@ -69,8 +69,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -5.0199966,
-      "mirroredDb": -2.88
+      "reopenedDb": -9.232044,
+      "mirroredDb": -5.767949
     },
     {
       "receiver": [
@@ -78,14 +78,14 @@
         3.0000000000000004,
         -14
       ],
-      "actualDb": -8.770004,
+      "actualDb": -16.999996,
       "format": "TAB",
-      "relativeDb": -8.77,
+      "relativeDb": -17,
       "label": "left",
       "theta": 90,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -3.8146973E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 90,
       "onAxis": [
         12,
@@ -93,8 +93,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -8.770004,
-      "mirroredDb": -6.01
+      "reopenedDb": -16.999996,
+      "mirroredDb": -13
     },
     {
       "receiver": [
@@ -102,14 +102,14 @@
         2.999999999999999,
         0.9999999999999991
       ],
-      "actualDb": -0.34999847,
+      "actualDb": -1.0096207,
       "format": "TAB",
-      "relativeDb": -0.35,
+      "relativeDb": -1.009619,
       "label": "right",
       "theta": 30,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.5199184E-6,
+      "residualDb": -1.66893E-6,
       "phi": 270,
       "onAxis": [
         12,
@@ -117,8 +117,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.34999847,
-      "mirroredDb": -0.59
+      "reopenedDb": -1.0096207,
+      "mirroredDb": -3.009619
     },
     {
       "receiver": [
@@ -126,14 +126,14 @@
         2.9999999999999987,
         3.0710678118654746
       ],
-      "actualDb": -1.6800003,
+      "actualDb": -2.979187,
       "format": "TAB",
-      "relativeDb": -1.68,
+      "relativeDb": -2.979185,
       "label": "right",
       "theta": 45,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -3.5762787E-7,
+      "residualDb": -1.9073486E-6,
       "phi": 270,
       "onAxis": [
         12,
@@ -141,8 +141,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6800003,
-      "mirroredDb": -2.14
+      "reopenedDb": -2.979187,
+      "mirroredDb": -5.807612
     },
     {
       "receiver": [
@@ -150,14 +150,14 @@
         2.9999999999999982,
         4.6602540378443855
       ],
-      "actualDb": -2.8799973,
+      "actualDb": -5.767952,
       "format": "TAB",
-      "relativeDb": -2.88,
+      "relativeDb": -5.767949,
       "label": "right",
       "theta": 60,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 2.861023E-6,
+      "residualDb": -2.861023E-6,
       "phi": 270,
       "onAxis": [
         12,
@@ -165,8 +165,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.8799973,
-      "mirroredDb": -5.02
+      "reopenedDb": -5.767952,
+      "mirroredDb": -9.232051
     },
     {
       "receiver": [
@@ -174,14 +174,14 @@
         2.9999999999999982,
         6
       ],
-      "actualDb": -6.010002,
+      "actualDb": -12.999996,
       "format": "TAB",
-      "relativeDb": -6.01,
+      "relativeDb": -13,
       "label": "right",
       "theta": 90,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 270,
       "onAxis": [
         12,
@@ -189,8 +189,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -6.010002,
-      "mirroredDb": -8.77
+      "reopenedDb": -12.999996,
+      "mirroredDb": -17
     },
     {
       "receiver": [
@@ -198,14 +198,14 @@
         7.999999999999999,
         -4
       ],
-      "actualDb": -1.4899979,
+      "actualDb": -2.3846207,
       "format": "TAB",
-      "relativeDb": -1.49,
+      "relativeDb": -2.384619,
       "label": "up",
       "theta": 30,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 2.1457672E-6,
+      "residualDb": -1.66893E-6,
       "phi": 0,
       "onAxis": [
         12,
@@ -213,8 +213,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.4899979,
-      "mirroredDb": -1.49
+      "reopenedDb": -2.3846207,
+      "mirroredDb": -2.384619
     },
     {
       "receiver": [
@@ -222,14 +222,14 @@
         10.071067811865476,
         -4
       ],
-      "actualDb": -3.1100006,
+      "actualDb": -4.923729,
       "format": "TAB",
-      "relativeDb": -3.11,
+      "relativeDb": -4.923728,
       "label": "up",
       "theta": 45,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -7.1525574E-7,
+      "residualDb": -9.536743E-7,
       "phi": 0,
       "onAxis": [
         12,
@@ -237,8 +237,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.1100006,
-      "mirroredDb": -3.11
+      "reopenedDb": -4.923729,
+      "mirroredDb": -4.923728
     },
     {
       "receiver": [
@@ -246,9 +246,9 @@
         11.660254037844386,
         -4
       ],
-      "actualDb": -4.580002,
+      "actualDb": -8.149521,
       "format": "TAB",
-      "relativeDb": -4.58,
+      "relativeDb": -8.149519,
       "label": "up",
       "theta": 60,
       "yaw": 0,
@@ -261,8 +261,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.580002,
-      "mirroredDb": -4.58
+      "reopenedDb": -8.149521,
+      "mirroredDb": -8.149519
     },
     {
       "receiver": [
@@ -270,14 +270,14 @@
         13,
         -4
       ],
-      "actualDb": -9.010002,
+      "actualDb": -15.749996,
       "format": "TAB",
-      "relativeDb": -9.01,
+      "relativeDb": -15.75,
       "label": "up",
       "theta": 90,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 0,
       "onAxis": [
         12,
@@ -285,8 +285,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.010002,
-      "mirroredDb": -9.01
+      "reopenedDb": -15.749996,
+      "mirroredDb": -15.75
     },
     {
       "receiver": [
@@ -294,14 +294,14 @@
         -1.9999999999999991,
         -4.000000000000001
       ],
-      "actualDb": -1.6900024,
+      "actualDb": -1.6346207,
       "format": "TAB",
-      "relativeDb": -1.69,
+      "relativeDb": -1.634619,
       "label": "down",
       "theta": 30,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": -1.66893E-6,
       "phi": 180,
       "onAxis": [
         12,
@@ -309,8 +309,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6900024,
-      "mirroredDb": -1.69
+      "reopenedDb": -1.6346207,
+      "mirroredDb": -1.634619
     },
     {
       "receiver": [
@@ -318,14 +318,14 @@
         -4.071067811865475,
         -4.000000000000001
       ],
-      "actualDb": -3.4400024,
+      "actualDb": -3.8630676,
       "format": "TAB",
-      "relativeDb": -3.44,
+      "relativeDb": -3.863068,
       "label": "down",
       "theta": 45,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": 4.7683716E-7,
       "phi": 180,
       "onAxis": [
         12,
@@ -333,8 +333,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.4400024,
-      "mirroredDb": -3.44
+      "reopenedDb": -3.8630676,
+      "mirroredDb": -3.863068
     },
     {
       "receiver": [
@@ -342,14 +342,14 @@
         -5.6602540378443855,
         -4.000000000000001
       ],
-      "actualDb": -4.9400024,
+      "actualDb": -6.850479,
       "format": "TAB",
-      "relativeDb": -4.94,
+      "relativeDb": -6.850481,
       "label": "down",
       "theta": 60,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": 1.9073486E-6,
       "phi": 180,
       "onAxis": [
         12,
@@ -357,8 +357,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.9400024,
-      "mirroredDb": -4.94
+      "reopenedDb": -6.850479,
+      "mirroredDb": -6.850481
     },
     {
       "receiver": [
@@ -366,14 +366,14 @@
         -7,
         -4.000000000000001
       ],
-      "actualDb": -9.57,
+      "actualDb": -14.249996,
       "format": "TAB",
-      "relativeDb": -9.57,
+      "relativeDb": -14.25,
       "label": "down",
       "theta": 90,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 180,
       "onAxis": [
         12,
@@ -381,8 +381,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.57,
-      "mirroredDb": -9.57
+      "reopenedDb": -14.249996,
+      "mirroredDb": -14.25
     },
     {
       "receiver": [
@@ -390,14 +390,14 @@
         3.0000000000000004,
         4.660254037844387
       ],
-      "actualDb": -0.58999634,
+      "actualDb": -3.0096207,
       "format": "TAB",
-      "relativeDb": -0.59,
+      "relativeDb": -3.009619,
       "label": "left",
       "theta": 30,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 3.6358833E-6,
+      "residualDb": -1.66893E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -405,8 +405,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.58999634,
-      "mirroredDb": -0.35
+      "reopenedDb": -3.0096207,
+      "mirroredDb": -1.009619
     },
     {
       "receiver": [
@@ -414,14 +414,14 @@
         3.0000000000000004,
         3.071067811865475
       ],
-      "actualDb": -2.1399994,
+      "actualDb": -5.8076096,
       "format": "TAB",
-      "relativeDb": -2.14,
+      "relativeDb": -5.807612,
       "label": "left",
       "theta": 45,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 7.1525574E-7,
+      "residualDb": 2.3841858E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -429,8 +429,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.1399994,
-      "mirroredDb": -1.68
+      "reopenedDb": -5.8076096,
+      "mirroredDb": -2.979185
     },
     {
       "receiver": [
@@ -438,14 +438,14 @@
         3.0000000000000004,
         1.0000000000000004
       ],
-      "actualDb": -5.0199966,
+      "actualDb": -9.232044,
       "format": "TAB",
-      "relativeDb": -5.02,
+      "relativeDb": -9.232051,
       "label": "left",
       "theta": 60,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 3.33786E-6,
+      "residualDb": 6.67572E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -453,8 +453,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -5.0199966,
-      "mirroredDb": -2.88
+      "reopenedDb": -9.232044,
+      "mirroredDb": -5.767949
     },
     {
       "receiver": [
@@ -462,14 +462,14 @@
         3.0000000000000004,
         -4
       ],
-      "actualDb": -8.770004,
+      "actualDb": -16.999996,
       "format": "TAB",
-      "relativeDb": -8.77,
+      "relativeDb": -17,
       "label": "left",
       "theta": 90,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -3.8146973E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -477,8 +477,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -8.770004,
-      "mirroredDb": -6.01
+      "reopenedDb": -16.999996,
+      "mirroredDb": -13
     },
     {
       "receiver": [
@@ -486,14 +486,14 @@
         2.999999999999999,
         4.660254037844387
       ],
-      "actualDb": -0.34999847,
+      "actualDb": -1.0096207,
       "format": "TAB",
-      "relativeDb": -0.35,
+      "relativeDb": -1.009619,
       "label": "right",
       "theta": 30,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.5199184E-6,
+      "residualDb": -1.66893E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -501,8 +501,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.34999847,
-      "mirroredDb": -0.59
+      "reopenedDb": -1.0096207,
+      "mirroredDb": -3.009619
     },
     {
       "receiver": [
@@ -510,14 +510,14 @@
         2.9999999999999987,
         3.071067811865476
       ],
-      "actualDb": -1.6800003,
+      "actualDb": -2.979187,
       "format": "TAB",
-      "relativeDb": -1.68,
+      "relativeDb": -2.979185,
       "label": "right",
       "theta": 45,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -3.5762787E-7,
+      "residualDb": -1.9073486E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -525,8 +525,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6800003,
-      "mirroredDb": -2.14
+      "reopenedDb": -2.979187,
+      "mirroredDb": -5.807612
     },
     {
       "receiver": [
@@ -534,14 +534,14 @@
         2.9999999999999982,
         1.0000000000000013
       ],
-      "actualDb": -2.8799973,
+      "actualDb": -5.767952,
       "format": "TAB",
-      "relativeDb": -2.88,
+      "relativeDb": -5.767949,
       "label": "right",
       "theta": 60,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 2.861023E-6,
+      "residualDb": -2.861023E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -549,8 +549,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.8799973,
-      "mirroredDb": -5.02
+      "reopenedDb": -5.767952,
+      "mirroredDb": -9.232051
     },
     {
       "receiver": [
@@ -558,14 +558,14 @@
         2.9999999999999982,
         -3.999999999999999
       ],
-      "actualDb": -6.010002,
+      "actualDb": -12.999996,
       "format": "TAB",
-      "relativeDb": -6.01,
+      "relativeDb": -13,
       "label": "right",
       "theta": 90,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -573,8 +573,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -6.010002,
-      "mirroredDb": -8.77
+      "reopenedDb": -12.999996,
+      "mirroredDb": -17
     },
     {
       "receiver": [
@@ -582,14 +582,14 @@
         7.999999999999999,
         4.660254037844387
       ],
-      "actualDb": -1.4899979,
+      "actualDb": -2.3846207,
       "format": "TAB",
-      "relativeDb": -1.49,
+      "relativeDb": -2.384619,
       "label": "up",
       "theta": 30,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 2.1457672E-6,
+      "residualDb": -1.66893E-6,
       "phi": 0,
       "onAxis": [
         2.0000000000000004,
@@ -597,8 +597,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.4899979,
-      "mirroredDb": -1.49
+      "reopenedDb": -2.3846207,
+      "mirroredDb": -2.384619
     },
     {
       "receiver": [
@@ -606,14 +606,14 @@
         10.071067811865476,
         3.0710678118654755
       ],
-      "actualDb": -3.1100006,
+      "actualDb": -4.923729,
       "format": "TAB",
-      "relativeDb": -3.11,
+      "relativeDb": -4.923728,
       "label": "up",
       "theta": 45,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -7.1525574E-7,
+      "residualDb": -9.536743E-7,
       "phi": 0,
       "onAxis": [
         2.0000000000000004,
@@ -621,8 +621,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.1100006,
-      "mirroredDb": -3.11
+      "reopenedDb": -4.923729,
+      "mirroredDb": -4.923728
     },
     {
       "receiver": [
@@ -630,9 +630,9 @@
         11.660254037844386,
         1.0000000000000009
       ],
-      "actualDb": -4.580002,
+      "actualDb": -8.149521,
       "format": "TAB",
-      "relativeDb": -4.58,
+      "relativeDb": -8.149519,
       "label": "up",
       "theta": 60,
       "yaw": 90,
@@ -645,8 +645,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.580002,
-      "mirroredDb": -4.58
+      "reopenedDb": -8.149521,
+      "mirroredDb": -8.149519
     },
     {
       "receiver": [
@@ -654,14 +654,14 @@
         13,
         -3.9999999999999996
       ],
-      "actualDb": -9.010002,
+      "actualDb": -15.749996,
       "format": "TAB",
-      "relativeDb": -9.01,
+      "relativeDb": -15.75,
       "label": "up",
       "theta": 90,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 0,
       "onAxis": [
         2.0000000000000004,
@@ -669,8 +669,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.010002,
-      "mirroredDb": -9.01
+      "reopenedDb": -15.749996,
+      "mirroredDb": -15.75
     },
     {
       "receiver": [
@@ -678,14 +678,14 @@
         -1.9999999999999991,
         4.660254037844387
       ],
-      "actualDb": -1.6900024,
+      "actualDb": -1.6346207,
       "format": "TAB",
-      "relativeDb": -1.69,
+      "relativeDb": -1.634619,
       "label": "down",
       "theta": 30,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": -1.66893E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -693,8 +693,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6900024,
-      "mirroredDb": -1.69
+      "reopenedDb": -1.6346207,
+      "mirroredDb": -1.634619
     },
     {
       "receiver": [
@@ -702,14 +702,14 @@
         -4.071067811865475,
         3.0710678118654755
       ],
-      "actualDb": -3.4400024,
+      "actualDb": -3.8630676,
       "format": "TAB",
-      "relativeDb": -3.44,
+      "relativeDb": -3.863068,
       "label": "down",
       "theta": 45,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": 4.7683716E-7,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -717,8 +717,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.4400024,
-      "mirroredDb": -3.44
+      "reopenedDb": -3.8630676,
+      "mirroredDb": -3.863068
     },
     {
       "receiver": [
@@ -726,14 +726,14 @@
         -5.6602540378443855,
         1.0000000000000009
       ],
-      "actualDb": -4.9400024,
+      "actualDb": -6.850479,
       "format": "TAB",
-      "relativeDb": -4.94,
+      "relativeDb": -6.850481,
       "label": "down",
       "theta": 60,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": 1.9073486E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -741,8 +741,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.9400024,
-      "mirroredDb": -4.94
+      "reopenedDb": -6.850479,
+      "mirroredDb": -6.850481
     },
     {
       "receiver": [
@@ -750,14 +750,14 @@
         -7,
         -3.9999999999999996
       ],
-      "actualDb": -9.57,
+      "actualDb": -14.249996,
       "format": "TAB",
-      "relativeDb": -9.57,
+      "relativeDb": -14.25,
       "label": "down",
       "theta": 90,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -765,8 +765,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.57,
-      "mirroredDb": -9.57
+      "reopenedDb": -14.249996,
+      "mirroredDb": -14.25
     },
     {
       "receiver": [
@@ -774,14 +774,14 @@
         3.0000000000000004,
         -12.660254037844387
       ],
-      "actualDb": -0.58999634,
+      "actualDb": -3.0096207,
       "format": "TAB",
-      "relativeDb": -0.59,
+      "relativeDb": -3.009619,
       "label": "left",
       "theta": 30,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 3.6358833E-6,
+      "residualDb": -1.66893E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -789,8 +789,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.58999634,
-      "mirroredDb": -0.35
+      "reopenedDb": -3.0096207,
+      "mirroredDb": -1.009619
     },
     {
       "receiver": [
@@ -798,14 +798,14 @@
         3.0000000000000004,
         -11.071067811865476
       ],
-      "actualDb": -2.1399994,
+      "actualDb": -5.8076096,
       "format": "TAB",
-      "relativeDb": -2.14,
+      "relativeDb": -5.807612,
       "label": "left",
       "theta": 45,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 7.1525574E-7,
+      "residualDb": 2.3841858E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -813,8 +813,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.1399994,
-      "mirroredDb": -1.68
+      "reopenedDb": -5.8076096,
+      "mirroredDb": -2.979185
     },
     {
       "receiver": [
@@ -822,14 +822,14 @@
         3.0000000000000004,
         -9
       ],
-      "actualDb": -5.0199966,
+      "actualDb": -9.232044,
       "format": "TAB",
-      "relativeDb": -5.02,
+      "relativeDb": -9.232051,
       "label": "left",
       "theta": 60,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 3.33786E-6,
+      "residualDb": 6.67572E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -837,8 +837,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -5.0199966,
-      "mirroredDb": -2.88
+      "reopenedDb": -9.232044,
+      "mirroredDb": -5.767949
     },
     {
       "receiver": [
@@ -846,14 +846,14 @@
         3.0000000000000004,
         -4.000000000000002
       ],
-      "actualDb": -8.770004,
+      "actualDb": -16.999996,
       "format": "TAB",
-      "relativeDb": -8.77,
+      "relativeDb": -17,
       "label": "left",
       "theta": 90,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -3.8146973E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -861,8 +861,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -8.770004,
-      "mirroredDb": -6.01
+      "reopenedDb": -16.999996,
+      "mirroredDb": -13
     },
     {
       "receiver": [
@@ -870,14 +870,14 @@
         2.999999999999999,
         -12.660254037844387
       ],
-      "actualDb": -0.34999847,
+      "actualDb": -1.0096207,
       "format": "TAB",
-      "relativeDb": -0.35,
+      "relativeDb": -1.009619,
       "label": "right",
       "theta": 30,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.5199184E-6,
+      "residualDb": -1.66893E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -885,8 +885,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.34999847,
-      "mirroredDb": -0.59
+      "reopenedDb": -1.0096207,
+      "mirroredDb": -3.009619
     },
     {
       "receiver": [
@@ -894,14 +894,14 @@
         2.9999999999999987,
         -11.071067811865476
       ],
-      "actualDb": -1.6800003,
+      "actualDb": -2.979187,
       "format": "TAB",
-      "relativeDb": -1.68,
+      "relativeDb": -2.979185,
       "label": "right",
       "theta": 45,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -3.5762787E-7,
+      "residualDb": -1.9073486E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -909,8 +909,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6800003,
-      "mirroredDb": -2.14
+      "reopenedDb": -2.979187,
+      "mirroredDb": -5.807612
     },
     {
       "receiver": [
@@ -918,14 +918,14 @@
         2.9999999999999982,
         -9
       ],
-      "actualDb": -2.8799973,
+      "actualDb": -5.767952,
       "format": "TAB",
-      "relativeDb": -2.88,
+      "relativeDb": -5.767949,
       "label": "right",
       "theta": 60,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 2.861023E-6,
+      "residualDb": -2.861023E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -933,8 +933,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.8799973,
-      "mirroredDb": -5.02
+      "reopenedDb": -5.767952,
+      "mirroredDb": -9.232051
     },
     {
       "receiver": [
@@ -942,14 +942,14 @@
         2.9999999999999982,
         -4
       ],
-      "actualDb": -6.010002,
+      "actualDb": -12.999996,
       "format": "TAB",
-      "relativeDb": -6.01,
+      "relativeDb": -13,
       "label": "right",
       "theta": 90,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -957,8 +957,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -6.010002,
-      "mirroredDb": -8.77
+      "reopenedDb": -12.999996,
+      "mirroredDb": -17
     },
     {
       "receiver": [
@@ -966,14 +966,14 @@
         7.999999999999999,
         -12.660254037844387
       ],
-      "actualDb": -1.4899979,
+      "actualDb": -2.3846207,
       "format": "TAB",
-      "relativeDb": -1.49,
+      "relativeDb": -2.384619,
       "label": "up",
       "theta": 30,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 2.1457672E-6,
+      "residualDb": -1.66893E-6,
       "phi": 0,
       "onAxis": [
         2.0000000000000004,
@@ -981,8 +981,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.4899979,
-      "mirroredDb": -1.49
+      "reopenedDb": -2.3846207,
+      "mirroredDb": -2.384619
     },
     {
       "receiver": [
@@ -990,14 +990,14 @@
         10.071067811865476,
         -11.071067811865476
       ],
-      "actualDb": -3.1100006,
+      "actualDb": -4.923729,
       "format": "TAB",
-      "relativeDb": -3.11,
+      "relativeDb": -4.923728,
       "label": "up",
       "theta": 45,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -7.1525574E-7,
+      "residualDb": -9.536743E-7,
       "phi": 0,
       "onAxis": [
         2.0000000000000004,
@@ -1005,8 +1005,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.1100006,
-      "mirroredDb": -3.11
+      "reopenedDb": -4.923729,
+      "mirroredDb": -4.923728
     },
     {
       "receiver": [
@@ -1014,9 +1014,9 @@
         11.660254037844386,
         -9
       ],
-      "actualDb": -4.580002,
+      "actualDb": -8.149521,
       "format": "TAB",
-      "relativeDb": -4.58,
+      "relativeDb": -8.149519,
       "label": "up",
       "theta": 60,
       "yaw": -90,
@@ -1029,8 +1029,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.580002,
-      "mirroredDb": -4.58
+      "reopenedDb": -8.149521,
+      "mirroredDb": -8.149519
     },
     {
       "receiver": [
@@ -1038,14 +1038,14 @@
         13,
         -4.000000000000001
       ],
-      "actualDb": -9.010002,
+      "actualDb": -15.749996,
       "format": "TAB",
-      "relativeDb": -9.01,
+      "relativeDb": -15.75,
       "label": "up",
       "theta": 90,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 0,
       "onAxis": [
         2.0000000000000004,
@@ -1053,8 +1053,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.010002,
-      "mirroredDb": -9.01
+      "reopenedDb": -15.749996,
+      "mirroredDb": -15.75
     },
     {
       "receiver": [
@@ -1062,14 +1062,14 @@
         -1.9999999999999991,
         -12.660254037844387
       ],
-      "actualDb": -1.6900024,
+      "actualDb": -1.6346207,
       "format": "TAB",
-      "relativeDb": -1.69,
+      "relativeDb": -1.634619,
       "label": "down",
       "theta": 30,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": -1.66893E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -1077,8 +1077,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6900024,
-      "mirroredDb": -1.69
+      "reopenedDb": -1.6346207,
+      "mirroredDb": -1.634619
     },
     {
       "receiver": [
@@ -1086,14 +1086,14 @@
         -4.071067811865475,
         -11.071067811865476
       ],
-      "actualDb": -3.4400024,
+      "actualDb": -3.8630676,
       "format": "TAB",
-      "relativeDb": -3.44,
+      "relativeDb": -3.863068,
       "label": "down",
       "theta": 45,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": 4.7683716E-7,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -1101,8 +1101,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.4400024,
-      "mirroredDb": -3.44
+      "reopenedDb": -3.8630676,
+      "mirroredDb": -3.863068
     },
     {
       "receiver": [
@@ -1110,14 +1110,14 @@
         -5.6602540378443855,
         -9
       ],
-      "actualDb": -4.9400024,
+      "actualDb": -6.850479,
       "format": "TAB",
-      "relativeDb": -4.94,
+      "relativeDb": -6.850481,
       "label": "down",
       "theta": 60,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": 1.9073486E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -1125,8 +1125,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.9400024,
-      "mirroredDb": -4.94
+      "reopenedDb": -6.850479,
+      "mirroredDb": -6.850481
     },
     {
       "receiver": [
@@ -1134,14 +1134,14 @@
         -7,
         -4.000000000000001
       ],
-      "actualDb": -9.57,
+      "actualDb": -14.249996,
       "format": "TAB",
-      "relativeDb": -9.57,
+      "relativeDb": -14.25,
       "label": "down",
       "theta": 90,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -1149,8 +1149,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.57,
-      "mirroredDb": -9.57
+      "reopenedDb": -14.249996,
+      "mirroredDb": -14.25
     },
     {
       "receiver": [
@@ -1158,14 +1158,14 @@
         -0.6599815077066682,
         -3.269618292145934
       ],
-      "actualDb": -0.58999634,
+      "actualDb": -3.0096207,
       "format": "TAB",
-      "relativeDb": -0.59,
+      "relativeDb": -3.009619,
       "label": "left",
       "theta": 30,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 3.6358833E-6,
+      "residualDb": -1.66893E-6,
       "phi": 90,
       "onAxis": [
         9.23809581759848,
@@ -1173,8 +1173,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -0.58999634,
-      "mirroredDb": -0.35
+      "reopenedDb": -3.0096207,
+      "mirroredDb": -1.009619
     },
     {
       "receiver": [
@@ -1182,14 +1182,14 @@
         0.011637612698802206,
         -5.790435864467755
       ],
-      "actualDb": -2.1399994,
+      "actualDb": -5.8076096,
       "format": "TAB",
-      "relativeDb": -2.14,
+      "relativeDb": -5.807612,
       "label": "left",
       "theta": 45,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 7.1525574E-7,
+      "residualDb": 2.3841858E-6,
       "phi": 90,
       "onAxis": [
         9.23809581759848,
@@ -1197,8 +1197,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -2.1399994,
-      "mirroredDb": -1.68
+      "reopenedDb": -5.8076096,
+      "mirroredDb": -2.979185
     },
     {
       "receiver": [
@@ -1206,14 +1206,14 @@
         0.8869086912965027,
         -8.18923819146126
       ],
-      "actualDb": -5.0199966,
+      "actualDb": -9.232044,
       "format": "TAB",
-      "relativeDb": -5.02,
+      "relativeDb": -9.232051,
       "label": "left",
       "theta": 60,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 3.33786E-6,
+      "residualDb": 6.67572E-6,
       "phi": 90,
       "onAxis": [
         9.23809581759848,
@@ -1221,8 +1221,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -5.0199966,
-      "mirroredDb": -2.88
+      "reopenedDb": -9.232044,
+      "mirroredDb": -5.767949
     },
     {
       "receiver": [
@@ -1230,14 +1230,14 @@
         3,
         -11.986355100472927
       ],
-      "actualDb": -8.770004,
+      "actualDb": -16.999996,
       "format": "TAB",
-      "relativeDb": -8.77,
+      "relativeDb": -17,
       "label": "left",
       "theta": 90,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -3.8146973E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 90,
       "onAxis": [
         9.23809581759848,
@@ -1245,8 +1245,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -8.770004,
-      "mirroredDb": -6.01
+      "reopenedDb": -16.999996,
+      "mirroredDb": -13
     },
     {
       "receiver": [
@@ -1254,14 +1254,14 @@
         -0.6599815077066692,
         4.716736808326992
       ],
-      "actualDb": -0.34999847,
+      "actualDb": -1.0096207,
       "format": "TAB",
-      "relativeDb": -0.35,
+      "relativeDb": -1.009619,
       "label": "right",
       "theta": 30,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.5199184E-6,
+      "residualDb": -1.66893E-6,
       "phi": 270,
       "onAxis": [
         9.23809581759848,
@@ -1269,8 +1269,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -0.34999847,
-      "mirroredDb": -0.59
+      "reopenedDb": -1.0096207,
+      "mirroredDb": -3.009619
     },
     {
       "receiver": [
@@ -1278,59 +1278,11 @@
         0.011637612698800636,
         5.5039758325486
       ],
-      "actualDb": -1.6800003,
+      "actualDb": -2.979187,
       "format": "TAB",
-      "relativeDb": -1.68,
+      "relativeDb": -2.979185,
       "label": "right",
       "theta": 45,
-      "yaw": 37,
-      "sceneVerticalTranslationM": 12,
-      "residualDb": -3.5762787E-7,
-      "phi": 270,
-      "onAxis": [
-        9.23809581759848,
-        -1.2261826174069945,
-        1.4542964183834304
-      ],
-      "tiltDown": 25,
-      "reopenedDb": -1.6800003,
-      "mirroredDb": -2.14
-    },
-    {
-      "receiver": [
-        0.40717692451130194,
-        0.8869086912965009,
-        5.643534609844693
-      ],
-      "actualDb": -2.8799973,
-      "format": "TAB",
-      "relativeDb": -2.88,
-      "label": "right",
-      "theta": 60,
-      "yaw": 37,
-      "sceneVerticalTranslationM": 12,
-      "residualDb": 2.861023E-6,
-      "phi": 270,
-      "onAxis": [
-        9.23809581759848,
-        -1.2261826174069945,
-        1.4542964183834304
-      ],
-      "tiltDown": 25,
-      "reopenedDb": -2.8799973,
-      "mirroredDb": -5.02
-    },
-    {
-      "receiver": [
-        -4.018150231520483,
-        2.999999999999998,
-        3.9863551004729283
-      ],
-      "actualDb": -6.010002,
-      "format": "TAB",
-      "relativeDb": -6.01,
-      "label": "right",
-      "theta": 90,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
       "residualDb": -1.9073486E-6,
@@ -1341,8 +1293,56 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -6.010002,
-      "mirroredDb": -8.77
+      "reopenedDb": -2.979187,
+      "mirroredDb": -5.807612
+    },
+    {
+      "receiver": [
+        0.40717692451130194,
+        0.8869086912965009,
+        5.643534609844693
+      ],
+      "actualDb": -5.767952,
+      "format": "TAB",
+      "relativeDb": -5.767949,
+      "label": "right",
+      "theta": 60,
+      "yaw": 37,
+      "sceneVerticalTranslationM": 12,
+      "residualDb": -2.861023E-6,
+      "phi": 270,
+      "onAxis": [
+        9.23809581759848,
+        -1.2261826174069945,
+        1.4542964183834304
+      ],
+      "tiltDown": 25,
+      "reopenedDb": -5.767952,
+      "mirroredDb": -9.232051
+    },
+    {
+      "receiver": [
+        -4.018150231520483,
+        2.999999999999998,
+        3.9863551004729283
+      ],
+      "actualDb": -12.999996,
+      "format": "TAB",
+      "relativeDb": -13,
+      "label": "right",
+      "theta": 90,
+      "yaw": 37,
+      "sceneVerticalTranslationM": 12,
+      "residualDb": 3.8146973E-6,
+      "phi": 270,
+      "onAxis": [
+        9.23809581759848,
+        -1.2261826174069945,
+        1.4542964183834304
+      ],
+      "tiltDown": 25,
+      "reopenedDb": -12.999996,
+      "mirroredDb": -17
     },
     {
       "receiver": [
@@ -1350,14 +1350,14 @@
         3.87155742747658,
         1.9952493529603155
       ],
-      "actualDb": -1.4899979,
+      "actualDb": -2.3846207,
       "format": "TAB",
-      "relativeDb": -1.49,
+      "relativeDb": -2.384619,
       "label": "up",
       "theta": 30,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 2.1457672E-6,
+      "residualDb": -1.66893E-6,
       "phi": 0,
       "onAxis": [
         9.23809581759848,
@@ -1365,8 +1365,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -1.4899979,
-      "mirroredDb": -1.49
+      "reopenedDb": -2.3846207,
+      "mirroredDb": -2.384619
     },
     {
       "receiver": [
@@ -1374,14 +1374,14 @@
         6.420201433256686,
         1.6552113633408032
       ],
-      "actualDb": -3.1100006,
+      "actualDb": -4.923729,
       "format": "TAB",
-      "relativeDb": -3.11,
+      "relativeDb": -4.923728,
       "label": "up",
       "theta": 45,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -7.1525574E-7,
+      "residualDb": -9.536743E-7,
       "phi": 0,
       "onAxis": [
         9.23809581759848,
@@ -1389,8 +1389,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -3.1100006,
-      "mirroredDb": -3.11
+      "reopenedDb": -4.923729,
+      "mirroredDb": -4.923728
     },
     {
       "receiver": [
@@ -1398,9 +1398,9 @@
         8.735764363510459,
         0.9297800649882726
       ],
-      "actualDb": -4.579994,
+      "actualDb": -8.149513,
       "format": "TAB",
-      "relativeDb": -4.58,
+      "relativeDb": -8.149519,
       "label": "up",
       "theta": 60,
       "yaw": 37,
@@ -1413,8 +1413,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -4.579994,
-      "mirroredDb": -4.58
+      "reopenedDb": -8.149513,
+      "mirroredDb": -8.149519
     },
     {
       "receiver": [
@@ -1422,14 +1422,14 @@
         12.063077870366499,
         -1.4566198102604253
       ],
-      "actualDb": -9.010002,
+      "actualDb": -15.749996,
       "format": "TAB",
-      "relativeDb": -9.01,
+      "relativeDb": -15.75,
       "label": "up",
       "theta": 90,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 0,
       "onAxis": [
         9.23809581759848,
@@ -1437,8 +1437,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -9.010002,
-      "mirroredDb": -9.01
+      "reopenedDb": -15.749996,
+      "mirroredDb": -15.75
     },
     {
       "receiver": [
@@ -1446,14 +1446,14 @@
         -5.191520442889917,
         -0.5481308367792583
       ],
-      "actualDb": -1.6900024,
+      "actualDb": -1.6346207,
       "format": "TAB",
-      "relativeDb": -1.69,
+      "relativeDb": -1.634619,
       "label": "down",
       "theta": 30,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": -1.66893E-6,
       "phi": 180,
       "onAxis": [
         9.23809581759848,
@@ -1461,8 +1461,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -1.6900024,
-      "mirroredDb": -1.69
+      "reopenedDb": -1.6346207,
+      "mirroredDb": -1.634619
     },
     {
       "receiver": [
@@ -1470,14 +1470,14 @@
         -6.396926207859083,
         -1.9416713952599587
       ],
-      "actualDb": -3.4400024,
+      "actualDb": -3.8630676,
       "format": "TAB",
-      "relativeDb": -3.44,
+      "relativeDb": -3.863068,
       "label": "down",
       "theta": 45,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": 4.7683716E-7,
       "phi": 180,
       "onAxis": [
         9.23809581759848,
@@ -1485,8 +1485,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -3.4400024,
-      "mirroredDb": -3.44
+      "reopenedDb": -3.8630676,
+      "mirroredDb": -3.863068
     },
     {
       "receiver": [
@@ -1494,14 +1494,14 @@
         -6.961946980917455,
         -3.4754836466048418
       ],
-      "actualDb": -4.9400024,
+      "actualDb": -6.850479,
       "format": "TAB",
-      "relativeDb": -4.94,
+      "relativeDb": -6.850481,
       "label": "down",
       "theta": 60,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -2.3841858E-6,
+      "residualDb": 1.9073486E-6,
       "phi": 180,
       "onAxis": [
         9.23809581759848,
@@ -1509,8 +1509,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -4.9400024,
-      "mirroredDb": -4.94
+      "reopenedDb": -6.850479,
+      "mirroredDb": -6.850481
     },
     {
       "receiver": [
@@ -1518,14 +1518,14 @@
         -6.063077870366499,
         -6.543380189739575
       ],
-      "actualDb": -9.57,
+      "actualDb": -14.249996,
       "format": "TAB",
-      "relativeDb": -9.57,
+      "relativeDb": -14.25,
       "label": "down",
       "theta": 90,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 180,
       "onAxis": [
         9.23809581759848,
@@ -1533,8 +1533,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -9.57,
-      "mirroredDb": -9.57
+      "reopenedDb": -14.249996,
+      "mirroredDb": -14.25
     },
     {
       "receiver": [
@@ -1542,14 +1542,14 @@
         3.0000000000000004,
         -9
       ],
-      "actualDb": -0.59000015,
+      "actualDb": -3.0096207,
       "format": "CF2",
-      "relativeDb": -0.59,
+      "relativeDb": -3.009619,
       "label": "left",
       "theta": 30,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.7881393E-7,
+      "residualDb": -1.66893E-6,
       "phi": 90,
       "onAxis": [
         12,
@@ -1557,8 +1557,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.59000015,
-      "mirroredDb": -0.35
+      "reopenedDb": -3.0096207,
+      "mirroredDb": -1.009619
     },
     {
       "receiver": [
@@ -1566,14 +1566,14 @@
         3.0000000000000004,
         -11.071067811865476
       ],
-      "actualDb": -2.1399994,
+      "actualDb": -5.8076096,
       "format": "CF2",
-      "relativeDb": -2.14,
+      "relativeDb": -5.807612,
       "label": "left",
       "theta": 45,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 7.1525574E-7,
+      "residualDb": 2.3841858E-6,
       "phi": 90,
       "onAxis": [
         12,
@@ -1581,8 +1581,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.1399994,
-      "mirroredDb": -1.68
+      "reopenedDb": -5.8076096,
+      "mirroredDb": -2.979185
     },
     {
       "receiver": [
@@ -1590,14 +1590,14 @@
         3.0000000000000004,
         -12.660254037844386
       ],
-      "actualDb": -5.0200005,
+      "actualDb": -9.232044,
       "format": "CF2",
-      "relativeDb": -5.02,
+      "relativeDb": -9.232051,
       "label": "left",
       "theta": 60,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -4.7683716E-7,
+      "residualDb": 6.67572E-6,
       "phi": 90,
       "onAxis": [
         12,
@@ -1605,8 +1605,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -5.0200005,
-      "mirroredDb": -2.88
+      "reopenedDb": -9.232044,
+      "mirroredDb": -5.767949
     },
     {
       "receiver": [
@@ -1614,14 +1614,14 @@
         3.0000000000000004,
         -14
       ],
-      "actualDb": -8.77,
+      "actualDb": -16.999996,
       "format": "CF2",
-      "relativeDb": -8.77,
+      "relativeDb": -17,
       "label": "left",
       "theta": 90,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 90,
       "onAxis": [
         12,
@@ -1629,8 +1629,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -8.77,
-      "mirroredDb": -6.01
+      "reopenedDb": -16.999996,
+      "mirroredDb": -13
     },
     {
       "receiver": [
@@ -1638,14 +1638,14 @@
         2.999999999999999,
         0.9999999999999991
       ],
-      "actualDb": -0.34999847,
+      "actualDb": -1.0096207,
       "format": "CF2",
-      "relativeDb": -0.35,
+      "relativeDb": -1.009619,
       "label": "right",
       "theta": 30,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.5199184E-6,
+      "residualDb": -1.66893E-6,
       "phi": 270,
       "onAxis": [
         12,
@@ -1653,8 +1653,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.34999847,
-      "mirroredDb": -0.59
+      "reopenedDb": -1.0096207,
+      "mirroredDb": -3.009619
     },
     {
       "receiver": [
@@ -1662,14 +1662,14 @@
         2.9999999999999987,
         3.0710678118654746
       ],
-      "actualDb": -1.6800003,
+      "actualDb": -2.979187,
       "format": "CF2",
-      "relativeDb": -1.68,
+      "relativeDb": -2.979185,
       "label": "right",
       "theta": 45,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -3.5762787E-7,
+      "residualDb": -1.9073486E-6,
       "phi": 270,
       "onAxis": [
         12,
@@ -1677,8 +1677,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6800003,
-      "mirroredDb": -2.14
+      "reopenedDb": -2.979187,
+      "mirroredDb": -5.807612
     },
     {
       "receiver": [
@@ -1686,14 +1686,14 @@
         2.9999999999999982,
         4.6602540378443855
       ],
-      "actualDb": -2.880001,
+      "actualDb": -5.767952,
       "format": "CF2",
-      "relativeDb": -2.88,
+      "relativeDb": -5.767949,
       "label": "right",
       "theta": 60,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -9.536743E-7,
+      "residualDb": -2.861023E-6,
       "phi": 270,
       "onAxis": [
         12,
@@ -1701,8 +1701,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.880001,
-      "mirroredDb": -5.02
+      "reopenedDb": -5.767952,
+      "mirroredDb": -9.232051
     },
     {
       "receiver": [
@@ -1710,14 +1710,14 @@
         2.9999999999999982,
         6
       ],
-      "actualDb": -6.010002,
+      "actualDb": -12.999996,
       "format": "CF2",
-      "relativeDb": -6.01,
+      "relativeDb": -13,
       "label": "right",
       "theta": 90,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 270,
       "onAxis": [
         12,
@@ -1725,8 +1725,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -6.010002,
-      "mirroredDb": -8.77
+      "reopenedDb": -12.999996,
+      "mirroredDb": -17
     },
     {
       "receiver": [
@@ -1734,9 +1734,9 @@
         7.999999999999999,
         -4
       ],
-      "actualDb": -1.4900017,
+      "actualDb": -2.3846207,
       "format": "CF2",
-      "relativeDb": -1.49,
+      "relativeDb": -2.384619,
       "label": "up",
       "theta": 30,
       "yaw": 0,
@@ -1749,8 +1749,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.4900017,
-      "mirroredDb": -1.49
+      "reopenedDb": -2.3846207,
+      "mirroredDb": -2.384619
     },
     {
       "receiver": [
@@ -1758,14 +1758,14 @@
         10.071067811865476,
         -4
       ],
-      "actualDb": -3.1100006,
+      "actualDb": -4.923729,
       "format": "CF2",
-      "relativeDb": -3.11,
+      "relativeDb": -4.923728,
       "label": "up",
       "theta": 45,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -7.1525574E-7,
+      "residualDb": -9.536743E-7,
       "phi": 0,
       "onAxis": [
         12,
@@ -1773,8 +1773,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.1100006,
-      "mirroredDb": -3.11
+      "reopenedDb": -4.923729,
+      "mirroredDb": -4.923728
     },
     {
       "receiver": [
@@ -1782,9 +1782,9 @@
         11.660254037844386,
         -4
       ],
-      "actualDb": -4.580002,
+      "actualDb": -8.149521,
       "format": "CF2",
-      "relativeDb": -4.58,
+      "relativeDb": -8.149519,
       "label": "up",
       "theta": 60,
       "yaw": 0,
@@ -1797,8 +1797,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.580002,
-      "mirroredDb": -4.58
+      "reopenedDb": -8.149521,
+      "mirroredDb": -8.149519
     },
     {
       "receiver": [
@@ -1806,14 +1806,14 @@
         13,
         -4
       ],
-      "actualDb": -9.010002,
+      "actualDb": -15.749996,
       "format": "CF2",
-      "relativeDb": -9.01,
+      "relativeDb": -15.75,
       "label": "up",
       "theta": 90,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 0,
       "onAxis": [
         12,
@@ -1821,8 +1821,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.010002,
-      "mirroredDb": -9.01
+      "reopenedDb": -15.749996,
+      "mirroredDb": -15.75
     },
     {
       "receiver": [
@@ -1830,14 +1830,14 @@
         -1.9999999999999991,
         -4.000000000000001
       ],
-      "actualDb": -1.6899986,
+      "actualDb": -1.6346207,
       "format": "CF2",
-      "relativeDb": -1.69,
+      "relativeDb": -1.634619,
       "label": "down",
       "theta": 30,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": -1.66893E-6,
       "phi": 180,
       "onAxis": [
         12,
@@ -1845,8 +1845,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6899986,
-      "mirroredDb": -1.69
+      "reopenedDb": -1.6346207,
+      "mirroredDb": -1.634619
     },
     {
       "receiver": [
@@ -1854,14 +1854,14 @@
         -4.071067811865475,
         -4.000000000000001
       ],
-      "actualDb": -3.4399986,
+      "actualDb": -3.8630676,
       "format": "CF2",
-      "relativeDb": -3.44,
+      "relativeDb": -3.863068,
       "label": "down",
       "theta": 45,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": 4.7683716E-7,
       "phi": 180,
       "onAxis": [
         12,
@@ -1869,8 +1869,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.4399986,
-      "mirroredDb": -3.44
+      "reopenedDb": -3.8630676,
+      "mirroredDb": -3.863068
     },
     {
       "receiver": [
@@ -1878,14 +1878,14 @@
         -5.6602540378443855,
         -4.000000000000001
       ],
-      "actualDb": -4.9399986,
+      "actualDb": -6.850479,
       "format": "CF2",
-      "relativeDb": -4.94,
+      "relativeDb": -6.850481,
       "label": "down",
       "theta": 60,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": 1.9073486E-6,
       "phi": 180,
       "onAxis": [
         12,
@@ -1893,8 +1893,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.9399986,
-      "mirroredDb": -4.94
+      "reopenedDb": -6.850479,
+      "mirroredDb": -6.850481
     },
     {
       "receiver": [
@@ -1902,14 +1902,14 @@
         -7,
         -4.000000000000001
       ],
-      "actualDb": -9.57,
+      "actualDb": -14.249996,
       "format": "CF2",
-      "relativeDb": -9.57,
+      "relativeDb": -14.25,
       "label": "down",
       "theta": 90,
       "yaw": 0,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 180,
       "onAxis": [
         12,
@@ -1917,8 +1917,8 @@
         -4
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.57,
-      "mirroredDb": -9.57
+      "reopenedDb": -14.249996,
+      "mirroredDb": -14.25
     },
     {
       "receiver": [
@@ -1926,14 +1926,14 @@
         3.0000000000000004,
         4.660254037844387
       ],
-      "actualDb": -0.59000015,
+      "actualDb": -3.0096207,
       "format": "CF2",
-      "relativeDb": -0.59,
+      "relativeDb": -3.009619,
       "label": "left",
       "theta": 30,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.7881393E-7,
+      "residualDb": -1.66893E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -1941,8 +1941,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.59000015,
-      "mirroredDb": -0.35
+      "reopenedDb": -3.0096207,
+      "mirroredDb": -1.009619
     },
     {
       "receiver": [
@@ -1950,14 +1950,14 @@
         3.0000000000000004,
         3.071067811865475
       ],
-      "actualDb": -2.1399994,
+      "actualDb": -5.8076096,
       "format": "CF2",
-      "relativeDb": -2.14,
+      "relativeDb": -5.807612,
       "label": "left",
       "theta": 45,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 7.1525574E-7,
+      "residualDb": 2.3841858E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -1965,8 +1965,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.1399994,
-      "mirroredDb": -1.68
+      "reopenedDb": -5.8076096,
+      "mirroredDb": -2.979185
     },
     {
       "receiver": [
@@ -1974,14 +1974,14 @@
         3.0000000000000004,
         1.0000000000000004
       ],
-      "actualDb": -5.0200005,
+      "actualDb": -9.232044,
       "format": "CF2",
-      "relativeDb": -5.02,
+      "relativeDb": -9.232051,
       "label": "left",
       "theta": 60,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -4.7683716E-7,
+      "residualDb": 6.67572E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -1989,8 +1989,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -5.0200005,
-      "mirroredDb": -2.88
+      "reopenedDb": -9.232044,
+      "mirroredDb": -5.767949
     },
     {
       "receiver": [
@@ -1998,14 +1998,14 @@
         3.0000000000000004,
         -4
       ],
-      "actualDb": -8.77,
+      "actualDb": -16.999996,
       "format": "CF2",
-      "relativeDb": -8.77,
+      "relativeDb": -17,
       "label": "left",
       "theta": 90,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -2013,8 +2013,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -8.77,
-      "mirroredDb": -6.01
+      "reopenedDb": -16.999996,
+      "mirroredDb": -13
     },
     {
       "receiver": [
@@ -2022,14 +2022,14 @@
         2.999999999999999,
         4.660254037844387
       ],
-      "actualDb": -0.34999847,
+      "actualDb": -1.0096207,
       "format": "CF2",
-      "relativeDb": -0.35,
+      "relativeDb": -1.009619,
       "label": "right",
       "theta": 30,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.5199184E-6,
+      "residualDb": -1.66893E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -2037,8 +2037,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.34999847,
-      "mirroredDb": -0.59
+      "reopenedDb": -1.0096207,
+      "mirroredDb": -3.009619
     },
     {
       "receiver": [
@@ -2046,14 +2046,14 @@
         2.9999999999999987,
         3.071067811865476
       ],
-      "actualDb": -1.6800003,
+      "actualDb": -2.979187,
       "format": "CF2",
-      "relativeDb": -1.68,
+      "relativeDb": -2.979185,
       "label": "right",
       "theta": 45,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -3.5762787E-7,
+      "residualDb": -1.9073486E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -2061,8 +2061,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6800003,
-      "mirroredDb": -2.14
+      "reopenedDb": -2.979187,
+      "mirroredDb": -5.807612
     },
     {
       "receiver": [
@@ -2070,14 +2070,14 @@
         2.9999999999999982,
         1.0000000000000013
       ],
-      "actualDb": -2.880001,
+      "actualDb": -5.767952,
       "format": "CF2",
-      "relativeDb": -2.88,
+      "relativeDb": -5.767949,
       "label": "right",
       "theta": 60,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -9.536743E-7,
+      "residualDb": -2.861023E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -2085,8 +2085,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.880001,
-      "mirroredDb": -5.02
+      "reopenedDb": -5.767952,
+      "mirroredDb": -9.232051
     },
     {
       "receiver": [
@@ -2094,14 +2094,14 @@
         2.9999999999999982,
         -3.999999999999999
       ],
-      "actualDb": -6.010002,
+      "actualDb": -12.999996,
       "format": "CF2",
-      "relativeDb": -6.01,
+      "relativeDb": -13,
       "label": "right",
       "theta": 90,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -2109,8 +2109,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -6.010002,
-      "mirroredDb": -8.77
+      "reopenedDb": -12.999996,
+      "mirroredDb": -17
     },
     {
       "receiver": [
@@ -2118,9 +2118,9 @@
         7.999999999999999,
         4.660254037844387
       ],
-      "actualDb": -1.4900017,
+      "actualDb": -2.3846207,
       "format": "CF2",
-      "relativeDb": -1.49,
+      "relativeDb": -2.384619,
       "label": "up",
       "theta": 30,
       "yaw": 90,
@@ -2133,8 +2133,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.4900017,
-      "mirroredDb": -1.49
+      "reopenedDb": -2.3846207,
+      "mirroredDb": -2.384619
     },
     {
       "receiver": [
@@ -2142,14 +2142,14 @@
         10.071067811865476,
         3.0710678118654755
       ],
-      "actualDb": -3.1100006,
+      "actualDb": -4.923729,
       "format": "CF2",
-      "relativeDb": -3.11,
+      "relativeDb": -4.923728,
       "label": "up",
       "theta": 45,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -7.1525574E-7,
+      "residualDb": -9.536743E-7,
       "phi": 0,
       "onAxis": [
         2.0000000000000004,
@@ -2157,8 +2157,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.1100006,
-      "mirroredDb": -3.11
+      "reopenedDb": -4.923729,
+      "mirroredDb": -4.923728
     },
     {
       "receiver": [
@@ -2166,9 +2166,9 @@
         11.660254037844386,
         1.0000000000000009
       ],
-      "actualDb": -4.580002,
+      "actualDb": -8.149521,
       "format": "CF2",
-      "relativeDb": -4.58,
+      "relativeDb": -8.149519,
       "label": "up",
       "theta": 60,
       "yaw": 90,
@@ -2181,8 +2181,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.580002,
-      "mirroredDb": -4.58
+      "reopenedDb": -8.149521,
+      "mirroredDb": -8.149519
     },
     {
       "receiver": [
@@ -2190,14 +2190,14 @@
         13,
         -3.9999999999999996
       ],
-      "actualDb": -9.010002,
+      "actualDb": -15.749996,
       "format": "CF2",
-      "relativeDb": -9.01,
+      "relativeDb": -15.75,
       "label": "up",
       "theta": 90,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 0,
       "onAxis": [
         2.0000000000000004,
@@ -2205,8 +2205,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.010002,
-      "mirroredDb": -9.01
+      "reopenedDb": -15.749996,
+      "mirroredDb": -15.75
     },
     {
       "receiver": [
@@ -2214,14 +2214,14 @@
         -1.9999999999999991,
         4.660254037844387
       ],
-      "actualDb": -1.6899986,
+      "actualDb": -1.6346207,
       "format": "CF2",
-      "relativeDb": -1.69,
+      "relativeDb": -1.634619,
       "label": "down",
       "theta": 30,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": -1.66893E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -2229,8 +2229,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6899986,
-      "mirroredDb": -1.69
+      "reopenedDb": -1.6346207,
+      "mirroredDb": -1.634619
     },
     {
       "receiver": [
@@ -2238,14 +2238,14 @@
         -4.071067811865475,
         3.0710678118654755
       ],
-      "actualDb": -3.4399986,
+      "actualDb": -3.8630676,
       "format": "CF2",
-      "relativeDb": -3.44,
+      "relativeDb": -3.863068,
       "label": "down",
       "theta": 45,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": 4.7683716E-7,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -2253,8 +2253,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.4399986,
-      "mirroredDb": -3.44
+      "reopenedDb": -3.8630676,
+      "mirroredDb": -3.863068
     },
     {
       "receiver": [
@@ -2262,14 +2262,14 @@
         -5.6602540378443855,
         1.0000000000000009
       ],
-      "actualDb": -4.9399986,
+      "actualDb": -6.850479,
       "format": "CF2",
-      "relativeDb": -4.94,
+      "relativeDb": -6.850481,
       "label": "down",
       "theta": 60,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": 1.9073486E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -2277,8 +2277,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.9399986,
-      "mirroredDb": -4.94
+      "reopenedDb": -6.850479,
+      "mirroredDb": -6.850481
     },
     {
       "receiver": [
@@ -2286,14 +2286,14 @@
         -7,
         -3.9999999999999996
       ],
-      "actualDb": -9.57,
+      "actualDb": -14.249996,
       "format": "CF2",
-      "relativeDb": -9.57,
+      "relativeDb": -14.25,
       "label": "down",
       "theta": 90,
       "yaw": 90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -2301,8 +2301,8 @@
         6
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.57,
-      "mirroredDb": -9.57
+      "reopenedDb": -14.249996,
+      "mirroredDb": -14.25
     },
     {
       "receiver": [
@@ -2310,14 +2310,14 @@
         3.0000000000000004,
         -12.660254037844387
       ],
-      "actualDb": -0.59000015,
+      "actualDb": -3.0096207,
       "format": "CF2",
-      "relativeDb": -0.59,
+      "relativeDb": -3.009619,
       "label": "left",
       "theta": 30,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.7881393E-7,
+      "residualDb": -1.66893E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -2325,8 +2325,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.59000015,
-      "mirroredDb": -0.35
+      "reopenedDb": -3.0096207,
+      "mirroredDb": -1.009619
     },
     {
       "receiver": [
@@ -2334,14 +2334,14 @@
         3.0000000000000004,
         -11.071067811865476
       ],
-      "actualDb": -2.1399994,
+      "actualDb": -5.8076096,
       "format": "CF2",
-      "relativeDb": -2.14,
+      "relativeDb": -5.807612,
       "label": "left",
       "theta": 45,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 7.1525574E-7,
+      "residualDb": 2.3841858E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -2349,8 +2349,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.1399994,
-      "mirroredDb": -1.68
+      "reopenedDb": -5.8076096,
+      "mirroredDb": -2.979185
     },
     {
       "receiver": [
@@ -2358,14 +2358,14 @@
         3.0000000000000004,
         -9
       ],
-      "actualDb": -5.0200005,
+      "actualDb": -9.232044,
       "format": "CF2",
-      "relativeDb": -5.02,
+      "relativeDb": -9.232051,
       "label": "left",
       "theta": 60,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -4.7683716E-7,
+      "residualDb": 6.67572E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -2373,8 +2373,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -5.0200005,
-      "mirroredDb": -2.88
+      "reopenedDb": -9.232044,
+      "mirroredDb": -5.767949
     },
     {
       "receiver": [
@@ -2382,14 +2382,14 @@
         3.0000000000000004,
         -4.000000000000002
       ],
-      "actualDb": -8.77,
+      "actualDb": -16.999996,
       "format": "CF2",
-      "relativeDb": -8.77,
+      "relativeDb": -17,
       "label": "left",
       "theta": 90,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 90,
       "onAxis": [
         2.0000000000000004,
@@ -2397,8 +2397,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -8.77,
-      "mirroredDb": -6.01
+      "reopenedDb": -16.999996,
+      "mirroredDb": -13
     },
     {
       "receiver": [
@@ -2406,14 +2406,14 @@
         2.999999999999999,
         -12.660254037844387
       ],
-      "actualDb": -0.34999847,
+      "actualDb": -1.0096207,
       "format": "CF2",
-      "relativeDb": -0.35,
+      "relativeDb": -1.009619,
       "label": "right",
       "theta": 30,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.5199184E-6,
+      "residualDb": -1.66893E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -2421,8 +2421,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -0.34999847,
-      "mirroredDb": -0.59
+      "reopenedDb": -1.0096207,
+      "mirroredDb": -3.009619
     },
     {
       "receiver": [
@@ -2430,14 +2430,14 @@
         2.9999999999999987,
         -11.071067811865476
       ],
-      "actualDb": -1.6800003,
+      "actualDb": -2.979187,
       "format": "CF2",
-      "relativeDb": -1.68,
+      "relativeDb": -2.979185,
       "label": "right",
       "theta": 45,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -3.5762787E-7,
+      "residualDb": -1.9073486E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -2445,8 +2445,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6800003,
-      "mirroredDb": -2.14
+      "reopenedDb": -2.979187,
+      "mirroredDb": -5.807612
     },
     {
       "receiver": [
@@ -2454,14 +2454,14 @@
         2.9999999999999982,
         -9
       ],
-      "actualDb": -2.880001,
+      "actualDb": -5.767952,
       "format": "CF2",
-      "relativeDb": -2.88,
+      "relativeDb": -5.767949,
       "label": "right",
       "theta": 60,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -9.536743E-7,
+      "residualDb": -2.861023E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -2469,8 +2469,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -2.880001,
-      "mirroredDb": -5.02
+      "reopenedDb": -5.767952,
+      "mirroredDb": -9.232051
     },
     {
       "receiver": [
@@ -2478,14 +2478,14 @@
         2.9999999999999982,
         -4
       ],
-      "actualDb": -6.010002,
+      "actualDb": -12.999996,
       "format": "CF2",
-      "relativeDb": -6.01,
+      "relativeDb": -13,
       "label": "right",
       "theta": 90,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 270,
       "onAxis": [
         2.0000000000000004,
@@ -2493,8 +2493,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -6.010002,
-      "mirroredDb": -8.77
+      "reopenedDb": -12.999996,
+      "mirroredDb": -17
     },
     {
       "receiver": [
@@ -2502,9 +2502,9 @@
         7.999999999999999,
         -12.660254037844387
       ],
-      "actualDb": -1.4900017,
+      "actualDb": -2.3846207,
       "format": "CF2",
-      "relativeDb": -1.49,
+      "relativeDb": -2.384619,
       "label": "up",
       "theta": 30,
       "yaw": -90,
@@ -2517,8 +2517,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.4900017,
-      "mirroredDb": -1.49
+      "reopenedDb": -2.3846207,
+      "mirroredDb": -2.384619
     },
     {
       "receiver": [
@@ -2526,14 +2526,14 @@
         10.071067811865476,
         -11.071067811865476
       ],
-      "actualDb": -3.1100006,
+      "actualDb": -4.923729,
       "format": "CF2",
-      "relativeDb": -3.11,
+      "relativeDb": -4.923728,
       "label": "up",
       "theta": 45,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -7.1525574E-7,
+      "residualDb": -9.536743E-7,
       "phi": 0,
       "onAxis": [
         2.0000000000000004,
@@ -2541,8 +2541,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.1100006,
-      "mirroredDb": -3.11
+      "reopenedDb": -4.923729,
+      "mirroredDb": -4.923728
     },
     {
       "receiver": [
@@ -2550,9 +2550,9 @@
         11.660254037844386,
         -9
       ],
-      "actualDb": -4.580002,
+      "actualDb": -8.149521,
       "format": "CF2",
-      "relativeDb": -4.58,
+      "relativeDb": -8.149519,
       "label": "up",
       "theta": 60,
       "yaw": -90,
@@ -2565,8 +2565,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.580002,
-      "mirroredDb": -4.58
+      "reopenedDb": -8.149521,
+      "mirroredDb": -8.149519
     },
     {
       "receiver": [
@@ -2574,14 +2574,14 @@
         13,
         -4.000000000000001
       ],
-      "actualDb": -9.010002,
+      "actualDb": -15.749996,
       "format": "CF2",
-      "relativeDb": -9.01,
+      "relativeDb": -15.75,
       "label": "up",
       "theta": 90,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 0,
       "onAxis": [
         2.0000000000000004,
@@ -2589,8 +2589,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.010002,
-      "mirroredDb": -9.01
+      "reopenedDb": -15.749996,
+      "mirroredDb": -15.75
     },
     {
       "receiver": [
@@ -2598,14 +2598,14 @@
         -1.9999999999999991,
         -12.660254037844387
       ],
-      "actualDb": -1.6899986,
+      "actualDb": -1.6346207,
       "format": "CF2",
-      "relativeDb": -1.69,
+      "relativeDb": -1.634619,
       "label": "down",
       "theta": 30,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": -1.66893E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -2613,8 +2613,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -1.6899986,
-      "mirroredDb": -1.69
+      "reopenedDb": -1.6346207,
+      "mirroredDb": -1.634619
     },
     {
       "receiver": [
@@ -2622,14 +2622,14 @@
         -4.071067811865475,
         -11.071067811865476
       ],
-      "actualDb": -3.4399986,
+      "actualDb": -3.8630676,
       "format": "CF2",
-      "relativeDb": -3.44,
+      "relativeDb": -3.863068,
       "label": "down",
       "theta": 45,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": 4.7683716E-7,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -2637,8 +2637,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -3.4399986,
-      "mirroredDb": -3.44
+      "reopenedDb": -3.8630676,
+      "mirroredDb": -3.863068
     },
     {
       "receiver": [
@@ -2646,14 +2646,14 @@
         -5.6602540378443855,
         -9
       ],
-      "actualDb": -4.9399986,
+      "actualDb": -6.850479,
       "format": "CF2",
-      "relativeDb": -4.94,
+      "relativeDb": -6.850481,
       "label": "down",
       "theta": 60,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": 1.9073486E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -2661,8 +2661,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -4.9399986,
-      "mirroredDb": -4.94
+      "reopenedDb": -6.850479,
+      "mirroredDb": -6.850481
     },
     {
       "receiver": [
@@ -2670,14 +2670,14 @@
         -7,
         -4.000000000000001
       ],
-      "actualDb": -9.57,
+      "actualDb": -14.249996,
       "format": "CF2",
-      "relativeDb": -9.57,
+      "relativeDb": -14.25,
       "label": "down",
       "theta": 90,
       "yaw": -90,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 180,
       "onAxis": [
         2.0000000000000004,
@@ -2685,8 +2685,8 @@
         -14
       ],
       "tiltDown": 0,
-      "reopenedDb": -9.57,
-      "mirroredDb": -9.57
+      "reopenedDb": -14.249996,
+      "mirroredDb": -14.25
     },
     {
       "receiver": [
@@ -2694,14 +2694,14 @@
         -0.6599815077066682,
         -3.269618292145934
       ],
-      "actualDb": -0.59000015,
+      "actualDb": -3.0096207,
       "format": "CF2",
-      "relativeDb": -0.59,
+      "relativeDb": -3.009619,
       "label": "left",
       "theta": 30,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.7881393E-7,
+      "residualDb": -1.66893E-6,
       "phi": 90,
       "onAxis": [
         9.23809581759848,
@@ -2709,8 +2709,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -0.59000015,
-      "mirroredDb": -0.35
+      "reopenedDb": -3.0096207,
+      "mirroredDb": -1.009619
     },
     {
       "receiver": [
@@ -2718,14 +2718,14 @@
         0.011637612698802206,
         -5.790435864467755
       ],
-      "actualDb": -2.1399994,
+      "actualDb": -5.8076096,
       "format": "CF2",
-      "relativeDb": -2.14,
+      "relativeDb": -5.807612,
       "label": "left",
       "theta": 45,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 7.1525574E-7,
+      "residualDb": 2.3841858E-6,
       "phi": 90,
       "onAxis": [
         9.23809581759848,
@@ -2733,8 +2733,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -2.1399994,
-      "mirroredDb": -1.68
+      "reopenedDb": -5.8076096,
+      "mirroredDb": -2.979185
     },
     {
       "receiver": [
@@ -2742,14 +2742,14 @@
         0.8869086912965027,
         -8.18923819146126
       ],
-      "actualDb": -5.0200005,
+      "actualDb": -9.232044,
       "format": "CF2",
-      "relativeDb": -5.02,
+      "relativeDb": -9.232051,
       "label": "left",
       "theta": 60,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -4.7683716E-7,
+      "residualDb": 6.67572E-6,
       "phi": 90,
       "onAxis": [
         9.23809581759848,
@@ -2757,8 +2757,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -5.0200005,
-      "mirroredDb": -2.88
+      "reopenedDb": -9.232044,
+      "mirroredDb": -5.767949
     },
     {
       "receiver": [
@@ -2766,14 +2766,14 @@
         3,
         -11.986355100472927
       ],
-      "actualDb": -8.77,
+      "actualDb": -16.999996,
       "format": "CF2",
-      "relativeDb": -8.77,
+      "relativeDb": -17,
       "label": "left",
       "theta": 90,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 90,
       "onAxis": [
         9.23809581759848,
@@ -2781,8 +2781,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -8.77,
-      "mirroredDb": -6.01
+      "reopenedDb": -16.999996,
+      "mirroredDb": -13
     },
     {
       "receiver": [
@@ -2790,14 +2790,14 @@
         -0.6599815077066692,
         4.716736808326992
       ],
-      "actualDb": -0.34999847,
+      "actualDb": -1.0096207,
       "format": "CF2",
-      "relativeDb": -0.35,
+      "relativeDb": -1.009619,
       "label": "right",
       "theta": 30,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.5199184E-6,
+      "residualDb": -1.66893E-6,
       "phi": 270,
       "onAxis": [
         9.23809581759848,
@@ -2805,8 +2805,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -0.34999847,
-      "mirroredDb": -0.59
+      "reopenedDb": -1.0096207,
+      "mirroredDb": -3.009619
     },
     {
       "receiver": [
@@ -2814,59 +2814,11 @@
         0.011637612698800636,
         5.5039758325486
       ],
-      "actualDb": -1.6800003,
+      "actualDb": -2.979187,
       "format": "CF2",
-      "relativeDb": -1.68,
+      "relativeDb": -2.979185,
       "label": "right",
       "theta": 45,
-      "yaw": 37,
-      "sceneVerticalTranslationM": 12,
-      "residualDb": -3.5762787E-7,
-      "phi": 270,
-      "onAxis": [
-        9.23809581759848,
-        -1.2261826174069945,
-        1.4542964183834304
-      ],
-      "tiltDown": 25,
-      "reopenedDb": -1.6800003,
-      "mirroredDb": -2.14
-    },
-    {
-      "receiver": [
-        0.40717692451130194,
-        0.8869086912965009,
-        5.643534609844693
-      ],
-      "actualDb": -2.880001,
-      "format": "CF2",
-      "relativeDb": -2.88,
-      "label": "right",
-      "theta": 60,
-      "yaw": 37,
-      "sceneVerticalTranslationM": 12,
-      "residualDb": -9.536743E-7,
-      "phi": 270,
-      "onAxis": [
-        9.23809581759848,
-        -1.2261826174069945,
-        1.4542964183834304
-      ],
-      "tiltDown": 25,
-      "reopenedDb": -2.880001,
-      "mirroredDb": -5.02
-    },
-    {
-      "receiver": [
-        -4.018150231520483,
-        2.999999999999998,
-        3.9863551004729283
-      ],
-      "actualDb": -6.010002,
-      "format": "CF2",
-      "relativeDb": -6.01,
-      "label": "right",
-      "theta": 90,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
       "residualDb": -1.9073486E-6,
@@ -2877,8 +2829,56 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -6.010002,
-      "mirroredDb": -8.77
+      "reopenedDb": -2.979187,
+      "mirroredDb": -5.807612
+    },
+    {
+      "receiver": [
+        0.40717692451130194,
+        0.8869086912965009,
+        5.643534609844693
+      ],
+      "actualDb": -5.767952,
+      "format": "CF2",
+      "relativeDb": -5.767949,
+      "label": "right",
+      "theta": 60,
+      "yaw": 37,
+      "sceneVerticalTranslationM": 12,
+      "residualDb": -2.861023E-6,
+      "phi": 270,
+      "onAxis": [
+        9.23809581759848,
+        -1.2261826174069945,
+        1.4542964183834304
+      ],
+      "tiltDown": 25,
+      "reopenedDb": -5.767952,
+      "mirroredDb": -9.232051
+    },
+    {
+      "receiver": [
+        -4.018150231520483,
+        2.999999999999998,
+        3.9863551004729283
+      ],
+      "actualDb": -12.999996,
+      "format": "CF2",
+      "relativeDb": -13,
+      "label": "right",
+      "theta": 90,
+      "yaw": 37,
+      "sceneVerticalTranslationM": 12,
+      "residualDb": 3.8146973E-6,
+      "phi": 270,
+      "onAxis": [
+        9.23809581759848,
+        -1.2261826174069945,
+        1.4542964183834304
+      ],
+      "tiltDown": 25,
+      "reopenedDb": -12.999996,
+      "mirroredDb": -17
     },
     {
       "receiver": [
@@ -2886,9 +2886,9 @@
         3.87155742747658,
         1.9952493529603155
       ],
-      "actualDb": -1.4900017,
+      "actualDb": -2.3846207,
       "format": "CF2",
-      "relativeDb": -1.49,
+      "relativeDb": -2.384619,
       "label": "up",
       "theta": 30,
       "yaw": 37,
@@ -2901,8 +2901,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -1.4900017,
-      "mirroredDb": -1.49
+      "reopenedDb": -2.3846207,
+      "mirroredDb": -2.384619
     },
     {
       "receiver": [
@@ -2910,14 +2910,14 @@
         6.420201433256686,
         1.6552113633408032
       ],
-      "actualDb": -3.1100006,
+      "actualDb": -4.923729,
       "format": "CF2",
-      "relativeDb": -3.11,
+      "relativeDb": -4.923728,
       "label": "up",
       "theta": 45,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -7.1525574E-7,
+      "residualDb": -9.536743E-7,
       "phi": 0,
       "onAxis": [
         9.23809581759848,
@@ -2925,8 +2925,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -3.1100006,
-      "mirroredDb": -3.11
+      "reopenedDb": -4.923729,
+      "mirroredDb": -4.923728
     },
     {
       "receiver": [
@@ -2934,14 +2934,14 @@
         8.735764363510459,
         0.9297800649882726
       ],
-      "actualDb": -4.580002,
+      "actualDb": -8.149513,
       "format": "CF2",
-      "relativeDb": -4.58,
+      "relativeDb": -8.149519,
       "label": "up",
       "theta": 60,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 5.722046E-6,
       "phi": 0,
       "onAxis": [
         9.23809581759848,
@@ -2949,8 +2949,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -4.580002,
-      "mirroredDb": -4.58
+      "reopenedDb": -8.149513,
+      "mirroredDb": -8.149519
     },
     {
       "receiver": [
@@ -2958,14 +2958,14 @@
         12.063077870366499,
         -1.4566198102604253
       ],
-      "actualDb": -9.010002,
+      "actualDb": -15.749996,
       "format": "CF2",
-      "relativeDb": -9.01,
+      "relativeDb": -15.75,
       "label": "up",
       "theta": 90,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": -1.9073486E-6,
+      "residualDb": 3.8146973E-6,
       "phi": 0,
       "onAxis": [
         9.23809581759848,
@@ -2973,8 +2973,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -9.010002,
-      "mirroredDb": -9.01
+      "reopenedDb": -15.749996,
+      "mirroredDb": -15.75
     },
     {
       "receiver": [
@@ -2982,14 +2982,14 @@
         -5.191520442889917,
         -0.5481308367792583
       ],
-      "actualDb": -1.6899986,
+      "actualDb": -1.6346207,
       "format": "CF2",
-      "relativeDb": -1.69,
+      "relativeDb": -1.634619,
       "label": "down",
       "theta": 30,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": -1.66893E-6,
       "phi": 180,
       "onAxis": [
         9.23809581759848,
@@ -2997,8 +2997,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -1.6899986,
-      "mirroredDb": -1.69
+      "reopenedDb": -1.6346207,
+      "mirroredDb": -1.634619
     },
     {
       "receiver": [
@@ -3006,14 +3006,14 @@
         -6.396926207859083,
         -1.9416713952599587
       ],
-      "actualDb": -3.4399986,
+      "actualDb": -3.8630676,
       "format": "CF2",
-      "relativeDb": -3.44,
+      "relativeDb": -3.863068,
       "label": "down",
       "theta": 45,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": 4.7683716E-7,
       "phi": 180,
       "onAxis": [
         9.23809581759848,
@@ -3021,8 +3021,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -3.4399986,
-      "mirroredDb": -3.44
+      "reopenedDb": -3.8630676,
+      "mirroredDb": -3.863068
     },
     {
       "receiver": [
@@ -3030,14 +3030,14 @@
         -6.961946980917455,
         -3.4754836466048418
       ],
-      "actualDb": -4.9399986,
+      "actualDb": -6.850479,
       "format": "CF2",
-      "relativeDb": -4.94,
+      "relativeDb": -6.850481,
       "label": "down",
       "theta": 60,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 1.4305115E-6,
+      "residualDb": 1.9073486E-6,
       "phi": 180,
       "onAxis": [
         9.23809581759848,
@@ -3045,8 +3045,8 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -4.9399986,
-      "mirroredDb": -4.94
+      "reopenedDb": -6.850479,
+      "mirroredDb": -6.850481
     },
     {
       "receiver": [
@@ -3054,14 +3054,14 @@
         -6.063077870366499,
         -6.543380189739575
       ],
-      "actualDb": -9.57,
+      "actualDb": -14.249996,
       "format": "CF2",
-      "relativeDb": -9.57,
+      "relativeDb": -14.25,
       "label": "down",
       "theta": 90,
       "yaw": 37,
       "sceneVerticalTranslationM": 12,
-      "residualDb": 0,
+      "residualDb": 3.8146973E-6,
       "phi": 180,
       "onAxis": [
         9.23809581759848,
@@ -3069,11 +3069,11 @@
         1.4542964183834304
       ],
       "tiltDown": 25,
-      "reopenedDb": -9.57,
-      "mirroredDb": -9.57
+      "reopenedDb": -14.249996,
+      "mirroredDb": -14.25
     }
   ],
-  "scope": "EXTERNAL_CLF_FORMAT_HANDEDNESS_NOT_PHYSICAL_ACCURACY",
-  "referenceSha256": "f48154cd26725eea505e8ab0eb2628bcc6c7e14c965512e1c82eaedd75007633",
+  "scope": "PROJECT_AUTHORED_SYNTHETIC_CLF_HANDEDNESS_NOT_PHYSICAL_ACCURACY",
+  "referenceSha256": "31beb42dd77b6697558df51bfd30918c97eb6378543afa7ba61018a0a8b572d5",
   "allPassed": true
 }

@@ -1,0 +1,362 @@
+{
+  "scope": "Sampled JVM stacks; shares are project-containing samples, not exact CPU time",
+  "recordingSha256": "a5c000886cd76b0f9d0935001acd1a9f9f013bea67d08bfc479cd1ec6035569b",
+  "executionEvents": 8302,
+  "projectSamples": 3291,
+  "projectLeaf": [
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:222",
+      "samples": 361,
+      "projectSamplePercent": 10.969310240048618
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/PolarGrid.floorIndex:149",
+      "samples": 248,
+      "projectSamplePercent": 7.535703433606806
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:280",
+      "samples": 239,
+      "projectSamplePercent": 7.26223032512914
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/BoundaryPoint.equals:-1",
+      "samples": 164,
+      "projectSamplePercent": 4.98328775448192
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:282",
+      "samples": 153,
+      "projectSamplePercent": 4.649042844120328
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/DiffuseIncidentCache.get$lambda$15:82",
+      "samples": 137,
+      "projectSamplePercent": 4.162868429048921
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/BoundaryWork.check:19",
+      "samples": 122,
+      "projectSamplePercent": 3.7070799149194773
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:301",
+      "samples": 116,
+      "projectSamplePercent": 3.5247645092677
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/BoundaryWork.check:18",
+      "samples": 111,
+      "projectSamplePercent": 3.372835004557885
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/BoundaryMaterial.absorptionAt:27",
+      "samples": 101,
+      "projectSamplePercent": 3.068975995138256
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/ComplexSpeakerResponse.at:24",
+      "samples": 90,
+      "projectSamplePercent": 2.7347310847766635
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.samples_delegate$lambda$23$lambda$8:66",
+      "samples": 80,
+      "projectSamplePercent": 2.4308720753570343
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/DiffuseIncidentCache$Key.<init>:-1",
+      "samples": 79,
+      "projectSamplePercent": 2.4004861744150716
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:279",
+      "samples": 75,
+      "projectSamplePercent": 2.2789425706472195
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:227",
+      "samples": 75,
+      "projectSamplePercent": 2.2789425706472195
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:302",
+      "samples": 67,
+      "projectSamplePercent": 2.035855363111516
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/IncidentToneBatch.power:86",
+      "samples": 63,
+      "projectSamplePercent": 1.9143117593436645
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/BoundaryMaterial.absorptionAt$default:16",
+      "samples": 62,
+      "projectSamplePercent": 1.8839258584017016
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/DiffuseQuadrature.integrate$triangle:75",
+      "samples": 60,
+      "projectSamplePercent": 1.8231540565177757
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:220",
+      "samples": 53,
+      "projectSamplePercent": 1.6104527499240353
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/DiffuseQuadrature.integrate$triangle:74",
+      "samples": 48,
+      "projectSamplePercent": 1.4585232452142205
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/ComplexSpeakerResponse.upperIndex:18",
+      "samples": 41,
+      "projectSamplePercent": 1.24582193862048
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.samples_delegate$lambda$23$lambda$8:60",
+      "samples": 36,
+      "projectSamplePercent": 1.0938924339106655
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/SoundSource.toward$shared_core:80",
+      "samples": 32,
+      "projectSamplePercent": 0.9723488301428137
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/DiffuseQuadrature.integrate$triangle$edge:59",
+      "samples": 30,
+      "projectSamplePercent": 0.9115770282588879
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:395",
+      "samples": 28,
+      "projectSamplePercent": 0.850805226374962
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.samples_delegate$lambda$23$lambda$8:417",
+      "samples": 26,
+      "projectSamplePercent": 0.7900334244910362
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/DiffuseIncidentCache.get:82",
+      "samples": 25,
+      "projectSamplePercent": 0.7596475235490733
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/DiffuseIncidentCache$PackedInts.equals:29",
+      "samples": 23,
+      "projectSamplePercent": 0.6988757216651473
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/BoundaryGeometry.illuminationSamples$lambda$62:268",
+      "samples": 18,
+      "projectSamplePercent": 0.5469462169553327
+    }
+  ],
+  "inclusiveProjectMethods": [
+    {
+      "method": "com/droidacoustic/pro/scene/PhaseTraceIntegrationTest.fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics",
+      "samples": 3288
+    },
+    {
+      "method": "com/droidacoustic/pro/scene/PhaseTraceIntegrationTest.fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics$calculate$34",
+      "samples": 3285
+    },
+    {
+      "method": "com/droidacoustic/pro/prediction/PredictionRequest.calculate",
+      "samples": 3285
+    },
+    {
+      "method": "com/droidacoustic/pro/prediction/PredictionRequest.calculate$default",
+      "samples": 3285
+    },
+    {
+      "method": "com/droidacoustic/pro/prediction/PredictionRequest.calculate$bandPower$default",
+      "samples": 3284
+    },
+    {
+      "method": "com/droidacoustic/pro/prediction/PredictionRequest.calculate$bandPower",
+      "samples": 3284
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/DirectField.predictBand$default",
+      "samples": 3284
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/DirectField.predictBand",
+      "samples": 3284
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/CoherentDiffuse.integratedPower",
+      "samples": 3133
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers",
+      "samples": 2064
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/CoherentDiffuse.getSamples",
+      "samples": 990
+    },
+    {
+      "method": "com.droidacoustic.pro.acoustics.CoherentDiffuse$$Lambda/0x000000b001195900.invoke",
+      "samples": 989
+    },
+    {
+      "method": "com/droidacoustic/pro/geometry/BoundaryGeometry.illuminationSamples$shared_core",
+      "samples": 989
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/CoherentDiffuse.samples_delegate$lambda$23",
+      "samples": 989
+    },
+    {
+      "method": "com/droidacoustic/pro/geometry/DiffuseQuadrature.integrate",
+      "samples": 917
+    },
+    {
+      "method": "com/droidacoustic/pro/geometry/DiffuseQuadrature.integrate$default",
+      "samples": 917
+    },
+    {
+      "method": "com/droidacoustic/pro/geometry/DiffuseQuadrature.integrate$triangle",
+      "samples": 917
+    },
+    {
+      "method": "com/droidacoustic/pro/geometry/BoundaryGeometry.illuminationSamples$lambda$57",
+      "samples": 591
+    },
+    {
+      "method": "com.droidacoustic.pro.geometry.BoundaryGeometry$$Lambda/0x000000b0011978e8.invoke",
+      "samples": 591
+    },
+    {
+      "method": "com.droidacoustic.pro.acoustics.CoherentDiffuse$$Lambda/0x000000b001196380.invoke",
+      "samples": 590
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/CoherentDiffuse.samples_delegate$lambda$23$lambda$8",
+      "samples": 587
+    },
+    {
+      "method": "com/droidacoustic/pro/geometry/GeometryCacheLock.withLock",
+      "samples": 372
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/ComplexSpeakerResponse.bandAt",
+      "samples": 356
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/MeasuredRadiator.complexBandAt",
+      "samples": 353
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/ComplexSpeakerResponse.at",
+      "samples": 317
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/DiffuseIncidentCache.get",
+      "samples": 314
+    },
+    {
+      "method": "com.droidacoustic.pro.acoustics.DiffuseIncidentCache$$Lambda/0x000000b00119a6d0.invoke",
+      "samples": 278
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/DiffuseIncidentCache.get$lambda$15",
+      "samples": 278
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/PolarGrid.at",
+      "samples": 249
+    },
+    {
+      "method": "com/droidacoustic/pro/acoustics/PolarGrid.floorIndex",
+      "samples": 248
+    }
+  ],
+  "allLeaf": [
+    {
+      "frame": "sun/nio/ch/KQueue.poll:-1",
+      "samples": 5006
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:222",
+      "samples": 361
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/PolarGrid.floorIndex:149",
+      "samples": 248
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:280",
+      "samples": 239
+    },
+    {
+      "frame": "java/util/Objects.checkIndex:385",
+      "samples": 163
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/BoundaryPoint.equals:-1",
+      "samples": 147
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/BoundaryWork.check:19",
+      "samples": 122
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:301",
+      "samples": 116
+    },
+    {
+      "frame": "java/util/HashMap.getNode:582",
+      "samples": 114
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:282",
+      "samples": 112
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/BoundaryWork.check:18",
+      "samples": 111
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/ComplexSpeakerResponse.at:24",
+      "samples": 90
+    },
+    {
+      "frame": "kotlin/jvm/internal/Intrinsics.checkNotNullParameter:130",
+      "samples": 79
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:279",
+      "samples": 75
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:227",
+      "samples": 75
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:302",
+      "samples": 67
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/IncidentToneBatch.power:86",
+      "samples": 63
+    },
+    {
+      "frame": "com/droidacoustic/pro/geometry/BoundaryMaterial.absorptionAt$default:16",
+      "samples": 62
+    },
+    {
+      "frame": "kotlin/collections/CollectionsKt___CollectionsKt.toIntArray:1150",
+      "samples": 57
+    },
+    {
+      "frame": "com/droidacoustic/pro/acoustics/CoherentDiffuse.bandPowers:220",
+      "samples": 53
+    }
+  ]
+}

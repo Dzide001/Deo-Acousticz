@@ -1,0 +1,14 @@
+{
+  "command": [
+    "./gradlew",
+    ":app:testDebugUnitTest",
+    "-PacousticCostProfile=true",
+    "--tests",
+    "*DiffuseCostProfileTest",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--offline"
+  ],
+  "jfrEnabled": false,
+  "sourceSha256": "b6f70f82533192faada6d7a48151ec3d60975ae21e28d348b43cb612f895d6bd",
+  "timerHelperSha256": "4b2998c139555cd08a592223722e5f190beb602bbe1cd101e840289feb09ab20"
+}

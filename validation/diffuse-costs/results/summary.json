@@ -1,0 +1,81 @@
+{
+  "instrumentedBefore": {
+    "coverage": {
+      "schema": "droidacoustic.diffuse-costs.v1",
+      "hitTones": 591094840,
+      "cacheMisses": 103810,
+      "surfaceSamples": 2121434,
+      "samplingSeconds": 8.838592359,
+      "missSeconds": 11.173035893,
+      "spectrumSeconds": 39.062583342,
+      "geometryEvaluations": 4568640,
+      "hitSeconds": 20.556879395,
+      "cacheHits": 21110530,
+      "missTones": 2906680,
+      "totalSeconds": 49.576239292,
+      "meanDb": 56.71420139630636
+    },
+    "listener": {
+      "schema": "droidacoustic.diffuse-costs.v1",
+      "hitTones": 0,
+      "cacheMisses": 74816,
+      "surfaceSamples": 9212,
+      "samplingSeconds": 0.783704166,
+      "missSeconds": 7.818601471,
+      "levelDb": 67.50961,
+      "spectrumSeconds": 7.87497358,
+      "geometryEvaluations": 2606432,
+      "hitSeconds": 0,
+      "cacheHits": 0,
+      "missTones": 1852592,
+      "totalSeconds": 8.703160541
+    }
+  },
+  "instrumentedAfter": {
+    "coverage": {
+      "schema": "droidacoustic.diffuse-costs.v1",
+      "hitTones": 591094840,
+      "cacheMisses": 103810,
+      "surfaceSamples": 2121434,
+      "samplingSeconds": 8.876428597,
+      "missSeconds": 8.512828749,
+      "spectrumSeconds": 34.416598583,
+      "geometryEvaluations": 4568640,
+      "hitSeconds": 19.05678428,
+      "cacheHits": 21110530,
+      "missTones": 2906680,
+      "totalSeconds": 44.954524167,
+      "meanDb": 56.71420139630636
+    },
+    "listener": {
+      "schema": "droidacoustic.diffuse-costs.v1",
+      "hitTones": 0,
+      "cacheMisses": 74816,
+      "surfaceSamples": 9212,
+      "samplingSeconds": 0.662205002,
+      "missSeconds": 5.890541345,
+      "levelDb": 67.50961,
+      "spectrumSeconds": 5.928712292,
+      "geometryEvaluations": 2606432,
+      "hitSeconds": 0,
+      "cacheHits": 0,
+      "missTones": 1852592,
+      "totalSeconds": 6.631823916
+    }
+  },
+  "diagnosticCountsUnchanged": true,
+  "unprofiledFirstCoverageSeconds": 47.975408292,
+  "unprofiledThreeLargeTestsSeconds": 117.886,
+  "nativeInitialUpperBoundsSeconds": [
+    123.57222258299589,
+    125.72832900000503
+  ],
+  "nativeFinalUpperBoundsSeconds": [
+    123.50270716598607
+  ],
+  "previousNativeUpperBoundsSeconds": [
+    159.2608369590016,
+    159.8744208330172
+  ],
+  "scope": "Individual instrumented/host/native observations; not sustained or other-scene guarantees"
+}

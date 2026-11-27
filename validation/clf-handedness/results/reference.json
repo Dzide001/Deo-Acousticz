@@ -1,8 +1,8 @@
 {
-  "scope": "EXTERNAL_CLF_FORMAT_HANDEDNESS_NOT_PHYSICAL_ACCURACY",
+  "scope": "PROJECT_AUTHORED_SYNTHETIC_CLF_HANDEDNESS_NOT_PHYSICAL_ACCURACY",
   "toleranceDb": 0.001,
-  "referenceScriptSha256": "ac12c16f7fbf26b840b8a09921ca9f7edb4f328dd8074ffe1624e7286074bd37",
-  "provenanceSha256": "94fd38d4ab0f7051bca3888fa09d3f4aa28b8ff0ad64fc4d8ad34929b69eab3d",
+  "referenceScriptSha256": "622187fc91e09e49ad3d1e2612f51db077313472b8105d5e5c972ce47a158650",
+  "provenanceSha256": "b4a4fdd01a2fb9908dff5bfcdb9c0f6aea4b0b6dbf2866ba98ff45092d0e3694",
   "cases": [
     {
       "label": "left",
@@ -20,8 +20,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -0.59,
-      "mirroredDb": -0.35
+      "relativeDb": -3.009619,
+      "mirroredDb": -1.009619
     },
     {
       "label": "left",
@@ -39,8 +39,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -2.14,
-      "mirroredDb": -1.68
+      "relativeDb": -5.807612,
+      "mirroredDb": -2.979185
     },
     {
       "label": "left",
@@ -58,8 +58,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -5.02,
-      "mirroredDb": -2.88
+      "relativeDb": -9.232051,
+      "mirroredDb": -5.767949
     },
     {
       "label": "left",
@@ -77,8 +77,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -8.77,
-      "mirroredDb": -6.01
+      "relativeDb": -17.0,
+      "mirroredDb": -13.0
     },
     {
       "label": "right",
@@ -96,8 +96,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -0.35,
-      "mirroredDb": -0.59
+      "relativeDb": -1.009619,
+      "mirroredDb": -3.009619
     },
     {
       "label": "right",
@@ -115,8 +115,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -1.68,
-      "mirroredDb": -2.14
+      "relativeDb": -2.979185,
+      "mirroredDb": -5.807612
     },
     {
       "label": "right",
@@ -134,8 +134,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -2.88,
-      "mirroredDb": -5.02
+      "relativeDb": -5.767949,
+      "mirroredDb": -9.232051
     },
     {
       "label": "right",
@@ -153,8 +153,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -6.01,
-      "mirroredDb": -8.77
+      "relativeDb": -13.0,
+      "mirroredDb": -17.0
     },
     {
       "label": "up",
@@ -172,8 +172,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -1.49,
-      "mirroredDb": -1.49
+      "relativeDb": -2.384619,
+      "mirroredDb": -2.384619
     },
     {
       "label": "up",
@@ -191,8 +191,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -3.11,
-      "mirroredDb": -3.11
+      "relativeDb": -4.923728,
+      "mirroredDb": -4.923728
     },
     {
       "label": "up",
@@ -210,8 +210,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -4.58,
-      "mirroredDb": -4.58
+      "relativeDb": -8.149519,
+      "mirroredDb": -8.149519
     },
     {
       "label": "up",
@@ -229,8 +229,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -9.01,
-      "mirroredDb": -9.01
+      "relativeDb": -15.75,
+      "mirroredDb": -15.75
     },
     {
       "label": "down",
@@ -248,8 +248,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -1.69,
-      "mirroredDb": -1.69
+      "relativeDb": -1.634619,
+      "mirroredDb": -1.634619
     },
     {
       "label": "down",
@@ -267,8 +267,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -3.44,
-      "mirroredDb": -3.44
+      "relativeDb": -3.863068,
+      "mirroredDb": -3.863068
     },
     {
       "label": "down",
@@ -286,8 +286,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -4.94,
-      "mirroredDb": -4.94
+      "relativeDb": -6.850481,
+      "mirroredDb": -6.850481
     },
     {
       "label": "down",
@@ -305,8 +305,8 @@
         3.0,
         -4.0
       ],
-      "relativeDb": -9.57,
-      "mirroredDb": -9.57
+      "relativeDb": -14.25,
+      "mirroredDb": -14.25
     },
     {
       "label": "left",
@@ -324,8 +324,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -0.59,
-      "mirroredDb": -0.35
+      "relativeDb": -3.009619,
+      "mirroredDb": -1.009619
     },
     {
       "label": "left",
@@ -343,8 +343,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -2.14,
-      "mirroredDb": -1.68
+      "relativeDb": -5.807612,
+      "mirroredDb": -2.979185
     },
     {
       "label": "left",
@@ -362,8 +362,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -5.02,
-      "mirroredDb": -2.88
+      "relativeDb": -9.232051,
+      "mirroredDb": -5.767949
     },
     {
       "label": "left",
@@ -381,8 +381,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -8.77,
-      "mirroredDb": -6.01
+      "relativeDb": -17.0,
+      "mirroredDb": -13.0
     },
     {
       "label": "right",
@@ -400,8 +400,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -0.35,
-      "mirroredDb": -0.59
+      "relativeDb": -1.009619,
+      "mirroredDb": -3.009619
     },
     {
       "label": "right",
@@ -419,8 +419,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -1.68,
-      "mirroredDb": -2.14
+      "relativeDb": -2.979185,
+      "mirroredDb": -5.807612
     },
     {
       "label": "right",
@@ -438,8 +438,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -2.88,
-      "mirroredDb": -5.02
+      "relativeDb": -5.767949,
+      "mirroredDb": -9.232051
     },
     {
       "label": "right",
@@ -457,8 +457,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -6.01,
-      "mirroredDb": -8.77
+      "relativeDb": -13.0,
+      "mirroredDb": -17.0
     },
     {
       "label": "up",
@@ -476,8 +476,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -1.49,
-      "mirroredDb": -1.49
+      "relativeDb": -2.384619,
+      "mirroredDb": -2.384619
     },
     {
       "label": "up",
@@ -495,8 +495,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -3.11,
-      "mirroredDb": -3.11
+      "relativeDb": -4.923728,
+      "mirroredDb": -4.923728
     },
     {
       "label": "up",
@@ -514,8 +514,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -4.58,
-      "mirroredDb": -4.58
+      "relativeDb": -8.149519,
+      "mirroredDb": -8.149519
     },
     {
       "label": "up",
@@ -533,8 +533,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -9.01,
-      "mirroredDb": -9.01
+      "relativeDb": -15.75,
+      "mirroredDb": -15.75
     },
     {
       "label": "down",
@@ -552,8 +552,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -1.69,
-      "mirroredDb": -1.69
+      "relativeDb": -1.634619,
+      "mirroredDb": -1.634619
     },
     {
       "label": "down",
@@ -571,8 +571,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -3.44,
-      "mirroredDb": -3.44
+      "relativeDb": -3.863068,
+      "mirroredDb": -3.863068
     },
     {
       "label": "down",
@@ -590,8 +590,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -4.94,
-      "mirroredDb": -4.94
+      "relativeDb": -6.850481,
+      "mirroredDb": -6.850481
     },
     {
       "label": "down",
@@ -609,8 +609,8 @@
         3.0,
         6.0
       ],
-      "relativeDb": -9.57,
-      "mirroredDb": -9.57
+      "relativeDb": -14.25,
+      "mirroredDb": -14.25
     },
     {
       "label": "left",
@@ -628,8 +628,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -0.59,
-      "mirroredDb": -0.35
+      "relativeDb": -3.009619,
+      "mirroredDb": -1.009619
     },
     {
       "label": "left",
@@ -647,8 +647,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -2.14,
-      "mirroredDb": -1.68
+      "relativeDb": -5.807612,
+      "mirroredDb": -2.979185
     },
     {
       "label": "left",
@@ -666,8 +666,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -5.02,
-      "mirroredDb": -2.88
+      "relativeDb": -9.232051,
+      "mirroredDb": -5.767949
     },
     {
       "label": "left",
@@ -685,8 +685,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -8.77,
-      "mirroredDb": -6.01
+      "relativeDb": -17.0,
+      "mirroredDb": -13.0
     },
     {
       "label": "right",
@@ -704,8 +704,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -0.35,
-      "mirroredDb": -0.59
+      "relativeDb": -1.009619,
+      "mirroredDb": -3.009619
     },
     {
       "label": "right",
@@ -723,8 +723,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -1.68,
-      "mirroredDb": -2.14
+      "relativeDb": -2.979185,
+      "mirroredDb": -5.807612
     },
     {
       "label": "right",
@@ -742,8 +742,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -2.88,
-      "mirroredDb": -5.02
+      "relativeDb": -5.767949,
+      "mirroredDb": -9.232051
     },
     {
       "label": "right",
@@ -761,8 +761,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -6.01,
-      "mirroredDb": -8.77
+      "relativeDb": -13.0,
+      "mirroredDb": -17.0
     },
     {
       "label": "up",
@@ -780,8 +780,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -1.49,
-      "mirroredDb": -1.49
+      "relativeDb": -2.384619,
+      "mirroredDb": -2.384619
     },
     {
       "label": "up",
@@ -799,8 +799,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -3.11,
-      "mirroredDb": -3.11
+      "relativeDb": -4.923728,
+      "mirroredDb": -4.923728
     },
     {
       "label": "up",
@@ -818,8 +818,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -4.58,
-      "mirroredDb": -4.58
+      "relativeDb": -8.149519,
+      "mirroredDb": -8.149519
     },
     {
       "label": "up",
@@ -837,8 +837,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -9.01,
-      "mirroredDb": -9.01
+      "relativeDb": -15.75,
+      "mirroredDb": -15.75
     },
     {
       "label": "down",
@@ -856,8 +856,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -1.69,
-      "mirroredDb": -1.69
+      "relativeDb": -1.634619,
+      "mirroredDb": -1.634619
     },
     {
       "label": "down",
@@ -875,8 +875,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -3.44,
-      "mirroredDb": -3.44
+      "relativeDb": -3.863068,
+      "mirroredDb": -3.863068
     },
     {
       "label": "down",
@@ -894,8 +894,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -4.94,
-      "mirroredDb": -4.94
+      "relativeDb": -6.850481,
+      "mirroredDb": -6.850481
     },
     {
       "label": "down",
@@ -913,8 +913,8 @@
         3.0,
         -14.0
       ],
-      "relativeDb": -9.57,
-      "mirroredDb": -9.57
+      "relativeDb": -14.25,
+      "mirroredDb": -14.25
     },
     {
       "label": "left",
@@ -932,8 +932,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -0.59,
-      "mirroredDb": -0.35
+      "relativeDb": -3.009619,
+      "mirroredDb": -1.009619
     },
     {
       "label": "left",
@@ -951,8 +951,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -2.14,
-      "mirroredDb": -1.68
+      "relativeDb": -5.807612,
+      "mirroredDb": -2.979185
     },
     {
       "label": "left",
@@ -970,8 +970,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -5.02,
-      "mirroredDb": -2.88
+      "relativeDb": -9.232051,
+      "mirroredDb": -5.767949
     },
     {
       "label": "left",
@@ -989,8 +989,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -8.77,
-      "mirroredDb": -6.01
+      "relativeDb": -17.0,
+      "mirroredDb": -13.0
     },
     {
       "label": "right",
@@ -1008,8 +1008,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -0.35,
-      "mirroredDb": -0.59
+      "relativeDb": -1.009619,
+      "mirroredDb": -3.009619
     },
     {
       "label": "right",
@@ -1027,8 +1027,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -1.68,
-      "mirroredDb": -2.14
+      "relativeDb": -2.979185,
+      "mirroredDb": -5.807612
     },
     {
       "label": "right",
@@ -1046,8 +1046,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -2.88,
-      "mirroredDb": -5.02
+      "relativeDb": -5.767949,
+      "mirroredDb": -9.232051
     },
     {
       "label": "right",
@@ -1065,8 +1065,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -6.01,
-      "mirroredDb": -8.77
+      "relativeDb": -13.0,
+      "mirroredDb": -17.0
     },
     {
       "label": "up",
@@ -1084,8 +1084,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -1.49,
-      "mirroredDb": -1.49
+      "relativeDb": -2.384619,
+      "mirroredDb": -2.384619
     },
     {
       "label": "up",
@@ -1103,8 +1103,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -3.11,
-      "mirroredDb": -3.11
+      "relativeDb": -4.923728,
+      "mirroredDb": -4.923728
     },
     {
       "label": "up",
@@ -1122,8 +1122,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -4.58,
-      "mirroredDb": -4.58
+      "relativeDb": -8.149519,
+      "mirroredDb": -8.149519
     },
     {
       "label": "up",
@@ -1141,8 +1141,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -9.01,
-      "mirroredDb": -9.01
+      "relativeDb": -15.75,
+      "mirroredDb": -15.75
     },
     {
       "label": "down",
@@ -1160,8 +1160,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -1.69,
-      "mirroredDb": -1.69
+      "relativeDb": -1.634619,
+      "mirroredDb": -1.634619
     },
     {
       "label": "down",
@@ -1179,8 +1179,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -3.44,
-      "mirroredDb": -3.44
+      "relativeDb": -3.863068,
+      "mirroredDb": -3.863068
     },
     {
       "label": "down",
@@ -1198,8 +1198,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -4.94,
-      "mirroredDb": -4.94
+      "relativeDb": -6.850481,
+      "mirroredDb": -6.850481
     },
     {
       "label": "down",
@@ -1217,8 +1217,8 @@
         -1.2261826174069945,
         1.4542964183834304
       ],
-      "relativeDb": -9.57,
-      "mirroredDb": -9.57
+      "relativeDb": -14.25,
+      "mirroredDb": -14.25
     }
   ]
 }

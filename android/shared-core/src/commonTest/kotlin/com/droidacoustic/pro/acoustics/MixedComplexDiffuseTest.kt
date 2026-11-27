@@ -4,8 +4,126 @@ import com.droidacoustic.pro.geometry.*
 import com.droidacoustic.pro.scene.*
 import kotlin.math.*
 import kotlin.test.*
+import kotlinx.serialization.json.*
 
 class MixedComplexDiffuseTest {
+    @Test fun pressureCompressionChecksCancellationAndKeepsPartialStateConsistent() {
+        val cache=DiffuseIncidentCache(maxValues=32)
+        val context=cache.context(DiffuseIncidentCache.Context(listOf(source()),geometry(listOf(wall())),Atmosphere(),true,true,null))
+        val visible=cache.vector(intArrayOf(0));val losses=cache.vector(intArrayOf(0))
+        val spectrum=cache.spectrum(List(32){Bands.Segment(1000,1000.0+it,1000.0+it)})
+        fun key(i:Int)=DiffuseIncidentCache.Key(context,BoundaryPoint(i.toDouble(),0.0,0.0),BoundaryPoint(1.0,0.0,0.0),cache.materials(emptySet()),visible,losses,spectrum)
+        cache.put(key(0),DoubleArray(32){1.0})
+        assertFailsWith<IllegalStateException> {cache.put(key(1),DoubleArray(32){2.0}) {error("cancelled")}}
+        assertContentEquals(DoubleArray(32){1.0},cache.get(key(0)))
+        assertNull(cache.get(key(1)));assertEquals(256L,cache.storedPayloadBytes)
+    }
+
+    @Test fun packedAdmissionRetainsMoreExactValuesWithinTheOriginalByteBudget() {
+        val cache=DiffuseIncidentCache(maxValues=32,maxEntries=16,maxKeyBytes=224*16)
+        val context=cache.context(DiffuseIncidentCache.Context(listOf(source()),geometry(listOf(wall())),Atmosphere(),true,true,null))
+        val visible=cache.vector(intArrayOf(0));val losses=cache.vector(intArrayOf(0))
+        val materials=cache.materials(emptySet())
+        val spectrum=cache.spectrum(List(32){Bands.Segment(1000,1000.0+it,1000.0+it)})
+        fun key(i:Int)=DiffuseIncidentCache.Key(context,BoundaryPoint(i.toDouble(),0.0,0.0),BoundaryPoint(1.0,0.0,0.0),materials,visible,losses,spectrum)
+        cache.put(key(0),DoubleArray(32){1.0})
+        val beforePressure=DiffuseDiagnostics();cache.record(beforePressure)
+        assertEquals(0L,beforePressure.cachePackedEntriesPeak)
+        assertEquals(256L,beforePressure.cachePayloadBytesPeak)
+        assertEquals(192L,beforePressure.cacheKeyBytesPeak)
+        repeat(15) {cache.put(key(it+1),DoubleArray(32){1.0})}
+        assertTrue(cache.storedValues>32);assertTrue(cache.storedPayloadBytes<=32*8)
+        val value=cache.get(key(0))!!;assertContentEquals(DoubleArray(32){1.0},value)
+        value[0]=9.0;assertEquals(1.0,cache.get(key(0))!![0])
+        val diagnostics=DiffuseDiagnostics();cache.record(diagnostics)
+        assertTrue(diagnostics.cachePackedEntriesPeak>1);assertTrue(diagnostics.cacheRejectedPuts>0)
+        assertTrue(diagnostics.cacheKeyBytesPeak<=224*16)
+        val before=cache.storedPayloadBytes
+        cache.put(key(99),DoubleArray(32){Double.NaN})
+        cache.put(key(98),DoubleArray(33){1.0})
+        assertEquals(before,cache.storedPayloadBytes)
+    }
+    @Test fun integrationDiagnosticsPreservePowerAndReportBoundedCacheOccupancy() {
+        val src=listOf(source(),source(id=1,delay=.0002))
+        val g=geometry(listOf(wall()));val diagnostics=DiffuseDiagnostics()
+        val cache=DiffuseIncidentCache(maxValues=64,maxEntries=4,maxKeyBytes=768)
+        fun calculate(d:DiffuseDiagnostics?,c:DiffuseIncidentCache?):Double? {
+            val missing=mutableSetOf<MissingBand>()
+            return CoherentDiffuse(src,BoundaryPoint(4.0,0.0,0.0),g,Atmosphere(),segments,true,true,false,
+                BoundaryWork(),incidentCache=c,diagnostics=d).integratedPower(segments,missing,null,null)
+                .also {assertTrue(missing.isEmpty())}
+        }
+        val reference=calculate(null,null);assertNotNull(reference)
+        assertEquals(reference,calculate(diagnostics,cache))
+        assertEquals(reference,calculate(diagnostics,cache))
+        val costs=Json.parseToJsonElement(diagnostics.toJson()).jsonObject
+        assertEquals(2,costs.getValue("integrationCalls").jsonPrimitive.int)
+        assertEquals(2,costs.getValue("baseIntervals").jsonPrimitive.int)
+        assertTrue(costs.getValue("refinementPasses").jsonPrimitive.long>=6)
+        assertTrue(costs.getValue("quadratureTones").jsonPrimitive.long>=costs.getValue("maximumTones").jsonPrimitive.long)
+        assertTrue(costs.getValue("maximumTones").jsonPrimitive.long in 1..16384)
+        assertTrue(costs.getValue("cacheValuesPeak").jsonPrimitive.long>0)
+        assertTrue(costs.getValue("cachePayloadBytesPeak").jsonPrimitive.long in 1..512)
+        assertTrue(costs.getValue("cacheEntriesPeak").jsonPrimitive.long in 1..4)
+        assertTrue(costs.getValue("cacheKeyBytesPeak").jsonPrimitive.long in 1..768)
+    }
+    @Test fun preparedSamplingResponsesMatchScalarForMixedChainsAndLargeSpectraFallback() {
+        val r=radiator();val chain=DspFilterChain(listOf(DspFilter(FilterKind.HIGH_PASS,80.0),DspFilter(FilterKind.PEAK,1000.0,2.0,-3.0)))
+        val distinct=DspFilterChain(listOf(DspFilter(FilterKind.HIGH_PASS,90.0,sampleRateHz=96000.0),
+            DspFilter(FilterKind.PEAK,1050.0,3.5,4.0)))
+        val src=listOf(source(r,filters=chain),source(r,id=1,delay=.0002,filters=DspFilterChain(chain.filters)),
+            source(r,id=2,filters=distinct),source(r,id=3))
+        val g=geometry(listOf(wall()))
+        for(count in listOf(1,33)) {
+            val bands=if(count==1) segments else List(count){val f=990+it*.1;Bands.Segment(1000,f,f+.05)}
+            fun calculate(prepared:Boolean):DoubleArray {
+                val missing=mutableSetOf<MissingBand>()
+                return CoherentDiffuse(src,BoundaryPoint(4.0,0.0,0.0),g,Atmosphere(),bands,true,true,false,BoundaryWork(),cacheSamplingFilters=prepared)
+                    .bandPowers(listOf(Bands.Segment(1000,1000.0,1000.0)),missing,null,null).also {assertTrue(missing.isEmpty())}
+            }
+            assertContentEquals(calculate(false),calculate(true))
+        }
+    }
+    @Test fun missingSamplingFilterResponseNeverBecomesIdentity() {
+        val response=ComplexSpeakerResponse.fromJsonString(response().toJsonString().replace("900","15900").replace("1100","16100"))
+        val chain=DspFilterChain(listOf(DspFilter(FilterKind.LOW_PASS,1000.0,sampleRateHz=32000.0)))
+        val src=List(2){source(radiator(response),filters=chain)}
+        val m=BoundaryMaterial.custom("HF",listOf(15900 to 0f,16100 to 0f))
+            .withScattering(MaterialScattering.create(listOf(0f to listOf(15900 to 1f,16100 to 1f))))
+        for(prepared in listOf(false,true)) {
+            val missing=mutableSetOf<MissingBand>();val bands=listOf(Bands.Segment(16000,15990.0,16010.0))
+            CoherentDiffuse(src,BoundaryPoint(4.0,0.0,0.0),geometry(listOf(wall(m))),Atmosphere(),bands,true,true,false,BoundaryWork(),cacheSamplingFilters=prepared)
+                .bandPowers(listOf(Bands.Segment(16000,16000.0,16000.0)),missing,null,null)
+            assertTrue(missing.contains(MissingBand(0,16000)))
+        }
+    }
+    @Test fun cachedSpectrumChunksKeepInterleavedOutputIndicesAndTailSamples() {
+        val src=List(8) {i->SoundSource(0,3f,(i-3.5f)*.05f,0f,180f,0f,radiator(response(slope=.1)),delayS=i*.00003)}
+        val g=geometry(listOf(wall()));val air=Atmosphere();val cache=DiffuseIncidentCache(200000)
+        val intervals=listOf(Bands.Segment(1000,950.0,1000.0),Bands.Segment(1000,1000.0,1050.0))
+        // Each interval has 40 samples: one full 32-tone chunk and an 8-tone
+        // tail. Interleaving makes the output positions non-contiguous.
+        val tones=List(80) {i->val f=if(i%2==0) 970.0+i/2*.5 else 1010.0+i/2*.5;Bands.Segment(1000,f,f)}
+        fun run(receiver:Double,c:DiffuseIncidentCache?,diagnostics:DiffuseDiagnostics?=null):DoubleArray {
+            val missing=mutableSetOf<MissingBand>()
+            val engine=CoherentDiffuse(src,BoundaryPoint(receiver,0.0,0.0),g,air,intervals,true,true,false,BoundaryWork(),incidentCache=c,diagnostics=diagnostics)
+            return engine.bandPowers(tones,missing,null,null).also {assertTrue(missing.isEmpty())}
+        }
+        val diagnostics=DiffuseDiagnostics()
+        for(receiver in listOf(4.0,9.0)) {
+            val reference=run(receiver,null);run(receiver,cache,diagnostics)
+            val hit=run(receiver,cache,diagnostics)
+            for(i in tones.indices) assertEquals(reference[i],hit[i],max(1e-10,reference[i]*1e-10),"receiver=$receiver sample=$i")
+        }
+        assertTrue(cache.hits>0)
+        val costs=Json.parseToJsonElement(diagnostics.toJson()).jsonObject
+        assertTrue(costs.getValue("cacheHits").jsonPrimitive.long>0)
+        assertTrue(costs.getValue("cacheMisses").jsonPrimitive.long>0)
+        assertTrue(costs.getValue("geometryEvaluations").jsonPrimitive.long>0)
+        assertTrue(costs.getValue("surfaceSamples").jsonPrimitive.long>0)
+        for(stage in listOf("samplingSeconds","spectrumSeconds","missSeconds","hitSeconds"))
+            assertTrue(costs.getValue(stage).jsonPrimitive.double>=0.0)
+    }
     private val segments=listOf(Bands.Segment(1000,990.0,1010.0))
     private fun response(amplitude:Double=100.0,phase:Double=0.0,slope:Double=0.0):ComplexSpeakerResponse {
         val rows=listOf(900,1100).joinToString {hz ->
@@ -25,6 +143,23 @@ class MixedComplexDiffuseTest {
     private fun geometry(blocks:List<VenueBlock>)=BoundaryGeometry.prepare(emptyList(),venue=VenueGeometry(stageHeightM=0f,blocks=blocks))
     private fun predict(s:List<SoundSource>,g:BoundaryGeometry?=null,coherent:Boolean=true,field:DirectField=DirectField())=
         field.predictBand(s,4f,0f,0f,segments,coherent=coherent,correlateByGroup=true,boundaries=g)
+    @Test fun emptyFilterFastPathMatchesExplicitUnityFilterWithCoherentCancellation() {
+        val unity=DspFilterChain(listOf(DspFilter(FilterKind.PEAK,1000.0,1.0,0.0)))
+        val sources=listOf(source(),source(delay=.00003,inverted=true))
+        val filtered=listOf(source(filters=unity),source(delay=.00003,inverted=true,filters=unity))
+        val g=geometry(listOf(wall()))
+        // Hold integration nodes fixed: even a unity filter adds filter knots to
+        // DirectField's adaptive band integration, which is a different comparison.
+        val tones=List(40) {val hz=990+(it+.5)*.5;Bands.Segment(1000,hz,hz)}
+        fun run(s:List<SoundSource>):DoubleArray {
+            val missing=mutableSetOf<MissingBand>()
+            return CoherentDiffuse(s,BoundaryPoint(4.0,0.0,0.0),g,Atmosphere(),segments,true,true,false,BoundaryWork())
+                .bandPowers(tones,missing,null,null).also {assertTrue(missing.isEmpty())}
+        }
+        val actual=run(sources);val reference=run(filtered)
+        assertTrue(reference.any {it>0.0})
+        for(i in reference.indices) assertEquals(reference[i],actual[i],max(1e-10,reference[i]*1e-11))
+    }
     @Test fun mixedSourcesAddIndependentPowersButNeverInventCrossSourcePhase() {
         val complex=source();val magnitude=source(Radiator {_,_,_->40f},1)
         val a=predict(listOf(complex));val b=predict(listOf(magnitude))
@@ -262,7 +397,7 @@ class MixedComplexDiffuseTest {
 
     @Test fun sharedIncidentVectorsDoNotConsumeTheKeyBudgetRepeatedly() {
         val src=List(64) {source()};val g=geometry(listOf(wall()));val air=Atmosphere()
-        val cache=DiffuseIncidentCache(128,maxEntries=16,maxKeyBytes=192*3)
+        val cache=DiffuseIncidentCache(128,maxEntries=16,maxKeyBytes=224*3)
         val context=cache.context(DiffuseIncidentCache.Context(src,g,air,true,true,null))
         val visible=cache.vector(IntArray(64) {it});val losses=cache.vector(IntArray(64))
         val materials=cache.materials(emptySet())
@@ -273,7 +408,7 @@ class MixedComplexDiffuseTest {
         assertNull(cache.get(key(3)));assertEquals(3,cache.storedValues)
         val unshared=DiffuseIncidentCache.Key(context,BoundaryPoint(9.0,0.0,0.0),BoundaryPoint(1.0,0.0,0.0),materials,
             DiffuseIncidentCache.PackedInts(IntArray(64) {it}),DiffuseIncidentCache.PackedInts(IntArray(64)),spectrum)
-        val bounded=DiffuseIncidentCache(128,maxKeyBytes=192*3)
+        val bounded=DiffuseIncidentCache(128,maxKeyBytes=224*3)
         bounded.put(unshared,doubleArrayOf(1.0));assertNull(bounded.get(unshared))
     }
 
@@ -293,7 +428,7 @@ class MixedComplexDiffuseTest {
             assertEquals(scalar,calculate(true,null),max(1e-10,scalar*1e-10))
             assertEquals(scalar,calculate(true,cache),max(1e-10,scalar*1e-10))
         }
-        assertTrue(cache.storedValues in 1..128)
+        assertTrue(cache.storedValues>0);assertTrue(cache.storedPayloadBytes<=128*8)
     }
 
     @Test fun incidentSpectrumCachePreservesReceiverAirLossPathLossesAndBoundedOverflow() {
@@ -310,7 +445,7 @@ class MixedComplexDiffuseTest {
             val actual=run(receiver,cache);val expected=run(receiver,null)
             for(i in actual.indices) assertEquals(expected[i],actual[i],max(1e-10,expected[i]*1e-11))
         }
-        assertTrue(cache.hits>0);assertTrue(cache.storedValues in 1..128)
+        assertTrue(cache.hits>0);assertTrue(cache.storedValues>0);assertTrue(cache.storedPayloadBytes<=128*8)
         for((loss,group) in listOf(6f to 0f,0f to 3f)) {
             val expected=run(40.0,null,loss,group)
             for(constant in listOf(false,true)) {
@@ -321,7 +456,7 @@ class MixedComplexDiffuseTest {
         val dry=Atmosphere(humidityPct=10f)
         val dryExpected=run(50.0,null,a=dry);val dryActual=run(50.0,cache,a=dry)
         for(i in dryActual.indices) assertEquals(dryExpected[i],dryActual[i],max(1e-10,dryExpected[i]*1e-11))
-        assertTrue(missing.isEmpty());assertTrue(cache.storedValues<=128)
+        assertTrue(missing.isEmpty());assertTrue(cache.storedPayloadBytes<=128*8)
     }
 
 }

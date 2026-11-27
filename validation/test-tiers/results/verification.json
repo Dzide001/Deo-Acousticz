@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-26",
+  "scope": "TEST_SCHEDULING_ONLY_NO_ENGINE_OR_TABLET_SPEEDUP_CLAIM",
+  "sharedJvm": {
+    "tests": 644,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "fastAndroid": {
+    "tests": 446,
+    "failures": 0,
+    "skips": 0,
+    "phaseTests": 28,
+    "phaseSeconds": 5.761,
+    "sumClassSeconds": 17.811
+  },
+  "largeAndroid": {
+    "tests": 3,
+    "failures": 0,
+    "skips": 0,
+    "sumClassSeconds": 140.754
+  },
+  "androidUnionTests": 449,
+  "disjointPartition": true,
+  "originalPhaseTestsRetained": 31,
+  "originalTestBodiesUnchanged": true,
+  "baselinePhaseClassSeconds": 140.683,
+  "androidDebugBuild": "PASS",
+  "fullMode": "Configuration dry run PASS; complete test membership exercised through fast + large actual runs",
+  "invalidTier": "Expected configuration failure PASS",
+  "commands": {
+    "fast": "./gradlew :shared-core:jvmTest :app:testDebugUnitTest :app:assembleDebug -PacousticValidationTier=fast -Pkotlin.compiler.execution.strategy=in-process --offline",
+    "large": "./gradlew :app:testDebugUnitTest -PacousticValidationTier=large -Pkotlin.compiler.execution.strategy=in-process --offline",
+    "fullConfiguration": "./gradlew :app:testDebugUnitTest -PacousticValidationTier=full --dry-run --offline"
+  },
+  "physicalDeviceTest": "Not run; no production code or app/project format changed",
+  "evidenceSha256": {
+    "baseline.json": "59c1cd9947cae0754b68bdddd5f2511d086a081af598a267e5481bb954e7e0a2",
+    "fast-build.log": "d8a7b80d5396f9220d9fdde2633447b52b1c619e72d7a7ec1587abc90259481f",
+    "fast-phase.xml": "2fc722fc33796ef5a72790c042af4f71aa05466cd16c987c2e42ae8f02866f2e",
+    "fast.json": "3be7561b30f4ff7f5db939046b0b3892100e3cbedf41ff79049521d946e0b406",
+    "full-config-build.log": "1d3663ca2ed208f222a397385eb6ee1c83a193448fd69d7fd8656ff0a5aed846",
+    "invalid-config-build.log": "87100bc9fe205dda5d24bd287cb592f02b3d3a3beb049bd83ed97ba4df5939d5",
+    "large-build.log": "f4eaf2942dd96e6099c343d335786d1dda6a1f881386978a3aec782ea1099e19",
+    "large-phase.xml": "831e28ba5bc54d087f9538289678b2eadab9c908726ad7cc7bc7cbaba1e39fb0",
+    "large.json": "e94406ab0d5841934457e965c544f9888748152e85fab3bcea0aeb949a99171b"
+  }
+}

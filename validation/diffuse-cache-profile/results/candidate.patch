@@ -1,0 +1,30 @@
+diff --git a/android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/CoherentDiffuse.kt b/android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/CoherentDiffuse.kt
+index 4edf2cb..71bf09c 100644
+--- a/android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/CoherentDiffuse.kt
++++ b/android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/CoherentDiffuse.kt
+@@ -184,6 +184,10 @@ internal class CoherentDiffuse(
+         for((key,allJobs) in requested.withIndex().groupBy {it.value.dataHz to interval(it.value.centreHz)}) {
+         // Bound filter scratch even when convergence requires thousands of frequency slices.
+         for(jobs in allJobs.chunked(32)) {
++        // Cache hits traverse this list for every spatial patch/receiver. Retain
++        // original output indices once per bounded chunk rather than repeatedly
++        // walking boxed IndexedValue objects in that hot path.
++        val jobIndices=IntArray(jobs.size) {jobs[it].index}
+         val filters=jobs.map {job->sources.map {it.filters.at(job.value.centreHz)}}
+         val toneFrequencies=if(batchTonePhases && jobs.all {it.value.widthHz==0.0}) DoubleArray(jobs.size) {jobs[it].value.centreHz} else null
+         val seg=jobs.first().value
+@@ -211,9 +215,12 @@ internal class CoherentDiffuse(
+             }
+             val cached=cacheKey?.let {incidentCache?.get(it)}
+             if(cached!=null) {
+-                for((offset,job) in jobs.withIndex()) {
++                var offset=0
++                while(offset<jobIndices.size) {
+                     work.check()
+-                    totals[job.index]+=cached[offset]*10.0.pow(-absorptions[job.index]*cell.receiverDistance/10)*cell.outgoingWeight
++                    val index=jobIndices[offset]
++                    totals[index]+=cached[offset]*10.0.pow(-absorptions[index]*cell.receiverDistance/10)*cell.outgoingWeight
++                    offset++
+                 }
+                 continue
+             }

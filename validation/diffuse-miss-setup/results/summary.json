@@ -1,0 +1,75 @@
+{
+  "profileBefore": {
+    "coverage": {
+      "schema": "droidacoustic.diffuse-costs.v1",
+      "hitTones": 591094840,
+      "cacheMisses": 103810,
+      "surfaceSamples": 2121434,
+      "samplingSeconds": 8.628048172,
+      "missSeconds": 8.322767229,
+      "spectrumSeconds": 32.190623749,
+      "geometryEvaluations": 4568640,
+      "hitSeconds": 18.266761912,
+      "cacheHits": 21110530,
+      "missTones": 2906680,
+      "totalSeconds": 42.388311167,
+      "meanDb": 56.71420139630636
+    },
+    "listener": {
+      "schema": "droidacoustic.diffuse-costs.v1",
+      "hitTones": 0,
+      "cacheMisses": 74816,
+      "surfaceSamples": 9212,
+      "samplingSeconds": 0.682126375,
+      "missSeconds": 5.680573303,
+      "levelDb": 67.50961,
+      "spectrumSeconds": 5.726173211,
+      "geometryEvaluations": 2606432,
+      "hitSeconds": 0,
+      "cacheHits": 0,
+      "missTones": 1852592,
+      "totalSeconds": 6.451450417
+    }
+  },
+  "profileAfter": {
+    "coverage": {
+      "schema": "droidacoustic.diffuse-costs.v1",
+      "hitTones": 591094840,
+      "cacheMisses": 103810,
+      "surfaceSamples": 2121434,
+      "samplingSeconds": 8.576657809,
+      "missSeconds": 9.76833508,
+      "spectrumSeconds": 35.375256041,
+      "geometryEvaluations": 4568640,
+      "hitSeconds": 18.943910784,
+      "cacheHits": 21110530,
+      "missTones": 2906680,
+      "totalSeconds": 45.627602917,
+      "meanDb": 56.71420139630636
+    },
+    "listener": {
+      "schema": "droidacoustic.diffuse-costs.v1",
+      "hitTones": 0,
+      "cacheMisses": 74816,
+      "surfaceSamples": 9212,
+      "samplingSeconds": 0.781888043,
+      "missSeconds": 5.967225884,
+      "levelDb": 67.50961,
+      "spectrumSeconds": 6.014854002,
+      "geometryEvaluations": 2606432,
+      "hitSeconds": 0,
+      "cacheHits": 0,
+      "missTones": 1852592,
+      "totalSeconds": 6.840421375
+    }
+  },
+  "profileCountsAndLevelsUnchanged": true,
+  "unprofiledFirstDiffuseCalculationSeconds": 43.11217,
+  "unprofiledThreeLargeTestsSeconds": 115.027,
+  "nativeUpperBoundsSeconds": [
+    116.8429572499881,
+    88.37247712499811
+  ],
+  "overallSpeedupEstablished": false,
+  "notes": "Mixed individual host/profile timings; variable native observations. First Manual-state observer interruption excluded from completion timings; accepted retry automatic."
+}

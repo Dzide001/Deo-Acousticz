@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent cardinal samples from the official CF1 examples. No engine imports."""
+"""Cardinal regression oracle with explicit synthetic/private-external provenance."""
 import argparse
 import hashlib
 import json
@@ -22,7 +22,7 @@ def generate():
         for (az, el, label), index in zip([(0, 60, 'up'), (-60, 0, 'left'), (0, -60, 'down'), (60, 0, 'right')], indices):
             cases.append(dict(file=source['file'], azimuth=az, elevation=el, label=label,
                               relativeDb=-arcs[index][6]))  # SIGN reversed: positive loss -> negative dB.
-    return dict(scope='OFFICIAL_CF1_TAB_RELATIVE_MAGNITUDE_NOT_BINARY_OR_PHYSICAL_CALIBRATION',toleranceDb=0.001,
+    return dict(scope=manifest.get('sourceKind','EXTERNAL')+'_CF1_TAB_MAGNITUDE_NOT_CALIBRATION',toleranceDb=0.001,
                 scriptSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                 provenanceSha256=hashlib.sha256((ROOT/'provenance.json').read_bytes()).hexdigest(),cases=cases)
 
@@ -32,4 +32,4 @@ if __name__ == '__main__':
     result = generate();p=ROOT/'results/reference.json'
     if args.check: assert json.loads(p.read_text()) == result, 'Stale CLF magnitude reference'
     else: p.write_text(json.dumps(result, indent=2)+'\n')
-    print('8 official CF1 TAB cardinal magnitude references verified')
+    print('8 declared CF1 TAB cardinal magnitude references verified')

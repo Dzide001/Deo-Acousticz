@@ -1,0 +1,81 @@
+Configuration on demand is an incubating feature.
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :shared-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :shared-core:jvmProcessResources NO-SOURCE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest UP-TO-DATE
+
+> Task :shared-core:compileKotlinJvm
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/geometry/GeometryCache.kt:3:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. You can use -Xexpect-actual-classes flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/geometry/SpeakerGizmo.kt:114:36 Non-public primary constructor is exposed via the generated 'copy()' method of the 'data' class.
+
+The generated 'copy()' will change its visibility in future releases.
+
+To suppress the warning do one of the following:
+- Annotate the data class with the '@ConsistentCopyVisibility' annotation.
+- Use the '-Xconsistent-data-class-copy-visibility' compiler flag.
+- Annotate the data class with the '@ExposedCopyVisibility' annotation 
+  (Discouraged, but can be used to keep binary compatibility).
+
+To learn more, see the documentation of the '@ConsistentCopyVisibility' and '@ExposedCopyVisibility' annotations.
+
+This will become an error in Kotlin 2.1.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/shared-core/src/jvmMain/kotlin/com/droidacoustic/pro/geometry/GeometryCacheLock.kt:3:10 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. You can use -Xexpect-actual-classes flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :shared-core:jvmMainClasses
+> Task :shared-core:jvmJar
+
+> Task :app:compileDebugKotlin
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/main/kotlin/com/droidacoustic/pro/ui/ReceiverMarkerView.kt:19:46 'field scaledDensity: Float' is deprecated. Deprecated in Java.
+
+> Task :app:compileDebugJavaWithJavac NO-SOURCE
+> Task :app:bundleDebugClassesToRuntimeJar UP-TO-DATE
+> Task :app:bundleDebugClassesToCompileJar UP-TO-DATE
+> Task :app:processDebugJavaRes UP-TO-DATE
+
+> Task :app:compileDebugUnitTestKotlin
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/Cf1ReferenceValidationTest.kt:68:22 Java type mismatch: inferred type is 'kotlin.String?', but 'kotlin.String' was expected.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/Cf1ReferenceValidationTest.kt:68:64 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'java.io.File?'.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/ExternalClfHandednessTest.kt:57:25 Java type mismatch: inferred type is 'kotlin.String?', but 'kotlin.String' was expected.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/ExternalClfHandednessTest.kt:57:75 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'java.io.File?'.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/ExternalClfHandednessTest.kt:105:22 Java type mismatch: inferred type is 'kotlin.String?', but 'kotlin.String' was expected.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/ExternalClfHandednessTest.kt:105:73 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'java.io.File?'.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/ManufacturerDataComparisonTest.kt:13:23 Java type mismatch: inferred type is 'kotlin.String?', but 'kotlin.String' was expected.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/ManufacturerDataComparisonTest.kt:14:25 Java type mismatch: inferred type is 'kotlin.String?', but 'kotlin.String' was expected.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/ManufacturerDataComparisonTest.kt:15:25 Java type mismatch: inferred type is 'kotlin.String?', but 'kotlin.String' was expected.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/ManufacturerDataComparisonTest.kt:16:9 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'java.io.File?'.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/PoweredReferenceRecoveryTest.kt:54:22 Java type mismatch: inferred type is 'kotlin.String?', but 'kotlin.String' was expected.
+w: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/app/src/test/kotlin/com/droidacoustic/pro/scene/PoweredReferenceRecoveryTest.kt:54:68 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'java.io.File?'.
+
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes UP-TO-DATE
+> Task :app:testDebugUnitTest
+
+[Incubating] Problems report is available at: file:///Volumes/Deo%20X9/Android%20Acoustic%20Pro/droidacoustic/android/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 1m 24s
+26 actionable tasks: 5 executed, 21 up-to-date

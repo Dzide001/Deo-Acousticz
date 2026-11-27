@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-26T16:33:53.620Z" hostname="Dzide.local" time="102.43">
+  <properties/>
+  <testcase name="fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="102.43"/>
+  <system-out><![CDATA[Full-venue diffuse, 64 emitters, 1000 Hz, 333 receivers: 50723.898291 ms
+Full-venue diffuse 1000 Hz area mean: 56.71420139630636 dB
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

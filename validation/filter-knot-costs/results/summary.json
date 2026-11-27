@@ -1,0 +1,10 @@
+{
+  "receiversPerScene": 3,
+  "maximumLevelDifferenceDb": 0.0,
+  "maximumRelativePowerDifference": 0.0,
+  "intervalRatio": 4.333333333333333,
+  "offsetValueBudgetFraction": 0.9999980926513672,
+  "boundedValueBudgetFraction": 0.6835670471191406,
+  "offsetMissTimeFraction": 0.9594944750548442,
+  "scope": "Opt-in instrumented costs for different inputs; no performance speedup claim, full-scene or native qualification"
+}

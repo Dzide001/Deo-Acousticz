@@ -1,0 +1,27 @@
+{
+  "run": 1,
+  "variant": "before",
+  "listenerSeconds": 9.105535917,
+  "coverageSeconds": 78.079242958,
+  "meanDb": 54.23276879151662,
+  "sourceSha256": "b6f70f82533192faada6d7a48151ec3d60975ae21e28d348b43cb612f895d6bd",
+  "fixtureSha256": "cf40debd0934e89cd2b51e588c9cf15f3bd19eabe6956516c9e80b1ecd312b06",
+  "conditions": {
+    "loadAverage": [
+      4.45068359375,
+      4.32861328125,
+      4.74755859375
+    ],
+    "logicalCpuCount": 12,
+    "machine": "arm64"
+  },
+  "command": [
+    "./gradlew",
+    ":app:testDebugUnitTest",
+    "-PacousticCostProfile=true",
+    "--tests",
+    "*FilterHeavyBenchmarkTest",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--offline"
+  ]
+}

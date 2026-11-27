@@ -1,0 +1,338 @@
+package com.droidacoustic.pro.acoustics
+
+import com.droidacoustic.pro.geometry.*
+import kotlin.math.*
+
+/** First-bounce flux-normalized coherent illumination. Separate outgoing patches remain incoherent.
+ * sqrt(cos incidence) normalizes each incident amplitude to surface flux; sqrt(scattered fraction)
+ * couples it to the common Lambertian channel. No diffuse path phase is invented at the receiver. */
+internal class CoherentDiffuse(
+    private val sources:List<SoundSource>,private val receiver:BoundaryPoint,private val boundaries:BoundaryGeometry,
+    private val air:Atmosphere,private val segments:List<Bands.Segment>,private val coherent:Boolean,
+    private val correlateByGroup:Boolean,private val excludeGround:Boolean,private val work:BoundaryWork,
+    private val geometryCacheEntries:Int=65536,
+    private val incidentCache:DiffuseIncidentCache?=null,
+    private val batchTonePhases:Boolean=true,
+    private val diagnostics:DiffuseDiagnostics?=null,
+    private val cacheSamplingFilters:Boolean=true
+) {
+    private fun position(s:SoundSource)=BoundaryPoint(s.x.toDouble(),s.y.toDouble(),s.z.toDouble())
+    private fun distance(a:BoundaryPoint,b:BoundaryPoint)=sqrt((a.x-b.x).pow(2)+(a.y-b.y).pow(2)+(a.z-b.z).pow(2))
+    private val positions=sources.map(::position)
+    private val measured=BooleanArray(sources.size) {sources[it].radiator.hasComplexBands()}
+    private val summation=IncidentBandSum(sources.size)
+    private val toneBatch=IncidentToneBatch(sources.size)
+    private val groupIds=run {
+        val ids=mutableMapOf<Pair<Boolean,Int>,Int>()
+        IntArray(sources.size) {i ->
+            val measured=sources[i].radiator.hasComplexBands()
+            val key=if(measured && (coherent || correlateByGroup)) true to (if(coherent) 0 else sources[i].group) else false to i
+            ids.getOrPut(key) {ids.size}
+        }
+    }
+    private val phaseEnvelope=IncidentPhaseEnvelope(sources.size)
+    // Receiver-local and bounded: never retain a source × surface × frequency tensor.
+    private val geometryCache=mutableMapOf<Int,DoubleArray>()
+    private var cachedBand:Int?=null
+    private var cachedEntries=0
+    internal var geometryEvaluations=0L
+        private set
+    private val geometryScratch=DoubleArray(sources.size*4)
+    private val maximumHz=segments.maxOfOrNull {it.f2} ?: 0.0
+    private val scratch=DoubleArray(3)
+    private val probeMissing=mutableSetOf<MissingBand>()
+    private fun transfer(s:SoundSource,hz:Double,dataHz:Int,point:BoundaryPoint,filter:ComplexPressure?):ComplexPressure? {
+        s.toward(point.x.toFloat(),point.y.toFloat(),point.z.toFloat(),scratch)
+        val intrinsic=if(s.radiator.hasComplexBands()) {
+            if(s.eqDb(dataHz)!=0f) return null
+            s.radiator.complexBandAt(hz,scratch[1].toFloat(),scratch[2].toFloat()) ?: return null
+        } else {
+            val level=s.radiator.levelDb(dataHz,scratch[1].toFloat(),scratch[2].toFloat())
+            if(!level.isFinite()) return null
+            ComplexPressure(10.0.pow((level+s.eqDb(dataHz))/20.0),0.0)
+        }
+        return intrinsic*(filter ?: return null)
+    }
+    private val samplingContext=incidentCache?.let {it.context(DiffuseIncidentCache.Context(sources.toList(),boundaries,air,coherent,correlateByGroup,null))}
+    private val samplingSpectrum=incidentCache?.spectrum(segments)
+    private val samples by lazy {diagnostics.timed(DiffuseDiagnostics.Stage.SAMPLING) {
+        // Prepared only for an uncached profile. Lifetime ends with sampling;
+        // larger caller-supplied spectra retain scalar evaluation, not an unbounded table.
+        var prepared=false
+        var filterRows:Array<Array<ComplexPressure?>?>?=null
+        boundaries.illuminationSamples(positions,receiver,work,excludeGround,
+            profile=profile@{p,normal,visible,materials ->
+                val key=samplingContext?.let {DiffuseIncidentCache.ProfileKey(it,samplingSpectrum!!,p,normal,
+                    incidentCache!!.vector(visible.toIntArray()),incidentCache.materials(materials))}
+                if(key!=null && probeMissing.isEmpty()) incidentCache?.profile(key)?.let {return@profile it}
+                if(!prepared) {
+                    if(cacheSamplingFilters && segments.size<=FilterResponseRows.MAX_FREQUENCIES)
+                        filterRows=FilterResponseRows.prepare(DoubleArray(segments.size) {segments[it].centreHz},sources.map {it.filters})
+                    prepared=true
+                }
+                val rows=filterRows
+                val values=visible.flatMap {i ->
+                val s=sources[i];val d=distance(positions[i],p).coerceAtLeast(DirectField.MIN_DISTANCE_M)
+                val cosine=((s.x-p.x)*normal.x+(s.y-p.y)*normal.y+(s.z-p.z)*normal.z)/d
+                segments.mapIndexed {index,seg ->
+                    val incidence=(acos(cosine.coerceIn(0.0,1.0))*180/PI).toFloat()
+                    val fraction=BoundaryMaterial.reflectionMaterial(materials,seg.dataHz,incidence)?.energyPartition(seg.dataHz,incidence)?.scattered ?: 0.0
+                    val key=MissingBand(s.group,seg.dataHz)
+                    val value=if(fraction==0.0 || key in probeMissing) ComplexPressure.ZERO else {
+                        val filter=if(rows==null) s.filters.at(seg.centreHz)
+                            else rows[i]?.get(index) ?: if(rows[i]==null) FilterResponseRows.IDENTITY else null
+                        transfer(s,seg.centreHz,seg.dataHz,p,filter)
+                    }
+                    if(value==null) probeMissing+=key
+                    if(value==null || value.power==0.0 || cosine<=0) -300f
+                    else (10*log10(value.power*cosine*fraction/d.pow(2))).toFloat()
+                }
+            }
+                if(key!=null && probeMissing.isEmpty()) incidentCache?.putProfile(key,values)
+                values
+            },bound=bound@{points,visible,materials ->
+                val key=samplingContext?.let {DiffuseIncidentCache.BoundKey(it,samplingSpectrum!!,points.toList(),
+                    incidentCache!!.vector(visible.toIntArray()),incidentCache.materials(materials))}
+                if(key!=null && probeMissing.isEmpty()) incidentCache?.bound(key)?.let {return@bound it}
+                val activeSegments=segments.filter {seg -> materials.any {material ->
+                    val angles=(listOf(0f,90f)+material.angleCurves().map {it.first}+
+                        material.scattering?.curves().orEmpty().map {it.first}).distinct().sorted()
+                    (angles+angles.zipWithNext().map {(a,b)->(a+b)/2}).any {
+                        material.energyPartition(seg.dataHz,it).scattered>0
+                    }
+                }}
+                val centre=BoundaryPoint(points.sumOf {it.x}/3,points.sumOf {it.y}/3,points.sumOf {it.z}/3)
+                val radius=points.maxOf {distance(it,centre)}
+                var bound=0f
+                phaseEnvelope.clear()
+                for(i in visible) {
+                    work.check();val s=sources[i];val d=distance(positions[i],centre)
+                    if(d<=radius) {bound=Float.POSITIVE_INFINITY;continue}
+                    if(s.radiator.hasComplexBands() && (coherent || correlateByGroup)) {
+                        phaseEnvelope.add(groupIds[i],positions[i],(centre.x-s.x)/d,(centre.y-s.y)/d,(centre.z-s.z)/d,1/(d-radius))
+                    }
+                    val angular=(asin((radius/d).coerceIn(0.0,1.0))*180/PI).toFloat()+1e-5f
+                    s.toward(centre.x.toFloat(),centre.y.toFloat(),centre.z.toFloat(),scratch)
+                    val variation=activeSegments.mapNotNull {seg ->
+                        if(MissingBand(s.group,seg.dataHz) in probeMissing) return@mapNotNull 0f
+                        if(s.radiator.hasComplexBands()) (s.radiator.complexBandVariationDb(seg.f1,seg.f2,scratch[1].toFloat(),scratch[2].toFloat(),angular) ?: Float.POSITIVE_INFINITY)
+                        else s.radiator.variationDb(seg.dataHz,scratch[1].toFloat(),scratch[2].toFloat(),angular)
+                    }.maxOrNull() ?: 0f
+                    // Unknown angular coverage must refine until resolved or a probe reports missing data.
+                    if(variation.isFinite()) bound=max(bound,variation)
+                    else bound=Float.POSITIVE_INFINITY
+                    bound=max(bound,(angular/(180/PI*sqrt(4*PI/DiffuseRadiation.DEFAULT_RAYS))).toFloat())
+                }
+                work.check()
+                bound=max(bound,(2*PI*maximumHz*phaseEnvelope.maximumSpan(radius)/air.speedOfSound/6.0).toFloat())
+                if(key!=null && probeMissing.isEmpty()) incidentCache?.putBound(key,bound)
+                bound
+            }).also {samples->diagnostics?.let {it.surfaceSamples+=samples.size}}
+    }}
+    private val visibleKeys by lazy {samples.map {incidentCache?.vector(it.visibleEmitters)}}
+    private val materialKeys by lazy {samples.map {incidentCache?.materials(it.materials)}}
+    /** Independently converged diffuse spectrum. Evaluate the actual complex field at
+     * positive Gauss nodes instead of nesting a finite-band sum inside every midpoint
+     * refinement of the direct/specular field. Every group remains coherent at a node. */
+    fun integratedPower(base:List<Bands.Segment>,missing:MutableSet<MissingBand>,groupLossDb:FloatArray?,pathLossDb:((SoundSource,BoundaryPoint?,Int)->Float)?):Double? {
+        if(samples.isEmpty()) return 0.0
+        // Frequency quadrature operates on these already validated spatial sample points.
+        // Bound actual incident delays there, rather than the much looser array aperture.
+        // This is exact for the sampled field, including visibility and independent groups.
+        var delaySpan=0.0
+        val lows=DoubleArray(sources.size);val highs=DoubleArray(sources.size)
+        for(cell in samples) {
+            work.check();lows.fill(Double.POSITIVE_INFINITY);highs.fill(Double.NEGATIVE_INFINITY)
+            for((slot,i) in cell.visibleEmitters.withIndex()) {
+                if(slot%32==0) work.check()
+                val time=distance(positions[i],cell.point)/air.speedOfSound+sources[i].delayS
+                val group=groupIds[i]
+                lows[group]=min(lows[group],time);highs[group]=max(highs[group],time)
+            }
+            for(group in lows.indices) if(lows[group].isFinite()) delaySpan=max(delaySpan,highs[group]-lows[group])
+        }
+        val initial=base.map {ceil(it.widthHz*delaySpan).coerceAtLeast(1.0)}
+        if(initial.any {it>2048}) return null
+        var multiplier=1;var previous:Double?=null;var stable=0
+        repeat(12) {
+            work.check()
+            if(initial.sum()*multiplier*8>16384) return null
+            val tones=mutableListOf<Bands.Segment>();val weights=mutableListOf<Double>()
+            base.forEachIndexed {index,seg ->
+                val count=initial[index].toInt()*multiplier;val width=seg.widthHz/count
+                repeat(count) {slice ->
+                    val centre=seg.f1+(slice+.5)*width
+                    for(k in IncidentBandSum.nodes.indices) {
+                        val hz=centre+width*.5*IncidentBandSum.nodes[k]
+                        tones+=Bands.Segment(seg.dataHz,hz,hz);weights+=width*.5*IncidentBandSum.weights[k]
+                    }
+                }
+            }
+            val values=bandPowers(tones,missing,groupLossDb,pathLossDb)
+            if(missing.isNotEmpty()) return null
+            val power=values.indices.sumOf {values[it]*weights[it]}/base.sumOf {it.widthHz}
+            if(previous!=null && abs(power-previous!!)<=max(1e-10,abs(power)*1e-5)) stable++ else stable=0
+            if(stable>=2) return power
+            previous=power;multiplier*=2
+        }
+        return null
+    }
+    private val responseEdges=(segments.flatMap {listOf(it.f1,it.f2)}+sources.flatMap {it.radiator.complexBandKnots().map(Int::toDouble)}).distinct().sorted()
+    private fun interval(hz:Double):Int {
+        var lo=0;var hi=responseEdges.size
+        while(lo<hi) {val mid=(lo+hi) ushr 1;if(responseEdges[mid]<=hz) lo=mid+1 else hi=mid}
+        return (lo-1).coerceIn(0,responseEdges.size-2)
+    }
+    fun bandPower(seg:Bands.Segment,missing:MutableSet<MissingBand>,groupLossDb:FloatArray?,pathLossDb:((SoundSource,BoundaryPoint?,Int)->Float)?):Double =
+        bandPowers(listOf(seg),missing,groupLossDb,pathLossDb)[0]
+
+    /** Surface-major traversal: reuse geometry and exact measured interpolation endpoints
+     * for all frequency slices on one patch. Scratch remains O(emitters + frequency slices). */
+    fun bandPowers(requested:List<Bands.Segment>,missing:MutableSet<MissingBand>,groupLossDb:FloatArray?,pathLossDb:((SoundSource,BoundaryPoint?,Int)->Float)?):DoubleArray {
+        val totals=DoubleArray(requested.size)
+        val cells=samples
+        return diagnostics.timed(DiffuseDiagnostics.Stage.SPECTRUM) {
+        val context=incidentCache?.let {it.context(DiffuseIncidentCache.Context(sources.toList(),boundaries,air,coherent,correlateByGroup,groupLossDb?.toList()))}
+        missing+=probeMissing.filter {m->requested.any {it.dataHz==m.dataHz}}
+        val absorptions=DoubleArray(requested.size) {air.absorptionDbPerMetre(requested[it].centreHz)}
+        val basis=DoubleArray(sources.size*4);val available=BooleanArray(sources.size)
+        val scales=DoubleArray(sources.size);val times=DoubleArray(sources.size);val airDistances=DoubleArray(sources.size)
+        val toneReal=DoubleArray(sources.size);val toneImaginary=DoubleArray(sources.size)
+        for((key,allJobs) in requested.withIndex().groupBy {it.value.dataHz to interval(it.value.centreHz)}) {
+        // Bound filter scratch even when convergence requires thousands of frequency slices.
+        for(jobs in allJobs.chunked(32)) {
+        // Cache hits traverse this list for every spatial patch/receiver. Retain
+        // original output indices once per bounded chunk rather than repeatedly
+        // walking boxed IndexedValue objects in that hot path.
+        val jobIndices=IntArray(jobs.size) {jobs[it].index}
+        val exactTones=batchTonePhases && jobs.all {it.value.widthHz==0.0}
+        var prepared:DiffuseChunk?=null
+        val seg=jobs.first().value
+        val spectrum=incidentCache?.spectrum(jobs.map {it.value})
+        val low=responseEdges[key.second];val high=responseEdges[key.second+1]
+        val linear=BooleanArray(sources.size) {sources[it].radiator.supportsLinearComplexBand(low,high)}
+        val eq=FloatArray(sources.size) {sources[it].eqDb(seg.dataHz)}
+        val constantLosses=if(pathLossDb==null || pathLossDb is ReceiverPathLoss)
+            FloatArray(sources.size) {pathLossDb?.invoke(sources[it],null,seg.dataHz) ?: 0f} else null
+        val constantKeys=HashMap<DiffuseIncidentCache.PackedInts,DiffuseIncidentCache.PackedInts>()
+        if(cachedBand!=seg.dataHz) {geometryCache.clear();cachedEntries=0;cachedBand=seg.dataHz}
+        val gains=DoubleArray(sources.size) {i ->
+            val source=sources[i]
+            10.0.pow((source.gainDb-(groupLossDb?.getOrNull(source.group) ?: 0f))/20.0)*(if(source.inverted) -1 else 1)
+        }
+        for((cellIndex,cell) in cells.withIndex()) {
+            work.check()
+            val losses=if(constantLosses==null) FloatArray(cell.visibleEmitters.size) {slot->pathLossDb!!.invoke(sources[cell.visibleEmitters[slot]],cell.point,seg.dataHz)} else null
+            val cacheKey=context?.let {
+                val visible=visibleKeys[cellIndex]!!
+                val lossKey=if(constantLosses!=null) constantKeys.getOrPut(visible) {
+                    incidentCache!!.vector(IntArray(cell.visibleEmitters.size) {constantLosses[cell.visibleEmitters[it]].toBits()})
+                } else incidentCache!!.vector(IntArray(losses!!.size) {losses[it].toBits()})
+                DiffuseIncidentCache.Key(it,cell.point,cell.normal,materialKeys[cellIndex]!!,visible,lossKey,spectrum!!)
+            }
+            val cached=cacheKey?.let {incidentCache?.get(it)}
+            if(cached!=null) {
+                diagnostics?.let {it.cacheHits++;it.hitTones+=jobs.size}
+                diagnostics.timed(DiffuseDiagnostics.Stage.HIT) {
+                DiffuseTransfer.accumulate(totals,jobIndices,cached,absorptions,cell.receiverDistance,cell.outgoingWeight,work)
+                }
+                continue
+            }
+            diagnostics?.let {it.cacheMisses++;it.missTones+=jobs.size}
+            diagnostics.timed(DiffuseDiagnostics.Stage.MISS) {
+            // Cache-only chunks never allocate/evaluate filter responses. Preparation
+            // is shared by all misses in this chunk and remains O(32 * emitters).
+            val chunk=prepared ?: DiffuseChunk(DoubleArray(jobs.size) {jobs[it].value.centreHz},low,high,
+                sources.map {it.filters}).also {prepared=it}
+            val incidentPowers=DoubleArray(jobs.size)
+            var complete=true
+            val geometry=geometryCache[cellIndex] ?: run {
+                val data=geometryScratch
+                for((slot,i) in cell.visibleEmitters.withIndex()) {
+                    if(slot%32==0) work.check()
+                    geometryEvaluations++
+                    diagnostics?.let {it.geometryEvaluations++}
+                    val source=sources[i];val rawDistance=distance(positions[i],cell.point)
+                    val d=max(rawDistance,DirectField.MIN_DISTANCE_M)
+                    val cosine=(((source.x-cell.point.x)*cell.normal.x+(source.y-cell.point.y)*cell.normal.y+
+                        (source.z-cell.point.z)*cell.normal.z)/rawDistance).coerceIn(0.0,1.0)
+                    val incidence=(acos(cosine)*180/PI).toFloat()
+                    val fraction=BoundaryMaterial.reflectionMaterial(cell.materials,seg.dataHz,incidence)
+                        ?.energyPartition(seg.dataHz,incidence)?.scattered ?: 0.0
+                    source.toward(cell.point.x.toFloat(),cell.point.y.toFloat(),cell.point.z.toFloat(),scratch)
+                    data[slot*4]=rawDistance;data[slot*4+1]=sqrt(cosine*fraction)/d
+                    data[slot*4+2]=scratch[1];data[slot*4+3]=scratch[2]
+                }
+                if(cachedEntries+cell.visibleEmitters.size<=geometryCacheEntries) {
+                    cachedEntries+=cell.visibleEmitters.size
+                    data.copyOf(cell.visibleEmitters.size*4).also {geometryCache[cellIndex]=it}
+                } else data
+            }
+            for((slot,i) in cell.visibleEmitters.withIndex()) {
+                val geometricScale=geometry[slot*4+1]
+                if(geometricScale==0.0) continue
+                val source=sources[i];val rawDistance=geometry[slot*4]
+                val loss=constantLosses?.get(i) ?: losses!![slot]
+                scales[i]=gains[i]*geometricScale*10.0.pow(-loss/20.0)
+                times[i]=rawDistance/air.speedOfSound+source.delayS
+                airDistances[i]=max(rawDistance,DirectField.MIN_DISTANCE_M)
+                if(linear[i]) {
+                    val az=geometry[slot*4+2].toFloat();val el=geometry[slot*4+3].toFloat()
+                    available[i]=eq[i]==0f && source.radiator.complexBandBasis(low,high,az,el,basis,i*4)
+                }
+            }
+            if(exactTones) {
+                val active=cell.visibleEmitters.filterIndexed {slot,_->geometry[slot*4+1]!=0.0}.toIntArray()
+                toneBatch.prepare(chunk.frequencies,times,groupIds,active) {work.check()}
+            }
+            for((jobOffset,job) in jobs.withIndex()) {
+            work.check()
+            if(exactTones) {toneReal.fill(0.0);toneImaginary.fill(0.0)}
+            val frequency=chunk.frequencies[jobOffset];val fraction=chunk.fractions[jobOffset]
+            val absorption=absorptions[job.index]
+            summation.count=0
+            for((slot,i) in cell.visibleEmitters.withIndex()) {
+                if(slot%32==0) work.check()
+                if(geometry[slot*4+1]==0.0) continue
+                val source=sources[i];val filterRow=chunk.filters[i];val filter=filterRow?.get(jobOffset)
+                if(filterRow!=null && filter==null) {complete=false;missing+=MissingBand(source.group,seg.dataHz);continue}
+                val real:Double;val imaginary:Double
+                if(linear[i]) {
+                    if(!available[i]) {complete=false;missing+=MissingBand(source.group,seg.dataHz);continue}
+                    real=basis[i*4]+basis[i*4+2]*fraction;imaginary=basis[i*4+1]+basis[i*4+3]*fraction
+                } else {
+                    val az=geometry[slot*4+2].toFloat();val el=geometry[slot*4+3].toFloat()
+                    if(measured[i]) {
+                        val intrinsic=if(eq[i]!=0f) null else source.radiator.complexBandAt(frequency,az,el)
+                        if(intrinsic==null) {complete=false;missing+=MissingBand(source.group,seg.dataHz);continue}
+                        real=intrinsic.real;imaginary=intrinsic.imaginary
+                    } else {
+                        val level=source.radiator.levelDb(seg.dataHz,az,el)
+                        if(!level.isFinite()) {complete=false;missing+=MissingBand(source.group,seg.dataHz);continue}
+                        real=10.0.pow((level+eq[i])/20.0);imaginary=0.0
+                    }
+                }
+                val scale=scales[i]*10.0.pow(-absorption*airDistances[i]/20)
+                val r=if(filter==null) real*scale else (real*filter.real-imaginary*filter.imaginary)*scale
+                val im=if(filter==null) imaginary*scale else (real*filter.imaginary+imaginary*filter.real)*scale
+                if(exactTones) {toneReal[i]=r;toneImaginary[i]=im}
+                else {
+                    val n=summation.count++
+                    summation.real[n]=r;summation.imaginary[n]=im
+                    summation.time[n]=times[i];summation.group[n]=groupIds[i]
+                }
+            }
+            val incident=if(exactTones) toneBatch.power(jobOffset,toneReal,toneImaginary)
+                else summation.power(frequency,job.value.widthHz)
+            incidentPowers[jobOffset]=incident
+            totals[job.index]+=incident*10.0.pow(-absorption*cell.receiverDistance/10)*cell.outgoingWeight
+            }
+            if(complete && cacheKey!=null) incidentCache?.put(cacheKey,incidentPowers)
+            }
+        }
+        }
+        }
+        totals
+        }
+    }
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.DiffuseCostProfileTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-26T17:19:40.522Z" hostname="Dzide.local" time="58.468">
+  <properties/>
+  <testcase name="listenerCoverageAndIncidentCacheCosts" classname="com.droidacoustic.pro.scene.DiffuseCostProfileTest" time="58.468"/>
+  <system-out><![CDATA[LISTENER costs: {"schema":"droidacoustic.diffuse-costs.v1","hitTones":0,"cacheMisses":74816,"surfaceSamples":9212,"samplingSeconds":0.783704166,"missSeconds":7.818601471,"levelDb":67.50961,"spectrumSeconds":7.87497358,"geometryEvaluations":2606432,"hitSeconds":0,"cacheHits":0,"missTones":1852592,"totalSeconds":8.703160541}
+COVERAGE costs: {"schema":"droidacoustic.diffuse-costs.v1","hitTones":591094840,"cacheMisses":103810,"surfaceSamples":2121434,"samplingSeconds":8.838592359,"missSeconds":11.173035893,"spectrumSeconds":39.062583342,"geometryEvaluations":4568640,"hitSeconds":20.556879395,"cacheHits":21110530,"missTones":2906680,"totalSeconds":49.576239292,"meanDb":56.71420139630636}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,19 @@
+{
+  "run": 6,
+  "variant": "after",
+  "firstCalculationMs": 45025.433542,
+  "acceptanceSeconds": 89.618,
+  "meanDb": 56.71420139630636,
+  "sourceSha256": "ff4ef4b13f4e5480f7e8b03abda59027790437f2aa8d69caa1c6efff9042643d",
+  "fixtureSha256": "a09f635886b206cfa8351e7008427205b951410a89f0580369fc7643d6e9e5c6",
+  "command": [
+    "./gradlew",
+    ":app:testDebugUnitTest",
+    "-PacousticValidationTier=large",
+    "--tests",
+    "*PhaseTraceIntegrationTest.fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--offline"
+  ],
+  "profilingEnabled": false
+}

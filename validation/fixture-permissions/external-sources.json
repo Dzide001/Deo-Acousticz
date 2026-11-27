@@ -1,0 +1,71 @@
+{
+  "cf1-reference": {
+    "url": "https://www.clfgroup.org/CLF_Authoring_v2.1b.exe",
+    "kitSha256": "806eddd6e3ca9b7f766fd7ee4467fe476ff562abc1afacb2c8c5b90d42bb6677",
+    "scope": "Official fictitious format examples: source row consistency, not physical electrical calibration",
+    "pairs": [
+      {
+        "binary": "Active.CF1",
+        "text": "clf1_active_point.tab",
+        "sourceTextSha256": "81aeb190f55408add869756dc72e194c48b86f69ce70c20092a9adaacbe15c47",
+        "fixtureTextSha256": "d1a5ae64fc78a8228482b65cac761b0cbc54f8d3ae902a2c207822b036a72665",
+        "binarySha256": "754a235c0127c3e69fb03487cb0be70da8d6e66d3e01ae1c1816baa080b32a83"
+      },
+      {
+        "binary": "Passive1.CF1",
+        "text": "clf1_passive_point.tab",
+        "sourceTextSha256": "18920507eb52542cbd65a5385a1c4ce1b14e73b89ed8d4189afcc8635aadc2ca",
+        "fixtureTextSha256": "e3288fbe5b612e8e86ef9531a153b90932aaad9af57d39995eb6ec5a31c0eea5",
+        "binarySha256": "6d0b5b83c467627355067db230beeb6357da0417a64bf029ffa82f3a940a33eb"
+      }
+    ],
+    "poweredSha256": "4702c077add5f9ab3450a8ebb39075a2efcb6023e899cc9c70639c96f026489b"
+  },
+  "clf-handedness": {
+    "publisher": "CLF Group",
+    "url": "https://www.clfgroup.org/CLF_Authoring_v2.1b.exe",
+    "retrieved": "2026-11-26",
+    "kitSha256": "806eddd6e3ca9b7f766fd7ee4467fe476ff562abc1afacb2c8c5b90d42bb6677",
+    "specificationSha256": "cf83278b9f460120c0afc9ca39b35e12cf86aa8e41abc41d11cae2114aa4b3cc",
+    "specificationDate": "2020-03-04",
+    "sourceSha256": {
+      "app/sample text/clf2_passive_point.tab": "26e5af40a1d06a22bcaf7bf14c0f0fb8815356eb64f2e8b568dd2c15724ed056",
+      "app/sample distribution/Passive2.CF2": "e575a64125829c4ae199c641e8e4104ff9624e96a3e184fd8577a88fa90f9b82"
+    },
+    "fixtureSha256": {
+      "official-1000.tab": "bf3761842dd17e9ca586c4566716d32bba5ada70f5c020c268868e48086a6a26",
+      "Passive2.CF2": "e575a64125829c4ae199c641e8e4104ff9624e96a3e184fd8577a88fa90f9b82"
+    },
+    "labels": {
+      "basis": "CLF_specs.pdf Fig. 1, page 12, rear view; format footnote 8, page 11",
+      "up": 0,
+      "left": 90,
+      "down": 180,
+      "right": 270
+    },
+    "scope": "Official asymmetric format example; NOT a real manufacturer or measurement accuracy comparison",
+    "extraction": "Text fixture retains only the original 72 magnitude arcs at 1000 Hz. Header is a test adaptation; CF2 fixture is unmodified. No binaries/specification/programs are bundled into the app."
+  },
+  "clf-magnitude": {
+    "sourceUrl": "https://www.clfgroup.org/CLF_Authoring_v2.1b.exe",
+    "kitSha256": "806eddd6e3ca9b7f766fd7ee4467fe476ff562abc1afacb2c8c5b90d42bb6677",
+    "specification": "CLF specifications, 4 March 2020, section 12.2, footnotes 1-4, Fig. 1",
+    "scope": "Official format examples, not measured products; original 1000 Hz numerical rows with a test normalization header",
+    "fixtures": [
+      {
+        "file": "clf1_active_point.tab",
+        "sourceSha256": "81aeb190f55408add869756dc72e194c48b86f69ce70c20092a9adaacbe15c47",
+        "fixtureSha256": "51f2e8da5019a359d3315c8c8132714ca5373330e4cca8be55746b3527507a20",
+        "symmetry": "horizontal",
+        "order": "default"
+      },
+      {
+        "file": "clf1_powered_point.tab",
+        "sourceSha256": "e31009688fc03a0473d751bac51a7e56a3a7f4327d1b8dc1178053f8c0ef4bc6",
+        "fixtureSha256": "9c06aa184e8cb0ee4b82111e9b0aa59fbab50dc4c6713aed647886380a4a59bc",
+        "symmetry": "full",
+        "order": "reversed"
+      }
+    ]
+  }
+}

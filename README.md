@@ -411,3 +411,9 @@ are unchanged. Magnitude-only sources
 retain independent diffuse energies. Outgoing diffuse sound remains an
 energy result; diffuse phase and multiple-bounce transport remain unsupported. See [the implementation plan](docs/implementation_plan.md) for the data contract,
 validation evidence and remaining limits.
+
+## Source licensing
+
+The original application source is proprietary, with rights reserved; see [LICENSE](LICENSE).
+Third-party reference data has separate terms; CLF samples were removed from the current checkout and historical-copy permissions remain unresolved. See
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" tests="26" skipped="0" failures="0" errors="0" timestamp="2026-11-26T22:08:50.442Z" hostname="Dzide.local" time="10.369">
+  <properties/>
+  <testcase name="filtersAndComplexFrequencySlopeAffectDiffuseEnergyAndCachedResultsAgree[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.215"/>
+  <testcase name="magnitudeOnlyDiffuseRetainsIndependentEnergyWithoutInventedCabinetPhase[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.007"/>
+  <testcase name="coherentIncidentPhaseAndBandwidthDelayControlScatteredPower[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.747"/>
+  <testcase name="mixedSourcesAddIndependentPowersButNeverInventCrossSourcePhase[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.001"/>
+  <testcase name="diffuseBroadBandMatchesDenseIntegralAndMeshOverlapCountsOnce[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.215"/>
+  <testcase name="batchedDiffuseIntegrationMatchesScalarWithCacheOverflowAndReceiverLosses[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.584"/>
+  <testcase name="angularBoundsCoverHiddenLobesAndSpectralCancellations[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.001"/>
+  <testcase name="emptyFilterFastPathMatchesExplicitUnityFilterWithCoherentCancellation[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.399"/>
+  <testcase name="complexDiffuseMatchesMagnitudeReferenceAndIgnoresArbitrarySourcePhase[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.024"/>
+  <testcase name="missingDiffuseDirectionsAndCancelledWorkCannotPublishPartialPower[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.372"/>
+  <testcase name="missingSamplingFilterResponseNeverBecomesIdentity[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.048"/>
+  <testcase name="independentGroupsDoNotPayForUnrelatedLargeDelayOffsets[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.677"/>
+  <testcase name="incidentSpectrumCachePreservesReceiverAirLossPathLossesAndBoundedOverflow[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.508"/>
+  <testcase name="absorptionScatteringPartitionAndCoincidentBlocksDoNotDuplicateEnergy[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.049"/>
+  <testcase name="coherentIlluminationMissingDirectionsNeverPublishPartialPower[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.059"/>
+  <testcase name="sharedIncidentVectorsDoNotConsumeTheKeyBudgetRepeatedly[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.002"/>
+  <testcase name="coherentIlluminationRespectsMaterialEnergyPartitionAndUniqueSurfaceOwnership[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.58"/>
+  <testcase name="preparedSamplingResponsesMatchScalarForMixedChainsAndLargeSpectraFallback[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="1.005"/>
+  <testcase name="separatedEmittersMatchIndependentDenseSurfaceInterferenceIntegral[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.149"/>
+  <testcase name="commonSurfaceSamplesRespectEveryEmitterShadowAndReceiverVisibility[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.022"/>
+  <testcase name="declaredLinearIntervalNeverBridgesMissingFrequencyData[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.0"/>
+  <testcase name="coherentSurfaceIlluminationReinforcesCancelsAndRetainsIndependentGroups[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.285"/>
+  <testcase name="cachedSpectrumChunksKeepInterleavedOutputIndicesAndTailSamples[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="1.878"/>
+  <testcase name="batchedSurfaceIntegrationMatchesScalarEvaluationAcrossKnotsFiltersAndChunkBoundaries[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.458"/>
+  <testcase name="independentlyConvergedDiffuseSpectrumMatchesDenseFrequencyReference[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="1.515"/>
+  <testcase name="largeMeasuredArrayReusesBoundedGeometryAndBandChangesStayAccurate[jvm]" classname="com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest" time="0.566"/>
+  <system-out><![CDATA[32-emitter surface geometry evaluations: cold=187264 repeated=121728 (cache cap 65536)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

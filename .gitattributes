@@ -1,2 +1,5 @@
 # Retain compiler/test evidence verbatim, including tool-generated trailing spaces.
 validation/**/*.log -whitespace
+# Android memory dumps are immutable evidence; do not normalize their padding.
+validation/**/memory-snapshot.txt -whitespace
+validation/**/memory.txt -whitespace

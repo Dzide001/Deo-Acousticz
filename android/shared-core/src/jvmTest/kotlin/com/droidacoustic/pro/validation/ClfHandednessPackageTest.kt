@@ -9,21 +9,21 @@ import kotlin.math.abs
 import kotlin.test.*
 
 class ClfHandednessPackageTest {
-    @Test fun officialAsymmetricTextMagnitudesReachProductionPredictionsWithCorrectHandedness() {
-        val dir=File(System.getProperty("numericalValidationDir")).parentFile.resolve("clf-handedness")
+    @Test fun declaredAsymmetricTextMagnitudesReachProductionPredictionsWithCorrectHandedness() {
+        val dir=File(System.getProperty("clfFixtureValidationRoot"),"validation").resolve("clf-handedness")
         val ref=Json.parseToJsonElement(dir.resolve("results/reference.json").readText()).jsonObject
         val provenance=Json.parseToJsonElement(dir.resolve("provenance.json").readText()).jsonObject
         assertEquals(ref.getValue("referenceScriptSha256").jsonPrimitive.content,SpeakerProvenance.hash(dir.resolve("reference.py").readBytes()))
         assertEquals(ref.getValue("provenanceSha256").jsonPrimitive.content,SpeakerProvenance.hash(dir.resolve("provenance.json").readBytes()))
         provenance.getValue("fixtureSha256").jsonObject.forEach {(name,hash)->assertEquals(hash.jsonPrimitive.content,SpeakerProvenance.hash(dir.resolve("fixtures/$name").readBytes()))}
-        val text=dir.resolve("fixtures/official-1000.tab").readText()
+        val text=dir.resolve("fixtures/"+(provenance["textFile"]?.jsonPrimitive?.content ?: "official-1000.tab")).readText()
         val lines=text.lines();val first=lines.indexOf("<BAND>\t1000")+1
         val arcs=lines.drop(first).filter {it.isNotBlank()}
         var rejected=0
         val reports=mutableListOf<JsonElement>()
         for((reverse,rotation) in listOf(false to 0,true to 0,false to 90,true to -90)) {
-            // Alternate encodings of the same external balloon. The retained default
-            // sample and Fig. 1 references remain independent of these adaptations.
+            // Alternate encodings of the same fixture balloon. The retained default
+            // sample and coordinate references remain independent of these adaptations.
             val variant=lines.take(first).map {if(it.startsWith("<BALLOON-ARC-ORDER>"))
                 "<BALLOON-ARC-ORDER>\t${if(reverse) "<reversed>" else "<default>"}\t<ROTATE>\t$rotation" else it}
                 .plus(List(72) {i->arcs[(((if(reverse) -i else i)+rotation/5)%72+72)%72]}).joinToString("\n")

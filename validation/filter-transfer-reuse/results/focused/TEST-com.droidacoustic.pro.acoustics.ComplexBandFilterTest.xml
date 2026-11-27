@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.acoustics.ComplexBandFilterTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-26T18:26:01.777Z" hostname="Dzide.local" time="0.099">
+  <properties/>
+  <testcase name="digitalCutoffPhasePeakingInverseAndFourthOrderCrossover[jvm]" classname="com.droidacoustic.pro.acoustics.ComplexBandFilterTest" time="0.057"/>
+  <testcase name="complexRampBandMatchesIndependentDenseIntegralAndDoesNotRequireMagnitudeTable[jvm]" classname="com.droidacoustic.pro.acoustics.ComplexBandFilterTest" time="0.007"/>
+  <testcase name="intrinsicPhasePolarityDelayAndRigidGroundAreIntegratedWithoutDoubleCounting[jvm]" classname="com.droidacoustic.pro.acoustics.ComplexBandFilterTest" time="0.014"/>
+  <testcase name="highQPeakConvergesToIndependentDenseReferenceAndLegacyMagnitudeGetsFilterPhase[jvm]" classname="com.droidacoustic.pro.acoustics.ComplexBandFilterTest" time="0.012"/>
+  <testcase name="bandInterpolationIsExplicitBoundedAndPortable[jvm]" classname="com.droidacoustic.pro.acoustics.ComplexBandFilterTest" time="0.001"/>
+  <testcase name="subdivisionAndIndependentSourcePowerAreStableAndUnknownPhaseIsRejected[jvm]" classname="com.droidacoustic.pro.acoustics.ComplexBandFilterTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

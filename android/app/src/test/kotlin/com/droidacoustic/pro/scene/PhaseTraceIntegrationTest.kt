@@ -8,6 +8,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*
 import org.junit.*
 import org.junit.Assert.*
+import org.junit.experimental.categories.Category
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PhaseTraceIntegrationTest {
@@ -511,6 +512,7 @@ class PhaseTraceIntegrationTest {
         assertEquals(0f,level(reopened),.001f)
     }
 
+    @Category(LargeSceneValidation::class)
     @Test fun wholeMeasuredArraySceneCompletesAndReopensWithIdenticalCoverage() {
         val v=scene();bandComplex(v,10000);v.addSpeakerSource();v.addSpeaker(0f,0f)
         for(sp in v.speakers.value) {
@@ -563,6 +565,7 @@ class PhaseTraceIntegrationTest {
         v.setSignalInterferenceEnabled(true)
         return v
     }
+    @Category(LargeSceneValidation::class)
     @Test fun largeVenueNonuniformMeasuredArraysAtFourAndEightKilohertzReopenExactly() {
         val v=largeVenueMeasuredFixture()
         fun calculate(m:SceneViewModel)=m.capturePredictionRequest(PredictionTicket(0,0,PredictionChannel.COVERAGE),
@@ -595,6 +598,7 @@ class PhaseTraceIntegrationTest {
         }
     }
 
+    @Category(LargeSceneValidation::class)
     @Test fun fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics() {
         val frequencies=System.getenv("ACOUSTIC_DIFFUSE_BENCH_HZ")?.split(',')?.map {it.trim().toInt()} ?: listOf(1000)
         for(hz in frequencies) {

@@ -125,7 +125,8 @@ data class BandPrediction(val meanSquarePressure: Double?, val missingBands: Set
 }
 
 /** frozenDiffuseBands enables request-local reuse only for immutable snapshot emitters. */
-class DirectField(val atmosphere: Atmosphere = Atmosphere(),frozenDiffuseBands: List<Int>?=null) {
+class DirectField(val atmosphere: Atmosphere = Atmosphere(),frozenDiffuseBands: List<Int>?=null,
+    private val diffuseDiagnostics:DiffuseDiagnostics?=null) {
     private val diffuseBands=frozenDiffuseBands?.distinct()?.toList()
     private data class DiffuseKey(val geometry: BoundaryGeometry,val source: SoundSource,val receiver: BoundaryPoint,val ground: Boolean,val complexIntervals: List<Bands.Segment>)
     private data class PreparedDiffuse(val samples: List<DiffuseSurfaceSample>,val missing: Set<MissingBand>)
@@ -177,7 +178,7 @@ class DirectField(val atmosphere: Atmosphere = Atmosphere(),frozenDiffuseBands: 
     ): BandPrediction {
         val complex=sources.any {it.radiator.hasComplexBands()}
         val illumination=if(complex && boundaries!=null && sources.indices.any {i -> (0 until i).any {j -> sources[i].radiator.hasComplexBands() && sources[j].radiator.hasComplexBands() && (coherent || correlateByGroup && sources[i].group==sources[j].group)}})
-            CoherentDiffuse(sources,BoundaryPoint(px.toDouble(),py.toDouble(),pz.toDouble()),boundaries,atmosphere,segments,coherent,correlateByGroup,floor!=null,boundaryWork,incidentCache=incidentCache) else null
+            CoherentDiffuse(sources,BoundaryPoint(px.toDouble(),py.toDouble(),pz.toDouble()),boundaries,atmosphere,segments,coherent,correlateByGroup,floor!=null,boundaryWork,incidentCache=incidentCache,diagnostics=diffuseDiagnostics) else null
         if(!complex && sources.all {it.filters.isEmpty}) return predictBandSamples(sources,px,py,pz,segments,coherent,groupLossDb,floor,correlateByGroup,boundaries,boundaryWork,pathLossDb,illumination=illumination)
         val missing=sources.flatMap {s->segments.map {MissingBand(s.group,it.dataHz)}}.toSet()
         // Unknown cross-source phase is permitted only when the user explicitly sums independent groups.

@@ -1,0 +1,26 @@
+[
+  {
+    "run": 1,
+    "coldLaunch": true,
+    "completionLowerSeconds": 165.8069112910016,
+    "completionUpperSeconds": 173.03737649999675,
+    "displayedMeanDb": 55.2,
+    "timingOrigin": "activity-launch",
+    "launchToManualCalculateSeconds": null,
+    "rejectedSnapshots": 0,
+    "checkpointInspectionDeferred": true,
+    "checkpointSha256": null
+  },
+  {
+    "run": 2,
+    "coldLaunch": true,
+    "completionLowerSeconds": 166.7606580000138,
+    "completionUpperSeconds": 174.040104625019,
+    "displayedMeanDb": 55.2,
+    "timingOrigin": "activity-launch",
+    "launchToManualCalculateSeconds": null,
+    "rejectedSnapshots": 0,
+    "checkpointInspectionDeferred": true,
+    "checkpointSha256": null
+  }
+]

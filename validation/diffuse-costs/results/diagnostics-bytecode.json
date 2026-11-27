@@ -1,0 +1,7 @@
+{
+  "maximumBandPowersInstructionOffset": {
+    "initial": 14135,
+    "compact": 5103
+  },
+  "scope": "JDK javap bytecode offsets; not execution timings"
+}

@@ -1,0 +1,134 @@
+{
+  "scope": "Test scheduling only; no engine speedup or weakened large-scene assertions",
+  "baselineCommit": "e04992d4dd5a217c9fb37050bccdfbe1cbf484dd",
+  "phaseClassSeconds": 140.683,
+  "cases": [
+    {
+      "name": "fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics",
+      "seconds": 104.689
+    },
+    {
+      "name": "largeVenueNonuniformMeasuredArraysAtFourAndEightKilohertzReopenExactly",
+      "seconds": 22.532
+    },
+    {
+      "name": "wholeMeasuredArraySceneCompletesAndReopensWithIdenticalCoverage",
+      "seconds": 7.905
+    },
+    {
+      "name": "measuredThirtyTwoEmitterScatteringPersistsAndPolarityUndoRestoresResult",
+      "seconds": 4.063
+    },
+    {
+      "name": "coherentScatteringInterferencePersistsAndPolarityUndoRestoresCoverage",
+      "seconds": 0.749
+    },
+    {
+      "name": "complexDiffuseMaterialAndFilterPersistWithIdenticalProductionResults",
+      "seconds": 0.091
+    },
+    {
+      "name": "groundPhaseChangesInterferenceAndSurvivesVariantsAndReopen",
+      "seconds": 0.055
+    },
+    {
+      "name": "reflectedBlockAndImportedFacesSurviveReopenWithoutDoubleCounting",
+      "seconds": 0.054
+    },
+    {
+      "name": "automaticReferenceMatchingAppliesAtomicallyAndSupportsUndoAndReopen",
+      "seconds": 0.053
+    },
+    {
+      "name": "historyPreviewDoesNotMutateUntilAppliedAndReopensWithUndo",
+      "seconds": 0.038
+    },
+    {
+      "name": "robustMatchingDiagnosticsAndAppliedReferenceSurviveProjectReopen",
+      "seconds": 0.037
+    },
+    {
+      "name": "malformedFilterImportIsAtomicAndLegacyProjectsHaveNoFilters",
+      "seconds": 0.031
+    },
+    {
+      "name": "manualExclusionsPersistUndoAndRejectInvalidImportsAtomically",
+      "seconds": 0.031
+    },
+    {
+      "name": "listenerAndReferencePhaseCompareDelayAndReopenWithExactSpeakerData",
+      "seconds": 0.031
+    },
+    {
+      "name": "missingMaterialPhaseRemainsUnavailableAfterReopen",
+      "seconds": 0.03
+    },
+    {
+      "name": "adjustableReferencesPersistResetAndUndoWithoutChangingSpeakerDelay",
+      "seconds": 0.028
+    },
+    {
+      "name": "matchingFrequencyRangePersistsResetsAndUndoesWithAtomicImportValidation",
+      "seconds": 0.027
+    },
+    {
+      "name": "historyNavigationReopensAndIsOneSceneUndoStep",
+      "seconds": 0.026
+    },
+    {
+      "name": "denseListenerAndReferenceCapturesKeepDelayReferenceAfterReopen",
+      "seconds": 0.021
+    },
+    {
+      "name": "movedRangePreservesWidthAcrossReopenAndUndo",
+      "seconds": 0.02
+    },
+    {
+      "name": "exclusionUndoRedoPersistsAcrossProjectReopen",
+      "seconds": 0.02
+    },
+    {
+      "name": "complexBandAndFiltersPersistAndReproduceProductionCoverageAndPhase",
+      "seconds": 0.02
+    },
+    {
+      "name": "fitSampleSelectionPersistsAndInvalidImportIsAtomic",
+      "seconds": 0.019
+    },
+    {
+      "name": "exclusionDescriptionsFollowUndoRedoAndProjectReopen",
+      "seconds": 0.018
+    },
+    {
+      "name": "editingExclusionIsOneUndoStepAndSurvivesReopen",
+      "seconds": 0.017
+    },
+    {
+      "name": "rangeExclusionsPersistUndoAndRejectInvalidImportsAtomically",
+      "seconds": 0.016
+    },
+    {
+      "name": "magnitudeOnlyAndUnsupportedPropagationNeverInventPhase",
+      "seconds": 0.016
+    },
+    {
+      "name": "mixedSourceEnergyAtOneKilohertzSurvivesReopenAndCoherentModeStaysUnavailable",
+      "seconds": 0.015
+    },
+    {
+      "name": "overlayInspectionPreferencesPersistAndPreviewStillApplies",
+      "seconds": 0.013
+    },
+    {
+      "name": "derivedPhaseAndMissingIntervalsSurviveProjectReopen",
+      "seconds": 0.011
+    },
+    {
+      "name": "groundPhaseImportValidationIsAtomicAndLegacySelectionIsEmpty",
+      "seconds": 0.007
+    }
+  ],
+  "originalSourceSha256": "31a364a419ae6e3f4f34d01d8632e46bdeca00a5767fa21ecd981d23a3c21394",
+  "normalizedCurrentSourceSha256": "31a364a419ae6e3f4f34d01d8632e46bdeca00a5767fa21ecd981d23a3c21394",
+  "baselineXmlSha256": "9ba1010cb477b3a94ce59f63198e0397c1d615b191c65e4cbd8f6e5c01133adf"
+}

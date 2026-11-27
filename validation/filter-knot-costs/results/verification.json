@@ -1,0 +1,20 @@
+{
+  "sourceSha256": {
+    "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/CoherentDiffuse.kt": "d86659259af383ac55bb9a13cbfe7a5a7a4092ed375df2c1d6e3638bd24056dc",
+    "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/DiffuseDiagnostics.kt": "57e91084119611052f3deb8391eb38ce3c9be5282053f9f6bce035380e48c37d",
+    "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/DiffuseIncidentCache.kt": "081fdec6be132d9e22b444afabd21f3eda7c0b26f040c0346cd532befc66f458",
+    "android/shared-core/src/commonTest/kotlin/com/droidacoustic/pro/acoustics/MixedComplexDiffuseTest.kt": "d8b97e1a7b26fa2926a9aaefd970cf78debe3afff7ba5669ae313ae9eb066f47",
+    "android/app/src/test/kotlin/com/droidacoustic/pro/scene/FilterKnotProfileTest.kt": "115676ec4ad6045910b7d557f0abc703c04084b4e46f4183856fd6ce424cbecd",
+    "android/app/build.gradle.kts": "5cf6fba1c7f7b4f7fcc4b34d3b3c0ec662e1ac0c7adf154fe47b173ea2a2c9d6"
+  },
+  "evidenceSha256": {
+    "android-fast.json": "cf2388b935503b54505bf8e23e3d1c6c33965698efd3cb60a54a2a750d41d465",
+    "inputs.json": "0766bb0469f894a4a46db212656013b40e3a1ca6d5f06cc3bc35382d30a866d3",
+    "profile-build.log": "85a1161da793aae9398e4d8318df07df526eef1f5b6bcda9491ac9b8f0cd327c",
+    "profile-test.xml": "984bfd97dd978d1fab22da2d6e6637c02128faf41fffea6a4c3d5b0c138620a0",
+    "regression-build.log": "17a6d8ed73954b8bff5a1921a1ff0818e322c8a590bf777982ce15a02c9a2ec5",
+    "shared.json": "f0edc400e666525abd1ec316afc319ff71bcbe94cfaeb7fc8ce61516a40c549a",
+    "TEST-com.droidacoustic.pro.acoustics.MixedComplexDiffuseTest.xml": "d5c5f619e8992722cc75bd7c99a613203401a840e66ba8c732514949f06bc06a",
+    "profile/costs.json": "abd909e9d98c68bc2a1b862bf68f87e4a9c637e47e59f950c16022aaa77a108d"
+  }
+}

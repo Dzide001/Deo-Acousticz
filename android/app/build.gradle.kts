@@ -140,6 +140,34 @@ dependencies {
 
 // Benchmark selection changes test execution even when compiled test classes are unchanged.
 tasks.withType<Test>().configureEach {
+    val tier=providers.gradleProperty("acousticValidationTier").orElse("fast").get()
+    require(tier in setOf("fast","large","full")) {"acousticValidationTier must be fast, large or full"}
+    inputs.property("acousticValidationTier",tier)
+    val costProfile=providers.gradleProperty("acousticCostProfile").orElse("false").get().toBooleanStrict()
+    inputs.property("acousticCacheProfile",providers.environmentVariable("ACOUSTIC_CACHE_PROFILE").orElse(""))
+    inputs.property("acousticCostProfile",costProfile)
+    inputs.property("acousticCostProfileDirectory",providers.environmentVariable("ACOUSTIC_COST_PROFILE_DIR").orElse(""))
+    // Manual profiling tools do not extend the routine/large acceptance workload.
+    if(!costProfile) {
+        exclude("**/DiffuseCostProfileTest.class")
+        exclude("**/FilterHeavyBenchmarkTest.class")
+        exclude("**/DistinctFilterBenchmarkTest.class")
+        exclude("**/FilterKnotProfileTest.class")
+        exclude("**/PackedCacheBenchmarkTest.class")
+        exclude("**/PackedCacheExpansionTest.class")
+    }
+    val recording=providers.gradleProperty("acousticProfileRecording")
+    inputs.property("acousticProfileRecording",recording.orElse(""))
+    recording.orNull?.let {path->
+        jvmArgs("-XX:StartFlightRecording=filename=$path,settings=profile,dumponexit=true")
+    }
+    useJUnit {
+        val category="com.droidacoustic.pro.scene.LargeSceneValidation"
+        when(tier) {
+            "fast" -> excludeCategories(category)
+            "large" -> includeCategories(category)
+        }
+    }
     inputs.property("diffuseBenchmarkHz", providers.environmentVariable("ACOUSTIC_DIFFUSE_BENCH_HZ").orElse("1000"))
     inputs.property("benchmarkExportDirectory", providers.environmentVariable("ACOUSTIC_BENCHMARK_EXPORT_DIR").orElse(""))
 }
@@ -164,21 +192,36 @@ tasks.withType<Test>().configureEach {
     systemProperty("manufacturerValidationReport",report.get().asFile.absolutePath)
     inputs.dir(validationRoot.resolve("validation/clf-handedness/fixtures"))
     inputs.files(validationRoot.resolve("validation/clf-handedness/provenance.json"),validationRoot.resolve("validation/clf-handedness/results/reference.json"))
-    val handednessReport=layout.buildDirectory.file("reports/clf-handedness/results.json")
+    val handednessReport=layout.buildDirectory.file("reports/${if(providers.gradleProperty("externalClfValidationRoot").isPresent) "external-clf/" else ""}clf-handedness/results.json")
     outputs.file(handednessReport)
     systemProperty("externalClfHandednessReport",handednessReport.get().asFile.absolutePath)
     inputs.dir(validationRoot.resolve("validation/clf-magnitude/fixtures"))
     inputs.files(validationRoot.resolve("validation/clf-magnitude/provenance.json"),validationRoot.resolve("validation/clf-magnitude/results/reference.json"))
-    val magnitudeReport=layout.buildDirectory.file("reports/clf-magnitude/results.json")
+    val magnitudeReport=layout.buildDirectory.file("reports/${if(providers.gradleProperty("externalClfValidationRoot").isPresent) "external-clf/" else ""}clf-magnitude/results.json")
     outputs.file(magnitudeReport)
     systemProperty("externalClfMagnitudeReport",magnitudeReport.get().asFile.absolutePath)
     inputs.dir(validationRoot.resolve("validation/cf1-reference/fixtures"))
     inputs.files(validationRoot.resolve("validation/cf1-reference/reference.py"),validationRoot.resolve("validation/cf1-reference/provenance.json"),validationRoot.resolve("validation/cf1-reference/results/reference.json"))
-    val cf1Report=layout.buildDirectory.file("reports/cf1-reference/results.json")
+    val cf1Report=layout.buildDirectory.file("reports/${if(providers.gradleProperty("externalClfValidationRoot").isPresent) "external-clf/" else ""}cf1-reference/results.json")
     outputs.file(cf1Report)
     systemProperty("cf1ReferenceReport",cf1Report.get().asFile.absolutePath)
     inputs.dir(validationRoot.resolve("validation/powered-reference/fixtures"))
     val poweredReport=layout.buildDirectory.file("reports/powered-reference/results.json")
     outputs.file(poweredReport)
     systemProperty("poweredReferenceReport",poweredReport.get().asFile.absolutePath)
+}
+
+// Public synthetic fixtures by default; private external input is explicit and mandatory when selected.
+val externalClfRoot=providers.gradleProperty("externalClfValidationRoot").orNull
+val clfFixtureRoot=externalClfRoot?.let { File(it) } ?: rootProject.projectDir.parentFile
+if(externalClfRoot!=null) require(clfFixtureRoot.isAbsolute && clfFixtureRoot.resolve("external-validation.json").isFile) {
+    "Prepare a private external CLF root with validation/fixture-permissions/prepare_external.py first"
+}
+tasks.withType<Test>().configureEach {
+    dependsOn(rootProject.tasks.named("prepareClfFixtures"))
+    inputs.property("clfFixtureRoot",clfFixtureRoot.absolutePath)
+    for(pkg in listOf("clf-handedness","clf-magnitude","cf1-reference")) {
+        inputs.dir(clfFixtureRoot.resolve("validation/$pkg"))
+    }
+    systemProperty("clfFixtureValidationRoot",clfFixtureRoot.absolutePath)
 }

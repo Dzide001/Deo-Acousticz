@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.acoustics.DiffuseChunkTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-26T17:35:42.766Z" hostname="Dzide.local" time="0.001">
+  <properties/>
+  <testcase name="missingFilterResponseIsNeverTreatedAsAnIdentityRow[jvm]" classname="com.droidacoustic.pro.acoustics.DiffuseChunkTest" time="0.001"/>
+  <testcase name="identityChainsHaveNoRowsAndEqualNonemptyChainsShareResponses[jvm]" classname="com.droidacoustic.pro.acoustics.DiffuseChunkTest" time="0.0"/>
+  <testcase name="scratchIsBoundedToOneChunk[jvm]" classname="com.droidacoustic.pro.acoustics.DiffuseChunkTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

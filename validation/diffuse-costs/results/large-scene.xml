@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-26T17:22:01.255Z" hostname="Dzide.local" time="117.886">
+  <properties/>
+  <testcase name="fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="89.258"/>
+  <testcase name="largeVenueNonuniformMeasuredArraysAtFourAndEightKilohertzReopenExactly" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="22.146"/>
+  <testcase name="wholeMeasuredArraySceneCompletesAndReopensWithIdenticalCoverage" classname="com.droidacoustic.pro.scene.PhaseTraceIntegrationTest" time="6.482"/>
+  <system-out><![CDATA[Full-venue diffuse, 64 emitters, 1000 Hz, 333 receivers: 47975.408292 ms
+Full-venue diffuse 1000 Hz area mean: 56.71420139630636 dB
+Large venue 60x40m, 32 emitters, 4000 Hz, 333 receivers: 1279.452167 ms
+Large venue 4000 Hz / 32 emitters area mean: 49.0593787697951 dB
+Large venue 60x40m, 32 emitters, 8000 Hz, 333 receivers: 3013.812333 ms
+Large venue 8000 Hz / 32 emitters area mean: 52.03731159210205 dB
+Large venue 60x40m, 64 emitters, 8000 Hz, 333 receivers: 6799.95425 ms
+Large venue 8000 Hz / 64 emitters area mean: 55.87139387289683 dB
+32-emitter whole-scene coverage: 1616.047959 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

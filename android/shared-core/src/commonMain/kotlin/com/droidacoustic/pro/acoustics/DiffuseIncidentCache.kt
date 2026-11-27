@@ -4,7 +4,7 @@ import com.droidacoustic.pro.geometry.*
 
 /** Request-local reuse of incident flux spectra, never receiver propagation or diffuse phase.
  * Frozen sources are required. Keys retain source visibility, materials, band slices and all
- * additional source/path losses. Payload is bounded to 32 MiB by default, with no eviction churn.
+ * additional source/path losses. Losslessly packed payload is bounded to 32 MiB by default, with no eviction churn.
  * Key accounting is capped at 64 MiB and 262,144 entries. Shared interned vectors
  * are charged once by their separately bounded registry, rather than once per spectrum.
  * Object/map overhead is additional; context and spectrum definitions are bounded too.
@@ -59,7 +59,7 @@ internal class DiffuseIncidentCache(private val maxValues:Int=4_194_304,
     fun bound(key:BoundKey):Float?=lock.withLock {bounds[key]}
     fun putBound(key:BoundKey,value:Float)=lock.withLock {if(bounds.size<65536) bounds[key]=value}
     private val lock=GeometryCacheLock()
-    private val spectra=HashMap<Key,DoubleArray>()
+    private val spectra=HashMap<Key,Any>()
     private val contexts=HashMap<Context,Context>()
     private val spectraDefinitions=HashMap<Spectrum,Spectrum>()
     private val vectors=HashMap<PackedInts,PackedInts>()
@@ -74,13 +74,30 @@ internal class DiffuseIncidentCache(private val maxValues:Int=4_194_304,
         val value=Spectrum(bands.toList())
         spectraDefinitions[value] ?: value.also {if(spectraDefinitions.size<1024) spectraDefinitions[value]=value}
     }
+    private var compressionStarted=false
+    private var peakPayloadBytes=0L
+    private var payloadBytes=0L
+    private var packedEntries=0L
+    private var rejectedPuts=0L
     private var values=0
     private var keyBytes=0L
     internal var hits=0L
         private set
     internal val storedValues get()=lock.withLock {values}
-    fun get(key:Key):DoubleArray?=lock.withLock {spectra[key]?.also {hits++}}
-    fun put(key:Key,power:DoubleArray)=lock.withLock {
+    internal val storedPayloadBytes get()=lock.withLock {payloadBytes}
+    internal fun record(diagnostics:DiffuseDiagnostics)=lock.withLock {
+        diagnostics.cachePayloadBytesPeak=maxOf(diagnostics.cachePayloadBytesPeak,peakPayloadBytes)
+        diagnostics.cachePackedEntriesPeak=maxOf(diagnostics.cachePackedEntriesPeak,packedEntries)
+        diagnostics.cacheRejectedPuts=maxOf(diagnostics.cacheRejectedPuts,rejectedPuts)
+        diagnostics.cacheValuesPeak=maxOf(diagnostics.cacheValuesPeak,values.toLong())
+        diagnostics.cacheEntriesPeak=maxOf(diagnostics.cacheEntriesPeak,spectra.size.toLong())
+        diagnostics.cacheKeyBytesPeak=maxOf(diagnostics.cacheKeyBytesPeak,keyBytes)
+    }
+    fun get(key:Key):DoubleArray? {
+        val value=lock.withLock {spectra[key]?.also {hits++}} ?: return null
+        return if(value is DoubleArray) value else (value as CachedPowers).unpack()
+    }
+    fun put(key:Key,power:DoubleArray,checkCancellation:()->Unit = {})=lock.withLock {
         // Interned arrays are shared across nodes/spectra. Counting them at every key
         // previously exhausted the budget while most of the power payload was still free.
         // Reserve conservative per-entry metadata (including the value-array header), and
@@ -88,8 +105,39 @@ internal class DiffuseIncidentCache(private val maxValues:Int=4_194_304,
         val packed=(if(vectors[key.visible]===key.visible) 0 else key.visible.size)+
             (if(vectors[key.losses]===key.losses) 0 else key.losses.size)
         val charge=192L+packed*4L
-        if(spectra.size<maxEntries && charge<=maxKeyBytes-keyBytes && key !in spectra && power.size<=maxValues-values && power.all {it.isFinite()}) {
-            spectra[key]=power.copyOf();values+=power.size;keyBytes+=charge
+        if(key in spectra) return@withLock
+        if(spectra.size>=maxEntries || charge>maxKeyBytes-keyBytes || power.size>32 || !power.all {it.isFinite()}) {
+            rejectedPuts++;return@withLock
         }
+        // Scenes whose raw spectra fit retain their original allocation-free hit path.
+        // A single pressure-triggered sweep packs retained immutable rows; subsequent
+        // admissions pack directly. No eviction, expanded budget or persistent queue.
+        if(!compressionStarted && power.size*8L>maxValues.toLong()*8-payloadBytes) {
+            compressionStarted=true
+            var scanned=0
+            for(entry in spectra.entries) {
+                if(scanned++%32==0) checkCancellation()
+                val old=entry.value
+                if(old is DoubleArray && keyBytes+32<=maxKeyBytes) {
+                    val packedValue=CachedPowers.prepare(old)
+                    if(packedValue.isPacked) {
+                        entry.setValue(packedValue)
+                        payloadBytes+=packedValue.payloadBytes-old.size*8
+                        keyBytes+=32;packedEntries++
+                    }
+                }
+            }
+        }
+        val minimum=if(!compressionStarted || power.size<2) power.size*8 else 8+power.size/2
+        if(minimum>maxValues.toLong()*8-payloadBytes) {rejectedPuts++;return@withLock}
+        val data=if(compressionStarted) CachedPowers.prepare(power) else null
+        val bytes=data?.payloadBytes ?: power.size*8
+        val wrapper=if(data?.isPacked==true) 32 else 0
+        if(bytes>maxValues.toLong()*8-payloadBytes || charge+wrapper>maxKeyBytes-keyBytes) {rejectedPuts++;return@withLock}
+        // Raw rows retain the original DoubleArray representation and hit path.
+        spectra[key]=if(data?.isPacked==true) data else data?.unpack() ?: power.copyOf()
+        values+=power.size;payloadBytes+=bytes;keyBytes+=charge+wrapper
+        peakPayloadBytes=maxOf(peakPayloadBytes,payloadBytes)
+        if(wrapper!=0) packedEntries++
     }
 }

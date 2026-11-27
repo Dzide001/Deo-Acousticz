@@ -1,0 +1,25 @@
+{
+  "tier": "large",
+  "tests": 3,
+  "sumClassSeconds": 140.754,
+  "cases": [
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics",
+      "seconds": 109.921,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.largeVenueNonuniformMeasuredArraysAtFourAndEightKilohertzReopenExactly",
+      "seconds": 22.388,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.wholeMeasuredArraySceneCompletesAndReopensWithIdenticalCoverage",
+      "seconds": 8.445,
+      "failed": false,
+      "skipped": false
+    }
+  ]
+}

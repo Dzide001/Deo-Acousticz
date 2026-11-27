@@ -1,0 +1,117 @@
+[
+  {
+    "run": 1,
+    "variant": "before",
+    "sourceSha256": "081fdec6be132d9e22b444afabd21f3eda7c0b26f040c0346cd532befc66f458",
+    "loadAverage": [
+      5.92822265625,
+      4.3017578125,
+      3.60205078125
+    ],
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*PackedCacheBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "times": {
+      "offset": 31.899330458,
+      "bounded": 12.072607625
+    }
+  },
+  {
+    "run": 2,
+    "variant": "after",
+    "sourceSha256": "de8e397d3d1ebdc607a966d8f64d4327002839d79fc7f4a9d9e1fac8722c5766",
+    "loadAverage": [
+      4.85107421875,
+      4.42529296875,
+      3.71337890625
+    ],
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*PackedCacheBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "times": {
+      "offset": 28.7718975,
+      "bounded": 11.348643958
+    }
+  },
+  {
+    "run": 3,
+    "variant": "after",
+    "sourceSha256": "de8e397d3d1ebdc607a966d8f64d4327002839d79fc7f4a9d9e1fac8722c5766",
+    "loadAverage": [
+      4.0400390625,
+      4.25732421875,
+      3.685546875
+    ],
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*PackedCacheBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "times": {
+      "offset": 28.7719245,
+      "bounded": 11.627356958
+    }
+  },
+  {
+    "run": 4,
+    "variant": "before",
+    "sourceSha256": "081fdec6be132d9e22b444afabd21f3eda7c0b26f040c0346cd532befc66f458",
+    "loadAverage": [
+      3.4677734375,
+      4.10205078125,
+      3.65771484375
+    ],
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*PackedCacheBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "times": {
+      "offset": 31.91518775,
+      "bounded": 11.597001292
+    }
+  },
+  {
+    "run": 5,
+    "variant": "profile",
+    "sourceSha256": "de8e397d3d1ebdc607a966d8f64d4327002839d79fc7f4a9d9e1fac8722c5766",
+    "loadAverage": [
+      2.98779296875,
+      3.89892578125,
+      3.60302734375
+    ],
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*PackedCacheBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "times": {
+      "offset": 28.36583475,
+      "bounded": 11.25392675
+    }
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "run": 3,
+  "variant": "after",
+  "sourceSha256": "c7220ccdcc42d73cd34899c690a53af5ad8732f522314937ea2a23dd801bcf28",
+  "loadAverage": [
+    3.9365234375,
+    3.49609375,
+    2.93701171875
+  ],
+  "command": [
+    "./gradlew",
+    ":app:testDebugUnitTest",
+    "-PacousticCostProfile=true",
+    "--tests",
+    "*PackedCacheBenchmarkTest",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--offline"
+  ],
+  "times": {
+    "offset": 28.2745185,
+    "bounded": 10.840480291
+  }
+}

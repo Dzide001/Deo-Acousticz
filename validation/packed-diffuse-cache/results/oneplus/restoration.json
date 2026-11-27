@@ -1,0 +1,13 @@
+{
+  "originalFileCount": 9,
+  "allOriginalFilesByteIdentical": true,
+  "extraFileCount": 0,
+  "originalApkRestored": true,
+  "installedApkSha256": "cf92bddd3c4055ce3a564b21f610ed3571f8341f375701f5590496a1eecc04f2",
+  "originalProjectReopened": true,
+  "originalSceneUnchangedAfterReopen": true,
+  "allFilesStillByteIdenticalAfterReopen": true,
+  "filesUpdatedByNormalReopen": [],
+  "restorationByteCheckScope": "Stable fresh read after force-stop and before reopening original app",
+  "initialRestoreReadTransientMismatch": true
+}

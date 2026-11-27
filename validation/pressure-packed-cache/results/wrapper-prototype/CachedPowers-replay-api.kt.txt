@@ -1,0 +1,58 @@
+package com.droidacoustic.pro.acoustics
+
+/** Exact XOR-byte packing for one bounded spectrum. No quantization or persistent format.
+ * Width nibbles describe each successive raw-bit XOR; incompressible rows stay doubles. */
+internal class CachedPowers private constructor(private val raw:DoubleArray?,
+    private val packed:ByteArray?,val size:Int) {
+    val payloadBytes get()=raw?.let {it.size*8} ?: packed!!.size
+    val isPacked get()=packed!=null
+    fun unpack():DoubleArray {
+        raw?.let {return it}
+        val bytes=packed!!;val result=DoubleArray(size)
+        var previous=0L
+        for(i in 0 until 8) previous=previous or ((bytes[i].toLong() and 255L) shl (i*8))
+        result[0]=Double.fromBits(previous)
+        var offset=8+size/2
+        for(i in 1 until size) {
+            val header=bytes[8+(i-1)/2].toInt() and 255
+            val width=(header ushr (((i-1)%2)*4)) and 15
+            var delta=0L
+            for(b in 0 until width) delta=delta or ((bytes[offset++].toLong() and 255L) shl (b*8))
+            previous=previous xor delta;result[i]=Double.fromBits(previous)
+        }
+        return result
+    }
+    fun packedIfSmaller():CachedPowers {
+        if(isPacked || size<2) return this
+        return prepare(raw!!).let {if(it.isPacked) it else this}
+    }
+    companion object {
+        fun raw(values:DoubleArray):CachedPowers {
+            require(values.size<=32)
+            return CachedPowers(values.copyOf(),null,values.size)
+        }
+        fun prepare(values:DoubleArray):CachedPowers {
+            require(values.size<=32)
+            if(values.size<2) return CachedPowers(values.copyOf(),null,values.size)
+            var count=8+values.size/2
+            var previous=values[0].toRawBits()
+            for(i in 1 until values.size) {
+                val next=values[i].toRawBits();val delta=previous xor next
+                count+=(64-delta.countLeadingZeroBits()+7)/8;previous=next
+            }
+            if(count>=values.size*8) return CachedPowers(values.copyOf(),null,values.size)
+            val bytes=ByteArray(count);previous=values[0].toRawBits()
+            for(b in 0 until 8) bytes[b]=(previous ushr (b*8)).toByte()
+            var offset=8+values.size/2
+            for(i in 1 until values.size) {
+                val next=values[i].toRawBits();val delta=previous xor next
+                val width=(64-delta.countLeadingZeroBits()+7)/8
+                val h=8+(i-1)/2
+                bytes[h]=(bytes[h].toInt() or (width shl (((i-1)%2)*4))).toByte()
+                for(b in 0 until width) bytes[offset++]=(delta ushr (b*8)).toByte()
+                previous=next
+            }
+            return CachedPowers(null,bytes,values.size)
+        }
+    }
+}

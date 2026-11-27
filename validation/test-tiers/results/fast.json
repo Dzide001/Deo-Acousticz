@@ -1,0 +1,2685 @@
+{
+  "tier": "fast",
+  "tests": 446,
+  "phaseTests": 28,
+  "phaseSeconds": 5.761,
+  "sumClassSeconds": 17.811,
+  "cases": [
+    {
+      "id": "com.droidacoustic.pro.scene.AngularSupportRecoveryTest.realSparseDataWarningsAndDerivedReportsSurviveDiskReopenWithoutChangingAssetOrLevels",
+      "seconds": 0.175,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AngularSupportRecoveryTest.measuredSymmetryAndInterpolatedMagnitudeAndComplexDeclarationsSurviveRecovery",
+      "seconds": 0.021,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AreaBlockManipulationTest.authoredZoneKeepsCutoutsElevationsBreaklinesAndDimensionsAcrossTransforms",
+      "seconds": 0.028,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AreaBlockManipulationTest.invalidTargetsNeverChangePersistedStateRevisionOrHistory",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AreaBlockManipulationTest.importedZonePreviewCommitUndoRedoAndReopenRetainFullMesh",
+      "seconds": 0.024,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AreaBlockManipulationTest.blockDragPreviewIsIsolatedAndCombinedMoveYawHasOneUndoCheckpoint",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AsymmetricDirectivityRecoveryTest.importedAsymmetricModelKeepsHandednessInAndroidCaptureAndDiskRecovery",
+      "seconds": 0.047,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AtmosphericLossTest.distanceScalingAndZero",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AtmosphericLossTest.arbitraryBandsHaveTheirOwnAbsorption",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AtmosphericLossTest.referenceAtmosphereReachesProduction",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.boundaryGroupAssignmentsReachAndroidPredictionAndFrozenRequests",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.overhangPredictionAndAuxiliarySamplerKeepBothLayers",
+      "seconds": 0.025,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.exclusionsInvalidateCacheAndParticipateInUndoRedoAndRemoval",
+      "seconds": 0.029,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.statisticsReportAndContourReferenceUseSharedAreaResultsAndInvalidateTogether",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.importedTopologyAndVoidsSurviveSaveReopenAndUndoWithoutSourceFile",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.malformedAssignmentsFailImportAtomicallyAndOlderMeshesFollowZone",
+      "seconds": 0.019,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.previousMeshSchemaReopensAndCorrupt3DFacesFailAtomically",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.breaklinesSurviveSaveReopenUndoRedoAndLegacyMigration",
+      "seconds": 0.027,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.viewportPickingTracksTransformsAndScreenProjectionWithoutCoverage",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.acousticEditsReuseGeometryButSurfaceAndSamplingEditsRebuildIt",
+      "seconds": 0.019,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.excludedFacesRemainVisibleContextWithoutCoverageOrPreviewFloor",
+      "seconds": 0.017,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.meshEditingPreservesTopologyAndCutoutsStillWork",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.verticalObjImportsAndPublishesAndroidAreaAndCoverage",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.auxiliarySamplingUsesSharedCutoutMembershipAndListeningHeight",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.invalidCutoutEditOrImportPreservesExistingProject",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.importedAudienceFeedsAndroidPredictionStatisticsAndCache",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.cutoutsMoveWithRotationMirroringAndDuplication",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.heatmapGlbRetainsBothHeightsAndTheirOwnLevels",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.invalidGroupEditsAndImportsPreserveProjectAndOldMeshesOpenUngrouped",
+      "seconds": 0.02,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.namedGroupTransformsDuplicationAndColdReopenPreserveMembershipAndArea",
+      "seconds": 0.019,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.pickedAssignmentsSurviveReopenButFaceHighlightDoesNot",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.rendererAndAuxiliarySamplingFollowNonplanarHeightField",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.invalidPolygonFailsCoverageWithoutPublishingMisleadingMesh",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.rendererShowsElevatedBreaklinesClippedAtHoles",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.androidPublishesSeparateLayersAndAddingProbeDoesNotSuppressCoverage",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.namedGroupSelectionAndViewportRecallDoNotInvalidatePredictions",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.drawingHoleUpdatesCoverageAndDiskReopenPreservesCutouts",
+      "seconds": 0.018,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.breaklineTransformsPreserveSlopeAndPhysicalArea",
+      "seconds": 0.013,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.verticalContoursAndHeatmapsHaveNonzero3DRenderingGeometry",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.boundaryRolesSurviveTransformsGroupsAndColdSaveReopen",
+      "seconds": 0.021,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.targetWindowIsIndependentOfDisplaySpanAndReusesGeometry",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.androidMeshesContoursAndOutlinesRetainHoleBoundaries",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.malformedBoundaryRolesFailAtomicallyAndOldProjectsStayTransparent",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.importedMeshTransformsRetainHeightsFacesAndRake",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.capturedCoverageRequestIsUnaffectedByLaterSurfaceEdits",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.facePreviewIsTransientAndBatchAssignmentsUndoOnceAndInvalidatePredictions",
+      "seconds": 0.02,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.saveAndReopenPreserveHighRakedSurfacesAndProbeHeight",
+      "seconds": 0.013,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.importedMeshRenderingKeepsHoleAndTriangleElevations",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.invalidBreaklineEditsAndImportsAreAtomic",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.overhangSaveReopenUndoAndTransformsPreserve3DTopology",
+      "seconds": 0.014,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.nonplanarPersistenceUndoAndLegacyMigrationPreserveHeights",
+      "seconds": 0.019,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.malformedObjAndEmbeddedMeshCannotPartiallyReplaceScene",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.viewportToggleAndPatchSelectionApplyOneBatchAndResetAcrossZones",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.assignedFacesDriveAndroidCoverageReportsAndAuxiliaryListeningHeights",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.breaklineEditUpdatesPredictionAreaAndPreservesCapturedRequest",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.assignmentsPersistAfterTransformsDuplicationAndColdReopen",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.objCombinedMembershipSelectsAndAssignsAllPartsWithoutDuplicatingArea",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.objGroupsImportAsSelectableAssignableGroupsWithIndependentAndroidStatistics",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.transformsPreserveNonplanarElevationIncludingBaseRake",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.contourGlbKeepsOverlappingFloorsSeparate",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.boundaryEditsInvalidateResultsWithoutChangingAudienceAreaAndRenderExplicitRoles",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.namedGroupsReachAndroidAreaReportsAndRenderedCoverageWithoutDoubleCounting",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.removingHeightPointsRemapsRemainingLinesAndResetClearsThem",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.interiorElevationPublishesNonplanarMeshAndAreaAndInvalidatesCache",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.parentZoneEditsAffectInheritedFacesButPreserveOverridesAndExclusions",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.groupEditsUndoAtomicallyPreserveRolesAndRefreshCachedNames",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.preMeshSchemaStillReopensAuthoredBreaklineSurfaces",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.assignmentColorsAndCoverageRenderingRetainOnlyActiveFaces",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.importedObjGroupsSurviveAssignmentRenameTransformsAndColdReopenWithoutSource",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.malformedElevationEditAndImportLeaveSceneUnchanged",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.viewportTapsSelectNearestOverhangThenAssignAndUndoWithoutChangingFaceIndices",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.rotatingSharedBreaklineJunctionKeepsConnectivity",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.overhangPlanCutoutsAffectEveryLayerAndRetainRemainingWallArea",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.AudienceSurfaceIntegrationTest.invalidObjGroupsFailAtomicallyWithoutConsumingZoneIdsOrUndoHistory",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.Cf1ReferenceValidationTest.missingSensitivitySlotSurvivesAndroidAssetSaveReopen",
+      "seconds": 0.044,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.Cf1ReferenceValidationTest.officialCf1SensitivitySlotsMatchTheirOwnTextRowsAndReopenWithoutInventedCalibration",
+      "seconds": 0.114,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.a file with the wrong magic is rejected by name",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.a handful of bytes is rejected without reading past the end",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.metadata comes off the binary, not the filename",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.a CF2 file truncated mid-balloon is rejected as too small",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.every CF2 file in the corpus decodes",
+      "seconds": 0.811,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.every CF1 file in the corpus decodes",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.the two formats are told apart by magic, not by extension",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.the two readers put the coverage edges in the same place",
+      "seconds": 0.068,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.a CF1 file identifies itself from the same string table as CF2",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.describe never throws on rubbish",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.a CF1 file decodes on its own grid",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.parseOrNull swallows the failure",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.the binary reader agrees with the text reader, band for band",
+      "seconds": 0.052,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfBinaryReaderTest.decoded balloons are normalised relative to the on-axis direction",
+      "seconds": 0.049,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabImportTest.importClfText routes a TAB document to the TAB reader",
+      "seconds": 0.024,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabImportTest.a TAB document imports and registers real directivity",
+      "seconds": 0.014,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabImportTest.a rejected file reports why and registers nothing",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabImportTest.a CF2 binary handed to the text importer fails cleanly",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabImportTest.the legacy key-value sketch still works for non-TAB text",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.a rotationally symmetric balloon reads the same at equal polar angles",
+      "seconds": 0.017,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.directly behind the box is the far end of the balloon",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.an arc of the wrong length names the band and the arc",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.the published Martin Audio XD12 file parses and holds together",
+      "seconds": 0.084,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.a CF2 binary is rejected with a useful message rather than a crash",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.an empty document is rejected, not silently accepted",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.an arc that disagrees about the on-axis direction is caught",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.a well-formed CLF2 document parses to its declared shape",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.half and quarter symmetric balloons expand to the full circle",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.reversed arc order is normalised back to ascending phi",
+      "seconds": 0.018,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.resampling preserves the on-axis reference and the band list",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.a consistent balloon passes the integrity check",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.the XD12 measures its published 90 degree horizontal pattern",
+      "seconds": 0.046,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.the coordinate conversion puts phi zero straight up",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ClfTabParserTest.on axis is the reference and costs nothing",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ComparisonImportIntegrationTest.sceneChangesLeaveImportedSnapshotIdentityUnchangedAndClearIsUndoable",
+      "seconds": 0.02,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ComparisonImportIntegrationTest.importsSurviveUndoRedoDiskSaveAndFreshReopen",
+      "seconds": 0.027,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ComparisonImportIntegrationTest.rejectedImportsAndTamperedProjectsAreAtomicAndLegacyScenesClearSnapshots",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageComparisonIntegrationTest.savedDesignComparisonWorksWithAnEmptyOpenDesign",
+      "seconds": 0.034,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageComparisonIntegrationTest.missingMeasuredDataStaysUnavailableAfterReopen",
+      "seconds": 0.029,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageComparisonIntegrationTest.incompatibleVenueAndAnalysisAreRejectedWithoutRestoration",
+      "seconds": 0.044,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageComparisonIntegrationTest.bandwidthAndBroadbandWeightingMismatchAreRejected",
+      "seconds": 0.025,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageComparisonIntegrationTest.reverseIdenticalAndSelectionChangesCannotPublishOldMap",
+      "seconds": 0.019,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageComparisonIntegrationTest.savedDesignsCompareWithoutChangingLiveDesignAndReopenRecomputes",
+      "seconds": 0.031,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageComparisonIntegrationTest.corruptedSelectionRejectsImportAndLegacyLoadsEmpty",
+      "seconds": 0.018,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.the published XD12 measures its stated 90 degree horizontal pattern",
+      "seconds": 0.063,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.a narrow box reports a narrow edge and a wide one a wide edge",
+      "seconds": 0.053,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.the edge follows the band selector",
+      "seconds": 0.061,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.the horizontal edges follow the band selector too",
+      "seconds": 0.089,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.the edge lands where the balloon has fallen six decibels",
+      "seconds": 0.038,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.an unmeasured array is narrower across than a point source",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.an omnidirectional balloon has no edge to draw",
+      "seconds": 0.031,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.the published XD12 reports its own asymmetry",
+      "seconds": 0.072,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.importing measured data changes the edge from the synthetic guess",
+      "seconds": 0.027,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.an asymmetric box reports different angles up and down",
+      "seconds": 0.026,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.without measured data the edge matches what the model itself predicts",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.an unmeasured array narrows with frequency and with element count",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageEdgesTest.a box narrow across and wide up-down reports it that way round",
+      "seconds": 0.027,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageModeControlsTest.switchingBackToManualStopsAutomaticUpdatesAndBothChoicesSurviveReopen",
+      "seconds": 0.021,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageModeControlsTest.bandSelectsCoverageWhileSpectrumInspectionKeepsBroadbandLevel",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageModeControlsTest.manualModeAndBandEditsClearOldCoverageAndRequireRecalculation",
+      "seconds": 0.019,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageModeControlsTest.diskReopenRestoresModeFrequencyAndShowsItsStartupCalculation",
+      "seconds": 0.027,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.CoverageModeControlsTest.automaticModeChangesReturnToCurrent",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DesignVariantIntegrationTest.invalidLibrariesDoNotChangeOpenDesignAndLegacyProjectsHaveNoVariants",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DesignVariantIntegrationTest.captureRestoreAndUndoRestoreGeometryDspReferencesAndPredictions",
+      "seconds": 0.053,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DesignVariantIntegrationTest.coldReopenSwitchesVariantsWithoutLosingSavedTraces",
+      "seconds": 0.052,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DesignVariantIntegrationTest.differentSpeakerDataRevisionsRecoverFromEachSnapshotAfterReopen",
+      "seconds": 0.027,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.dead on axis costs nothing",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.reflected paths are treated as less directional than the direct one",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.loss is capped rather than running away behind the box",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.arrays are excluded because the summation path models them instead",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.at the half-power angle the loss is 6 dB",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.turning dispersion off removes directivity entirely",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.loss grows as the square of the off-axis ratio",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.an untilted box loses level to a listener below it",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.over-tilting past the listener costs level again",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.panning the box towards the listener recovers the loss",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.angular difference takes the short way round",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DirectivityTest.tilting the box onto the listener recovers the loss",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DriveAndEqRecoveryTest.newDefaultAndLegacyMigrationHaveExplicitDifferentDrive",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DriveAndEqRecoveryTest.legacyEqProjectKeepsOffsetsButUnsetBandsAreNeutral",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DriveAndEqRecoveryTest.changingDriveInvalidatesResultsAndSupportsUndoRedo",
+      "seconds": 0.02,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DriveAndEqRecoveryTest.bothPoliciesAndSparseEqSurviveDiskReopen",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.at one metre a box delivers its rated sensitivity",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.sensitivity passes straight through",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.EQ set through the setter reaches the SPL calculation",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.an EQ entry on the analysed band lands exactly",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.setting one band leaves the others alone",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.an EQ entry on another band does nothing to this one",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.gain trim adds decibel for decibel",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.gain trim is clamped to plus or minus twelve",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.every doubling costs the same six decibels",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.doubling the distance costs six decibels",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.a band with no entry is flat rather than missing",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.ten times the distance costs twenty decibels",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.level falls monotonically with distance in every band",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.EQ is clamped to plus or minus six",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.each band picks up its own entry as the analysis band moves",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.a listener at the box does not produce infinity",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.DspChainTest.gain and EQ stack",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.EngineComparisonCaptureTest.explicitTotalDriveSpectrumIsIndependentOfReferenceAndSurvivesUndoAndReopen",
+      "seconds": 0.053,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.EngineComparisonCaptureTest.relativeCapturePersistsNormalizationDiagnosticsAndRejectsStaleChanges",
+      "seconds": 0.02,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.EngineComparisonCaptureTest.frozenRequestsAndLateCapturesCannotOverwriteSceneEditsOrNewerCaptures",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.EngineComparisonCaptureTest.captureDerivesSceneProtocolAndSurvivesUndoRedoAndDiskReopen",
+      "seconds": 0.017,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.EngineComparisonCaptureTest.missingDataStaysUnavailableAndQueuedCaptureIsCancelledByEdits",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.EngineComparisonCaptureTest.broadbandCaptureUsesSceneWeightingAndPersistsRawBandsThroughReopen",
+      "seconds": 0.026,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.EngineComparisonCaptureTest.relativeBroadbandCaptureKeepsBasisDiagnosticsAndSurvivesDiskRecovery",
+      "seconds": 0.032,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ExternalClfHandednessTest.officialCf1MagnitudeDeclarationsSurviveAndroidSaveReopenAndFailedImportIsAtomic",
+      "seconds": 0.025,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ExternalClfHandednessTest.officialAsymmetricTabAndCf2ReachAndroidPredictionsAndSurviveDiskReopen",
+      "seconds": 0.755,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.FloorBounceTest.displayResolutionDoesNotChangePhysicalResult",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.FloorBounceTest.groundIsExplicitAndPersists",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.FloorBounceTest.olderProjectsDefaultToFreeField",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.FloorBounceTest.productionBandwidthIntegratesDelayedInterference",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.FloorBounceTest.productionGroundUsesUnclippedImagePressure",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.GeometryTest.3-4-5 triangle resolves to 5 metres",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.GeometryTest.results are laid out point-major, speaker-minor",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.GeometryTest.distance is measured in three dimensions, not two",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.GeometryTest.a point coincident with the source is zero, not NaN",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.the quality label tracks the bands it is cut into",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.patchier coverage scores worse",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.reverberation further from target scores worse",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.a better score never gets a worse label",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.level alone is worth forty-five percent",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.a higher score always means fewer lost consonants",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.the reverberation penalty is symmetric about its target",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.a hopeless score is capped at total loss rather than the relation's 170 percent",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.alcons follows the Farrell-Becker relation for the score it is given",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.a perfect score still reports a small residual loss",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.reverberation alone is worth thirty percent",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.absurd inputs still produce a score inside zero to one",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.everything at its worst scores zero",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.everything ideal scores a perfect one",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.louder coverage scores better until the ceiling",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.IntelligibilityScoreTest.evenness alone is worth twenty-five percent",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArrayDirectivityTest.aiming away from the listener costs level",
+      "seconds": 0.035,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArrayDirectivityTest.an array uses measured data at all",
+      "seconds": 0.058,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArrayDirectivityTest.a single box tells above the axis from below it",
+      "seconds": 0.061,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArrayDirectivityTest.horizontal off-axis angle is measured from where the box is panned",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArrayDirectivityTest.a signed angular delta keeps its sign while the unsigned one does not",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArrayDirectivityTest.aiming an array down points it at an audience below",
+      "seconds": 0.065,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArrayDirectivityTest.measured attenuation is applied once, not once per path",
+      "seconds": 0.067,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArrayDirectivityTest.splay changes the answer, so each element is read at its own angle",
+      "seconds": 0.076,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.electronicSteeringPreservesPosesAndMechanicalAimMovesThem",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.doublingTheBoxCountAddsSixDecibels",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.nearArrayAndBandSizeSpacingMatrixRemainFinite",
+      "seconds": 0.017,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.twinArrayCancellationAndDelayedBandResidualUseProductionRequests",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.splayWithGenericDirectivityChangesCoverage",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.onAxisGainIsMonotonicForThisLowFrequencyFarFieldFixture",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.interSourceInterferenceOffDoesNotMakeArrayElementsIndependent",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.highFrequencyCoverageVariesMoreRapidlyForThisStraightArrayFixture",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.farFieldArrayGainFollowsPressureSummation",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.taperAndGainReachEveryElement",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.LineArraySummationTest.wholeArrayPolarityAndCommonDelayDoNotChangeItsOwnEnergy",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ManufacturerDataComparisonTest.matchedXd12SourceRowsAndDirectionalSamples",
+      "seconds": 0.069,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.MeasuredDirectivityTest.a placed speaker remembers which preset it came from",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.MeasuredDirectivityTest.importedBandSensitivityReachesProductionLevel",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.MeasuredDirectivityTest.inside the plateau the measured pattern costs nothing",
+      "seconds": 0.026,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.MeasuredDirectivityTest.importing data for one model does not affect a different one",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.MeasuredDirectivityTest.the prediction follows the measured pattern's own shape",
+      "seconds": 0.025,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.MeasuredDirectivityTest.preset identity survives a scene round trip",
+      "seconds": 0.018,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.MeasuredDirectivityTest.a speaker with no measured data still gets the synthetic fallback",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.MeasuredDirectivityTest.a scene saved before preset identity existed still loads",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.MeasuredDirectivityTest.measured data changes the prediction",
+      "seconds": 0.017,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ObstructionTest.clearAndNearEdgePathsHaveNoGrazingPenalty",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ObstructionTest.opaqueWallBlocksEveryBandWithoutAddingAnEmpiricalLoss",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ObstructionTest.removalAndNoBoundaryRoleRestoreClearPath",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ObstructionTest.endpointAndZeroLengthContactsDoNotSelfOcclude",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ObstructionTest.elevatedBalconyKeepsUnderpassAndRotationChangesFootprint",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ObstructionTest.visibilityIsReciprocalAndIndependentOfAnalysisProfile",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.malformedFilterImportIsAtomicAndLegacyProjectsHaveNoFilters",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.robustMatchingDiagnosticsAndAppliedReferenceSurviveProjectReopen",
+      "seconds": 0.018,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.adjustableReferencesPersistResetAndUndoWithoutChangingSpeakerDelay",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.coherentScatteringInterferencePersistsAndPolarityUndoRestoresCoverage",
+      "seconds": 0.69,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.historyNavigationReopensAndIsOneSceneUndoStep",
+      "seconds": 0.015,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.movedRangePreservesWidthAcrossReopenAndUndo",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.mixedSourceEnergyAtOneKilohertzSurvivesReopenAndCoherentModeStaysUnavailable",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.groundPhaseChangesInterferenceAndSurvivesVariantsAndReopen",
+      "seconds": 0.036,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.automaticReferenceMatchingAppliesAtomicallyAndSupportsUndoAndReopen",
+      "seconds": 0.024,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.missingMaterialPhaseRemainsUnavailableAfterReopen",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.historyPreviewDoesNotMutateUntilAppliedAndReopensWithUndo",
+      "seconds": 0.015,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.matchingFrequencyRangePersistsResetsAndUndoesWithAtomicImportValidation",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.manualExclusionsPersistUndoAndRejectInvalidImportsAtomically",
+      "seconds": 0.015,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.reflectedBlockAndImportedFacesSurviveReopenWithoutDoubleCounting",
+      "seconds": 0.042,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.exclusionDescriptionsFollowUndoRedoAndProjectReopen",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.fitSampleSelectionPersistsAndInvalidImportIsAtomic",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.exclusionUndoRedoPersistsAcrossProjectReopen",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.editingExclusionIsOneUndoStepAndSurvivesReopen",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.rangeExclusionsPersistUndoAndRejectInvalidImportsAtomically",
+      "seconds": 0.019,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.magnitudeOnlyAndUnsupportedPropagationNeverInventPhase",
+      "seconds": 0.02,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.overlayInspectionPreferencesPersistAndPreviewStillApplies",
+      "seconds": 0.013,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.groundPhaseImportValidationIsAtomicAndLegacySelectionIsEmpty",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.measuredThirtyTwoEmitterScatteringPersistsAndPolarityUndoRestoresResult",
+      "seconds": 4.582,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.complexBandAndFiltersPersistAndReproduceProductionCoverageAndPhase",
+      "seconds": 0.02,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.derivedPhaseAndMissingIntervalsSurviveProjectReopen",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.listenerAndReferencePhaseCompareDelayAndReopenWithExactSpeakerData",
+      "seconds": 0.022,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.denseListenerAndReferenceCapturesKeepDelayReferenceAfterReopen",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PhaseTraceIntegrationTest.complexDiffuseMaterialAndFilterPersistWithIdenticalProductionResults",
+      "seconds": 0.076,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PoweredReferenceRecoveryTest.referenceBasisAndCalibrationGuardsSurviveProductionImportAndDiskReopen",
+      "seconds": 0.038,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionConcurrencyTest.sameRevisionRecalculationAndDisableRejectPendingWork",
+      "seconds": 0.015,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionConcurrencyTest.manualEditClearsPublishedValuesAndOldCompletionCannotReviveThem",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionConcurrencyTest.importingSceneRejectsJobsFromPreviousScene",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionConcurrencyTest.requestRemainsStableAfterBandDriveAtmosphereAndGroundChanges",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionConcurrencyTest.lateListenerAndCoverageCannotOverwriteNewSceneResults",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionConcurrencyTest.automaticModeRecomputesBothChannelsAfterListenerOnlyEdit",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionConcurrencyTest.failedRunLeavesRetryableStateAndCannotPublishOldFailure",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionModelCleanupTest.legacySettingsReopenWithoutChangingTheActualModelOrLevels",
+      "seconds": 0.013,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionModelCleanupTest.predictionsDoNotPublishGuessedRoomMetricsOrLegacyReflections",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionModelCleanupTest.unvalidatedOptimizerCannotRunOrApplyDspChanges",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionValidityRecoveryTest.listenerAvailabilityIsUsedWhenCoverageIsDisabled",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionValidityRecoveryTest.availablePartialAndUnavailableAreRecomputedOnDiskReopen",
+      "seconds": 0.038,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PredictionValidityRecoveryTest.missingAssetIsUnavailableAndWarningsClearOnEditAndRecovery",
+      "seconds": 0.017,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ProjectRecoveryTest.tamperedEmbeddedAssetIsNotReplacedByPreviousRegistry",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ProjectRecoveryTest.malformedLoadLeavesSceneDataAndHistoryUnchanged",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ProjectRecoveryTest.missingDiskAssetPreservesSceneAndReportsUnavailable",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ProjectRecoveryTest.undoAndRedoRetainExactMeasuredRevisions",
+      "seconds": 0.014,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ProjectRecoveryTest.diskCorruptionUsesPreviousCheckpoint",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ProjectRecoveryTest.diskSaveAndFreshReopenRecoverCalibrationAndPrediction",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.PublicMeasurementRecoveryTest.realMeasurementReportsAndReviewLineageSurviveUndoRedoDiskSaveAndFreshReopen",
+      "seconds": 0.047,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReceiverAngularOverlayTest.overlayPreferenceReceiversOriginsAndDirectionsSurviveDiskReopenWithoutChangingLevels",
+      "seconds": 0.013,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReceiverAngularOverlayTest.changedGeometryInvalidatesDisplayRevisionAndUndoRestoresDiagnostics",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReceiverAngularOverlayTest.nativeMarkerGeometryContainsBothSupportAndOriginInEveryOrthogonalPlane",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReceiverDiffuseIntegrationTest.scatteredStageWithSixShadowingBlocksFitsPredictionBudget",
+      "seconds": 5.832,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReceiverFramingRecoveryTest.framingIntentAndViewSurviveReopenWithoutChangingSceneAcoustics",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReceiverFramingRecoveryTest.removedLegacyAndInvalidTargetsCannotRestoreAnUnrelatedReceiver",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReceiverFramingRecoveryTest.visualFramingAndInspectionDoNotInvalidateAnAdjustmentPreview",
+      "seconds": 0.025,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReceiverMarkerRecoveryTest.markerAndListSelectionShareIdentityAndPersistWithoutAcousticOrAlignmentChanges",
+      "seconds": 0.014,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReceiverMarkerRecoveryTest.deletionUndoRedoAndLegacyReopenReconcileStaleSelection",
+      "seconds": 0.015,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReferenceTraceIntegrationTest.invalidAndLegacySelectionsAndVariantRestoration",
+      "seconds": 0.02,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReferenceTraceIntegrationTest.receiverDeletionPrunesSelectionButKeepsHistoricalTracesAndUndo",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReferenceTraceIntegrationTest.selectedReceiversCaptureTogetherAndCompareDesignsAfterReopen",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReferenceTraceIntegrationTest.lateResultAfterReceiverSelectionChangeIsDiscarded",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.ReferenceTraceIntegrationTest.batchUsesEachReceiversActualPositionAndHeight",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.RevisionTest.scene edits mark it too",
+      "seconds": 0.012,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.RevisionTest.broadband and its weighting survive a save and reload",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.RevisionTest.the settings that used to be lost on restart now mark the scene",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.RevisionTest.a rejected value moves nothing",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.RevisionTest.setting a value to what it already is does not churn the autosave",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SavedTraceIntegrationTest.malformedTraceArchiveDoesNotModifyOpenProject",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SavedTraceIntegrationTest.capturedDesignsRemainFrozenAndCompareRealGainChangesAfterSaveReopen",
+      "seconds": 0.02,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SavedTraceIntegrationTest.captureRejectsEmptyAndStaleResultsAndLegacyProjectsHaveNoTraces",
+      "seconds": 0.013,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest.the document converges after one round trip",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest.the SPL colour scale survives",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest.a populated scene survives export and import",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest.malformed JSON is rejected rather than half-applied",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest.speaker positions survive exactly",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SceneJsonRoundTripTest.an empty scene round trips without inventing content",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerCalibrationTest.wideBandWithPartialDataIsUnavailableRatherThanUnderestimated",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerCalibrationTest.losingDataClearsPreviouslyCalculatedResultsEvenInManualMode",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerCalibrationTest.unavailableListenerDoesNotPublishANumberOrBreakJsonExport",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerCalibrationTest.lostEmbeddedDataDoesNotBecomeGenericEvenWhenRegistryWasPreviouslyLoaded",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerCalibrationTest.responseAndDirectivityHolesDoNotBorrowOrUseScalarSensitivity",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerCalibrationTest.calibrationAndMeasurementGridSurviveProjectRoundTrip",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerCalibrationTest.provenanceAndDeclaredCalibrationSurviveReopenAndAreVisibleInReports",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerCalibrationTest.calibratedReferenceAndRelativeGainReachAndroidSolver",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerCalibrationTest.clearingMeasuredDataInvalidatesExistingSources",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerCalibrationTest.legacyMetadataIsUnverifiedAndInvalidCalibrationIsRejected",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerManipulationTest.linkedPreviewsMatchFinalMotionInBothModes",
+      "seconds": 0.015,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerManipulationTest.invalidPreviewCannotChangeGeometryOrHistory",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerManipulationTest.sameSourceSpeakersMoveAndAimIndependentlyWithoutAnExplicitLink",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SpeakerManipulationTest.previewNeverPersistsAndEachDragCommitsOneUndoableEditAcrossReopen",
+      "seconds": 0.041,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleAdoptionTest.re-entering the same target still adopts the scale",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleAdoptionTest.setting a target moves the scale off Auto",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleAdoptionTest.a scene saved on Target comes back on Target",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleAdoptionTest.the target window is centred on the target",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleAdoptionTest.the contour reference prefers a stated target over the data",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleAdoptionTest.already on target, setting one just changes the level",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleAdoptionTest.a fixed window is a decision and is not overridden",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleAdoptionTest.loading a scene saved on Auto does not silently switch it to Target",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleAdoptionTest.contour mode survives a scene round trip",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleAdoptionTest.contours are off until asked for, and only known modes are accepted",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleWindowTest.target brackets the target by the span and ignores the data",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleWindowTest.auto spans the data",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleWindowTest.auto over a flat field still yields a non-degenerate window",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleWindowTest.an unrecognised mode behaves as auto rather than throwing",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleWindowTest.auto on an empty scene falls back to a sane window rather than zero width",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SplScaleWindowTest.fixed uses its own bounds and ignores the data",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SummationTest.interferenceOffAddsSeparateSourcePowersAcrossAllBands",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SummationTest.singleSourceGainReachesProductionResult",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SummationTest.quieterCoherentSourceHasTheAnalyticalPressureGain",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SummationTest.productionDspAndCoherenceSettingsSurviveSaveReopen",
+      "seconds": 0.014,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SummationTest.halfPeriodDelayHasFiniteBandResidualRatherThanAnInventedBlend",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SummationTest.emptyRequestHasZeroEnergy",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SummationTest.invertedCoincidentTwinCancelsInTheProductionBand",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SummationTest.identicalCoherentSourcesAddExactlySixDecibels",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SurfaceMaterialTest.customCurveSurvivesProjectRoundTrip",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SurfaceMaterialTest.unassignedRoomWallCeilingAndOldOrderSettingsDoNotAffectTheSolver",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SurfaceMaterialTest.floorCurveReachesProductionGroundReflectionEnergy",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SurfaceMaterialTest.materialEditsMarkTheSceneForSaving",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SurfaceMaterialTest.oldScalarAbsorptionReopensAsTheSameFlatGroundCurve",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SurfaceMaterialTest.materialAndLegacyRoomSettingsSurviveDiskReopen",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.applyingDelayRecomputesAfterMovementAndCanBeUndone",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.systemAdjustmentRejectsStaleSceneAndReceiverChanges",
+      "seconds": 0.009,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.sceneEditsAndReceiverSwitchRejectOldPreviewWithoutEditingDsp",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.previewDoesNotEditProjectApplyMatchesPreviewAndUndoRestoresAllComparisons",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.delayApplicationUsesNewlySelectedReceiverAndLegacyReferenceMigrates",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.referenceIsPinnedAndSurvivesSaveReopenAndUndo",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.multipleReceiversKeepTheirSpeakerSelectionAcrossSaveReopenAndUndo",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.invalidSavedSelectionRejectsImportBeforeChangingTheScene",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.legacySceneClearsReferenceAndImpossibleDelayDoesNotMutateDsp",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.polarityAndDelayPreviewChangeInterferenceAtReceivers",
+      "seconds": 0.007,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.combinedAdjustmentIsPureAtomicUndoRedoAndSurvivesReopen",
+      "seconds": 0.02,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.SystemAlignmentIntegrationTest.deletedReferenceDoesNotSilentlySelectAnotherSpeaker",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest.coldReopenAndVenueExchangePreserveRolesAndTransforms",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest.scatteringSurvivesColdReopenAndVenueExchange",
+      "seconds": 0.156,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest.blocksAndFacesShareVisibilityAndDuplicateReflectionsCountOnce",
+      "seconds": 0.004,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest.customMaterialsSurviveColdReopenAndVenueExchange",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest.reflectionPhaseSurvivesColdReopenAndVenueExchange",
+      "seconds": 0.015,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest.angularMaterialsSurviveColdReopenAndVenueExchange",
+      "seconds": 0.013,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest.oldProjectsMigrateToOpaqueAndMalformedRolesFailAtomically",
+      "seconds": 0.01,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest.materialsSurviveColdReopenAndVenueExchange",
+      "seconds": 0.011,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest.roleEditsInvalidateFreezeAndUndoWithoutAddingAudienceCoverage",
+      "seconds": 0.014,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.UnifiedBoundaryIntegrationTest.conflictingCoincidentRolesUseOpaqueAndExactBlockDuplicatesDoNotAddEnergy",
+      "seconds": 0.008,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.A discounts the low end far harder than C does",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.one loud band dominates the total",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.A-weighting lowers a broadband reading and Z does not",
+      "seconds": 0.021,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.A-weighting pulls down a bass-heavy spectrum and barely touches a mid one",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.legacy broadband adds full band powers while fixed total removes the extra drive",
+      "seconds": 0.016,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.Z is no weighting at all",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.on a single band a weighting is only an offset, which is why it needed broadband",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.weighting is remembered and only known curves are accepted",
+      "seconds": 0.005,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.the C minus A gap measures how much low end there is",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.weighting leaves a single-band map exactly where it was",
+      "seconds": 0.006,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.an infinite band is skipped rather than poisoning the total",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.an unknown band or weighting contributes nothing rather than failing",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.A-weighting matches the standard at the octave centres",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.broadband analysis covers every band, single-band covers one",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.nothing to sum is nothing, not silence at zero decibels",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.equal bands add as power, not as pressure",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.scene.WeightingTest.C-weighting is nearly flat and only rolls off at the ends",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.every ray starts at the box",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.an asymmetric horizontal pattern is not drawn symmetrically",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.the floor still wins when it is nearer than a wall",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.aiming down lands the axis on the floor",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.a level ray stops at the wall it is pointed at",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.an array produces a vertical set per element and one horizontal pair",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.a wider horizontal pattern spreads the edges further apart",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.horizontal edges start at the acoustic centre, not at an element",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.many speakers stay within a sane buffer size",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.no venue given means no clipping, so old callers are unaffected",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.horizontal edges are clipped to the room like everything else",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.aiming up never drives a ray below the floor",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.rays stop at the walls rather than leaving the building",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.the horizontal pair turns with the box",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.no speakers means no overlay to draw",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.an upward ray stops at the ceiling",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.the horizontal edges swing out either side of the pan",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.a single box produces an axis, two vertical edges and two horizontal",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.panning turns the rays with the box",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.a level box throws its axis horizontally down its pan",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.splay fans the array's elements apart",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.AimRaysGlbTest.the container is a well-formed GLB with matching chunk sizes",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.ContoursGlbTest.the emphasised threshold is drawn more strongly than the others",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.ContoursGlbTest.contours sit above the field they describe",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.ContoursGlbTest.a flat field has no contour to draw",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.ContoursGlbTest.a threshold outside the data draws nothing",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.ContoursGlbTest.too little data is handled rather than crashing",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.ContoursGlbTest.a contour lands where the level actually is",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.ContoursGlbTest.an irregular scatter is refused rather than drawn wrongly",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.ContoursGlbTest.a radial field produces a closed ring at the right radius",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.ContoursGlbTest.each threshold gets its own line at its own place",
+      "seconds": 0.003,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.HeatmapBandingTest.a band boundary sits on the reference, not on an arbitrary level",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.HeatmapBandingTest.without a step the field is left alone",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.HeatmapBandingTest.the number of bands follows the step size",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.HeatmapBandingTest.banding collapses a smooth ramp into steps",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.SpeakersGlbTest.tilting down drops the front of the cabinet",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.SpeakersGlbTest.no speakers means no mesh",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.SpeakersGlbTest.the cabinet and the aim rays agree about which way is up",
+      "seconds": 0.002,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.SpeakersGlbTest.electronic steering does not move the cabinet",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.SpeakersGlbTest.panning turns the cabinet the same way it turns the rays",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.SpeakersGlbTest.tilting up lifts the front of the cabinet",
+      "seconds": 0.0,
+      "failed": false,
+      "skipped": false
+    },
+    {
+      "id": "com.droidacoustic.pro.ui.SpeakersGlbTest.the cabinet sits at the speaker's position and height",
+      "seconds": 0.001,
+      "failed": false,
+      "skipped": false
+    }
+  ]
+}

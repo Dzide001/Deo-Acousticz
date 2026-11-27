@@ -1,0 +1,22 @@
+[
+  {
+    "run": 1,
+    "coldLaunch": true,
+    "completionLowerSeconds": 116.30944454102428,
+    "completionUpperSeconds": 123.57222258299589,
+    "displayedMeanDb": 56.7,
+    "rejectedSnapshots": 0,
+    "checkpointInspectionDeferred": true,
+    "checkpointSha256": null
+  },
+  {
+    "run": 2,
+    "coldLaunch": true,
+    "completionLowerSeconds": 117.48777654100559,
+    "completionUpperSeconds": 125.72832900000503,
+    "displayedMeanDb": 56.7,
+    "rejectedSnapshots": 0,
+    "checkpointInspectionDeferred": true,
+    "checkpointSha256": null
+  }
+]

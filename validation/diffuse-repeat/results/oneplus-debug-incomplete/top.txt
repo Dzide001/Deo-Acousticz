@@ -1,0 +1,6 @@
+Tasks: 1 total,   0 running,   1 sleeping,   0 stopped,   0 zombie
+  Mem:    11442M total,    10999M used,      443M free,        1M buffers
+ Swap:    12287M total,     3948M used,     8339M free,     2889M cached
+800%cpu  96%user  30%nice  59%sys 611%idle   0%iow   4%irq   0%sirq   0%host
+  PID USER         PR  NI VIRT  RES  SHR S[%CPU] %MEM     TIME+ ARGS
+22840 u0_a476      16  -4 7.8G 377M 194M S  148   3.2   8:42.63 com.droidacoustic.pro

@@ -1,0 +1,10 @@
+{
+  "baselineCommit": "e04992d4dd5a217c9fb37050bccdfbe1cbf484dd",
+  "source": "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/CoherentDiffuse.kt",
+  "beforeSourceSha256": "4aadf0b545be7277b5b32e2efeb41e0b2cd6f6b50ffcebfc8156ae1a8a2e8041",
+  "afterSourceSha256": "ff4ef4b13f4e5480f7e8b03abda59027790437f2aa8d69caa1c6efff9042643d",
+  "decision": "Retain bounded index traversal simplification with exact arithmetic and parity checks; end-to-end speedup unproven",
+  "profileScope": "One JVM observation per variant; JFR enabled; no tablet timing; full scene includes first calculation, fresh reopen and boundary-role toggle",
+  "accuracyLimitsChanged": false,
+  "projectFormatChanged": false
+}

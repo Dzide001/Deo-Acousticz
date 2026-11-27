@@ -1,0 +1,7 @@
+{
+  "status": "Interrupted while still calculating; no completion or accuracy result",
+  "observationSeconds": 631.9595227910031,
+  "reason": "Use optimized build for native performance acceptance",
+  "build": "debug",
+  "notACalculationFailure": true
+}

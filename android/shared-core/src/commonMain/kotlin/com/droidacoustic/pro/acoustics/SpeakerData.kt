@@ -72,6 +72,8 @@ class MeasuredRadiator(
         if(useDirectivity) complexResponse?.variationDb(lowHz,highHz,az,el,radius) else Float.NaN
     override fun complexBandKnots()=complexResponse?.frequencies().orEmpty()
     override fun complexBandAt(hz:Double,azimuthDeg:Float,elevationDeg:Float)=if(useDirectivity) complexResponse?.bandAt(hz,azimuthDeg,elevationDeg) else null
+    override fun complexBandBasis(lowHz:Double,highHz:Double,az:Float,el:Float,out:DoubleArray,offset:Int)=
+        useDirectivity && complexResponse?.linearBandBasis(lowHz,highHz,az,el,out,offset)==true
     override fun complexReferenceDrive()=if(useDirectivity) complexResponse?.referenceDrive else null
     override fun complexAt(hz:Int,azimuthDeg:Float,elevationDeg:Float)=if(useDirectivity) complexResponse?.at(hz,azimuthDeg,elevationDeg) else null
     private val bounded = useDirectivity && variationBounds.isNotEmpty()

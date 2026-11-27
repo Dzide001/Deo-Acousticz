@@ -1,0 +1,164 @@
+[
+  {
+    "run": 1,
+    "variant": "before",
+    "listenerSeconds": 9.105535917,
+    "coverageSeconds": 78.079242958,
+    "meanDb": 54.23276879151662,
+    "sourceSha256": "b6f70f82533192faada6d7a48151ec3d60975ae21e28d348b43cb612f895d6bd",
+    "fixtureSha256": "cf40debd0934e89cd2b51e588c9cf15f3bd19eabe6956516c9e80b1ecd312b06",
+    "conditions": {
+      "loadAverage": [
+        4.45068359375,
+        4.32861328125,
+        4.74755859375
+      ],
+      "logicalCpuCount": 12,
+      "machine": "arm64"
+    },
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*FilterHeavyBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ]
+  },
+  {
+    "run": 2,
+    "variant": "after",
+    "listenerSeconds": 8.947418666,
+    "coverageSeconds": 71.82425875,
+    "meanDb": 54.23276879151662,
+    "sourceSha256": "b0dd72baadf5d06ae4afd4b88f87bc97c8f3a5d1bafcc5d5ea7bdaa23829ecf4",
+    "fixtureSha256": "cf40debd0934e89cd2b51e588c9cf15f3bd19eabe6956516c9e80b1ecd312b06",
+    "conditions": {
+      "loadAverage": [
+        2.91259765625,
+        3.9228515625,
+        4.5361328125
+      ],
+      "logicalCpuCount": 12,
+      "machine": "arm64"
+    },
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*FilterHeavyBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ]
+  },
+  {
+    "run": 3,
+    "variant": "after",
+    "listenerSeconds": 8.2472395,
+    "coverageSeconds": 74.543390791,
+    "meanDb": 54.23276879151662,
+    "sourceSha256": "b0dd72baadf5d06ae4afd4b88f87bc97c8f3a5d1bafcc5d5ea7bdaa23829ecf4",
+    "fixtureSha256": "cf40debd0934e89cd2b51e588c9cf15f3bd19eabe6956516c9e80b1ecd312b06",
+    "conditions": {
+      "loadAverage": [
+        2.560546875,
+        3.5908203125,
+        4.35009765625
+      ],
+      "logicalCpuCount": 12,
+      "machine": "arm64"
+    },
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*FilterHeavyBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ]
+  },
+  {
+    "run": 4,
+    "variant": "before",
+    "listenerSeconds": 9.368633292,
+    "coverageSeconds": 83.534496291,
+    "meanDb": 54.23276879151662,
+    "sourceSha256": "b6f70f82533192faada6d7a48151ec3d60975ae21e28d348b43cb612f895d6bd",
+    "fixtureSha256": "cf40debd0934e89cd2b51e588c9cf15f3bd19eabe6956516c9e80b1ecd312b06",
+    "conditions": {
+      "loadAverage": [
+        3.38720703125,
+        3.55419921875,
+        4.259765625
+      ],
+      "logicalCpuCount": 12,
+      "machine": "arm64"
+    },
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*FilterHeavyBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ]
+  },
+  {
+    "run": 5,
+    "variant": "before",
+    "listenerSeconds": 9.659672917,
+    "coverageSeconds": 83.629474334,
+    "meanDb": 54.23276879151662,
+    "sourceSha256": "b6f70f82533192faada6d7a48151ec3d60975ae21e28d348b43cb612f895d6bd",
+    "fixtureSha256": "cf40debd0934e89cd2b51e588c9cf15f3bd19eabe6956516c9e80b1ecd312b06",
+    "conditions": {
+      "loadAverage": [
+        3.95166015625,
+        3.67333984375,
+        4.2275390625
+      ],
+      "logicalCpuCount": 12,
+      "machine": "arm64"
+    },
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*FilterHeavyBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ]
+  },
+  {
+    "run": 6,
+    "variant": "after",
+    "listenerSeconds": 10.830799666,
+    "coverageSeconds": 79.870005666,
+    "meanDb": 54.23276879151662,
+    "sourceSha256": "b0dd72baadf5d06ae4afd4b88f87bc97c8f3a5d1bafcc5d5ea7bdaa23829ecf4",
+    "fixtureSha256": "cf40debd0934e89cd2b51e588c9cf15f3bd19eabe6956516c9e80b1ecd312b06",
+    "conditions": {
+      "loadAverage": [
+        4.41748046875,
+        4.03564453125,
+        4.3134765625
+      ],
+      "logicalCpuCount": 12,
+      "machine": "arm64"
+    },
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*FilterHeavyBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ]
+  }
+]

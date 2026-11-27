@@ -1,25 +1,17 @@
 {
-  "publisher": "CLF Group",
-  "url": "https://www.clfgroup.org/CLF_Authoring_v2.1b.exe",
-  "retrieved": "2026-11-26",
-  "kitSha256": "806eddd6e3ca9b7f766fd7ee4467fe476ff562abc1afacb2c8c5b90d42bb6677",
-  "specificationSha256": "cf83278b9f460120c0afc9ca39b35e12cf86aa8e41abc41d11cae2114aa4b3cc",
-  "specificationDate": "2020-03-04",
-  "sourceSha256": {
-    "app/sample text/clf2_passive_point.tab": "26e5af40a1d06a22bcaf7bf14c0f0fb8815356eb64f2e8b568dd2c15724ed056",
-    "app/sample distribution/Passive2.CF2": "e575a64125829c4ae199c641e8e4104ff9624e96a3e184fd8577a88fa90f9b82"
-  },
+  "sourceKind": "PROJECT_AUTHORED_SYNTHETIC",
+  "scope": "Synthetic layout/coordinate regression; NOT independently sourced CLF conformance or calibration",
+  "generatorSha256": "da1dbf49dfc0fd9d0e0acaef69ef5328ddd4e7d9e35a7cd2c7925004faef80c1",
+  "textFile": "synthetic-1000.tab",
+  "binaryFile": "SyntheticAsymmetric.CF2",
   "fixtureSha256": {
-    "official-1000.tab": "bf3761842dd17e9ca586c4566716d32bba5ada70f5c020c268868e48086a6a26",
-    "Passive2.CF2": "e575a64125829c4ae199c641e8e4104ff9624e96a3e184fd8577a88fa90f9b82"
+    "synthetic-1000.tab": "3a71aed154717aa0e3d013280691b7e002e4c43267bbc3868424752a9ff2021f",
+    "SyntheticAsymmetric.CF2": "063657172a9b93d53b11a1df9958ad8f4b1dff5955ea84ef1f0c9244243e3fad"
   },
   "labels": {
-    "basis": "CLF_specs.pdf Fig. 1, page 12, rear view; format footnote 8, page 11",
     "up": 0,
     "left": 90,
     "down": 180,
     "right": 270
-  },
-  "scope": "Official asymmetric format example; NOT a real manufacturer or measurement accuracy comparison",
-  "extraction": "Text fixture retains only the original 72 magnitude arcs at 1000 Hz. Header is a test adaptation; CF2 fixture is unmodified. No binaries/specification/programs are bundled into the app."
+  }
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.FilterHeavyBenchmarkTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-26T18:01:29.373Z" hostname="Dzide.local" time="90.935">
+  <properties/>
+  <testcase name="matchedFilteredMeasuredArrayRequests" classname="com.droidacoustic.pro.scene.FilterHeavyBenchmarkTest" time="90.935"/>
+  <system-out><![CDATA[Filtered 64-emitter listener=10.830799666s coverage=79.870005666s mean=54.23276879151662dB
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

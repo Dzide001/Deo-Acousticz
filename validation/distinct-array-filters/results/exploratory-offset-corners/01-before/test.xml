@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.scene.DistinctFilterBenchmarkTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-26T21:08:44.396Z" hostname="Dzide.local" time="1581.436">
+  <properties/>
+  <testcase name="independentArrayFiltersSurvivePredictionAndReopen" classname="com.droidacoustic.pro.scene.DistinctFilterBenchmarkTest" time="1581.436"/>
+  <system-out><![CDATA[Distinct-filter 64-emitter listener=17.407134s coverage=1563.799021333s mean=55.15100105484326dB
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

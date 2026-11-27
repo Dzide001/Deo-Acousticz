@@ -1,0 +1,5 @@
+{
+  "scope": "Additional release-mode autosave capture only; not a performance observation",
+  "format": "ProjectArchive.asset hashes speaker-data-v1 newline plus payload",
+  "coverageRunsRepeated": false
+}

@@ -1,0 +1,14 @@
+{
+  "originalFileCount": 9,
+  "allOriginalFilesByteIdentical": true,
+  "extraFileCount": 0,
+  "removedBenchmarkFileCount": 1,
+  "originalApkRestored": true,
+  "installedApkSha256": "cf92bddd3c4055ce3a564b21f610ed3571f8341f375701f5590496a1eecc04f2",
+  "originalManifestSha256": "f7cef8890f80388e373a54154951eb16368f2385962dfbae7aa3d3a69189b409",
+  "originalProjectReopened": true,
+  "originalSceneUnchangedAfterReopen": true,
+  "allFilesStillByteIdenticalAfterReopen": true,
+  "filesUpdatedByNormalReopen": [],
+  "restorationByteCheckScope": "After restoring backup and before reopening original app"
+}

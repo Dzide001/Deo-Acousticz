@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Official CLF sample + independently labelled Fig. 1 directions; no engine imports."""
+"""Coordinate oracle; synthetic public fixture or explicitly declared private external source."""
 import argparse
 import hashlib
 import json
@@ -13,7 +13,7 @@ def generate():
     provenance = json.loads((ROOT / 'provenance.json').read_text())
     for name, digest in provenance['fixtureSha256'].items():
         assert hashlib.sha256((ROOT / 'fixtures' / name).read_bytes()).hexdigest() == digest
-    text = (ROOT / 'fixtures/official-1000.tab').read_text().splitlines()
+    text = (ROOT / 'fixtures' / provenance.get('textFile','synthetic-1000.tab')).read_text().splitlines()
     start = text.index('<BAND>\t1000') + 1
     arcs = [[float(v) for v in r.split()] for r in text[start:]]
     assert len(arcs) == 72 and all(len(r) == 37 for r in arcs)
@@ -37,7 +37,7 @@ def generate():
                 cases.append(dict(label=label, phi=phi, theta=theta, yaw=yaw, tiltDown=tilt,
                                   receiver=world(forward, up, right), onAxis=world(10, 0, 0),
                                   relativeDb=value, mirroredDb=mirror))
-    return dict(scope='EXTERNAL_CLF_FORMAT_HANDEDNESS_NOT_PHYSICAL_ACCURACY', toleranceDb=0.001,
+    return dict(scope=provenance.get('sourceKind','EXTERNAL')+'_CLF_HANDEDNESS_NOT_PHYSICAL_ACCURACY', toleranceDb=0.001,
                 referenceScriptSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                 provenanceSha256=hashlib.sha256((ROOT / 'provenance.json').read_bytes()).hexdigest(), cases=cases)
 
@@ -62,4 +62,4 @@ if __name__ == '__main__':
         assert equivalent(json.loads(path.read_text()), result), 'Stale CLF handedness reference'
     else:
         path.write_text(json.dumps(result, indent=2) + '\n')
-    print('64 official CLF labelled direction references verified')
+    print('64 declared CLF labelled direction references verified')

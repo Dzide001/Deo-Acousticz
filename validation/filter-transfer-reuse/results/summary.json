@@ -1,0 +1,54 @@
+{
+  "variants": {
+    "before": {
+      "listenerSeconds": {
+        "minimum": 7.982219666,
+        "median": 8.446249062,
+        "maximum": 8.910278458,
+        "count": 2
+      },
+      "coverageSeconds": {
+        "minimum": 72.050637042,
+        "median": 72.30968168800001,
+        "maximum": 72.568726334,
+        "count": 2
+      }
+    },
+    "after": {
+      "listenerSeconds": {
+        "minimum": 7.832311667,
+        "median": 7.941535771,
+        "maximum": 8.050759875,
+        "count": 2
+      },
+      "coverageSeconds": {
+        "minimum": 52.494553875,
+        "median": 52.844839625000006,
+        "maximum": 53.195125375,
+        "count": 2
+      }
+    }
+  },
+  "pairs": [
+    {
+      "beforeRun": 1,
+      "afterRun": 2,
+      "coverageReductionPercent": 26.696900907192934,
+      "listenerReductionPercent": 9.646371738565474
+    },
+    {
+      "beforeRun": 4,
+      "afterRun": 3,
+      "coverageReductionPercent": 27.142137765694297,
+      "listenerReductionPercent": 1.878023974190135
+    }
+  ],
+  "medianPairedCoverageReductionPercent": 26.919519336443614,
+  "coverageMedianReductionPercent": 26.91872182066354,
+  "maximumLevelDifferenceDb": 0.0,
+  "maximumMeanDifferenceDb": 0.0,
+  "maximumRelativePowerDifference": 0.0,
+  "fixtureSha256": "cf40debd0934e89cd2b51e588c9cf15f3bd19eabe6956516c9e80b1ecd312b06",
+  "meanDb": 54.23276879151662,
+  "scope": "Two pairs on a shared host; individual observations, not universal/thermal guarantees"
+}

@@ -19,9 +19,9 @@ class Cf1ReferenceValidationTest {
     @Before fun setup()=Dispatchers.setMain(dispatcher)
     @After fun cleanup() {models.forEach {it.cancelAnalysisJobs()};dispatcher.scheduler.runCurrent();Dispatchers.resetMain()}
     private fun model()=SceneViewModel(predictionDispatcher=dispatcher).also {models+=it}
-    private val dir get()=File(System.getProperty("manufacturerValidationRoot"),"validation/cf1-reference")
+    private val dir get()=File(System.getProperty("clfFixtureValidationRoot"),"validation/cf1-reference")
 
-    @Test fun officialCf1SensitivitySlotsMatchTheirOwnTextRowsAndReopenWithoutInventedCalibration() {
+    @Test fun declaredCf1SensitivitySlotsMatchTheirOwnTextRowsAndReopenWithoutInventedCalibration() {
         val reference=JSONObject(dir.resolve("results/reference.json").readText())
         val manifest=JSONObject(dir.resolve("provenance.json").readText())
         assertEquals(reference.getString("referenceScriptSha256"),SpeakerProvenance.hash(dir.resolve("reference.py").readBytes()))
@@ -33,20 +33,20 @@ class Cf1ReferenceValidationTest {
             assertEquals(pair.getString("binarySha256"),SpeakerProvenance.hash(binary.readBytes()))
             assertEquals(pair.getString("fixtureTextSha256"),SpeakerProvenance.hash(text.readBytes()))
             val vmBinary=model();val vmText=model()
-            assertTrue(vmBinary.importClfBinary(binary.readBytes(),"official"));assertTrue(vmText.importClfTabText(text.readText(),"official"))
+            assertTrue(vmBinary.importClfBinary(binary.readBytes(),"fixture"));assertTrue(vmText.importClfTabText(text.readText(),"fixture"))
             for(v in listOf(vmBinary,vmText)) {
                 v.addSpeaker(0f,0f);v.setSpeakerPosition(v.speakers.value.single().id,0f,15f,0f)
                 v.setSignalType("BAND");v.setSignalDispersionEnabled(true)
-                assertFalse(v.getClfData("official")!!.calibration.electricalReferenceKnown)
+                assertFalse(v.getClfData("fixture")!!.calibration.electricalReferenceKnown)
             }
             val store=LocalProjectStore(folder.newFolder("pair$i"));store.save("saved",vmBinary.exportSceneJson(false),vmBinary::resolveProjectAsset)
             val fresh=model();assertTrue(fresh.importPreparedProject(store.loadPrepared("saved")!!.project))
-            assertFalse(fresh.getClfData("official")!!.calibration.electricalReferenceKnown)
+            assertFalse(fresh.getClfData("fixture")!!.calibration.electricalReferenceKnown)
             for(j in 0 until points.length()) {
                 val row=points.getJSONObject(j);if(row.getString("binary")!=binary.name) continue
                 val hz=row.getInt("hz");val expected=row.getDouble("referenceDb").toFloat()
-                val binaryDb=vmBinary.getClfData("official")!!.sensitivityDbByBand.getValue(hz)
-                val textDb=vmText.getClfData("official")!!.sensitivityDbByBand.getValue(hz)
+                val binaryDb=vmBinary.getClfData("fixture")!!.sensitivityDbByBand.getValue(hz)
+                val textDb=vmText.getClfData("fixture")!!.sensitivityDbByBand.getValue(hz)
                 assertEquals(expected,binaryDb,.0001f);assertEquals(expected,textDb,.0001f)
                 fun level(v:SceneViewModel):Float {
                     v.setBandHz(hz)
@@ -60,7 +60,7 @@ class Cf1ReferenceValidationTest {
                     .put("textPredictionDb",textLevel).put("binaryPredictionDb",before).put("reopenedPredictionDb",after))
             }
         }
-        val powered=dir.resolve("fixtures/Powered.CF1")
+        val powered=dir.resolve("fixtures/"+manifest.optString("poweredFile","Powered.CF1"))
         assertEquals(manifest.getString("poweredSha256"),SpeakerProvenance.hash(powered.readBytes()))
         val missing=ClfTabParser.toClfData(ClfBinaryReader.parse(powered.readBytes()))
         assertTrue(missing.sensitivityDbByBand.isEmpty());assertFalse(missing.calibration.electricalReferenceKnown)
@@ -72,7 +72,7 @@ class Cf1ReferenceValidationTest {
     }
 
     @Test fun missingSensitivitySlotSurvivesAndroidAssetSaveReopen() {
-        val original=dir.resolve("fixtures/clf1_active_point.tab").readText()
+        val original=dir.resolve("fixtures/"+JSONObject(dir.resolve("provenance.json").readText()).getJSONArray("pairs").getJSONObject(0).getString("text")).readText()
         val lines=original.lines().toMutableList();val index=lines.indexOfFirst {it.startsWith("<SENSITIVITY>")}
         val fields=lines[index].split('\t').toMutableList();fields[4]="<nodata>" // 1000 Hz is the fourth declared band.
         lines[index]=fields.joinToString("\t")

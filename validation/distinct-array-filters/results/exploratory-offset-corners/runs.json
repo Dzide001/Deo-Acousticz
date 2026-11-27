@@ -1,0 +1,27 @@
+[
+  {
+    "run": 1,
+    "variant": "before",
+    "listenerSeconds": 17.407134,
+    "coverageSeconds": 1563.799021333,
+    "meanDb": 55.15100105484326,
+    "loadAverage": [
+      5.20068359375,
+      3.21435546875,
+      2.7822265625
+    ],
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticCostProfile=true",
+      "--tests",
+      "*DistinctFilterBenchmarkTest",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "sourceSha256": {
+      "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/CoherentDiffuse.kt": "b0dd72baadf5d06ae4afd4b88f87bc97c8f3a5d1bafcc5d5ea7bdaa23829ecf4",
+      "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/DspFilters.kt": "a083460aae71ffb857f1795da13399a75b0b903169a226d60fb8eaa560c21077"
+    }
+  }
+]

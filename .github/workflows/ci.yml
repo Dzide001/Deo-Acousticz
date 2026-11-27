@@ -69,6 +69,8 @@ jobs:
 
       - name: Set up Android SDK + NDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
 
       - name: Install NDK 27
         run: |
@@ -84,6 +86,16 @@ jobs:
           key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle.kts', '**/libs.versions.toml') }}
           restore-keys: |
             gradle-${{ runner.os }}-
+
+      - name: Prepare authored CLF regression fixtures
+        run: python3 validation/fixture-permissions/generate.py --prepare
+        working-directory: ${{ github.workspace }}
+
+      - name: Audit public fixture distribution
+        run: |
+          python3 validation/fixture-permissions/audit.py --index
+          python3 validation/fixture-permissions/test_workflow.py
+        working-directory: ${{ github.workspace }}
 
       - name: Check independent numerical references
         run: |
@@ -111,8 +123,8 @@ jobs:
         run: python3 validation/comparison-import/test_package_csv.py
         working-directory: ${{ github.workspace }}
 
-      - name: Run Kotlin unit tests
-        run: ./gradlew :shared-core:jvmTest :app:testDebugUnitTest --stacktrace
+      - name: Run shared and fast Android tests
+        run: ./gradlew :shared-core:jvmTest :app:testDebugUnitTest -PacousticValidationTier=fast --stacktrace
         working-directory: ${{ github.workspace }}/android
 
       - name: Upload Kotlin test results
@@ -145,6 +157,18 @@ jobs:
             android/shared-core/build/reports/receiver-markers/results.json
             android/shared-core/build/reports/receiver-framing/results.json
             android/app/build/reports/speaker-data/*.json
+
+      - name: Run full-size coverage acceptance tests
+        id: large_scene_validation
+        run: ./gradlew :app:testDebugUnitTest -PacousticValidationTier=large --stacktrace
+        working-directory: ${{ github.workspace }}/android
+
+      - name: Upload full-size coverage results
+        uses: actions/upload-artifact@v4
+        if: always() && (steps.large_scene_validation.outcome == 'success' || steps.large_scene_validation.outcome == 'failure')
+        with:
+          name: large-scene-validation-results
+          path: android/app/build/test-results/testDebugUnitTest/*.xml
 
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace

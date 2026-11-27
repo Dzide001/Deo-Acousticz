@@ -1,0 +1,11 @@
+{
+  "checkpointChecksumValid": true,
+  "speakerCount": 4,
+  "emitterCount": 64,
+  "bandHz": 1000,
+  "assetHashes": [
+    "1c080b58b6333b97b7c379049a5616caede739d4db9a73c679e24009e25ec499"
+  ],
+  "sceneInputsMatchFixture": true,
+  "savedByNativeStore": true
+}

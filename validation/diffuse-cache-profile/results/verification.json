@@ -1,0 +1,43 @@
+{
+  "suites": {
+    "shared": {
+      "tests": 645,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "androidFast": {
+      "tests": 446,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "androidOtherLarge": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "iosCompilationPassed": true,
+  "androidAssemblyPassed": true,
+  "androidTotalAcrossRuns": 449,
+  "tabletTested": false,
+  "overallSpeedupEstablished": false,
+  "evidenceSha256": {
+    "after-build.log": "b705b86c83ff360b97570dfd342816ac5c5c76f8d87740a34f97302252bd77fe",
+    "after-profile.json": "74453fa0ac29e61646d040d2de4141a22696e997a01f40f6160e1b2fee98ac0f",
+    "after-scene.xml": "971b8a671da8ab9a10f7c551a24b325833f172f4806092a4052ce693823fd77b",
+    "android-fast.json": "84a37542927f8d6a3019530a12b841d443f0fe6a544a90a8e3a32a4a3d0cff79",
+    "before-build.log": "d4b62bc8b70a4b5b434b449a33bf83e6192d4a462127e3a48835f6451c70ba74",
+    "before-profile.json": "60f6610a1ad55b81c96dd12187a779344460d6ef9bfefd7261ef9d5841668c4f",
+    "before-scene.xml": "63cdc4115951ad24cc72a4db7128d7f197f8ca7281669e68bd0cbdbab4da1ae2",
+    "cache-parity-tests.xml": "1c9e100d8c7ac7183560c648edc5d4f91a372356abba32447dd267fd58dc9b9c",
+    "candidate.patch": "46100c794b69c491c357cdbbd90107fee9378f7c842aee78170dea722e4ab7ec",
+    "experiment.json": "61a182e3fd7f1f2707385365b82ad1eb1e3c56398e4d4da21493de3d7ac328db",
+    "fast-build.log": "cc3f42892e6b0ec9258abe3abfbb837b2ef82a8491b49d84776d851c4eef4c25",
+    "other-large-build.log": "e5995f54f2247042890e41ce76141f3f353feb3569dd98cfb513b02af49bc954",
+    "other-large-scene.xml": "8d08914938ab10cabacdee546371a476ed0459de83411cba4a00db8401838703",
+    "shared.json": "ac4854ec237dac03476b9dd05ba351f9fcc8e391ed8da5882a01db013819b4f9"
+  }
+}

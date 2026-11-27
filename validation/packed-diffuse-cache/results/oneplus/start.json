@@ -1,0 +1,10 @@
+{
+  "startUnix": 1795734524.32217,
+  "startMonotonic": 194635.357650375,
+  "fixtureSha256": "36357401f6ab414ce8e68b81325685d4c2eb545095d993ff9d5213ce8b5fe47e",
+  "apkSha256": "63ecbbfdc135d77e7c404ac13dcd23dd8b652e106212ef80061eed0b27cd5045",
+  "apkBytes": 9853751,
+  "build": "release, R8 optimized, non-debuggable, test-key signature",
+  "device": "OPD2415",
+  "serial": "50eb54c9"
+}

@@ -1,0 +1,9 @@
+{
+  "startUnix": 1795710460.3491762,
+  "startMonotonic": 170571.411172,
+  "apkSha256": "07e94b60a37068f8975a0391b36d671f7d77fac7237dd9057a29bdded62a4542",
+  "fixtureSha256": "a09f635886b206cfa8351e7008427205b951410a89f0580369fc7643d6e9e5c6",
+  "build": "debug",
+  "device": "OPD2415",
+  "serial": "50eb54c9"
+}

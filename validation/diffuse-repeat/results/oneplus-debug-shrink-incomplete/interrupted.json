@@ -1,0 +1,5 @@
+{
+  "status": "Interrupted; no completed coverage result claimed",
+  "reason": "Build warning disables all R8 code optimization for debuggable builds",
+  "acceptedForPerformanceComparison": false
+}

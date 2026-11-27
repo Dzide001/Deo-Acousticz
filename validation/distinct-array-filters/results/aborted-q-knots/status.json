@@ -1,0 +1,4 @@
+{
+  "manuallyStopped": true,
+  "reason": "Code inspection confirmed Q changes also introduce extra integration knots; no completed result or native acceptance"
+}

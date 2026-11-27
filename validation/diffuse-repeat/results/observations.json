@@ -1,0 +1,116 @@
+[
+  {
+    "run": 1,
+    "variant": "before",
+    "firstCalculationMs": 156118.243875,
+    "acceptanceSeconds": 229.31,
+    "meanDb": 56.71420139630636,
+    "sourceSha256": "4aadf0b545be7277b5b32e2efeb41e0b2cd6f6b50ffcebfc8156ae1a8a2e8041",
+    "fixtureSha256": "a09f635886b206cfa8351e7008427205b951410a89f0580369fc7643d6e9e5c6",
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticValidationTier=large",
+      "--tests",
+      "*PhaseTraceIntegrationTest.fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "profilingEnabled": false
+  },
+  {
+    "run": 2,
+    "variant": "after",
+    "firstCalculationMs": 44595.349459,
+    "acceptanceSeconds": 88.907,
+    "meanDb": 56.71420139630636,
+    "sourceSha256": "ff4ef4b13f4e5480f7e8b03abda59027790437f2aa8d69caa1c6efff9042643d",
+    "fixtureSha256": "a09f635886b206cfa8351e7008427205b951410a89f0580369fc7643d6e9e5c6",
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticValidationTier=large",
+      "--tests",
+      "*PhaseTraceIntegrationTest.fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "profilingEnabled": false
+  },
+  {
+    "run": 3,
+    "variant": "after",
+    "firstCalculationMs": 44404.347292,
+    "acceptanceSeconds": 90.646,
+    "meanDb": 56.71420139630636,
+    "sourceSha256": "ff4ef4b13f4e5480f7e8b03abda59027790437f2aa8d69caa1c6efff9042643d",
+    "fixtureSha256": "a09f635886b206cfa8351e7008427205b951410a89f0580369fc7643d6e9e5c6",
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticValidationTier=large",
+      "--tests",
+      "*PhaseTraceIntegrationTest.fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "profilingEnabled": false
+  },
+  {
+    "run": 4,
+    "variant": "before",
+    "firstCalculationMs": 51340.731292,
+    "acceptanceSeconds": 101.445,
+    "meanDb": 56.71420139630636,
+    "sourceSha256": "4aadf0b545be7277b5b32e2efeb41e0b2cd6f6b50ffcebfc8156ae1a8a2e8041",
+    "fixtureSha256": "a09f635886b206cfa8351e7008427205b951410a89f0580369fc7643d6e9e5c6",
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticValidationTier=large",
+      "--tests",
+      "*PhaseTraceIntegrationTest.fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "profilingEnabled": false
+  },
+  {
+    "run": 5,
+    "variant": "before",
+    "firstCalculationMs": 50723.898291,
+    "acceptanceSeconds": 102.43,
+    "meanDb": 56.71420139630636,
+    "sourceSha256": "4aadf0b545be7277b5b32e2efeb41e0b2cd6f6b50ffcebfc8156ae1a8a2e8041",
+    "fixtureSha256": "a09f635886b206cfa8351e7008427205b951410a89f0580369fc7643d6e9e5c6",
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticValidationTier=large",
+      "--tests",
+      "*PhaseTraceIntegrationTest.fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "profilingEnabled": false
+  },
+  {
+    "run": 6,
+    "variant": "after",
+    "firstCalculationMs": 45025.433542,
+    "acceptanceSeconds": 89.618,
+    "meanDb": 56.71420139630636,
+    "sourceSha256": "ff4ef4b13f4e5480f7e8b03abda59027790437f2aa8d69caa1c6efff9042643d",
+    "fixtureSha256": "a09f635886b206cfa8351e7008427205b951410a89f0580369fc7643d6e9e5c6",
+    "command": [
+      "./gradlew",
+      ":app:testDebugUnitTest",
+      "-PacousticValidationTier=large",
+      "--tests",
+      "*PhaseTraceIntegrationTest.fullVenueThirdOctaveDiffuseCoverageReopensWithAllReceiversAndStatistics",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--offline"
+    ],
+    "profilingEnabled": false
+  }
+]

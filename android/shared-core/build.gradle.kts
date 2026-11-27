@@ -27,7 +27,7 @@ tasks.withType<Test>().configureEach {
     val fixtures=project.file("../../validation/clf-handedness")
     inputs.dir(fixtures.resolve("fixtures"))
     inputs.files(fixtures.resolve("reference.py"),fixtures.resolve("provenance.json"),fixtures.resolve("results/reference.json"))
-    val report=layout.buildDirectory.file("reports/clf-handedness/results.json")
+    val report=layout.buildDirectory.file("reports/${if(providers.gradleProperty("externalClfValidationRoot").isPresent) "external-clf/" else ""}clf-handedness/results.json")
     outputs.file(report)
     systemProperty("clfHandednessReport",report.get().asFile.absolutePath)
 }
@@ -36,7 +36,7 @@ tasks.withType<Test>().configureEach {
     val fixtures=project.file("../../validation/clf-magnitude")
     inputs.dir(fixtures.resolve("fixtures"))
     inputs.files(fixtures.resolve("reference.py"),fixtures.resolve("provenance.json"),fixtures.resolve("results/reference.json"))
-    val report=layout.buildDirectory.file("reports/clf-magnitude/results.json")
+    val report=layout.buildDirectory.file("reports/${if(providers.gradleProperty("externalClfValidationRoot").isPresent) "external-clf/" else ""}clf-magnitude/results.json")
     outputs.file(report)
     systemProperty("clfMagnitudeReport",report.get().asFile.absolutePath)
 }
@@ -145,4 +145,19 @@ tasks.withType<Test>().configureEach {
     val report=layout.buildDirectory.file("reports/receiver-framing/results.json")
     outputs.file(report)
     systemProperty("receiverFramingReport",report.get().asFile.absolutePath)
+}
+
+// Public synthetic fixtures by default; private external input is explicit and mandatory when selected.
+val externalClfRoot=providers.gradleProperty("externalClfValidationRoot").orNull
+val clfFixtureRoot=externalClfRoot?.let { File(it) } ?: rootProject.projectDir.parentFile
+if(externalClfRoot!=null) require(clfFixtureRoot.isAbsolute && clfFixtureRoot.resolve("external-validation.json").isFile) {
+    "Prepare a private external CLF root with validation/fixture-permissions/prepare_external.py first"
+}
+tasks.withType<Test>().configureEach {
+    dependsOn(rootProject.tasks.named("prepareClfFixtures"))
+    inputs.property("clfFixtureRoot",clfFixtureRoot.absolutePath)
+    for(pkg in listOf("clf-handedness","clf-magnitude","cf1-reference")) {
+        inputs.dir(clfFixtureRoot.resolve("validation/$pkg"))
+    }
+    systemProperty("clfFixtureValidationRoot",clfFixtureRoot.absolutePath)
 }

@@ -1,0 +1,44 @@
+{
+  "scope": "Unprofiled fresh JVM workers; shared host, no isolation/thermal guarantee",
+  "order": [
+    "before",
+    "after",
+    "after",
+    "before",
+    "before",
+    "after"
+  ],
+  "variants": {
+    "before": {
+      "firstCalculationSeconds": {
+        "minimum": 50.723898291,
+        "median": 51.340731291999994,
+        "maximum": 156.118243875,
+        "count": 3
+      },
+      "completeAcceptanceSeconds": {
+        "minimum": 101.445,
+        "median": 102.43,
+        "maximum": 229.31,
+        "count": 3
+      }
+    },
+    "after": {
+      "firstCalculationSeconds": {
+        "minimum": 44.404347292,
+        "median": 44.595349459,
+        "maximum": 45.025433542,
+        "count": 3
+      },
+      "completeAcceptanceSeconds": {
+        "minimum": 88.907,
+        "median": 89.618,
+        "maximum": 90.646,
+        "count": 3
+      }
+    }
+  },
+  "accuracy": "All six original all-receiver/statistics, save/reopen and role-contribution checks passed",
+  "confidence": "Exploratory three observations per variant; host contention changed during the series. No causal speedup claim.",
+  "observedMedianFirstCalculationReductionPercent": 13.13846075669568
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.droidacoustic.pro.acoustics.PreparedDspResponseTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-26T22:09:00.831Z" hostname="Dzide.local" time="0.001">
+  <properties/>
+  <testcase name="distinctRowsStayWithTheirSourcesAcrossReorderAndFilterEdit[jvm]" classname="com.droidacoustic.pro.acoustics.PreparedDspResponseTest" time="0.0"/>
+  <testcase name="copiedAndReopenedFiltersRebuildCoefficientsWithoutChangingIdentityOrPhase[jvm]" classname="com.droidacoustic.pro.acoustics.PreparedDspResponseTest" time="0.0"/>
+  <testcase name="invalidFrequenciesRemainMissingAndEmptyChainsRetainIdentity[jvm]" classname="com.droidacoustic.pro.acoustics.PreparedDspResponseTest" time="0.001"/>
+  <testcase name="missingNyquistSamplesStayLocalToEachArrayRate[jvm]" classname="com.droidacoustic.pro.acoustics.PreparedDspResponseTest" time="0.0"/>
+  <testcase name="sharedTrigonometryMatchesOrderedIndividualSectionsAcrossRateChanges[jvm]" classname="com.droidacoustic.pro.acoustics.PreparedDspResponseTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

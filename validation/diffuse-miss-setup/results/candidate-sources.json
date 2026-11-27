@@ -1,0 +1,7 @@
+{
+  "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/CoherentDiffuse.kt": "b0dd72baadf5d06ae4afd4b88f87bc97c8f3a5d1bafcc5d5ea7bdaa23829ecf4",
+  "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/DiffuseChunk.kt": "0e136766e0441a92c02ab993f610ae4ecd010ea939fe3bca3f158ec7622ed7ec",
+  "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/ComplexSpeakerResponse.kt": "d4dc2d7a75555127c27507e36fabcc0bba21f8a7db0192ee4ed0e69752145739",
+  "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/Radiator.kt": "9c16958bb8deb07e881763e2b72ce904e100dcb2982ecf07ceac9b28167a458f",
+  "android/shared-core/src/commonMain/kotlin/com/droidacoustic/pro/acoustics/SpeakerData.kt": "36411349072c30abaa6a4ec4d916f8e486dc48cfdc603fedda3f7276d24b35fa"
+}
